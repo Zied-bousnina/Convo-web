@@ -72,7 +72,8 @@ const Admin = (props) => {
         logo={{
           innerLink: "/",
           imgSrc: require("../assets/img/brand/logo.png"),
-          imgAlt: "..."
+          imgAlt: "...",
+
         }}
       />
       <div className="main-content" ref={mainContent}>

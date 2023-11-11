@@ -23,7 +23,7 @@ function AboutCompany() {
             <section className="section section-lg section-shaped pb-300 ">
             <div className="shape shape-style-1 shape-default mb--100 " style={{
               backgroundImage: "url('https://xgenbox.com/wp-content/uploads/2023/04/REPLACE-THIS-SCREEN1111112-copie.png')", height: "50vh",  backgroundSize: "cover"}}>
-  
+
 </div>
 
   <Container className="py-lg-md d-flex justify-content-center">
@@ -35,7 +35,7 @@ function AboutCompany() {
             className="rounded-circle img-fluid  "
             src="https://xgenbox.com/wp-content/uploads/2023/03/logo.svg"
             width={200}
-            
+
             style={{zIndex: "1"}}
             onMouseOver={e => e.currentTarget.parentNode.style.backgroundColor = "#3C976E"}
       onMouseOut={e => e.currentTarget.parentNode.style.backgroundColor = "white"}
@@ -64,20 +64,20 @@ function AboutCompany() {
             {/* 1st Hero Variation */}
           </div>
           <section
-      className="section section-lg pt-lg-0 "  
+      className="section section-lg pt-lg-0 "
       style={{ marginTop:20}}
           >
 
     <SecondComponent/>
           </section>
-        
+
 
 
 
           <TopButton/>
 
      </main>
-     
+
      <FooterComponent/>
     </>
   )

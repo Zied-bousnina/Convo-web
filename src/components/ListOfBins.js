@@ -95,8 +95,8 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
     }
   }, [count]);
 
-  
-  
+
+
 
   console.log(ListOfUsers)
     const [notificationModal, setnotificationModal] = useState(false)
@@ -104,12 +104,12 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-  
+
   useEffect(() => {
     dispatch(FetchAllBins())
-   
+
   }, [listOfBins])
-  
+
 
 
 
@@ -121,23 +121,23 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   }
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
- 
+
 
   const deleteBin = (id)=> {
     console.log("delete")
-   
+
     dispatch(DeleteBinByID(id))
     // if(isSuccess){
 
     //   startTimer()
     // }
   }
-  
-  
+
+
   const exportCSV = (selectionOnly) => {
     dt.current.exportCSV({ selectionOnly });
 };
@@ -209,7 +209,7 @@ const onGlobalFilterChange = (e) => {
         {/* </div> */}
         </Col>
     </Row>
-   
+
     </>
 );
 const actionBodyTemplate = (rowData) => {
@@ -241,16 +241,16 @@ setselectedItem(rowData?._id)
             <Card className="shadow">
               <CardHeader className="border-0">
                 <Row>
-                  <Col 
+                  <Col
                   // lg="6"
-                    md="10" 
+                    md="10"
                   >
                 <h3 className="mb-0">List Of all Bins</h3>
-                
+
                   </Col>
-                  <Col 
+                  <Col
                   // lg="6"
-                    md="2" 
+                    md="2"
                   >
                      <Link
                           to={`/admin/AddBin`}
@@ -268,7 +268,7 @@ setselectedItem(rowData?._id)
                   </Col>
                 </Row>
               </CardHeader>
-              
+
               {/* <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
@@ -283,15 +283,15 @@ setselectedItem(rowData?._id)
                 </thead>
                 <tbody>
                   {listOfBins &&listOfBins?.map((request) => (
-                    
-                    
+
+
                   <tr>
 
                     <th scope="row">
                     <Media className="align-items-center">
-                      
-                        
-                       
+
+
+
                         <Media>
                           <span className="mb-0 text-sm">
                             {request?.name}
@@ -306,10 +306,10 @@ setselectedItem(rowData?._id)
                     {request?.gaz}
                     </td>
                     <td>
-                    {request?.niv} 
+                    {request?.niv}
                     </td>
                     <td>
-                      
+
                     <td>
                       <Badge color="" className="badge-dot mr-4">
                       {!request?.status ? (
@@ -317,17 +317,17 @@ setselectedItem(rowData?._id)
 <i className="bg-success" />
 is open now
                         </>
-                        
+
                       ) : (
                         <>
 
 <i className="bg-danger" />
 is Closed
                         </>
-                        
+
                       )
                         }
-                        
+
                       </Badge>
                     </td>
                     </td>
@@ -346,7 +346,7 @@ is Closed
   ) : (
     !request?.status ? (
       <div>
-       
+
         Closing in 10s
       </div>
     ) : (
@@ -358,7 +358,7 @@ is Closed
                     <td>
                       <div>
 
-                  
+
     </div>
                     </td>
                     </td>
@@ -375,47 +375,47 @@ is Closed
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          
+
                           <Link
                           to={`/admin/bin-details/${request?._id}`}
                           >
                           <DropdownItem
-                          
+
                           >
                             Show details
                           </DropdownItem>
                           </Link>
                           <DropdownItem
-                           
+
                             onClick={()=>{
 
                               setnotificationModal(true)
                               setselectedItem(request?._id)
-                            } 
                             }
-                           
+                            }
+
                           >
                             Delete Bin
                           </DropdownItem>
                           <DropdownItem
-                            
+
                             onClick={()=>console.log("hkhkh")}
-                            
+
                           >
                             <PDFDownloadLink document={<PDFDocument data={request} />} fileName={request?.quoteDemande?.name}>
 {({ blob, url, loading, error }) =>
 
 'Download details'
- 
+
 }
 </PDFDownloadLink>
                           </DropdownItem>
-                       
+
                           <Modal
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
-            
+
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
@@ -452,7 +452,7 @@ is Closed
                   :
                   "Ok, Got it"
                   }
-                 
+
                 </Button>
                 <Button
                   className="text-white ml-auto"
@@ -465,22 +465,22 @@ is Closed
                 </Button>
               </div>
             </Modal>
-                          
+
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </td>
                   </tr>
-                  
+
                   )) || []}
-                 
-                
+
+
                 </tbody>
               </Table> */}
               <Modal
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
-            
+
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
@@ -517,7 +517,7 @@ is Closed
                   :
                   "Ok, Got it"
                   }
-                 
+
                 </Button>
                 <Button
                   className="text-white ml-auto"
@@ -531,7 +531,7 @@ is Closed
               </div>
             </Modal>
             <div className="card">
-              
+
               <Tooltip target=".export-buttons>button" position="bottom" />
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={listOfBins} header={header} selection={selectedProduct}
               selectionMode={true}
@@ -539,13 +539,13 @@ is Closed
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}
               onRowClick={
                 (e) => {
-             
+
                   const url = `/admin/bin-details/${e.data._id}`;
   history.push(url);
                 }
               }
-              
-             
+
+
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}>
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -618,7 +618,7 @@ is Closed
           </div>
         </Row>
         {/* Dark table */}
-       
+
       </Container>
   </>
   )

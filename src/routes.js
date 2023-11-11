@@ -234,7 +234,7 @@ var routes = [
     component: RequestsMunicpal,
     layout: "/admin"
   },
-  
+
 
   // {
   //   path: "/user-profile",

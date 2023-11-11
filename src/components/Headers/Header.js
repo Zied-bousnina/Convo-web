@@ -17,162 +17,46 @@
 */
 
 // reactstrap components
+import { getDemandesCount } from "Redux/actions/Statistiques.action";
 import { getBinsCount } from "Redux/actions/Statistiques.action";
 import { getUsersCounts } from "Redux/actions/Statistiques.action";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import StatisticCard from "./Components/StatisticCard";
 
 
 
 const Header = () => {
-  const dispatch = useDispatch()
-  const userStatistiques = useSelector(state=>state?.userStatistiques?.statistiques)
-  const BinStatistiques = useSelector(state=>state?.binStatistiques?.statistiques)
+  const dispatch = useDispatch();
+  const userStatistiques = useSelector((state) => state?.userStatistiques?.statistiques);
+  const BinStatistiques = useSelector((state) => state?.binStatistiques?.statistiques);
+  const DemandesStatistiques = useSelector((state) => state?.demandestatistiques?.statistiques?.total);
 
-useEffect(() => {
-  dispatch(getUsersCounts())
-  dispatch(getBinsCount())
-},[userStatistiques, BinStatistiques] )
+  useEffect(() => {
+    dispatch(getUsersCounts());
+    // dispatch(getBinsCount())
+    dispatch(getDemandesCount());
+  }, [userStatistiques, DemandesStatistiques]);
 
-const user = userStatistiques?.byRole?.filter(el => el.role === "USER") || [];
-const municipal = userStatistiques?.byRole?.filter(el => el.role === "MUNICIPAL") || [];
 
-const allUser = userStatistiques?.total
-// console.log(user[0]?.currentDayCount)
 
+// console.log(userStatistiques)
+  const allUser = userStatistiques?.total;
 
   return (
-    <>
-      <div className="header bg-gradient-green pb-8 pt-5 pt-md-8 ">
-        <Container fluid>
-          <div className="header-body">
-            {/* Card stats */}
-            <Row>
-              <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Bins count
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                         {BinStatistiques?.totalCount}
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-green text-white rounded-circle shadow">
-                          <i className="fas fa-trash" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      {/* <span className="text-success mr-2">
-                        <i className="fa fa-arrow-up" /> 3.48%
-                      </span>{" "} */}
-                      <span className={`${BinStatistiques?.percentageIncrease >0 ? "text-success": "text-danger"} mr-2`}>
-                         {BinStatistiques?.percentageIncrease >0 ? <i className="fa fa-arrow-up" />:<i className="fas fa-arrow-down" />   }  {BinStatistiques?.percentageIncrease}%
-                      </span>{" "}
-                      <span className="text-nowrap">Since yesterday</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Users Count
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">{allUser?.totalCount}</span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-                          <i className="fas fa-users" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className={`${allUser?.percentageIncrease >0 ? "text-success": "text-danger"} mr-2`}>
-                         {allUser?.percentageIncrease >0 ? <i className="fa fa-arrow-up" />:<i className="fas fa-arrow-down" />   }  {allUser?.percentageIncrease}%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last yesterday</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="4">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          MUNICIPALs count
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">{municipal[0]?.totalCount}</span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                          <i className="fas fa-truck" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      {/* <span className="text-warning mr-2"> */}
-                      <span className={`${municipal[0]?.percentageIncrease >0 ? "text-success": "text-danger"} mr-2`}>
-                         {municipal[0]?.percentageIncrease >0 ? <i className="fa fa-arrow-up" />:<i className="fas fa-arrow-down" />   }  {municipal[0]?.percentageIncrease}%
-                        {/* <i className="fas fa-arrow-down" /> {municipal[0]?.percentageIncrease}% */}
-                      </span>{" "}
-                      <span className="text-nowrap">Since yesterday</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              {/* <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Performance
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">49,65%</span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-info text-white rounded-circle shadow">
-                          <i className="fas fa-percent" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        <i className="fas fa-arrow-up" /> 12%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last month</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col> */}
-            </Row>
-          </div>
-        </Container>
-      </div>
-    </>
+    <div className="header bg-gradient-green pb-8 pt-5 pt-md-8">
+      <Container fluid>
+        <div className="header-body">
+          <Row>
+            {/* Uncomment the following lines when needed */}
+            {/* <StatisticCard title="Bins Count" iconClass="bg-green" value={BinStatistiques?.totalCount} percentageIncrease={BinStatistiques?.percentageIncrease} /> */}
+            <StatisticCard title="Users Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
+            <StatisticCard title="Find Driver requests" iconClass="bg-yellow" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
+          </Row>
+        </div>
+      </Container>
+    </div>
   );
 };
 
