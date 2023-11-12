@@ -570,7 +570,9 @@ style={
                 {/* Chart */}
                 {/* <div className="chart"> */}
                 <Tooltip target=".export-buttons>button" position="bottom" />
-              <MapContainer center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
+              <MapContainer
+              style={{ height: "60vh" }}
+              center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
