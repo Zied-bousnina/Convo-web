@@ -72,8 +72,11 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.js"
 import "./App.css"
 import LeafletRoutingMachine from "./LeafletRoutingMachine.js";
 import { AddDemande } from "Redux/actions/Demandes.Actions.js";
+import CustomizedTimeline from "./TimeLine.js";
 // import { ToastContainer, toast } from 'react-toastify';
-
+import { useParams } from "react-router-dom";
+import { idText } from "typescript";
+import { FindRequestDemandeById } from "Redux/actions/Demandes.Actions.js";
   const RequestDetails = () => {
     const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
@@ -82,6 +85,7 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
     const [selectedMunicipal, setMunicipal] = useState('');
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
+    const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
     const [isStartingPoint, setisStartingPoint] = useState(true)
     const [isDestination, setisDestination] = useState(false)
     const [startingPoint, setstartingPoint] = useState()
@@ -89,8 +93,9 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
     const isStartingPointRef = useRef(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
+    const { id } = useParams();
 
-
+    // console.log(id)
     const dispatch = useDispatch()
     const onMapClick = async (e) => {
         const { lat, lng } = e.latlng;
@@ -135,6 +140,12 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
           }
         }
       };
+      useEffect(() => {
+        dispatch(FindRequestDemandeById(id))
+      }, [SingleDemande])
+
+      // console.log(SingleDemande)
+
 
 
     const [activeNav, setActiveNav] = useState(1);
@@ -358,22 +369,23 @@ dispatch(AddDemande(data, navigate))
         </Marker>
       );
     };
-    const MapEvents = () => {
-        const map = useMapEvents({
-          click: onMapClick,
-        });
+    // const MapEvents = () => {
+    //     const map = useMapEvents({
+    //       click: onMapClick,
+    //     });
 
-        useEffect(() => {
-          if (currentLocation) {
-            map.flyTo(currentLocation, map.getZoom());
-          }
-        }, [map]);
+    //     useEffect(() => {
+    //       if (currentLocation) {
+    //         map.flyTo(currentLocation, map.getZoom());
+    //       }
+    //     }, [map]);
 
-        return null;
-      };
+    //     return null;
+    //   };
     return (
       <>
         <UserHeader />
+        {/* <CustomizedTimeline/> */}
         {/* Page content */}
         <Container className="mt--7" fluid>
         <Row>
@@ -384,7 +396,7 @@ dispatch(AddDemande(data, navigate))
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Make request
+                    Request Id #{SingleDemande?._id}
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </div>
@@ -418,19 +430,19 @@ style={
     md="12"
     >
        <div className=" mb-3">
-      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Starting point</label>
       <div className="input-group">
+
       <input
   type="text"
-  required
-  placeholder="Choose starting point, or click on the map"
-  value={startingPoint ? startingPoint.display_name : searchQuery}
+  // required
+  value={SingleDemande?.address?.display_name}
+  placeholder="starting point"
+  disabled
+  // value={startingPoint ? startingPoint.display_name : searchQuery}
   name={"start"}
   className={classNames("form-control")}
-  onChange={(e) => {
-    setstartingPoint(null);
-    setSearchQuery(e.target.value);
-  }}
+
 />
 
 
@@ -449,20 +461,81 @@ style={
     md="12"
     >
        <div className=" mb-3">
-      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Destination</label>
       <div className="input-group">
 
       <input
   type="text"
   required
-  placeholder="Choose destination, or click on the map"
-  value={destination ? destination.display_name : destinationSearchQuery}
+  placeholder=" destination"
+  // value={destination ? destination.display_name : destinationSearchQuery}
   name={"destination"}
   className={classNames("form-control")}
-  onChange={(e) => {
-    setdestination(null);
-    setDestinationSearchQuery(e.target.value);
-  }}
+  value={SingleDemande?.destination?.display_name}
+  // editable={false}
+  disabled
+
+/>
+{/* {
+          errors && (<div  className="invalid-feedback">
+          {errors}
+        </div>)
+        } */}
+      </div>
+    </div>
+    </Col>
+
+  </Row>
+  <Row>
+    <Col
+    md="12"
+    >
+       <div className=" mb-3">
+      <label className="form-label">Distance</label>
+      <div className="input-group">
+
+      <input
+  type="text"
+  required
+  placeholder="distance"
+  // value={destination ? destination.display_name : destinationSearchQuery}
+  name={"distance"}
+  className={classNames("form-control")}
+  value={SingleDemande?.distance +"Km"}
+  // editable={false}
+  disabled
+
+/>
+
+{/* {
+          errors && (<div  className="invalid-feedback">
+          {errors}
+        </div>)
+        } */}
+      </div>
+    </div>
+    </Col>
+
+  </Row>
+  <Row>
+    <Col
+    md="12"
+    >
+       <div className=" mb-3">
+      <label className="form-label">Created At</label>
+      <div className="input-group">
+
+      <input
+  type="text"
+  required
+  placeholder="created AT"
+  // value={destination ? destination.display_name : destinationSearchQuery}
+  name={"created At"}
+  className={classNames("form-control")}
+  value={SingleDemande?.createdAt}
+  // editable={false}
+  disabled
+
 />
 {/* {
           errors && (<div  className="invalid-feedback">
@@ -481,63 +554,9 @@ style={
 
 
 
-<Row>
-    <Col>
-    <button
-  onClick={() => {
-    isStartingPointRef.current = true;
-    setisStartingPoint(true);
-    setisDestination(false);
-  }}
-  className={classnames("btn m-1 ", { "btn-primary": isStartingPoint },{"btn-outline-primary": !isStartingPoint})}
->
-  Set Starting Point
-</button>
 
 
-    </Col>
-    <Col>
-    <button
-  onClick={() => {
-    isStartingPointRef.current = false;
-    setisStartingPoint(false);
-    setisDestination(true);
-  }}
-  className={classnames("btn m-1  ", { "btn-primary": isDestination  }, {"btn-outline-primary": !isDestination})}
->
-  Set Destination
-</button>
 
-    </Col>
-</Row>
-
-  <Row>
-
-    <Col
-    className="col-12"
-    style={{
-      height: "60vh",
-      width: "85%",
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
-    }}
-
-
-    >
-    <button type="submit" className="btn m-1 ml-3 btn-outline-success">
-    {isLoad ? (
-        <div className="spinner-border text-light" role="status">
-          <span className="visually-hidden"></span>
-        </div>
-      ) : (
-        'Submit'
-      )}
-
-                  <i className="fa-solid fa-floppy-disk"></i>
-                </button></Col>
-  </Row>
 
 </form>
                 </div>
@@ -557,29 +576,35 @@ style={
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {
-            (startingPoint &&destination) &&
+            (SingleDemande?.address &&SingleDemande?.destination) &&
 <LeafletRoutingMachine
-            startingPoint={startingPoint}
-            destination={destination}
+            startingPoint={{
+              latitude: SingleDemande?.address?.latitude,
+              longitude: SingleDemande?.address?.longitude,
+            }}
+            destination={{
+              latitude: SingleDemande?.destination?.latitude,
+              longitude: SingleDemande?.destination?.longitude,
+            }}
 
 />
         }
-        <MapEvents />
+        {/* <MapEvents /> */}
 
             <Marker
             //   key={pointBin._id}
-            position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
+            position={SingleDemande?.destination?.latitude && SingleDemande?.destination?.longitude ? [SingleDemande?.destination.latitude, SingleDemande?.destination.longitude] : [0, 0]} // Update property names
                 icon={myIcon}
             //     eventHandlers={{
             //   click: () => alert('A marker has been clicked!')
             // }}
             >
-<Popup>{destination?.display_name}</Popup>
+<Popup>{SingleDemande?.destination?.display_name}</Popup>
             </Marker>
 
-        {startingPoint && (
+        {SingleDemande?.address && (
           <Marker
-           position={startingPoint?.latitude && startingPoint?.longitude ? [startingPoint.latitude, startingPoint.longitude] : [36.8019592, 10.9403163]}
+           position={SingleDemande?.address?.latitude && SingleDemande?.address?.longitude ? [SingleDemande?.address.latitude, SingleDemande?.address.longitude] : [36.8019592, 10.9403163]}
         //   position={
         //     [startingPoint.latitude, startingPoint.longitude]
 
@@ -591,7 +616,7 @@ style={
             // }}
 
           >
-            <Popup>{startingPoint?.display_name}</Popup>
+            <Popup>{SingleDemande?.address?.display_name}</Popup>
           </Marker>
         )}
         <MapsMarker />

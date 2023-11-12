@@ -58,20 +58,20 @@ var routes = [
     layout: "/admin"
   },
 
-  {
-    path: "/feedbacks",
-    name: "Feedbacks",
-    icon: "ni ni-books text-green",
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/Report",
-    name: "Reports",
-    icon: "ni ni-curved-next text-red",
-    component: RequestsMunicpal,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/feedbacks",
+  //   name: "Feedbacks",
+  //   icon: "ni ni-books text-green",
+  //   component: Maps,
+  //   layout: "/admin"
+  // },
+  // {
+  //   path: "/Report",
+  //   name: "Reports",
+  //   icon: "ni ni-curved-next text-red",
+  //   component: RequestsMunicpal,
+  //   layout: "/admin"
+  // },
   {
     path: "/request-details/:id",
     name: "binDetails",

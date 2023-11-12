@@ -18,7 +18,7 @@ const LeafletRoutingMachine = ( startingPoint,destination) => {
         ],
         routeWhileDragging: true,
         autoRoute: true,
-        show: false,
+        // show: false,
         createMarker: function () {
           return null;
         },

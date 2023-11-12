@@ -4,6 +4,7 @@ import { setLoading } from "./authActions";
 import { SET_ERRORS } from "Redux/types";
 import { SET_IS_SECCESS } from "Redux/types";
 import { SET_DEMANDES } from "Redux/types";
+import { SET_SINGLE_DEMANDE } from "Redux/types";
 
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
@@ -73,8 +74,9 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
         )
   }
 
-  export const FindRequestDemande = ( )=> (dispatch) => {
-    axios.get(`https://convoyage.onrender.com/api/users/findDemandsByUserId`)
+
+export const FindRequestDemande = ( )=> (dispatch) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandsByUserId`)
     .then(async(res) => {
       // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
       dispatch({
@@ -92,11 +94,43 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
               type: SET_ERRORS,
               payload: err?.response?.data
             })
-            dispatch({
-              type: SET_DEMANDES,
-              payload: [],
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
 
+            // })
+        }
+
+
+
+    )
+
+  }
+
+  export const FindRequestDemandeById = ( demandeid)=> (dispatch) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandById/${demandeid}`)
+    .then(async(res) => {
+      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+      dispatch({
+        type: SET_SINGLE_DEMANDE,
+        payload: res.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
             })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
         }
 
 
