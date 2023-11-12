@@ -22,6 +22,7 @@ import PointBinDetails from "components/PointBinDetails";
 import EditPointBin from "components/EditPointBins";
 import MunicipalDetails from "components/MunicipalDetails";
 import MapsComponent from "components/MapsComponent";
+import CreateRequest from "components/CreateRequest";
 
 
 var routes = [
@@ -165,11 +166,18 @@ var routes = [
   //   component: Icons,
   //   layout: "/admin"
   // },
+  // {
+  //   path: "/AddBin",
+  //   name: "create Bin",
+  //   icon: "ni ni-building text-red",
+  //   component: CreateBin,
+  //   layout: "/admin"
+  // },
   {
-    path: "/AddBin",
-    name: "create Bin",
+    path: "/AddRequest",
+    name: "Create request",
     icon: "ni ni-building text-red",
-    component: CreateBin,
+    component: CreateRequest,
     layout: "/admin"
   },
   {

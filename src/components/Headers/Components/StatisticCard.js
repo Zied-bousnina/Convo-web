@@ -2,8 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDemandesCount, getBinsCount, getUsersCounts } from "Redux/actions/Statistiques.action";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-const StatisticCard = ({ title, iconClass, value, percentageIncrease }) => (
+const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon }) => (
+  <>
+{
+  value?
   <Col lg="6" xl="6">
     <Card className="card-stats mb-4 mb-xl-0">
       <CardBody>
@@ -16,7 +21,7 @@ const StatisticCard = ({ title, iconClass, value, percentageIncrease }) => (
           </div>
           <Col className="col-auto">
             <div className={`icon icon-shape ${iconClass} text-white rounded-circle shadow`}>
-              <i className={iconClass} />
+              <i className={icon} />
             </div>
           </Col>
         </Row>
@@ -28,7 +33,27 @@ const StatisticCard = ({ title, iconClass, value, percentageIncrease }) => (
         </p>
       </CardBody>
     </Card>
-  </Col>
+  </Col> :
+  <Col lg="6" xl="6">
+
+
+      {/* <Row> */}
+        <Skeleton
+          width={`${(6 / 6) * 100}%`} // Set the width based on the Col size (6 columns out of 12)
+          height={100}
+          baseColor="#FAFAFA"
+          highlightColor="#4444"
+          count={1}
+        />
+      {/* </Row> */}
+
+
+</Col>
+
+
+
+}
+  </>
 );
 
 

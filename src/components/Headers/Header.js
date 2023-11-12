@@ -52,8 +52,8 @@ const Header = () => {
           <Row>
             {/* Uncomment the following lines when needed */}
             {/* <StatisticCard title="Bins Count" iconClass="bg-green" value={BinStatistiques?.totalCount} percentageIncrease={BinStatistiques?.percentageIncrease} /> */}
-            <StatisticCard key={1} title="Users Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
-            <StatisticCard key={2} title="Driver requests" iconClass="bg-yellow" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
+            <StatisticCard key={1} icon={"fas fa-users"} title="Users Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
+            <StatisticCard key={2} icon={"fas fa-truck"} title="Driver requests" iconClass="bg-yellow" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
           </Row>
         </div>
       </Container>

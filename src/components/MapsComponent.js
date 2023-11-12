@@ -123,7 +123,7 @@ function MapsComponent() {
                     md="2"
                   >
                      <Link
-                          to={`/admin/AddBin`}
+                          to={`/admin/AddRequest`}
                           >
                             <Button
                             className="float-right"
