@@ -1,4 +1,4 @@
-import { faBuildingColumns, faCartShopping, faCity, faQuestion, faTruck } from '@fortawesome/free-solid-svg-icons'
+import { faBuildingColumns, faCartShopping, faCity, faTruck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Col, Row } from 'reactstrap'
@@ -7,12 +7,12 @@ function Benefits() {
   return (
     <Row className="row-grid align-items-center" style={{ margin: 20 }} >
   <Col className="order-md-2" md="6" style={{backgroundImage: `url('https://xgenbox.com/wp-content/uploads/2023/03/smartcity-logistica02-scaled.jpg')`, height: "50vh",  backgroundSize: "cover", }}>
-    
+
   <Row className="row-grid align-items-center justify-items-center ">
       <Col md="6" className="text-center d-flex align-items-center" >
       <div className="text-center ct-title  " style={{color:"white"}}>
         <div className="icon icon-lg icon-shape icon-shape-success  shadow rounded-circle " style={{width:100, height:100}}
-        
+
         >
                       {/* <i className="ni ni-settings-gear-65" /> */}
 
@@ -29,7 +29,7 @@ function Benefits() {
 
       </Col>
     </Row>
-    
+
 
   </Col>
   <Col className="order-md-2" md="6" style={{backgroundImage: `url('https://xgenbox.com/wp-content/uploads/2023/03/3D_Architectural_Rendering_of_Commercial_Shopping_Mall_1366x768.jpg')`,height: "50vh",  backgroundSize: "cover"}}>
@@ -37,7 +37,7 @@ function Benefits() {
       <Col md="6" className="text-center d-flex align-items-center" >
       <div className="text-center ct-title  " style={{color:"white"}}>
         <div className="icon icon-lg icon-shape icon-shape-success  shadow rounded-circle " style={{width:100, height:100}}
-        
+
         >
                       {/* <i className="ni ni-settings-gear-65" /> */}
 
@@ -60,7 +60,7 @@ Commercial establishments</div>
       <Col md="6" className="text-center d-flex align-items-center" >
       <div className="text-center ct-title  " style={{color:"white"}}>
         <div className="icon icon-lg icon-shape icon-shape-success  shadow rounded-circle " style={{width:100, height:100}}
-        
+
         >
                       {/* <i className="ni ni-settings-gear-65" /> */}
 
@@ -82,7 +82,7 @@ Commercial establishments</div>
       <Col md="6" className="text-center d-flex align-items-center" >
       <div className="text-center ct-title  " style={{color:"white"}}>
         <div className="icon icon-lg icon-shape icon-shape-success  shadow rounded-circle " style={{width:100, height:100}}
-        
+
         >
                       {/* <i className="ni ni-settings-gear-65" /> */}
 

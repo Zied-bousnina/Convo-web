@@ -1,22 +1,4 @@
-/*!
 
-=========================================================
-* Argon Dashboard React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
 import {
   Button,
   Card,
@@ -80,7 +62,7 @@ const Profile = () => {
                 </div> */}
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-                
+
                 <div className="text-center mt-md-5">
                   <h3>
                   {user?.name}
@@ -88,7 +70,9 @@ const Profile = () => {
                   </h3>
                   <div className="h5 font-weight-300">
                     <i className="ni location_pin mr-2" />
-                    {profile?. address}, {profile?.city}, {profile?.country}
+                    {profile?.address},
+                     {profile?.city},
+                      {profile?.country}
                   </div>
                   {/* <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
@@ -106,6 +90,7 @@ const Profile = () => {
                     Show more
                   </a>
                 </div>
+
               </CardBody>
             </Card>
           </Col>

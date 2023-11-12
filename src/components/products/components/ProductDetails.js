@@ -1,6 +1,5 @@
 import {
   Box,
-  chakra,
   Container,
   Stack,
   Text,
@@ -12,9 +11,6 @@ import {
   SimpleGrid,
   StackDivider,
   useColorModeValue,
-  VisuallyHidden,
-  List,
-  ListItem,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -95,9 +91,9 @@ export default function ProductDetails() {
                   colorScheme={'green'}
                   bg={'green.400'}
                   _hover={{ bg: 'green.500' }}
-                 
-                  
-                 
+
+
+
 
                   >
                   Request a quote

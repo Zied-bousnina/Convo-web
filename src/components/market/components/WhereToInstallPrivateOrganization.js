@@ -2,7 +2,7 @@ import { Col, Row } from "reactstrap";
 import CardM from "./CardM";
 
 function WhereToInstallaPrivateOrganization() {
- 
+
   const images = [
     {
       imageURL:
@@ -13,7 +13,7 @@ function WhereToInstallaPrivateOrganization() {
       imageURL:
       'https://xgenbox.com/wp-content/uploads/2023/04/theme-parc.png',
     name: 'Theme parks',
-    }, 
+    },
     {
       imageURL:
       'https://xgenbox.com/wp-content/uploads/2023/04/hospital.png',
@@ -25,7 +25,7 @@ function WhereToInstallaPrivateOrganization() {
     name: 'Zoos',
     }
   ]
- 
+
   return (
 <>
 <Row>
@@ -40,8 +40,8 @@ function WhereToInstallaPrivateOrganization() {
       </Col>
     ))
   }
- 
- 
+
+
 </Row>
 </>
 

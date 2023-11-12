@@ -1,23 +1,6 @@
-/*!
 
-=========================================================
-* Argon Design System React - v1.1.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React, { useRef } from "react";
+import React from "react";
 // nodejs library that concatenates classes
-import classnames from "classnames";
 
 // reactstrap components
 import {
@@ -25,12 +8,6 @@ import {
   Button,
   Card,
   CardBody,
-  CardImg,
-  FormGroup,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   Row,
   Col
@@ -38,20 +15,12 @@ import {
 // import logo from 'https://xgenbox.com/wp-content/uploads/2023/03/logo.svg';
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
-import CardsFooter from "components/Footers/CardsFooter.js";
-
-// index page sections
-
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBug, faCloud, faPenNib, faQuestion, faRecycle, faSolarPanel, faTrash, faTruck, faTruckFast } from '@fortawesome/free-solid-svg-icons'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faBug, faCloud, faQuestion, faRecycle, faSolarPanel, faTrash, faTruck, faTruckFast } from '@fortawesome/free-solid-svg-icons'
 import TabExemple from "components/TabExemple.js";
 import Benefits from "components/Benefits.js";
-import { fontSize, fontWeight } from "@mui/system";
 import Faq from "components/FaQ.js";
 import FooterComponent from "components/FooterComponents.js";
-import ContactUs from "components/ContactUs.js";
 import TopButton from "components/TopButton/TopButton.js";
 class Landing extends React.Component {
   state = {};

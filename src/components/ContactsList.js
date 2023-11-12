@@ -5,33 +5,18 @@ import { useState } from "react";
 import {
   Card,
   CardHeader,
-  CardBody,
+
   Container,
   Row,
   Col,
-  UncontrolledTooltip,
-  Table,
-  Media,
-  Badge,
-  Progress,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
+
   CardFooter,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Button,
-  Modal
+
 } from "reactstrap";
 import Header from './Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { findDemandeInProgress } from 'Redux/actions/MunicipalRequest.Action';
-import { UpadeteRequest } from 'Redux/actions/MunicipalRequest.Action';
-import { GetAllUsers } from 'Redux/actions/userAction';
-// core components
-import {Link} from "react-router-dom"
+
 import { FetchAllContact } from 'Redux/actions/ContactUsAction';
 
 import { useHistory } from 'react-router-dom';
@@ -43,30 +28,23 @@ import { Column } from 'primereact/column';
 import { Tooltip } from 'primereact/tooltip';
 
 function ContactsList() {
-  const [copiedText, setCopiedText] = useState();
-  const profile = useSelector(state=>state?.profile?.profile)
+
   const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest )
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const ListContact = useSelector(state=>state?.contactList?.ContactList?.Contacts)
   console.log(ListOfUsers)
-    const [notificationModal, setnotificationModal] = useState(false)
+
   console.log(requestsMunicipal)
 
 
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
     dispatch(FetchAllContact())
-   
-  }, [ListContact])
-  
-  const PutRequest = (status, id)=> {
-    // alert("accept", status)
-    dispatch(UpadeteRequest({status, id}))
-    console.log(status)
-    setnotificationModal(false)
 
-  }
+  }, [ListContact])
+
+
 
   const history = useHistory();
   const dt = useRef(null);
@@ -119,15 +97,15 @@ _filters['global'].value = value;
 setFilters(_filters);
 setGlobalFilterValue(value);
 };
- 
-  
+
+
   useEffect(() => {
     dispatch(findDemandeInProgress())
-   
-  }, [requestsMunicipal])
-  
 
-  
+  }, [requestsMunicipal])
+
+
+
   const header = (
     <>
     <Row>
@@ -145,10 +123,10 @@ setGlobalFilterValue(value);
         {/* </div> */}
         </Col>
     </Row>
-   
+
     </>
 );
-  
+
   return (
     <>
     <Header />
@@ -175,14 +153,14 @@ setGlobalFilterValue(value);
                 </thead>
                 <tbody>
                   {ListContact &&ListContact?.map((request) => (
-                    
-                    
+
+
                   <tr>
 
                     <th scope="row">
                     <Media className="align-items-center">
-                      
-                        
+
+
                         <Media>
                           <span className="mb-0 text-sm">
                             {request?.name}
@@ -207,17 +185,17 @@ setGlobalFilterValue(value);
 <i className="bg-danger" />
                         unreaded
                         </>
-                        
+
                       ) : (
                         <>
 
 <i className="bg-primary" />
                         Readed
                         </>
-                        
+
                       )
                         }
-                        
+
                       </Badge>
                     </td>
                     </td>
@@ -234,22 +212,22 @@ setGlobalFilterValue(value);
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          
+
                           <Link
                           to={`/admin/contact-detail/${request?._id}`}
                           >
                           <DropdownItem
-                         
+
                           >
                             Show details
                           </DropdownItem>
                             </Link>
-                          
+
                           <Modal
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
-             
+
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
@@ -291,19 +269,19 @@ setGlobalFilterValue(value);
                 </Button>
               </div>
             </Modal>
-                          
+
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </td>
                   </tr>
-                  
+
                   )) || []}
-                 
-                
+
+
                 </tbody>
               </Table> */}
               <div className="card">
-              
+
               <Tooltip target=".export-buttons>button" position="bottom" />
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={ListContact} header={header} selection={selectedProduct}
               selectionMode={true}
@@ -311,13 +289,13 @@ setGlobalFilterValue(value);
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','email', 'tel', 'city', 'country', 'status', ]}
               onRowClick={
                 (e) => {
-             
+
                   const url = `/admin/contact-detail/${e.data._id}`;
   history.push(url);
                 }
               }
-              
-             
+
+
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}>
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -390,7 +368,7 @@ setGlobalFilterValue(value);
           </div>
         </Row>
         {/* Dark table */}
-       
+
       </Container>
   </>
   )

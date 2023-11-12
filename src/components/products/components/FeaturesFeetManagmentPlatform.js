@@ -1,7 +1,6 @@
-import { ReactElement } from 'react';
-import { Box, SimpleGrid, Icon, Text, Stack, Flex } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, Stack, Flex } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartArea, faCogs, faLock, faMapLocation, faMapLocationDot, faMapMarker, faSignal, faSun, faTruckMoving } from '@fortawesome/free-solid-svg-icons';
+import { faChartArea, faCogs, faMapLocation,  faTruckMoving } from '@fortawesome/free-solid-svg-icons';
 // import { FcAssistant, FcDonate, FcInTransit } from 'react-icons/fc';
 
 

@@ -5,37 +5,28 @@ import { useState } from "react";
 import {
   Card,
   CardHeader,
-  CardBody,
   Container,
   Row,
   Col,
-  UncontrolledTooltip,
   Table,
   Media,
-  Badge,
-  Progress,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   CardFooter,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Button,
   Modal
 } from "reactstrap";
 import Header from './Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { findDemandeInProgress } from 'Redux/actions/MunicipalRequest.Action';
-import { UpadeteRequest } from 'Redux/actions/MunicipalRequest.Action';
-import { GetAllUsers } from 'Redux/actions/userAction';
+
+
+
 // core components
 import {Link} from "react-router-dom"
-import { BlockUser } from 'Redux/actions/userAction';
-import { FetchAllBins } from 'Redux/actions/BinAction';
-import { UpdateBinStatus } from 'Redux/actions/BinAction';
-import { ToastContainer, toast } from 'react-toastify';
+
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FetchAllPointBins } from 'Redux/actions/BinAction';
 import { PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer';
@@ -44,25 +35,16 @@ import { SET_POINTBIN_DETAILS } from 'Redux/types';
 
 
 function ListOfPointBin() {
-  const [copiedText, setCopiedText] = useState();
-  const profile = useSelector(state=>state?.profile?.profile)
-  const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
-  const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest )
-  const ListOfUsers = useSelector(state=>state?.users?.users)
+
   const ListOfPointBins = useSelector(state=>state?.ListOfPointBins?.ListOfPointBins?.pointBins)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
   const [selectedItem, setselectedItem] = useState(null)
   const dispatch = useDispatch()
   const [count, setCount] = useState(10);
-  const PointBinDetails= useSelector(state=>state?.PointBinDetails?.PointBinDetails)
 
-  const data = [
-    { id: 1, name: 'John Doe', age: 25 },
-    { id: 2, name: 'Jane Smith', age: 30 },
-    // Add more data as needed
-  ];
-  
+
+
   // PDF component
 const PDFDocument = ({data}) => {
   // console.table(data)
@@ -70,24 +52,7 @@ const PDFDocument = ({data}) => {
   return  (
     <Document>
     <Page>
-      {/* {data?.map(item => ( */}
-     {/* <QRCodeSVG
-  value={"https://picturesofpeoplescanningqrcodes.tumblr.com/"}
-  size={128}
-  bgColor={"#ffffff"}
-  fgColor={"#000000"}
-  level={"L"}
-  includeMargin={false}
-  imageSettings={{
-    src: "https://static.zpao.com/favicon.png",
-    x: undefined,
-    y: undefined,
-    height: 24,
-    width: 24,
-    excavate: true,
-  }}
-/> */}
-        {/* ))} */}
+
     </Page>
   </Document>
 );
@@ -103,10 +68,8 @@ const PDFDocument = ({data}) => {
     }
   }, [count]);
 
-  const startTimer = () => {
-    setCount(10);
-  };
-  
+
+
 
   // console.log(ListOfUsers)
     const [notificationModal, setnotificationModal] = useState(false)
@@ -114,27 +77,21 @@ const PDFDocument = ({data}) => {
 
 
 
-  
+
   useEffect(() => {
     dispatch(FetchAllPointBins())
-   
+
   }, [ListOfPointBins])
   // console.log(ListOfPointBins)
-  
-  const PutRequest = (status, id)=> {
-    // alert("accept", status)
-    dispatch(UpadeteRequest({status, id}))
-    console.log(status)
-    setnotificationModal(false)
 
-  }
+
   useEffect(() => {
     dispatch({
       type: SET_POINTBIN_DETAILS,
       payload: {}
   })
   }, [])
-  
+
   const showToastMessage = () => {
     toast.success('Request sent successfully.', {
         position: toast.POSITION.TOP_RIGHT,
@@ -143,13 +100,13 @@ const PDFDocument = ({data}) => {
   }
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
-  
-  
-  
+
+
+
   const deleteBin = ()=> {
     console.log("delete")
     // alert("delete :", selectedItem)
@@ -159,7 +116,7 @@ const PDFDocument = ({data}) => {
     //   startTimer()
     // }
   }
-  
+
   return (
     <>
     <Header />
@@ -171,22 +128,22 @@ const PDFDocument = ({data}) => {
             <Card className="shadow">
               <CardHeader className="border-0">
                 <Row>
-                  <Col 
+                  <Col
                   // lg="6"
-                    md="9" 
+                    md="9"
                   >
                 <h3 className="mb-0">List Of all Point Bins</h3>
                   </Col>
-                  <Col 
-                 
-                    md="3" 
+                  <Col
+
+                    md="3"
                   >
                      {/* <Link
                           to={`/admin/Add-Point-Bin`}
                           >
                             <Button
                             className="float-right"
-                          
+
                             >
 
 
@@ -210,19 +167,19 @@ const PDFDocument = ({data}) => {
                 </thead>
                 <tbody>
                   {ListOfPointBins &&ListOfPointBins?.map((request) => (
-                    
-                    
+
+
                   <tr>
 
                     <th scope="row">
                     <Media className="align-items-center">
-                      
-                        
-                       
+
+
+
                         <Media>
                           <span className="mb-0 text-sm">
                             {request?.quoteDemande?.name} / {request?.quoteDemande?.companyName}
-                           
+
                           </span>
                         </Media>
                       </Media>
@@ -234,7 +191,7 @@ const PDFDocument = ({data}) => {
                     {request?.quoteDemande?.tel}
                     </td>
                     <td>
-                    {request?.code} 
+                    {request?.code}
                     </td>
                     <td>
                     <td>
@@ -253,13 +210,13 @@ const PDFDocument = ({data}) => {
   color={`${!request?.status ? "success" : "primary"}`}
   // onClick={request?.status ? () => Unblock(request?._id) : () => block(request?._id)}
   size="sm"
-  
+
 >
   <PDFDownloadLink document={<PDFDocument data={request} />} fileName={request?.quoteDemande?.name}>
 {({ blob, url, loading, error }) =>
 // loading ? 'Loading document...' : 'Download Pdf'
 'Download details'
- 
+
 }
 </PDFDownloadLink>
 </Button>
@@ -332,7 +289,7 @@ const PDFDocument = ({data}) => {
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          
+
                           <Link
                           to={`/admin/point-bin-details/${request?._id}`}
                           >
@@ -409,22 +366,22 @@ const PDFDocument = ({data}) => {
                       </UncontrolledDropdown>
                     </td>
                   </tr>
-                  
+
                   )) || []}
-                 
-                
+
+
                 </tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">
-                 
+
                 </nav>
               </CardFooter>
             </Card>
           </div>
         </Row>
         {/* Dark table */}
-       
+
       </Container>
   </>
   )

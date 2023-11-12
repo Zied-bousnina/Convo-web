@@ -9416,10 +9416,10 @@ leaflet-control-geocoder@^2.4.0:
   optionalDependencies:
     open-location-code "^1.0.0"
 
-leaflet@^1.9.3:
-  version "1.9.3"
-  resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.3.tgz"
-  integrity sha512-iB2cR9vAkDOu5l3HAay2obcUHZ7xwUBBjph8+PGtmW/2lYhbLizWtG7nTeYht36WfOslixQF9D/uSIzhZgGMfQ==
+leaflet@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz"
+  integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
 
 leven@^3.1.0:
   version "3.1.0"
@@ -11652,6 +11652,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-loading-skeleton@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.npmjs.org/react-loading-skeleton/-/react-loading-skeleton-3.3.1.tgz"
+  integrity sha512-NilqqwMh2v9omN7LteiDloEVpFyMIa0VGqF+ukqp0ncVlYu1sKYbYGX9JEl+GtOT9TKsh04zCHAbavnQ2USldA==
 
 react-lottie@^1.2.3:
   version "1.2.3"

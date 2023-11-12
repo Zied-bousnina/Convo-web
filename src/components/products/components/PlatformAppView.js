@@ -1,20 +1,16 @@
 import {
   Box,
-  chakra,
   Container,
   Stack,
   Text,
   Image,
   Flex,
   VStack,
-  Button,
   Heading,
   SimpleGrid,
   StackDivider,
   useColorModeValue,
-  VisuallyHidden,
-  List,
-  ListItem,
+
 } from '@chakra-ui/react';
 
 // import { MdLocalShipping } from 'react-icons/md';
@@ -30,7 +26,7 @@ export default function PlatformAppView() {
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
         py={{ base: 18, md: 24 }}>
-       
+
         <Stack spacing={{ base: 6, md: 10 }}>
           <Box as={'header'}>
             <Heading
@@ -68,13 +64,13 @@ Cela signifie que vos opérations ne seront pas seulement optimisées instantan�
               It can also be equipped with various optional features such as sprayers and multiple sensors.
               </Text> */}
             </VStack>
-            
-           
+
+
           </Stack>
 
-         
 
-          
+
+
         </Stack>
         <Flex>
           <Image

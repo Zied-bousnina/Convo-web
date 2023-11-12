@@ -1,30 +1,9 @@
-/*!
 
-=========================================================
-* Argon Dashboard React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
-  FormGroup,
-  Form,
-  Input,
   Container,
   Row,
   Col
@@ -37,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import classNames from "classnames";
-import { AddBin } from "Redux/actions/BinAction";
+
 import { SET_IS_SECCESS } from "Redux/types";
 import {Link} from "react-router-dom"
 import { FetchAllQuote } from "Redux/actions/QuoteAction";
@@ -50,15 +29,15 @@ import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 const CreateBinPoint = () => {
-  const profile = useSelector(state=>state?.profile?.profile)
+
   const error = useSelector(state=>state.error?.errors)
-  
-  
+
+
 const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
   const ListOfQuote= useSelector(state=>state?.quote?.quote?.quotes)
   const ListOfBinsNotInUse= useSelector(state=>state?.ListOfBinsNotInPointBin?.ListOfBinsNotInPointBin)
-  const [selectedBins, setSelectedBins] = useState([]);
+
   const [governorates, setgovernorates] = useState([]);
 const [selectedValue, setSelectedValue] = useState('Tunis');
   const [selectedMunicipal, setMunicipal] = useState('Tunis');
@@ -72,63 +51,63 @@ const [selectedValue, setSelectedValue] = useState('Tunis');
 
 useEffect(() => {
   dispatch(FetchAllQuote())
- 
+
 }, [ListOfQuote])
- 
- 
+
+
   const showToastMessage = () => {
     toast.success('Bin created successfully.', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
     });
   }
-  
- 
-  
-  
-  
-  
+
+
+
+
+
+
   const [form, setForm] = useState({
     bins:[]
-  
-  })
-  
-  const onChangeHandler = (e) => {
-    const { name, checked, value } = e.target;
 
-  
-   
+  })
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+
+
+
       setForm({
         ...form,
         [name]: value,
       });
-    
-  
+
+
     // console.log(form);
   };
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
 
   useEffect(() => {
     dispatch(FetchAllBinsNotInUse())
-   
+
   }, [ListOfBinsNotInUse])
   const handleSelectChange = (selectedOptions) => {
-    
-   
+
+
     setSelectedValues(selectedOptions);
   };
 
   // console.log(ListOfBinsNotInUse)
-  
+
   const { idQuote } = useParams();
   // console.log("Params:", useParams())
   const onSubmit = (e)=>{
-    
+
     e.preventDefault();
     // console.log("bins", selectedValues.value)
     var bin = []
@@ -138,24 +117,24 @@ useEffect(() => {
       bin.push(e.value)
     })
     console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
-    
+
   dispatch(AddPointBin({...form,bins: bin, governorate: selectedValue, municipale: selectedMunicipal, quoteDemande :idQuote}))
 
   // !error?.success ? showErrorToastMessage() : null
- 
 
-    
-   
+
+
+
       // showToastMessage()
-      setSelectedBins([])
+      // setSelectedBins([])
       e.target.reset();
-   
-  
+
+
   }
 
- 
 
-  
+
+
   useEffect(() => {
     axios
       .get(`https://xgenboxv2.onrender.com/api/governorates`)
@@ -175,10 +154,10 @@ useEffect(() => {
     colourOptions.push({value:e._id, label:e.type})
 
   })
-  
+
 
   // Handle onChange event
- 
+
   // console.log("SelectedValues", selectedValues)
   return (
     <>
@@ -202,20 +181,20 @@ useEffect(() => {
                 </Col>
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-            
+
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-                
+
                 <div className="text-center mt-md-5">
                   <h3>
                   {user?.name}
-                   
+
                   </h3>
                   <div className="h5 font-weight-300">
                     <i className="ni location_pin mr-2" />
                     {profile?. address}, {profile?.city}, {profile?.country}
                   </div>
-                 
+
                   <hr className="my-4" />
                   <p>
                     {profile?.Bio}
@@ -241,7 +220,7 @@ useEffect(() => {
 
                     <Button
                       // color="primary"
-                    
+
                       size="md"
                       >  create bin
                       <i className=" ml-2 fas fa-arrow-right" />
@@ -265,17 +244,17 @@ style={
 
 }
 >
- 
+
   <ToastContainer />
   <Row>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">Governorate<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
-        
+
+
         {/* {
           errors && (<div  className="invalid-feedback">
           {errors}
@@ -287,21 +266,21 @@ style={
               {gov.name}
             </option>
           ))}
-            
 
-        
+
+
       </select>
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">Municipal<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
-        
+
+
         {/* {
           errors && (<div  className="invalid-feedback">
           {errors}
@@ -313,7 +292,7 @@ style={
         >
           ---select municipal---
         </option>
-        
+
       {municipales &&
                           municipales[0]?.municipalities?.map(
                             (municipal, index) => (
@@ -322,25 +301,25 @@ style={
                               </option>
                             )
                           )}
-           
 
-        
+
+
       </select>
       </div>
     </div>
     </Col>
-    
+
   </Row>
   <Row>
-    
-    
-    <Col 
+
+
+    <Col
     md="12"
     >
        <div className=" mb-3">
       <label className="form-label">address <span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required  name={"address"} className={classNames("form-control")} onChange={onChangeHandler} />
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -352,13 +331,13 @@ style={
     </Col>
   </Row>
   <Row>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">latitude <span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required name={"lat"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -368,13 +347,13 @@ style={
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-">
       <label className="form-label">Longitude<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required  name={"long"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -384,31 +363,31 @@ style={
       </div>
     </div>
     </Col>
-    {/* <Col 
+    {/* <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">Job Title</label>
       <div className="input-group">
-        
+
         <input type="text"  name={"jobTitle"} className={classNames("form-control")} onChange={onChangeHandler}/>
-       
+
       </div>
     </div>
     </Col> */}
   </Row>
   <Row>
-    {/* <Col 
+    {/* <Col
     md="12"
     >
        <div className=" mb-3">
       <label className="form-label">Quote request<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
-        
-       
+
+
+
       <select name={"quoteDemande"} required className={classNames("form-control")} onChange={onChangeHandler}>
-        
+
             <option value={""}>--Select Quote request ---</option>
             {
               ListOfQuote?.map(l=>{
@@ -417,32 +396,32 @@ style={
                 )
               })
             }
-            
-        
+
+
       </select>
       </div>
     </div>
     </Col> */}
-    
-    
+
+
   </Row>
   <hr/>
   <h3>Bins</h3>
-  
+
 <Select
       // closeMenuOnSelect={false}
       components={animatedComponents}
-      
+
       isMulti
-      
+
       options={colourOptions}
       onChange={handleSelectChange}
       required
        isLoading={colourOptions.length==0 ?  true: false}
        isDisabled={selectedValues.length >3 ?true: false}
-      
-     
-      
+
+
+
     />
     {
       selectedValues.length >3 &&
@@ -451,7 +430,7 @@ style={
         color="info"
         outline
         onClick={()=>{setSelectedValues([])
-          
+
         }}
       >
         Deselect
@@ -459,17 +438,17 @@ style={
       )
     }
 
-      
 
 
-      
+
+
   <Row>
     <Col>
-    
+
     </Col>
   </Row>
   <Row>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
@@ -483,14 +462,14 @@ style={
         </div>
     </div>
     </Col>
-    
-  </Row>
- 
- 
-  
-  
 
-  
+  </Row>
+
+
+
+
+
+
   <Row>
     <Col>
     <button type="submit" className="btn btn-outline-primary">
@@ -507,7 +486,7 @@ style={
   </Row>
 </form>
 
-   
+
               </CardBody>
             </Card>
           </Col>

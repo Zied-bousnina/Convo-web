@@ -1,21 +1,5 @@
-/*!
 
-=========================================================
-* Argon Design System React - v1.1.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React, { useState } from "react";
+import React from "react";
 
 // reactstrap components
 import {
@@ -34,13 +18,12 @@ import {
   Col
 } from "reactstrap";
 
-// core components
-import DemoNavbar from "components/Navbars/DemoNavbar.js";
+
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "Redux/actions/authActions";
-import AppLoader from "assets/Animations/AppLoader";
+
 
 const initialValues = {
   email: '',
@@ -53,7 +36,7 @@ const initialValues = {
   });
 
 function Login () {
-  const [submitted, setSubmitted] = useState(false);
+
   const dispatch = useDispatch()
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const errors1 = useSelector(state=>state?.error?.errors)
@@ -62,7 +45,7 @@ function Login () {
     console.log(values);
     // Access form values using "values" object
     dispatch(loginUser(values))
-    setSubmitted(true); // Set the submitted state to true
+  // Set the submitted state to true
   };
   // console.log(errors && errors)
 
@@ -177,13 +160,13 @@ function Login () {
           className="custom-control-label"
           htmlFor="customCheckLogin"
         > */}
-          {touched.email && errors.email || errors1&& errors1.email ? (
+          {(touched.email && errors.email) || (errors1&& errors1.email) ? (
             <>
             <br/>
                   <span style={{color:"red"}}> {errors1 && errors1.email} </span>
             </>
                   ) : null}
-                  {touched.password && errors.password || errors1&& errors1.password ? (
+                  {(touched.password && errors.password) || (errors1&& errors1.password) ? (
             <>
             <br/>
                   <span style={{color:"red"}}> {errors1 && errors1.password} </span>

@@ -33,11 +33,12 @@ const Header = () => {
   const BinStatistiques = useSelector((state) => state?.binStatistiques?.statistiques);
   const DemandesStatistiques = useSelector((state) => state?.demandestatistiques?.statistiques?.total);
 
+
   useEffect(() => {
     dispatch(getUsersCounts());
     // dispatch(getBinsCount())
     dispatch(getDemandesCount());
-  }, [userStatistiques, DemandesStatistiques]);
+  }, [userStatistiques, DemandesStatistiques, dispatch]);
 
 
 
@@ -51,8 +52,8 @@ const Header = () => {
           <Row>
             {/* Uncomment the following lines when needed */}
             {/* <StatisticCard title="Bins Count" iconClass="bg-green" value={BinStatistiques?.totalCount} percentageIncrease={BinStatistiques?.percentageIncrease} /> */}
-            <StatisticCard title="Users Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
-            <StatisticCard title="Find Driver requests" iconClass="bg-yellow" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
+            <StatisticCard key={1} title="Users Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
+            <StatisticCard key={2} title="Driver requests" iconClass="bg-yellow" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
           </Row>
         </div>
       </Container>

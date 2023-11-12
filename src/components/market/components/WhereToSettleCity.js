@@ -2,7 +2,7 @@ import { Col, Row } from "reactstrap";
 import CardM from "./CardM";
 
 function WhereToSettleCity() {
- 
+
   const images = [
     {
       imageURL:
@@ -13,7 +13,7 @@ function WhereToSettleCity() {
       imageURL:
       'https://xgenbox.com/wp-content/uploads/2023/04/stations.png',
     name: 'Stations',
-    }, 
+    },
     {
       imageURL:
       'https://xgenbox.com/wp-content/uploads/2023/04/parc.png',
@@ -25,7 +25,7 @@ function WhereToSettleCity() {
     name: 'Beaches',
     }
   ]
- 
+
   return (
 <>
 <Row>
@@ -40,8 +40,8 @@ function WhereToSettleCity() {
       </Col>
     ))
   }
- 
- 
+
+
 </Row>
 </>
 

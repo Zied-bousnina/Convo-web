@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Container, Row } from "reactstrap";
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
 import L from "leaflet"
 import "leaflet-control-geocoder/dist/Control.Geocoder.css"
 import "leaflet-control-geocoder/dist/Control.Geocoder.js"
@@ -8,14 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPointBin } from "Redux/actions/BinAction";
 import { fetchBin } from "Redux/actions/BinAction";
 
-const LeafletMap = () => {
-  // Rest of the code...
-};
 
 const Maps = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const position = [51.505, -0.09];
- 
+
   let DefaultIcon = L.icon({
     iconUrl: require("../../assets/img/brand/marker-icon.png"),
     iconSize: [30, 30],
@@ -35,12 +31,12 @@ const Maps = () => {
 
   useEffect(() => {
     dispatch(fetchPointBin())
-    
-  }, [allPointBins])
+
+  }, [dispatch,allPointBins])
   useEffect(() => {
     dispatch(fetchBin())
-  }, [allBins])
-  
+  }, [dispatch,allBins])
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
@@ -63,7 +59,7 @@ const Maps = () => {
       if (currentLocation) {
         map.flyTo(currentLocation, map.getZoom());
       }
-    }, [currentLocation]);
+    }, [ map]);
     return position1 === null ? null : (
       <Marker position={position1}
       // icon={}
@@ -105,7 +101,7 @@ const Maps = () => {
             align-items: center;
             justify-content: center;
           }
-          
+
           .half-arc:before {
             content: "";
             position: absolute;
@@ -120,7 +116,7 @@ const Maps = () => {
             z-index: 1;
             transform: rotate(270deg);
           }
-          
+
           .half-arc:after {
             content: "";
             position: absolute;
@@ -133,13 +129,13 @@ const Maps = () => {
             top: 16px;
             left: 16px;
           }
-          
+
           .half-arc span {
             color: #673ab7;
             z-index: 3;
             text-align: center;
           }
-          
+
           .half-arc div {
             flex: auto;
             display: flex;
@@ -155,12 +151,12 @@ const Maps = () => {
               <span>${bin.type}</span>
             </div>
           </div>` : ''}
-         
+
         </body>
       `
     }}></div>
   </Popup>
-           
+
             </Marker>
           ))}
         {allPointBins &&
@@ -187,7 +183,7 @@ const Maps = () => {
             align-items: center;
             justify-content: center;
           }
-          
+
           .half-arc:before {
             content: "";
             position: absolute;
@@ -202,7 +198,7 @@ const Maps = () => {
             z-index: 1;
             transform: rotate(270deg);
           }
-          
+
           .half-arc:after {
             content: "";
             position: absolute;
@@ -215,13 +211,13 @@ const Maps = () => {
             top: 16px;
             left: 16px;
           }
-          
+
           .half-arc span {
             color: #673ab7;
             z-index: 3;
             text-align: center;
           }
-          
+
           .half-arc div {
             flex: auto;
             display: flex;

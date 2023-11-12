@@ -1,19 +1,10 @@
-import Benefits from 'components/Benefits'
 import FooterComponent from 'components/FooterComponents'
 import DemoNavbar from 'components/Navbars/DemoNavbar'
-import BenefitsSmartCities from 'components/contact/components/BenefitsSmartCities'
-import Carateristique from 'components/products/components/Carecteristiques'
-import ElectronicBrochure from 'components/products/components/ElectronicBrochure'
-import Features from 'components/products/components/Features'
-import MoreFeatures from 'components/products/components/MoreFeatures'
-import ProductDetails from 'components/products/components/ProductDetails'
 import React from 'react'
 
-import { Container, Row } from 'reactstrap'
-import WhereToSettleCity from './components/WhereToSettleCity'
+import { Container } from 'reactstrap'
 import BenifitsCommercialEstabilishments from './components/BenifitsCommercialEstabilishments'
 import WhereToInstall from './components/WhereToInstall'
-import WhereToInstallaPrivateOrganization from './components/WhereToInstallPrivateOrganization'
 import TopButton from 'components/TopButton/TopButton'
 
 
@@ -25,11 +16,11 @@ function CommercialEstablishment() {
      <div className="position-relative">
             {/* shape Hero */}
             <section className="section section-lg section-shaped pb-300 ">
-            <div className="shape shape-style-1 shape-default mb--100 " style={{backgroundImage: "url('https://xgenbox.com/wp-content/uploads/2023/04/418596.webp')", height: "500px",  backgroundSize: "cover", 
+            <div className="shape shape-style-1 shape-default mb--100 " style={{backgroundImage: "url('https://xgenbox.com/wp-content/uploads/2023/04/418596.webp')", height: "500px",  backgroundSize: "cover",
             backgroundPosition: " bottom ",
             // backgroundRepeat: "no-repeat",
             filter: "brightness(90%) "}}>
-  
+
 </div>
 
   <Container className="py-lg-md d-flex justify-content-center">
@@ -41,7 +32,7 @@ function CommercialEstablishment() {
             className="rounded-circle img-fluid  "
             src="https://xgenbox.com/wp-content/uploads/2023/03/logo.svg"
             width={200}
-            
+
             style={{zIndex: "1"}}
             onMouseOver={e => e.currentTarget.parentNode.style.backgroundColor = "#3C976E"}
       onMouseOut={e => e.currentTarget.parentNode.style.backgroundColor = "white"}
@@ -109,14 +100,14 @@ Commercial applications​
       margin:20
     }}
 
- 
+
   >Whether it’s a shopping mall, convention center, airport or office complex, waste management solutions will save customers millions of dollars by reducing the cost of their waste management operations.</p>
- 
-  
+
+
   </div>
 </section>
 <section className="section bg-secondary">
-     
+
 
             <BenifitsCommercialEstabilishments/>
             </section>
@@ -134,7 +125,7 @@ Commercial applications​
 >
 Where to Install
 </div>
-  
+
   <WhereToInstall/>
 </section>
 
@@ -142,7 +133,7 @@ Where to Install
 
 <TopButton/>
      </main>
-     
+
      <FooterComponent/>
     </>
   )

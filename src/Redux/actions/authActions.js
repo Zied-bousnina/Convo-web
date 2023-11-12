@@ -37,15 +37,15 @@ export const loginUser = (userData) => dispatch => {
     axios
         .post(`${process.env.REACT_APP_API_URL}/api/users/login`, {email:userData.email, password:userData.password})
         .then(res => {
-            
+
             const { token } = res.data
-      
-            
-          
+
+
+
             // AsyncStorage.setItem('jwtToken', token)
             localStorage.setItem('jwtToken', token)
-            
-            
+
+
             // Set token to Auth header
             SetAuthToken(token)
             dispatch(GetProfile())
@@ -62,8 +62,8 @@ export const loginUser = (userData) => dispatch => {
                 payload:false
             })
         })
-        .catch(err => 
-           { 
+        .catch(err =>
+           {
             // console.log(err)
             dispatch({
                 type: SET_ERRORS,
@@ -74,17 +74,17 @@ export const loginUser = (userData) => dispatch => {
                 payload:false
             })
         }
-            
+
         )
 }
 
 export const LogOut = (navigation)=>dispatch=>{
     // AsyncStorage.removeItem("jwtToken")
     localStorage.removeItem("jwtToken")
-    
-    
-   
-    
+
+
+
+
     dispatch( {
         type: SET_USER,
         payload: {}
@@ -102,7 +102,7 @@ export const LogOut = (navigation)=>dispatch=>{
         payload:[]
     })
     // navigation.navigate('Login')
-   
+
 }
 
 export const getUserByEmail = (info,navigation)=>dispatch=>{
@@ -127,8 +127,8 @@ const data = {email, name:familyName+' '+givenName,avatar:photo, googleId:id, to
 
         // dispatch(loginUser(data))
     })
-    .catch(err => 
-       { 
+    .catch(err =>
+       {
         // console.log("err in authAction.js line 366",err)
         // dispatch({
         //     type: SET_ERRORS,

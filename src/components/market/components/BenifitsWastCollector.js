@@ -1,4 +1,4 @@
-import { faBuildingColumns, faCartShopping, faChartLine, faCity, faDatabase, faMale, faPiggyBank, faQuestion, faRoad, faTrash, faTruck, faTruckMoving } from '@fortawesome/free-solid-svg-icons'
+import { faChartLine, faMale,  faTrash, faTruckMoving } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Col, Row } from 'reactstrap'
@@ -94,7 +94,7 @@ function BenifitsWastCollector() {
           </Col>
           <Col md="6 ">
             <div className="text-align ct-title  " style={{ color: "#434955" }}>
-              
+
 Reduce labor costs</div>
             <p style={{ color: "#434955", fontSize: 15, fontWeight: 'bolder', boxShadow: 'revert' }}>By increasing the capacity of standard bins and reducing the number of collections required, you save on the basic labor costs that take up a large part of operating budgets.</p>
 

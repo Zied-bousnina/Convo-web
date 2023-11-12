@@ -1,7 +1,7 @@
 import React from 'react'
 import ProductDetails from './components/ProductDetails'
 import DemoNavbar from 'components/Navbars/DemoNavbar'
-import { Container, Row } from 'reactstrap'
+import { Container } from 'reactstrap'
 import Features from './components/Features'
 import FooterComponent from 'components/FooterComponents'
 import Carateristique from './components/Carecteristiques'
@@ -18,7 +18,7 @@ function SmartBox() {
             {/* shape Hero */}
             <section className="section section-lg section-shaped pb-300 ">
             <div className="shape shape-style-1 shape-default mb--100 " style={{backgroundImage: "url('https://xgenbox.com/wp-content/uploads/2023/03/Sans-titre-1.png')", height: "50vh",  backgroundSize: "cover", filter: "brightness(70%) "}}>
-  
+
 </div>
 
   <Container className="py-lg-md d-flex justify-content-center">
@@ -30,7 +30,7 @@ function SmartBox() {
             className="rounded-circle img-fluid  "
             src="https://xgenbox.com/wp-content/uploads/2023/03/logo.svg"
             width={200}
-            
+
             style={{zIndex: "1"}}
             onMouseOver={e => e.currentTarget.parentNode.style.backgroundColor = "#3C976E"}
       onMouseOut={e => e.currentTarget.parentNode.style.backgroundColor = "white"}
@@ -59,7 +59,7 @@ function SmartBox() {
             {/* 1st Hero Variation */}
           </div>
           <section
-      className="section section-lg pt-lg-0 "  
+      className="section section-lg pt-lg-0 "
       style={{ marginTop:20}}
           >
 
@@ -84,10 +84,10 @@ function SmartBox() {
 Characteristic
 </div>
   <Carateristique/>
-  
+
 </section>
 <section className="section section-lg pt-lg-0" style={{ backgroundColor: "#3C976E", marginTop: 20, marginBottom: 40, display: "flex", alignItems: "center", justifyContent: "center" }}>
-  
+
     <MoreFeatures/>
   </section>
   <section
@@ -96,12 +96,12 @@ Characteristic
         marginTop: 90,
       }}
 >
-  
+
   <ElectronicBrochure/>
 </section>
 <TopButton/>
      </main>
-     
+
      <FooterComponent/>
     </>
   )

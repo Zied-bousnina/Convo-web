@@ -3,11 +3,10 @@ import { SET_DEMANDES_MUNICIPAL } from "Redux/types"
 import { SET_IS_LOADING } from "Redux/types"
 import { SET_DETAILS_MUNICIPAL } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
-import { SET_STATISTIQUES } from "Redux/types"
 import axios from "axios"
 
 export const findDemandeInProgress = (navigation)=>dispatch=>{
-   
+
   axios.get(`${process.env.REACT_APP_API_URL}/api/demande-municipal/findDemandeInProgress`)
   .then(res => {
       console.log(res)
@@ -21,8 +20,8 @@ export const findDemandeInProgress = (navigation)=>dispatch=>{
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -55,39 +54,39 @@ dispatch({
       type:SET_IS_LOADING,
       payload:false
   })
-    
+
     // dispatch({
     //   type: SET_DEMANDES_MUNICIPAL,
     //   payload: res.data,
-      
+
     // })
-   
-    
+
+
   })
-  
-  
+
+
   .catch( (err) =>{
-     
+
          dispatch({
             type: SET_ERRORS,
             payload: err?.response?.data
           })
-    
-        
+
+
       dispatch({
         type:SET_IS_LOADING,
         payload:false
     })
       }
-     
-  
-      
+
+
+
   )
 
 }
 
 export const getBinsCount = (navigation)=>dispatch=>{
-   
+
   axios.get(`${process.env.REACT_APP_API_URL}/api/bin/getBinsCount`)
   .then(res => {
       // console.log(res)
@@ -101,8 +100,8 @@ export const getBinsCount = (navigation)=>dispatch=>{
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       // dispatch({
       //     type: SET_ERRORS,
@@ -114,7 +113,7 @@ export const getBinsCount = (navigation)=>dispatch=>{
 }
 
 export const GetPMunicipalDetailsById = (id,navigation)=>dispatch=>{
-   
+
   axios.get(`${process.env.REACT_APP_API_URL}/api/demande-municipal/findDemandeById/${id}`)
   .then(res => {
       // console.log(res)
@@ -128,8 +127,8 @@ export const GetPMunicipalDetailsById = (id,navigation)=>dispatch=>{
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,

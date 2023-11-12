@@ -5,34 +5,20 @@ import { useState } from "react";
 import {
   Card,
   CardHeader,
-  CardBody,
+
   Container,
   Row,
   Col,
-  UncontrolledTooltip,
-  Table,
-  Media,
-  Badge,
-  Progress,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
+
   CardFooter,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Button,
-  Modal
+
 } from "reactstrap";
 import Header from './Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { findDemandeInProgress } from 'Redux/actions/MunicipalRequest.Action';
 import { UpadeteRequest } from 'Redux/actions/MunicipalRequest.Action';
 import { GetAllUsers } from 'Redux/actions/userAction';
 // core components
-import {Link} from "react-router-dom"
-import { BlockUser } from 'Redux/actions/userAction';
+
 import { Tooltip } from 'primereact/tooltip';
 import { DataTable } from 'primereact/datatable';
 import { Button as Btn} from 'primereact/button';
@@ -41,27 +27,22 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { Column } from 'primereact/column';
 function ListOfUsers() {
-  const [copiedText, setCopiedText] = useState();
-  const profile = useSelector(state=>state?.profile?.profile)
-  const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest )
   const ListOfUsers = useSelector(state=>state?.users?.users)
-  console.log(ListOfUsers)
-    const [notificationModal, setnotificationModal] = useState(false)
-  console.log(requestsMunicipal)
+
+
 
 
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
     dispatch(GetAllUsers())
-   
+
   }, [ListOfUsers])
-  
+
   const PutRequest = (status, id)=> {
     // alert("accept", status)
     dispatch(UpadeteRequest({status, id}))
-    console.log(status)
-    setnotificationModal(false)
+
 
   }
 
@@ -77,7 +58,7 @@ function ListOfUsers() {
     status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
     activity: { value: null, matchMode: FilterMatchMode.BETWEEN }
   });
-  const [selectedItem, setselectedItem] = useState(null)
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const cols = [
@@ -88,24 +69,12 @@ function ListOfUsers() {
       { field: 'country', header: ' Country' },
       // { field: 'status', header: 'Status' }
   ];
-  const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
 
   const exportCSV = (selectionOnly) => {
     dt.current.exportCSV({ selectionOnly });
 };
-const saveAsExcelFile = (buffer, fileName) => {
-  import('file-saver').then((module) => {
-      if (module && module.default) {
-          let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-          let EXCEL_EXTENSION = '.xlsx';
-          const data = new Blob([buffer], {
-              type: EXCEL_TYPE
-          });
 
-          module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-      }
-  });
-};
 const onGlobalFilterChange = (e) => {
 const value = e.target.value;
 let _filters = { ...filters };
@@ -115,7 +84,7 @@ _filters['global'].value = value;
 setFilters(_filters);
 setGlobalFilterValue(value);
 };
-  
+
 
 const header = (
   <>
@@ -134,7 +103,7 @@ const header = (
       {/* </div> */}
       </Col>
   </Row>
- 
+
   </>
 );
 const actionBodyTemplate = (rowData) => {
@@ -149,13 +118,13 @@ return (
           />
                         {/* </Link> */}
         <Btn icon="pi pi-times" rounded outlined severity="danger" onClick={()=>{
-          setnotificationModal(true)
-          setselectedItem(rowData)
+
+
         } } />
     </React.Fragment>
 );
 };
-  
+
   return (
     <>
     <Header />
@@ -181,13 +150,13 @@ return (
                 </thead>
                 <tbody>
                   {ListOfUsers &&ListOfUsers?.map((request) => (
-                    
-                    
+
+
                   <tr>
 
                     <th scope="row">
                     <Media className="align-items-center">
-                      
+
                         <a
                           className="avatar rounded-circle mr-3"
                           href="#pablo"
@@ -222,17 +191,17 @@ return (
 <i className="bg-danger" />
                         is Blocked
                         </>
-                        
+
                       ) : (
                         <>
 
 <i className="bg-success" />
                         Active
                         </>
-                        
+
                       )
                         }
-                     
+
                       </Badge>
                     </td>
                     </td>
@@ -249,30 +218,30 @@ return (
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          
+
                           <Link
                           to={`/admin/user-details/${request?.user?._id}`}
                           >
                           <DropdownItem
-                        
+
                           >
                             Show details
                           </DropdownItem>
                             </Link>
-                         
+
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </td>
                   </tr>
-                  
+
                   )) || []}
-                 
-                
+
+
                 </tbody>
               </Table> */}
 
               <div className="card">
-              
+
               <Tooltip target=".export-buttons>button" position="bottom" />
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={ListOfUsers} header={header} selection={selectedProduct}
               selectionMode={true}
@@ -280,13 +249,13 @@ return (
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','address', 'tel', 'city', 'country', ]}
               onRowClick={
                 (e) => {
-             
+
                   const url = `/admin/user-details/${e.data._id}`;
   history.push(url);
                 }
               }
-              
-             
+
+
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}>
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -300,7 +269,7 @@ return (
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
-                
+
             </DataTable>
                 </div>
               <CardFooter className="py-4">
@@ -359,7 +328,7 @@ return (
           </div>
         </Row>
         {/* Dark table */}
-       
+
       </Container>
   </>
   )

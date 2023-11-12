@@ -16,9 +16,8 @@ import {
 import { faInstagram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faLocationDot, faPaperPlane, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { color } from 'framer-motion';
-import { ReactNode } from 'react';
-import { Col, Row } from 'reactstrap';
+
+import {  Row } from 'reactstrap';
 import ContactUs from './ContactUs';
 import Chat from './Chat';
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
@@ -137,8 +136,8 @@ export default function FooterComponent() {
                       </Button>
                     </VStack>
                   </Box>
-             
-              
+
+
               <Row>
             </Row>
           </Stack>

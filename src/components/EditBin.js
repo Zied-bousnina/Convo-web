@@ -1,30 +1,9 @@
-/*!
 
-=========================================================
-* Argon Dashboard React - v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
 import {
-  Button,
+
   Card,
   CardHeader,
   CardBody,
-  FormGroup,
-  Form,
-  Input,
   Container,
   Row,
   Col
@@ -37,15 +16,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import classNames from "classnames";
-import { AddBin } from "Redux/actions/BinAction";
 import { SET_IS_SECCESS } from "Redux/types";
-import {Link} from "react-router-dom"
 import { FetchBinByID } from "Redux/actions/BinAction";
 import { useParams } from "react-router-dom";
 import { updateBin } from "Redux/actions/BinAction";
 const EditBin = () => {
   const { id } = useParams();
-  const profile = useSelector(state=>state?.profile?.profile)
+
   const error = useSelector(state=>state.error?.errors)
   const binDetails = useSelector(state=>state?.binDetails?.BinDetails)
   const [governorates, setgovernorates] = useState([]);
@@ -75,57 +52,57 @@ useEffect(() => {
 );
 
 
- 
- 
+
+
   const showToastMessage = () => {
     toast.success('Bin Updated successfully.', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
     });
   }
-  
- 
- 
-  
-  
-  
+
+
+
+
+
+
   const [form, setForm] = useState({
   })
-  
+
   const onChangeHandler = (e) => {
-    const { name, checked, value } = e.target;
-  
-   
+    const { name, value } = e.target;
+
+
       setForm({
         ...form,
         [name]: value
       });
-      
-      
+
+
   };
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
 
   const onSubmit = (e)=>{
-    
+
     e.preventDefault();
     console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
   dispatch(updateBin(id,{...form, governorate: selectedValue, municipale: selectedMunicipal}))
 
   // !error?.success ? showErrorToastMessage() : null
- 
 
-    
-   
+
+
+
       // showToastMessage()
-      
+
       e.target.reset();
-   
-  
+
+
   }
   return (
     <>
@@ -149,20 +126,20 @@ useEffect(() => {
                 </Col>
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-            
+
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-                
+
                 <div className="text-center mt-md-5">
                   <h3>
                   {user?.name}
-                   
+
                   </h3>
                   <div className="h5 font-weight-300">
                     <i className="ni location_pin mr-2" />
                     {profile?. address}, {profile?.city}, {profile?.country}
                   </div>
-                 
+
                   <hr className="my-4" />
                   <p>
                     {profile?.Bio}
@@ -186,8 +163,8 @@ useEffect(() => {
                       to="/admin/Add-Point-Bin"
                     >
                     <Button
-                     
-                    
+
+
                       size="md"
                       >
                       Create Point Bin
@@ -213,13 +190,13 @@ style={
 }
 >
   <Row>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">Name<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.name}  name={"name"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -229,13 +206,13 @@ style={
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">Location<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.location}  name={"location"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -245,13 +222,13 @@ style={
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">address <span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.address}  name={"address"} className={classNames("form-control")} onChange={onChangeHandler} />
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -264,14 +241,14 @@ style={
   </Row>
   <ToastContainer />
   <Row>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">Governorate<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
-        
+
+
         {/* {
           errors && (<div  className="invalid-feedback">
           {errors}
@@ -283,21 +260,21 @@ style={
               {gov.name}
             </option>
           ))}
-            
 
-        
+
+
       </select>
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">Municipal<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
-        
+
+
         {/* {
           errors && (<div  className="invalid-feedback">
           {errors}
@@ -315,23 +292,23 @@ style={
                               </option>
                             )
                           )}
-           
 
-        
+
+
       </select>
       </div>
     </div>
     </Col>
-    
+
   </Row>
   <Row>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">latitude <span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.lat} name={"lat"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -341,13 +318,13 @@ style={
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-">
       <label className="form-label">Longitude<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.long}  name={"long"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -357,80 +334,80 @@ style={
       </div>
     </div>
     </Col>
-    {/* <Col 
+    {/* <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">Job Title</label>
       <div className="input-group">
-        
+
         <input type="text"  name={"jobTitle"} className={classNames("form-control")} onChange={onChangeHandler}/>
-       
+
       </div>
     </div>
     </Col> */}
   </Row>
   <Row>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">Type<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
-        
+
+
         {/* {
           errors && (<div  className="invalid-feedback">
           {errors}
         </div>)
         } */}
       <select name={"type"} required className={classNames("form-control")} onChange={onChangeHandler}>
-        
+
             <option value={"plastique"}>Plastique</option>
             <option value={"glass"}>Glass</option>
             <option value={"paper"}>Paper</option>
             <option value={"other"}>Other</option>
 
-        
+
       </select>
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="6"
     >
        <div className=" mb-3">
       <label className="form-label">capacity<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
-        
+
+
         {/* {
           errors && (<div  className="invalid-feedback">
           {errors}
         </div>)
         } */}
       <select name={"type"} required className={classNames("form-control")} onChange={onChangeHandler}>
-        
+
             <option value={"plastique"}>140 Litres (750 x 900 x 1400 mm)</option>
             <option value={"glass"}>240 Litres (900 x 1000 x 1500 mm)</option>
             <option value={"paper"}>360 Litres (1050 x 1050 x 1500 mm)</option>
             {/* <option value={"other"}>Other</option> */}
 
-        
+
       </select>
       </div>
     </div>
     </Col>
-    
+
   </Row>
   <Row>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">Gaz Topic<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.topicGaz} name={"topicGaz"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -440,13 +417,13 @@ style={
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">Topic Niveau<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.topicNiv} name={"topicNiv"} className={classNames("form-control")} onChange={onChangeHandler}/>
         {/* {
           errors && (<div  className="invalid-feedback">
@@ -456,13 +433,13 @@ style={
       </div>
     </div>
     </Col>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
       <label className="form-label">Topic Open <span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        
+
         <input type="text" required defaultValue={binDetails?.topicOuv}  name={"topicOuv"} className={classNames("form-control")} onChange={onChangeHandler} />
         <br/>
         {/* {
@@ -470,13 +447,13 @@ style={
           {error?.error}
         </div>)
         } */}
-        
+
       </div>
     </div>
     </Col>
   </Row>
   <Row>
-    <Col 
+    <Col
     md="4"
     >
        <div className=" mb-3">
@@ -490,14 +467,14 @@ style={
         </div>
     </div>
     </Col>
-    
-  </Row>
- 
- 
-  
-  
 
-  
+  </Row>
+
+
+
+
+
+
   <Row>
     <Col>
     <button type="submit" className="btn btn-outline-primary">

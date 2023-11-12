@@ -1,16 +1,9 @@
-import Benefits from 'components/Benefits'
+
 import FooterComponent from 'components/FooterComponents'
 import DemoNavbar from 'components/Navbars/DemoNavbar'
-import BenefitsSmartCities from 'components/contact/components/BenefitsSmartCities'
-import Carateristique from 'components/products/components/Carecteristiques'
-import ElectronicBrochure from 'components/products/components/ElectronicBrochure'
-import Features from 'components/products/components/Features'
-import MoreFeatures from 'components/products/components/MoreFeatures'
-import ProductDetails from 'components/products/components/ProductDetails'
 import React from 'react'
 
-import { Container, Row } from 'reactstrap'
-import WhereToSettleCity from './components/WhereToSettleCity'
+import { Container } from 'reactstrap'
 import BenifitsWastCollector from './components/BenifitsWastCollector'
 import TopButton from 'components/TopButton/TopButton'
 
@@ -27,7 +20,7 @@ function WasteCollector() {
               backgroundImage: "url('https://xgenbox.com/wp-content/uploads/2023/04/Collecte.jpg')", height: "50vh",  backgroundSize: "cover", filter: "brightness(90%) ",
               backgroundPosition: " center ",
               }}>
-  
+
 </div>
 
   <Container className="py-lg-md d-flex justify-content-center">
@@ -39,7 +32,7 @@ function WasteCollector() {
             className="rounded-circle img-fluid  "
             src="https://xgenbox.com/wp-content/uploads/2023/03/logo.svg"
             width={200}
-            
+
             style={{zIndex: "1"}}
             onMouseOver={e => e.currentTarget.parentNode.style.backgroundColor = "#3C976E"}
       onMouseOut={e => e.currentTarget.parentNode.style.backgroundColor = "white"}
@@ -97,24 +90,24 @@ Waste collectors
   >
 
   <p
- 
+
   >Whether it’s a family hauler, a municipality or a large waste management company responsible for multiple counties, our solutions will provide insight into their operations, identified areas for efficiency improvement and improved performance in several key areas of fleet management.</p>
-  
-  
+
+
   </div>
 </section>
 <section className="section bg-secondary">
-     
+
 
             <BenifitsWastCollector/>
             </section>
-          
+
 
 
 
             <TopButton/>
      </main>
-     
+
      <FooterComponent/>
     </>
   )

@@ -5,33 +5,16 @@ import { useState } from "react";
 import {
   Card,
   CardHeader,
-  CardBody,
   Container,
   Row,
   Col,
-  UncontrolledTooltip,
-  Table,
-  Media,
-  Badge,
-  Progress,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   CardFooter,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Button,
-  Modal
 } from "reactstrap";
 import Header from './Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { findDemandeInProgress } from 'Redux/actions/MunicipalRequest.Action';
-import { UpadeteRequest } from 'Redux/actions/MunicipalRequest.Action';
-import { GetAllUsers } from 'Redux/actions/userAction';
-// core components
-import {Link} from "react-router-dom"
+
+
+
 import { FetchAllPartnership } from 'Redux/actions/PartnershipAction';
 
 import { useHistory } from 'react-router-dom';
@@ -43,30 +26,23 @@ import { Column } from 'primereact/column';
 import { Tooltip } from 'primereact/tooltip';
 
 function PartnershipList() {
-  const [copiedText, setCopiedText] = useState();
+
   const partnerShipLists = useSelector(state=>state?.partnerShipList?.PartnerShipList)
-  const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest )
-  const ListOfUsers = useSelector(state=>state?.users?.users)
-  console.log(ListOfUsers)
-    const [notificationModal, setnotificationModal] = useState(false)
-  console.log(requestsMunicipal)
+
+
+
+
 
 
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
     dispatch(FetchAllPartnership())
-   
+
   }, [partnerShipLists])
   console.log("partner:",partnerShipLists)
-  
-  const PutRequest = (status, id)=> {
-    // alert("accept", status)
-    dispatch(UpadeteRequest({status, id}))
-    console.log(status)
-    setnotificationModal(false)
 
-  }
+
 
   const history = useHistory();
   const dt = useRef(null);
@@ -80,7 +56,7 @@ function PartnershipList() {
     status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
     activity: { value: null, matchMode: FilterMatchMode.BETWEEN }
   });
-  const [selectedItem, setselectedItem] = useState(null)
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const cols = [
@@ -91,24 +67,12 @@ function PartnershipList() {
       { field: 'country', header: 'Country' },
       { field: 'status', header: 'Status' }
   ];
-  const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
 
   const exportCSV = (selectionOnly) => {
     dt.current.exportCSV({ selectionOnly });
 };
-const saveAsExcelFile = (buffer, fileName) => {
-  import('file-saver').then((module) => {
-      if (module && module.default) {
-          let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-          let EXCEL_EXTENSION = '.xlsx';
-          const data = new Blob([buffer], {
-              type: EXCEL_TYPE
-          });
 
-          module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-      }
-  });
-};
 const onGlobalFilterChange = (e) => {
 const value = e.target.value;
 let _filters = { ...filters };
@@ -135,10 +99,10 @@ const header = (
       {/* </div> */}
       </Col>
   </Row>
- 
+
   </>
 );
-  
+
   return (
     <>
     <Header />
@@ -164,19 +128,19 @@ const header = (
                 </thead>
                 <tbody>
                   {partnerShipLists?.partnerships && partnerShipLists?.partnerships?.map((request) => (
-                    
-                    
+
+
                   <tr>
 
                     <th scope="row">
-                  
-                      
-                        
+
+
+
                         <Media>
                           <span className="mb-0 text-sm">
                             {request?.email}
                           </span>
-                        
+
                       </Media>
                     </th>
                     <td>
@@ -196,17 +160,17 @@ const header = (
 <i className="bg-danger" />
                         unreaded
                         </>
-                        
+
                       ) : (
                         <>
 
 <i className="bg-primary" />
                         Readed
                         </>
-                        
+
                       )
                         }
-                       
+
                       </Badge>
                     </td>
                     </td>
@@ -223,22 +187,22 @@ const header = (
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          
+
                           <Link
                           to={`/admin/partner-details/${request?._id}`}
                           >
                           <DropdownItem
-                         
+
                           >
                             Show details
                           </DropdownItem>
                             </Link>
-                          
+
                           <Modal
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
-            
+
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
@@ -280,20 +244,20 @@ const header = (
                 </Button>
               </div>
             </Modal>
-                          
+
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </td>
                   </tr>
-                  
+
                   )) || []}
-                 
-                
+
+
                 </tbody>
               </Table> */}
 
               <div className="card">
-              
+
               <Tooltip target=".export-buttons>button" position="bottom" />
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={partnerShipLists?.partnerships} header={header} selection={selectedProduct}
               selectionMode={true}
@@ -301,13 +265,13 @@ const header = (
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','email', 'tel', 'city', 'country', 'status', ]}
               onRowClick={
                 (e) => {
-             
+
                   const url = `/admin/partner-details/${e.data._id}`;
   history.push(url);
                 }
               }
-              
-             
+
+
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}>
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -380,7 +344,7 @@ const header = (
           </div>
         </Row>
         {/* Dark table */}
-       
+
       </Container>
   </>
   )

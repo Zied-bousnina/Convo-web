@@ -80,14 +80,14 @@ export default function Faq() {
     }
 
 
-] 
+]
   return (
     // <Container maxWidth="md" sx={{ mt: 20 }}>
 <Accordion>
   {faq.map(e=>(
     <AccordionItem
     key={e.id}
-    
+
     >
     <h2>
       <AccordionButton>

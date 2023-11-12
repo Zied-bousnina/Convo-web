@@ -6,38 +6,30 @@ import {
   CardBody,
   FormGroup,
   Form,
-  Input,
   Container,
   Row,
   Col,
   CardTitle,
-  UncontrolledPopover,
-  PopoverBody,
   Modal
 } from "reactstrap";
 // core components
 
 import { useDispatch, useSelector } from "react-redux";
-import UserHeader from "./Headers/UserHeader";
 import UserDetailsHeader from "./Headers/UserDetailsHeader";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { GetAllUserDetails } from "Redux/actions/userAction";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BlockUser } from "Redux/actions/userAction";
-import { UnBlockUser } from "Redux/actions/userAction";
 import { GetPartnerDetailsById } from "Redux/actions/PartnershipAction";
 import { UpdatePartnerShipStatus } from "Redux/actions/PartnershipAction";
 
 const PartnerDetails = () => {
-  const profile = useSelector(state=>state?.profile?.[0]?.profile)
-  const user = useSelector(state=>state.auth?.user)
+
   const userDetails = useSelector(state=>state?.UsersDetails?.UsersDetails)
   const PartnerDetails = useSelector(state=>state?.partnerDetails?.partnerDetails)
   const [notificationModal, setnotificationModal] = useState(false)
   const { id } = useParams();
- 
+
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
   const dispatch = useDispatch()
@@ -53,7 +45,7 @@ const PartnerDetails = () => {
   }, [PartnerDetails])
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
@@ -68,7 +60,7 @@ const PartnerDetails = () => {
     dispatch(UpdatePartnerShipStatus(id))
 
   }
-  console.log("userDetails :", PartnerDetails)
+
 
   return (
     <>
@@ -79,7 +71,7 @@ const PartnerDetails = () => {
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
-                
+
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                 {/* <div className="d-flex justify-content-between">
@@ -108,7 +100,7 @@ const PartnerDetails = () => {
                   </h4>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-                
+
                 <div className="text-center mt-md-5">
                   <h3>
                   {/* {PartnerDetails?.partnership?.name} */}
@@ -195,11 +187,11 @@ const PartnerDetails = () => {
                 </Button>
               </div>
             </Modal>
-              
+
             </CardBody>
           </Card>
         </div>
-      
+
         </Row>
         <Row>
         <div style={{ width: "18rem" }}>
@@ -218,11 +210,11 @@ const PartnerDetails = () => {
                   </div>
                 </Col>
               </Row>
-              
+
             </CardBody>
           </Card>
         </div>
-      
+
         </Row>
                 </div>
               </CardBody>
@@ -247,7 +239,7 @@ const PartnerDetails = () => {
           <span className="visually-hidden"></span>
         </div>
       ) : (
-        
+
         PartnerDetails?.partnership?.status ==='unreaded' ?  "Mark as Read" :"Mark Unread"
       )}
                     </Button>
@@ -302,7 +294,7 @@ const PartnerDetails = () => {
 
                           <small>{PartnerDetails?.partnership?.email}</small>
                           </div>
-                         
+
                         </FormGroup>
                       </Col>
                     </Row>

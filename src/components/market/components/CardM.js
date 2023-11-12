@@ -3,11 +3,7 @@ import {
   Circle,
   Box,
   Image,
-  Badge,
   useColorModeValue,
-  Icon,
-  chakra,
-  Tooltip,
 } from '@chakra-ui/react';
 
 
@@ -53,7 +49,7 @@ function CardM({imageURL, name}) {
         />
 
         <Box p="6">
-         
+
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Box
               fontSize="2xl"
@@ -63,10 +59,10 @@ function CardM({imageURL, name}) {
               isTruncated>
               {name}
             </Box>
-            
+
           </Flex>
 
-          
+
         </Box>
       </Box>
     </Flex>

@@ -5,41 +5,18 @@ import { useState } from "react";
 import {
   Card,
   CardHeader,
-  CardBody,
   Container,
   Row,
   Col,
-  UncontrolledTooltip,
-  Table,
-  Media,
-  Badge,
-  Progress,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   CardFooter,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Button,
   Modal,
-  Alert
 } from "reactstrap";
 import Header from './Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { findDemandeInProgress } from 'Redux/actions/MunicipalRequest.Action';
-import { UpadeteRequest } from 'Redux/actions/MunicipalRequest.Action';
-import { GetAllUsers } from 'Redux/actions/userAction';
-// core components
 import {Link} from "react-router-dom"
-import { BlockUser } from 'Redux/actions/userAction';
 import { FetchAllBins } from 'Redux/actions/BinAction';
-import { UpdateBinStatus } from 'Redux/actions/BinAction';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import QRCode, { QRCodeSVG } from 'qrcode.react';
-import { PDFDownloadLink, Document, Page, Text, Image, View } from '@react-pdf/renderer';
 import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
@@ -47,13 +24,13 @@ import { Column } from 'primereact/column';
 import { Tooltip } from 'primereact/tooltip';
 import { useHistory } from 'react-router-dom';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
-import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
+import { toast } from 'react-toastify';
 function ListOfBins() {
-  const [copiedText, setCopiedText] = useState();
-  const profile = useSelector(state=>state?.profile?.profile)
+
+
   const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
-  const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest )
+
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
@@ -142,43 +119,11 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
     dt.current.exportCSV({ selectionOnly });
 };
 
-const exportPdf = () => {
-    import('jspdf').then((jsPDF) => {
-        import('jspdf-autotable').then(() => {
-            const doc = new jsPDF.default(0, 0);
 
-            doc.autoTable(exportColumns, products);
-            doc.save('products.pdf');
-        });
-    });
-};
 
-const exportExcel = () => {
-    import('xlsx').then((xlsx) => {
-        const worksheet = xlsx.utils.json_to_sheet(products);
-        const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-        const excelBuffer = xlsx.write(workbook, {
-            bookType: 'xlsx',
-            type: 'array'
-        });
 
-        saveAsExcelFile(excelBuffer, 'products');
-    });
-};
 
-const saveAsExcelFile = (buffer, fileName) => {
-    import('file-saver').then((module) => {
-        if (module && module.default) {
-            let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-            let EXCEL_EXTENSION = '.xlsx';
-            const data = new Blob([buffer], {
-                type: EXCEL_TYPE
-            });
 
-            module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-        }
-    });
-};
 const onGlobalFilterChange = (e) => {
   const value = e.target.value;
   let _filters = { ...filters };
