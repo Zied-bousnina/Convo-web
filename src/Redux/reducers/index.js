@@ -27,6 +27,7 @@ import AllBinsReducer from './AllBins.reducer';
 import AllPointBinsReducer from './AllPointBins.reducer';
 import MunicipalDetailsReducer from './MunicipalDetails.reducer';
 import DemanedestatistiquesReducer from './Demanedestatistiques.reducer';
+import DemandeDriverRedicers from './DemandeDriver.redicers';
 export default combineReducers({
     auth:authReducer,
     error:errorReducer,
@@ -54,6 +55,7 @@ export default combineReducers({
     allBins : AllBinsReducer,
     AllPointBins : AllPointBinsReducer,
     MunicipalDetails : MunicipalDetailsReducer,
-    demandestatistiques : DemanedestatistiquesReducer
+    demandestatistiques : DemanedestatistiquesReducer,
+    DemandeDriver : DemandeDriverRedicers,
 
 })

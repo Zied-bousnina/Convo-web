@@ -3,6 +3,7 @@ import axios from "axios";
 import { setLoading } from "./authActions";
 import { SET_ERRORS } from "Redux/types";
 import { SET_IS_SECCESS } from "Redux/types";
+import { SET_DEMANDES } from "Redux/types";
 
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
@@ -31,6 +32,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
             )
 
           }, 3000);
+          navigate.push("/home");
           dispatch({
             type: SET_IS_SECCESS,
             payload: true
@@ -69,4 +71,36 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
         }
 
         )
+  }
+
+  export const FindRequestDemande = ( )=> (dispatch) => {
+    axios.get(`https://convoyage.onrender.com/api/users/findDemandsByUserId`)
+    .then(async(res) => {
+      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+      dispatch({
+        type: SET_DEMANDES,
+        payload: res.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            dispatch({
+              type: SET_DEMANDES,
+              payload: [],
+
+            })
+        }
+
+
+
+    )
+
   }

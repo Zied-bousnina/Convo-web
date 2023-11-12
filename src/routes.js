@@ -23,6 +23,9 @@ import EditPointBin from "components/EditPointBins";
 import MunicipalDetails from "components/MunicipalDetails";
 import MapsComponent from "components/MapsComponent";
 import CreateRequest from "components/CreateRequest";
+import ListOfDemandes from "components/ListOfDemandes";
+import RequestDetails from "components/RequestDetails";
+
 
 
 var routes = [
@@ -41,138 +44,12 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/List-Users",
-    name: "List Of Users",
+    path: "/List-demandes",
+    name: "List Of Requests",
     icon: "ni ni-folder-17 text-yellow",
-    component: ListOfUsers,
+    component: ListOfDemandes,
     layout: "/admin"
   },
-  {
-    path: "/List-bins",
-    name: "List Of Bins",
-    icon: "ni ni-folder-17 text-yellow",
-    component: ListOfBins,
-    layout: "/admin"
-  },
-  {
-    path: "/List-Point-bins",
-    name: "List Of Points",
-    icon: "ni ni-folder-17 text-yellow",
-    component: ListOfPointBin,
-    layout: "/admin"
-  },
-  {
-    path: "/user-details/:id",
-    name: "User Details",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: UserDetails,
-    layout: "/admin"
-  },
-  {
-    path: "/partner-details/:id",
-    name: "Partner Details",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: PartnerDetails,
-    layout: "/admin"
-  },
-  {
-    path: "/requests",
-    name: " Municipal Requests ",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: RequestsMunicpal,
-    layout: "/admin"
-  },
-  {
-    path: "/municipal-details/:id",
-    name: " Municipal Requests details ",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: MunicipalDetails,
-    layout: "/admin"
-  },
-  {
-    path: "/partnership-list",
-    name: "Partnership Requests",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: PartnershipList,
-    layout: "/admin"
-  },
-  {
-    path: "/quote-list",
-    name: "Quote Requests",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: QuoteList,
-    layout: "/admin"
-  },
-  {
-    path: "/quote-details/:id",
-    name: "Quote Requests",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: QuoteDetail,
-    layout: "/admin"
-  },
-  {
-    path: "/tech-assist-list",
-    name: "Technical Assistance Requests",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: TechnicalAssistanceList,
-    layout: "/admin"
-  },
-  {
-    path: "/tech-assist-detail/:id",
-    name: "Technical Assistance Requests",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: TechAssistDetail,
-    layout: "/admin"
-  },
-  {
-    path: "/contact-lists",
-    name: "Contact Requests",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: ContactsList,
-    layout: "/admin"
-  },
-  {
-    path: "/contact-detail/:id",
-    name: "Contact Requests",
-    icon: "ni ni-single-copy-04 text-grey",
-    component: ContactDetails,
-    layout: "/admin"
-  },
-  {
-    path: "/edit-Point-bin/:id",
-    name: "Edit Point of Bins",
-    icon: "ni ni-planet text-blue",
-    component: EditPointBin,
-    layout: "/admin"
-  },
-  {
-    path: "/point-bin-details/:id",
-    name: "Point of Bin Details",
-    icon: "ni ni-planet text-blue",
-    component: PointBinDetails,
-    layout: "/admin"
-  },
-  {
-    path: "/edit-bin/:id",
-    name: "Edit Bin",
-    icon: "ni ni-planet text-blue",
-    component: EditBin,
-    layout: "/admin"
-  },
-  // {
-  //   path: "/icons",
-  //   name: "Icons",
-  //   icon: "ni ni-planet text-blue",
-  //   component: Icons,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/AddBin",
-  //   name: "create Bin",
-  //   icon: "ni ni-building text-red",
-  //   component: CreateBin,
-  //   layout: "/admin"
-  // },
   {
     path: "/AddRequest",
     name: "Create request",
@@ -180,41 +57,7 @@ var routes = [
     component: CreateRequest,
     layout: "/admin"
   },
-  {
-    path: "/user-profile",
-    name: "Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: Profile,
-    layout: "/admin"
-  },
-  {
-    path: "/bin-details/:id",
-    name: "binDetails",
-    icon: "ni ni-single-02 text-yellow",
-    component: ShowBinDetails,
-    layout: "/admin"
-  },
-  // {
-  //   path: "/Add-Point-Bin",
-  //   name: "create Point Bin",
-  //   icon: "ni ni-building text-red",
-  //   component: CreateBinPoint,
-  //   layout: "/admin"
-  // },
-  {
-    path: "/Add-Point-Bin/:idQuote",
-    name: "create Point Bin",
-    icon: "ni ni-building text-red",
-    component: CreateBinPoint,
-    layout: "/admin"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/admin"
-  },
+
   {
     path: "/feedbacks",
     name: "Feedbacks",
@@ -227,6 +70,13 @@ var routes = [
     name: "Reports",
     icon: "ni ni-curved-next text-red",
     component: RequestsMunicpal,
+    layout: "/admin"
+  },
+  {
+    path: "/request-details/:id",
+    name: "binDetails",
+    icon: "ni ni-single-02 text-yellow",
+    component: RequestDetails,
     layout: "/admin"
   },
 

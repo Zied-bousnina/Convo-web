@@ -74,7 +74,7 @@ import LeafletRoutingMachine from "./LeafletRoutingMachine.js";
 import { AddDemande } from "Redux/actions/Demandes.Actions.js";
 // import { ToastContainer, toast } from 'react-toastify';
 
-  const CreateRequest = () => {
+  const RequestDetails = () => {
     const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
@@ -608,4 +608,4 @@ style={
     );
   };
 
-  export default CreateRequest;
+  export default RequestDetails;
