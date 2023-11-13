@@ -2,8 +2,8 @@ import {  SET_PARTNERSHIP_LIST } from "../types"
 
 const initialState = {
     PartnerShipList: {}
-    
-    
+
+
 }
 
 export default function(state = initialState, action) {
@@ -12,9 +12,9 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 PartnerShipList: action.payload
-              
+
             }
-        
+
         default:
             return state
     }

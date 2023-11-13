@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SET_CURRENT_ACCESS, SET_ERRORS, SET_IS_LOADING, SET_LOADING, SET_PROFILES, SET_REQUEST, SET_USER } from '../types'
+import { SET_CURRENT_ACCESS, SET_ERRORS, SET_IS_LOADING, SET_IS_SECCESS, SET_LOADING, SET_PROFILES, SET_REQUEST, SET_USER } from '../types'
 
 
 import { SetAuthToken } from '../../utils/SetAuthToken';
@@ -137,6 +137,62 @@ const data = {email, name:familyName+' '+givenName,avatar:photo, googleId:id, to
         // dispatch(registerGoogleUser(data))
     }
     )
+}
+
+export const CreatePartner = (userData) => dispatch => {
+
+    dispatch({
+        type: SET_ERRORS,
+        payload: []
+    })
+    dispatch({
+        type:SET_IS_LOADING,
+        payload:true
+    })
+
+    axios
+        .post(`${process.env.REACT_APP_API_URL}/api/users/AddPartner`, userData)
+        .then(res => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            })
+            dispatch({
+                type:SET_IS_LOADING,
+                payload:false
+            })
+            dispatch({
+                type: SET_IS_SECCESS,
+                payload: true
+            })
+    //  navigate('/list-of-demandes');
+            setTimeout(() => {
+                dispatch({
+                    type: SET_IS_SECCESS,
+                    payload: false
+                })
+            }, 3000);
+        })
+        .catch(err =>
+           {
+            // console.log(err)
+            dispatch({
+                type: SET_ERRORS,
+                payload: err?.response?.data
+            })
+            dispatch({
+                type: SET_IS_SECCESS,
+                payload: false
+            })
+                  setTimeout(() => {
+                    dispatch(
+                      setLoading(false)
+                    )
+
+                  }, 3000);
+        }
+
+        )
 }
 
 

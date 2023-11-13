@@ -24,9 +24,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "Redux/actions/userAction";
 
 function MapsComponent() {
-    const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState(null);
     const position = [51.505, -0.09];
+    const AllUsers = useSelector(state => state?.users?.users?.users);
+    const defaultCenter = currentLocation || position;
+    const defaultZoom = 13;
+    const bounds = AllUsers?.reduce(
+      (acc, pointBin) => {
+        const [lat, lon] = [
+          pointBin?.address?.latitude,
+          pointBin?.address?.longitude
+        ];
 
+        if (lat && lon) {
+          acc.extend([lat, lon]);
+        }
+
+        return acc;
+      },
+      L.latLngBounds(defaultCenter, defaultCenter)
+    );
     let DefaultIcon = L.icon({
 
       iconUrl: require("../assets/img/brand/Marker-location.png"),
@@ -56,8 +73,7 @@ function MapsComponent() {
 
 
 
-    const AllUsers = useSelector(state => state?.users?.users?.users);
-    console.log(AllUsers)
+    // console.log(AllUsers)
 
     const dispatch = useDispatch();
 
@@ -146,17 +162,23 @@ function MapsComponent() {
               <Tooltip target=".export-buttons>button" position="bottom" />
               <MapContainer
         style={{ height: "60vh" }}
-               center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
+               center={defaultCenter}
+                zoom={defaultZoom} scrollWheelZoom={true}
+               bounds={bounds}
+
+
+
+               >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
         {AllUsers &&
-          AllUsers?.map(pointBin => (
+          AllUsers?.map(e => (
             <Marker
-              key={pointBin._id}
-              position={[pointBin?.address?.latitude, pointBin?.address?.longitude]} // Update property names
+              key={e._id}
+              position={[e?.address?.latitude, e?.address?.longitude]} // Update property names
                 icon={myIcon}
                 eventHandlers={{
               click: () => alert('A marker has been clicked!')

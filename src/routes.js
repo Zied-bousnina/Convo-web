@@ -8,7 +8,7 @@ import PartnershipList from "components/PartnershipList";
 import QuoteList from "components/QuoteList";
 import TechnicalAssistanceList from "components/TechnicalAssistanceList";
 import ContactsList from "components/ContactsList";
-import PartnerDetails from "components/DetailsPartnership";
+// import PartnerDetails from "components/DetailsPartnership";
 import QuoteDetail from "components/QuoteDetails";
 import TechAssistDetail from "components/TechAssistDetail";
 import ContactDetails from "components/ContactDetails";
@@ -25,6 +25,10 @@ import MapsComponent from "components/MapsComponent";
 import CreateRequest from "components/CreateRequest";
 import ListOfDemandes from "components/ListOfDemandes";
 import RequestDetails from "components/RequestDetails";
+import ListOfPartners from "components/Partner/PartnerList";
+import PartnerDetails from "components/Partner/PartnerDetail";
+import AddPartner from "components/Partner/AddPartner";
+import EditPartner from "components/Partner/EditPartner";
 
 
 
@@ -57,26 +61,40 @@ var routes = [
     component: CreateRequest,
     layout: "/admin"
   },
+  {
+    path: "/AddPartner",
+    name: "Add Partner",
+    icon: "ni ni-building text-red",
+    component: AddPartner,
+    layout: "/admin"
+  },
+  {
+    path: "/PartnerList",
+    name: "Partners",
+    icon: "ni ni-building text-red",
+    component: ListOfPartners,
+    layout: "/admin"
+  },
 
-  // {
-  //   path: "/feedbacks",
-  //   name: "Feedbacks",
-  //   icon: "ni ni-books text-green",
-  //   component: Maps,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/Report",
-  //   name: "Reports",
-  //   icon: "ni ni-curved-next text-red",
-  //   component: RequestsMunicpal,
-  //   layout: "/admin"
-  // },
   {
     path: "/request-details/:id",
-    name: "binDetails",
+    name: "requestDetails",
     icon: "ni ni-single-02 text-yellow",
     component: RequestDetails,
+    layout: "/admin"
+  },
+  {
+    path: "/partner-details/:id",
+    name: "partnerdetails",
+    icon: "ni ni-single-02 text-yellow",
+    component: PartnerDetails,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-Partner/:id",
+    name: "Edit partner",
+    icon: "ni ni-building text-red",
+    component: EditPartner,
     layout: "/admin"
   },
 

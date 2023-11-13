@@ -64,13 +64,13 @@ function App() {
 
     const activeExpires = new Date(user?.user?.iat);
     const currentDate = new Date();
-    // console.log(`activeExpires-----------------------------------------------------------------------------------`,
-    //  activeExpires < currentDate);
-    // if (currentDate > activeExpires) {
-    //   localStorage.removeItem('jwtToken');
-    //   dispatch(LogOut())
-    //   // dispatch(setCurrentUser({}));
-    // }
+    console.log(`activeExpires-----------------------------------------------------------------------------------`,
+     activeExpires < currentDate);
+    if (currentDate > activeExpires) {
+      localStorage.removeItem('jwtToken');
+      dispatch(LogOut())
+      // dispatch(setCurrentUser({}));
+    }
   }, []);
 
   useEffect(() => {

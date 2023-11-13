@@ -20,7 +20,7 @@ dispatch({
 
 
 
-   
+
   axios.post(`${process.env.REACT_APP_API_URL}/api/site/Addpartnership`,data )
   .then(res => {
       console.log(res)
@@ -45,14 +45,14 @@ dispatch({
   })
   }, 3000);
 
-  
+
 
       // dispatch(registerGoogleUser(data))
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -62,35 +62,35 @@ dispatch({
         type:SET_IS_SECCESS,
         payload:false
     })
-  
+
       // dispatch(registerGoogleUser(data))
   }
   )
 }
 
 
-export const FetchAllPartnership = (data)=>dispatch=>{
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/partnerShip/fetchAll`,data )
+export const FetchAllPartnership = ()=>dispatch=>{
+  axios.get(`${process.env.REACT_APP_API_URL}/api/users/partnerShip/fetchAll` )
   .then(res => {
-      console.log(res)
+      // console.log(res)
 
       dispatch({
         type: SET_PARTNERSHIP_LIST,
         payload: res.data
     })
-      
-   
-   
- 
 
-  
+
+
+
+
+
 
       // dispatch(registerGoogleUser(data))
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -100,15 +100,15 @@ export const FetchAllPartnership = (data)=>dispatch=>{
         type:SET_IS_SECCESS,
         payload:false
     })
-  
+
       // dispatch(registerGoogleUser(data))
   }
   )
 }
 
-export const GetPartnerDetailsById = (id,navigation)=>dispatch=>{
-   
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/partnerShip/fetchByID/${id}`)
+export const GetPartnerDetailsById = (id)=>dispatch=>{
+
+  axios.get(`${process.env.REACT_APP_API_URL}/api/users/partnerShip/fetchByID/${id}`)
   .then(res => {
       // console.log(res)
       dispatch({
@@ -121,8 +121,8 @@ export const GetPartnerDetailsById = (id,navigation)=>dispatch=>{
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -150,7 +150,7 @@ dispatch({
       payload: []
   })
   setTimeout(() => {
-      
+
       dispatch({
           type:SET_IS_LOADING,
           payload:false
@@ -167,8 +167,57 @@ dispatch({
     })
     }, 3000);
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
+      // console.log("err in authAction.js line 366",err)
+      dispatch({
+        type:SET_IS_LOADING,
+        payload:false
+    })
+
+dispatch({
+    type:SET_IS_SECCESS,
+    payload:false
+})
+      // dispatch(registerGoogleUser(data))
+  }
+  )
+}
+export const UpdatePartnerShip = (id,partnerData)=>dispatch=>{
+  dispatch({
+    type: SET_ERRORS,
+    payload: []
+})
+dispatch({
+    type:SET_IS_LOADING,
+    payload:true
+})
+  axios.post(`${process.env.REACT_APP_API_URL}/api/users/UpdatePartner/${id}`,partnerData)
+  .then(res => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: []
+  })
+  setTimeout(() => {
+
+      dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+  }, 1000);
+  dispatch({
+      type:SET_IS_SECCESS,
+      payload:true
+  })
+  setTimeout(() => {
+      dispatch({
+        type:SET_IS_SECCESS,
+        payload:false
+    })
+    }, 3000);
+  })
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
         type:SET_IS_LOADING,
