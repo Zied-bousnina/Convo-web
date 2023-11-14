@@ -45,12 +45,12 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
                 payload: false
             })
         }, 3000);
-          console.log("res", res?.data?.demande?._id)
+          // console.log("res", res?.data?.demande?._id)
         //   navigation.navigate("FindDriverScreen",{...userData, demandeId:res?.data?.demande?._id} )
 
         })
         .catch( (err) =>{
-          console.log("errrrrrrrrrrrrrrrrrr",err)
+          // console.log("errrrrrrrrrrrrrrrrrr",err)
           dispatch({
             type: SET_ERRORS,
             payload: err?.response?.data

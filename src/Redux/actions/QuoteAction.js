@@ -11,7 +11,7 @@ import axios from "axios"
 
 export const createQuote = (data)=>dispatch=>{
 
-  console.log(data)
+  // console.log(data)
   dispatch({
     type: SET_ERRORS,
     payload: []
@@ -23,13 +23,13 @@ dispatch({
 
 
 
-   
-  axios.post(`${process.env.REACT_APP_API_URL}/api/site/createQuote`,data, {   
-    headers: { "Content-Type": "multipart/form-data" } 
+
+  axios.post(`${process.env.REACT_APP_API_URL}/api/site/createQuote`,data, {
+    headers: { "Content-Type": "multipart/form-data" }
 } )
-  
+
   .then(res => {
-      console.log(res)
+      // console.log(res)
       dispatch({
         type: SET_ERRORS,
         payload: []
@@ -51,14 +51,14 @@ dispatch({
   })
   }, 3000);
 
-  
+
 
       // dispatch(registerGoogleUser(data))
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -68,7 +68,7 @@ dispatch({
         type:SET_IS_SECCESS,
         payload:false
     })
-  
+
       // dispatch(registerGoogleUser(data))
   }
   )
@@ -83,19 +83,19 @@ export const FetchAllQuote = (data)=>dispatch=>{
         type: SET_QUOTE,
         payload: res.data
     })
-      
-   
-   
- 
 
-  
+
+
+
+
+
 
       // dispatch(registerGoogleUser(data))
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -105,14 +105,14 @@ export const FetchAllQuote = (data)=>dispatch=>{
         type:SET_IS_SECCESS,
         payload:false
     })
-  
+
       // dispatch(registerGoogleUser(data))
   }
   )
 }
 
 export const GetQuoteById = (id,navigation)=>dispatch=>{
-   
+
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/quote/fetchByID/${id}`)
   .then(res => {
       // console.log(res)
@@ -126,8 +126,8 @@ export const GetQuoteById = (id,navigation)=>dispatch=>{
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -154,7 +154,7 @@ dispatch({
       payload: []
   })
   setTimeout(() => {
-      
+
       dispatch({
           type:SET_IS_LOADING,
           payload:false
@@ -171,8 +171,8 @@ dispatch({
     })
     }, 3000);
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
         type:SET_IS_LOADING,
@@ -206,7 +206,7 @@ dispatch({
       payload: []
   })
   setTimeout(() => {
-      
+
       dispatch({
           type:SET_IS_LOADING,
           payload:false
@@ -223,8 +223,8 @@ dispatch({
     })
     }, 3000);
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
         type:SET_IS_LOADING,

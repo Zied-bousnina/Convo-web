@@ -47,22 +47,22 @@ function TechnicalAssistanceList() {
   const ListTechAssist = useSelector(state=>state?.TechAssistList?.TechAssistList?.techAssist)
   const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest )
   const ListOfUsers = useSelector(state=>state?.users?.users)
-  console.log(ListOfUsers)
+  // console.log(ListOfUsers)
     const [notificationModal, setnotificationModal] = useState(false)
-  console.log(requestsMunicipal)
+  // console.log(requestsMunicipal)
 
 
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
     dispatch(FetchAllTechAssist())
-   
+
   }, [ListTechAssist])
-  
+
   const PutRequest = (status, id)=> {
     // alert("accept", status)
     dispatch(UpadeteRequest({status, id}))
-    console.log(status)
+    // console.log(status)
     setnotificationModal(false)
 
   }
@@ -118,13 +118,13 @@ _filters['global'].value = value;
 setFilters(_filters);
 setGlobalFilterValue(value);
 };
- 
-  
+
+
   useEffect(() => {
     dispatch(findDemandeInProgress())
-   
+
   }, [requestsMunicipal])
-  
+
 
   const header = (
     <>
@@ -143,10 +143,10 @@ setGlobalFilterValue(value);
         {/* </div> */}
         </Col>
     </Row>
-   
+
     </>
 );
-  
+
   return (
     <>
     <Header />
@@ -172,14 +172,14 @@ setGlobalFilterValue(value);
                 </thead>
                 <tbody>
                   {ListTechAssist &&ListTechAssist?.map((request) => (
-                    
-                    
+
+
                   <tr>
 
                     <th scope="row">
                     <Media className="align-items-center">
-                      
-                        
+
+
                         <Media>
                           <span className="mb-0 text-sm">
                             {request?.name}
@@ -204,17 +204,17 @@ setGlobalFilterValue(value);
 <i className="bg-danger" />
                         unreaded
                         </>
-                        
+
                       ) : (
                         <>
 
 <i className="bg-primary" />
                         Readed
                         </>
-                        
+
                       )
                         }
-                     
+
                       </Badge>
                     </td>
                     </td>
@@ -231,22 +231,22 @@ setGlobalFilterValue(value);
                           <i className="fas fa-ellipsis-v" />
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
-                          
+
                           <Link
                           to={`/admin/tech-assist-detail/${request?._id}`}
                           >
                           <DropdownItem
-                           
+
                           >
                             Show details
                           </DropdownItem>
                             </Link>
-                         
+
                           <Modal
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
-             
+
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
@@ -288,19 +288,19 @@ setGlobalFilterValue(value);
                 </Button>
               </div>
             </Modal>
-                          
+
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </td>
                   </tr>
-                  
+
                   )) || []}
-                 
-                
+
+
                 </tbody>
               </Table> */}
               <div className="card">
-              
+
               <Tooltip target=".export-buttons>button" position="bottom" />
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={ListTechAssist} header={header} selection={selectedProduct}
               selectionMode={true}
@@ -308,13 +308,13 @@ setGlobalFilterValue(value);
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','name', 'email', 'tel', 'city', 'country', 'status', ]}
               onRowClick={
                 (e) => {
-             
+
                   const url = `/admin/tech-assist-detail/${e.data._id}`;
   history.push(url);
                 }
               }
-              
-             
+
+
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}>
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -387,7 +387,7 @@ setGlobalFilterValue(value);
           </div>
         </Row>
         {/* Dark table */}
-       
+
       </Container>
   </>
   )

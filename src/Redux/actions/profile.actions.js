@@ -15,7 +15,7 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
     type:SET_IS_LOADING,
     payload:true
 })
-  
+
   axios.post(`${process.env.REACT_APP_API_URL}/api/profile/upload-profile`, userData, {
     headers: {
       'Accept': 'application/json',
@@ -27,11 +27,11 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
       .then(async(res) => {
         //////////////////////////////////////////console.log(res)
 
-        
+
         dispatch({
           type: SET_PROFILES,
           payload: res.data
-          
+
         })
         dispatch(
           setLoading(true)
@@ -44,7 +44,7 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
           dispatch(
             setLoading(false)
           )
-          
+
         }, 3000);
       })
       .catch( (err) =>{
@@ -61,11 +61,11 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
           dispatch(
             setLoading(false)
           )
-          
+
         }, 3000);
       }
-         
-      ) 
+
+      )
 }
 
 export const GetProfile =  () => (dispatch) => {
@@ -75,7 +75,7 @@ export const GetProfile =  () => (dispatch) => {
         dispatch({
           type: SET_PROFILES,
           payload: res.data
-          
+
         })
       })
       .catch( (err) =>{
@@ -83,9 +83,9 @@ export const GetProfile =  () => (dispatch) => {
       // dispatch({
       //   type: SET_PROFILES,
       //   payload: res.data
-        
+
       // })
     }
-         
+
       )
 }

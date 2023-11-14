@@ -109,27 +109,27 @@ useEffect(() => {
 
   // console.log(ListOfBinsNotInUse)
   const handleSelectChange = (selectedOptions) => {
-    console.log("selected option: ", selectedOptions)
+    // console.log("selected option: ", selectedOptions)
 
     setSelectedValues(selectedOptions);
   };
 
   const onSubmit = async(e)=>{
-    console.log("selected values",selectedValues)
+    // console.log("selected values",selectedValues)
 
     e.preventDefault();
      var bin = []
      selectedValues?.map(e=>{
-      console.log("map", e?.value)
+      // console.log("map", e?.value)
       // setForm({ ...form, bins: [...form.bins, e?.value] });
       bin.push(e.value)
     })
 
 
 setTimeout(() => {
-  console.log("bins: ", bin)
+  // console.log("bins: ", bin)
 
-  console.log("edit point bin",{...form,bins:bin, governorate: selectedValue, municipale: selectedMunicipal})
+  // console.log("edit point bin",{...form,bins:bin, governorate: selectedValue, municipale: selectedMunicipal})
   dispatch(updatePointBin(id,{...form, bins: bin,governorate: selectedValue, municipale: selectedMunicipal}))
 }, 1000);
 
@@ -318,7 +318,7 @@ style={
 
       <select name={"municipale"} required defaultValue={selectedMunicipal} className={classNames("form-control")} onChange={e=>{
         setMunicipal(e.target.value)
-        console.log(e.target.value)
+        // console.log(e.target.value)
         }}>
           <option value={''}>
             select municipal

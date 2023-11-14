@@ -11,7 +11,7 @@ import axios from "axios"
 
 export const createTechAssist = (data)=>dispatch=>{
 
-  console.log(data)
+  // console.log(data)
   dispatch({
     type: SET_ERRORS,
     payload: []
@@ -23,13 +23,13 @@ dispatch({
 
 
 
-   
-  axios.post(`${process.env.REACT_APP_API_URL}/api/site/createTechAssist`,data, {   
-    headers: { "Content-Type": "multipart/form-data" } 
+
+  axios.post(`${process.env.REACT_APP_API_URL}/api/site/createTechAssist`,data, {
+    headers: { "Content-Type": "multipart/form-data" }
 } )
-  
+
   .then(res => {
-      console.log(res)
+      // console.log(res)
       dispatch({
         type: SET_ERRORS,
         payload: []
@@ -51,8 +51,8 @@ dispatch({
   })
   }, 3000);
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -62,7 +62,7 @@ dispatch({
         type:SET_IS_SECCESS,
         payload:false
     })
-  
+
       // dispatch(registerGoogleUser(data))
   }
   )
@@ -71,25 +71,25 @@ dispatch({
 export const FetchAllTechAssist = (data)=>dispatch=>{
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/TechAssist/fetchAll`,data )
   .then(res => {
-      console.log(res)
+      // console.log(res)
 
       dispatch({
         type: SET_TECH_ASSIST,
         payload: res.data
     })
-      
-   
-   
- 
 
-  
+
+
+
+
+
 
       // dispatch(registerGoogleUser(data))
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -99,14 +99,14 @@ export const FetchAllTechAssist = (data)=>dispatch=>{
         type:SET_IS_SECCESS,
         payload:false
     })
-  
+
       // dispatch(registerGoogleUser(data))
   }
   )
 }
 
 export const GetTechAssistDetailsById = (id,navigation)=>dispatch=>{
-   
+
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/techAssist/fetchByID/${id}`)
   .then(res => {
       // console.log(res)
@@ -120,8 +120,8 @@ export const GetTechAssistDetailsById = (id,navigation)=>dispatch=>{
 
       // dispatch(loginUser(data))
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
           type: SET_ERRORS,
@@ -148,7 +148,7 @@ dispatch({
       payload: []
   })
   setTimeout(() => {
-      
+
       dispatch({
           type:SET_IS_LOADING,
           payload:false
@@ -165,8 +165,8 @@ dispatch({
     })
     }, 3000);
   })
-  .catch(err => 
-     { 
+  .catch(err =>
+     {
       // console.log("err in authAction.js line 366",err)
       dispatch({
         type:SET_IS_LOADING,

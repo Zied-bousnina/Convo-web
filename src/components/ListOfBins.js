@@ -75,7 +75,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-  console.log(ListOfUsers)
+  // console.log(ListOfUsers)
     const [notificationModal, setnotificationModal] = useState(false)
   // console.log(requestsMunicipal)
 
@@ -105,7 +105,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
   const deleteBin = (id)=> {
-    console.log("delete")
+    // console.log("delete")
 
     dispatch(DeleteBinByID(id))
     // if(isSuccess){

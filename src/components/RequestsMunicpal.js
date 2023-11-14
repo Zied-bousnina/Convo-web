@@ -44,7 +44,7 @@ function RequestsMunicpal() {
   const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest
     )
     const [notificationModal, setnotificationModal] = useState(false)
-  console.log(requestsMunicipal)
+  // console.log(requestsMunicipal)
   const history = useHistory();
   const dt = useRef(null);
   const [filters, setFilters] = useState({
@@ -95,20 +95,20 @@ setFilters(_filters);
 setGlobalFilterValue(value);
 };
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
     dispatch(findDemandeInProgress())
-   
+
   }, [requestsMunicipal])
-  
+
   const PutRequest = (status, id)=> {
     // alert("accept", status)
     dispatch(UpadeteRequest({status, id}))
-    console.log(status)
+    // console.log(status)
     setnotificationModal(false)
 
   }
-  
+
   const header = (
     <>
     <Row>
@@ -126,7 +126,7 @@ setGlobalFilterValue(value);
         {/* </div> */}
         </Col>
     </Row>
-   
+
     </>
 );
 const actionBodyTemplate = (rowData) => {
@@ -172,7 +172,7 @@ const actionBodyTemplate = (rowData) => {
                 </thead>
                 <tbody>
                   {requestsMunicipal &&requestsMunicipal?.map((request) => (
-                    
+
                   <tr>
                     <th scope="row">
                       {request?.municipal}
@@ -208,13 +208,13 @@ const actionBodyTemplate = (rowData) => {
                         </DropdownToggle>
                         <DropdownMenu className="dropdown-menu-arrow" right>
                           <DropdownItem
-                            
+
                             onClick={()=>PutRequest("valid", request?._id)}
                           >
                             Accept
                           </DropdownItem>
                           <DropdownItem
-                          
+
                             onClick={() => setnotificationModal(true)}
                           >
                             Deny
@@ -223,7 +223,7 @@ const actionBodyTemplate = (rowData) => {
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
-             
+
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
@@ -235,7 +235,7 @@ const actionBodyTemplate = (rowData) => {
                   data-dismiss="modal"
                   type="button"
                   onClick={() => setnotificationModal(false)}
-                 
+
                 >
                   <span aria-hidden={true}>×</span>
                 </button>
@@ -253,7 +253,7 @@ const actionBodyTemplate = (rowData) => {
                 <Button className="btn-white" color="default" type="button"
                 onClick={()=>PutRequest("denied", selectedItem?._id)}
                 >
-                  Ok, Got it 
+                  Ok, Got it
                 </Button>
                 <Button
                   className="text-white ml-auto"
@@ -266,21 +266,21 @@ const actionBodyTemplate = (rowData) => {
                 </Button>
               </div>
             </Modal>
-                         
+
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </td>
                   </tr>
                   )) || []}
-                 
-                
+
+
                 </tbody>
               </Table> */}
               <Modal
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
-             
+
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
@@ -292,7 +292,7 @@ const actionBodyTemplate = (rowData) => {
                   data-dismiss="modal"
                   type="button"
                   onClick={() => setnotificationModal(false)}
-                 
+
                 >
                   <span aria-hidden={true}>×</span>
                 </button>
@@ -310,7 +310,7 @@ const actionBodyTemplate = (rowData) => {
                 <Button className="btn-white" color="default" type="button"
                 onClick={()=>PutRequest("denied", selectedItem?._id)}
                 >
-                  Ok, Got it 
+                  Ok, Got it
                 </Button>
                 <Button
                   className="text-white ml-auto"
@@ -324,7 +324,7 @@ const actionBodyTemplate = (rowData) => {
               </div>
             </Modal>
               <div className="card">
-              
+
               <Tooltip target=".export-buttons>button" position="bottom" />
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={requestsMunicipal} header={header} selection={selectedProduct}
               selectionMode={true}
@@ -332,13 +332,13 @@ const actionBodyTemplate = (rowData) => {
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','municipal', 'governorat', 'description', 'status', ]}
               onRowClick={
                 (e) => {
-             
+
                   const url = `/admin/municipal-details/${e.data._id}`;
   history.push(url);
                 }
               }
-              
-             
+
+
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}>
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -356,7 +356,7 @@ const actionBodyTemplate = (rowData) => {
                 <div className="spinner-border text-light" role="status">
           <span className="visually-hidden"></span>
         </div>
-                  
+
                 </Column>
             </DataTable>
                 </div>
@@ -416,7 +416,7 @@ const actionBodyTemplate = (rowData) => {
           </div>
         </Row>
         {/* Dark table */}
-       
+
       </Container>
   </>
   )

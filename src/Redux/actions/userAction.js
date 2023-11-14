@@ -135,7 +135,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
     })
     axios.put(`${process.env.REACT_APP_API_URL}/api/users/deblock/${id}`)
     .then(res => {
-        console.log(res)
+        // console.log(res)
 
 
         dispatch({
@@ -186,7 +186,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
 
 
   export const DeleteUserByAdmin = (id) => dispatch => {
-    console.log("teeeeeeeeeee")
+    // console.log("teeeeeeeeeee")
     dispatch({
         type: SET_ERRORS,
         payload: []

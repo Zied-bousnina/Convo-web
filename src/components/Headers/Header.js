@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import StatisticCard from "./Components/StatisticCard";
+import { getPartnerCounts } from "Redux/actions/Statistiques.action";
 
 
 
@@ -32,13 +33,15 @@ const Header = () => {
   const userStatistiques = useSelector((state) => state?.userStatistiques?.statistiques);
   const BinStatistiques = useSelector((state) => state?.binStatistiques?.statistiques);
   const DemandesStatistiques = useSelector((state) => state?.demandestatistiques?.statistiques?.total);
+  const PartnerStatistiques = useSelector((state) => state?.partnerStats?.statistiques?.total);
 
-
+console.log(PartnerStatistiques)
   useEffect(() => {
     dispatch(getUsersCounts());
     // dispatch(getBinsCount())
     dispatch(getDemandesCount());
-  }, [userStatistiques, DemandesStatistiques, dispatch]);
+    dispatch(getPartnerCounts());
+  }, [userStatistiques, DemandesStatistiques,PartnerStatistiques, dispatch]);
 
 
 
@@ -52,8 +55,9 @@ const Header = () => {
           <Row>
             {/* Uncomment the following lines when needed */}
             {/* <StatisticCard title="Bins Count" iconClass="bg-green" value={BinStatistiques?.totalCount} percentageIncrease={BinStatistiques?.percentageIncrease} /> */}
-            <StatisticCard key={1} icon={"fas fa-users"} title="Users Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
-            <StatisticCard key={2} icon={"fas fa-truck"} title="Driver requests" iconClass="bg-yellow" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
+            <StatisticCard key={1} icon={"fas fa-users"} title="Driver Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
+            <StatisticCard key={2} icon={"fas fa-handshake"} title="Partner Count" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} />
+            <StatisticCard key={2} icon={"fas fa-truck"} title="Driver requests" iconClass="bg-info" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
           </Row>
         </div>
       </Container>

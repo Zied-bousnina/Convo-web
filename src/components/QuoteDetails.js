@@ -44,7 +44,7 @@ const QuoteDetail = () => {
   const QuoteDetails = useSelector(state=>state?.quoteDetails?.quoteDetails?.quote)
   const [notificationModal, setnotificationModal] = useState(false)
   const { id } = useParams();
- 
+
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
   const dispatch = useDispatch()
@@ -60,22 +60,22 @@ const QuoteDetail = () => {
   }, [QuoteDetails])
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
 
   const block = (id)=>{
-    console.log('block')
+    // console.log('block')
     dispatch(UpdateQuoteStatus(id))
   }
   const Unblock = (id)=>{
-    console.log("Unblock")
+    // console.log("Unblock")
     // dispatch(UnBlockUser(id))
     dispatch(UpdateQuoteStatus(id))
 
   }
-  console.log("userDetails :", PartnerDetails)
+  // console.log("userDetails :", PartnerDetails)
   const handleDownload = async(filePath) => {
 
 
@@ -87,9 +87,9 @@ const QuoteDetail = () => {
       const fileName = 'your_file_name.pdf';
       saveAs(response.data, fileName);
     } catch (error) {
-      console.log('Error:', error);
+      // console.log('Error:', error);
     }
-      
+
 
   };
 
@@ -105,7 +105,7 @@ const QuoteDetail = () => {
         <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
           <Card className="card-profile shadow">
             <Row className="justify-content-center">
-              
+
             </Row>
             <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
               {/* <div className="d-flex justify-content-between">
@@ -134,7 +134,7 @@ const QuoteDetail = () => {
                 </h4>
             </CardHeader>
             <CardBody className="pt-0 pt-md-4">
-              
+
               <div className="text-center mt-md-5">
                 <h3>
                 {/* {PartnerDetails?.partnership?.name} */}
@@ -221,11 +221,11 @@ const QuoteDetail = () => {
               </Button>
             </div>
           </Modal>
-            
+
           </CardBody>
         </Card>
       </div>
-    
+
       </Row>
       <Row>
       <div style={{ width: "18rem" }}>
@@ -244,11 +244,11 @@ const QuoteDetail = () => {
                 </div>
               </Col>
             </Row>
-            
+
           </CardBody>
         </Card>
       </div>
-    
+
       </Row>
               </div>
             </CardBody>
@@ -273,14 +273,14 @@ const QuoteDetail = () => {
         <span className="visually-hidden"></span>
       </div>
     ) : (
-      
+
       QuoteDetails?.status ==='unreaded' ?  "Mark as Read" :"Mark Unread"
     )}
                   </Button> */}
                   {
                     QuoteDetails?.status !=='valid' && (
 
-                  
+
                   <Button
                     color={`success`}
                     // href="#pablo"
@@ -292,8 +292,8 @@ const QuoteDetail = () => {
         <span className="visually-hidden"></span>
       </div>
     ) : (
-      
-      "Accept" 
+
+      "Accept"
     )}
                   </Button>
   )
@@ -318,8 +318,8 @@ const QuoteDetail = () => {
         <span className="visually-hidden"></span>
       </div>
     ) : (
-      
-      "Create a Point bin" 
+
+      "Create a Point bin"
       )}
                   </Button>
       </Link>
@@ -328,7 +328,7 @@ const QuoteDetail = () => {
 {
     QuoteDetails?.status !=='denied' && (
 
- 
+
                   <Button
                     color={ "danger"}
                     // href="#pablo"
@@ -340,8 +340,8 @@ const QuoteDetail = () => {
         <span className="visually-hidden"></span>
       </div>
     ) : (
-      
-      "deny" 
+
+      "deny"
     )}
                   </Button>
                      )
@@ -397,7 +397,7 @@ const QuoteDetail = () => {
 
                         <small>{QuoteDetails?.email}</small>
                         </div>
-                       
+
                       </FormGroup>
                     </Col>
                   </Row>
@@ -585,7 +585,7 @@ const QuoteDetail = () => {
                         >
                           Projects For Which You Plan To Use The Solution
                         </label>
-                       
+
                         <div>
                           <small>{QuoteDetails?.ProjectsForWhichYouPlanToUseTheSolution}</small>
                         </div>
@@ -647,13 +647,13 @@ const QuoteDetail = () => {
                         >
                           Projects For Which You Plan To Use The Solution
                         </label>
-                       
+
                         <div>
                           <small>{QuoteDetails?.ProjectsForWhichYouPlanToUseTheSolution}</small>
                         </div>
                       </FormGroup>
                     </Col> */}
-                    
+
                     <Col lg="4">
                       <FormGroup>
                         <label
@@ -691,7 +691,7 @@ const QuoteDetail = () => {
                         >
                           Projects For Which You Plan To Use The Solution
                         </label>
-                       
+
                         <div>
                           <small>{QuoteDetails?.ProjectsForWhichYouPlanToUseTheSolution}</small>
                         </div>
@@ -699,7 +699,7 @@ const QuoteDetail = () => {
                     </Col> */}
                     {
                       QuoteDetails?.graphicWraps && (
-                     
+
                     <Col lg="4">
                       <FormGroup>
                         <label
@@ -727,11 +727,11 @@ const QuoteDetail = () => {
             <i className="ni ni-cloud-download-95" />
           {/* </span> */}
         </Button>
-                           
 
-                          
+
+
                           {/* </small> */}
-                          
+
                         </div>
                       </FormGroup>
                     </Col>
@@ -739,7 +739,7 @@ const QuoteDetail = () => {
                     }
                     {
                       QuoteDetails?.advertisementSignage && (
-                     
+
                     <Col lg="4">
                       <FormGroup>
                         <label
@@ -767,11 +767,11 @@ const QuoteDetail = () => {
             <i className="ni ni-cloud-download-95" />
           {/* </span> */}
         </Button>
-                           
 
-                          
+
+
                           {/* </small> */}
-                          
+
                         </div>
                       </FormGroup>
                     </Col>

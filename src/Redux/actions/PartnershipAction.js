@@ -23,7 +23,7 @@ dispatch({
 
   axios.post(`${process.env.REACT_APP_API_URL}/api/site/Addpartnership`,data )
   .then(res => {
-      console.log(res)
+      // console.log(res)
       dispatch({
         type: SET_ERRORS,
         payload: []

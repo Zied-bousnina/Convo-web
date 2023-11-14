@@ -112,7 +112,7 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
               });
             }
           } catch (error) {
-            console.error("Error fetching coordinates for the destination from the reverse geocoding service", error);
+            // console.error("Error fetching coordinates for the destination from the reverse geocoding service", error);
             // Handle the error, e.g., show a message to the user
           }
         } else {
@@ -130,7 +130,7 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
               });
             }
           } catch (error) {
-            console.error("Error fetching coordinates for the destination from the reverse geocoding service", error);
+            // console.error("Error fetching coordinates for the destination from the reverse geocoding service", error);
             // Handle the error, e.g., show a message to the user
           }
         }
@@ -163,7 +163,7 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
         .then(res => {
           setgovernorates(res.data[0]);
         })
-        .catch(err => console.log(err));
+        .catch(err => {});
     }, []);
 
      const municipales = governorates?.governorates?.filter(
@@ -222,7 +222,7 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
                 });
               }
             } catch (error) {
-              console.error("Error fetching coordinates from the geocoding service", error);
+              // console.error("Error fetching coordinates from the geocoding service", error);
             }
           }
 
@@ -243,7 +243,7 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
         });
       }
     } catch (error) {
-      console.error("Error fetching coordinates for the destination from the geocoding service", error);
+      // console.error("Error fetching coordinates for the destination from the geocoding service", error);
     }
   }
   const getDistanceFromLatLonInKm=()=>{
@@ -279,7 +279,7 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
 
   }
 
-  console.log(data)
+  // console.log(data)
 dispatch(AddDemande(data, navigate))
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));

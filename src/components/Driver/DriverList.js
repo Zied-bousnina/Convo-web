@@ -5,104 +5,153 @@ import { useState } from "react";
 import {
   Card,
   CardHeader,
-
   Container,
   Row,
   Col,
-
   CardFooter,
-
+  Button,
+  Modal,
 } from "reactstrap";
-import Header from './Headers/Header';
+import Header from '../Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { findDemandeInProgress } from 'Redux/actions/MunicipalRequest.Action';
-
-import { FetchAllContact } from 'Redux/actions/ContactUsAction';
-
-import { useHistory } from 'react-router-dom';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
-import { InputText } from 'primereact/inputtext';
+import {Link} from "react-router-dom"
+import { FetchAllBins } from 'Redux/actions/BinAction';
+import 'react-toastify/dist/ReactToastify.css';
+import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tooltip } from 'primereact/tooltip';
+import { useHistory } from 'react-router-dom';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { InputText } from 'primereact/inputtext';
+import { ToastContainer, toast } from 'react-toastify';
+import { FindRequestDemande } from 'Redux/actions/Demandes.Actions';
+import PartnershipList from 'components/PartnershipList';
+import { FetchAllPartnership } from 'Redux/actions/PartnershipAction';
+import { DeleteUserByAdmin } from 'Redux/actions/userAction';
+import { FetchAllDrivers } from 'Redux/actions/Driver.actions';
+function ListOfDrivers() {
+const navigate = useHistory()
 
-function ContactsList() {
+  const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
 
-  const requestsMunicipal = useSelector(state=>state?.MunicipaRequest?.MunicipalRequest )
   const ListOfUsers = useSelector(state=>state?.users?.users)
-  const ListContact = useSelector(state=>state?.contactList?.ContactList?.Contacts)
-  // console.log(ListOfUsers)
+  const isLoad = useSelector(state=>state?.isLoading?.isLoading)
+  const isSuccess = useSelector(state=>state?.success?.success)
 
+
+  const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
+
+  const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
+  const [selectedItem, setselectedItem] = useState(null)
+  const dispatch = useDispatch()
+  const [count, setCount] = useState(10);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const history = useHistory();
+  const dt = useRef(null);
+
+
+  useEffect(() => {
+    dispatch(FetchAllDrivers())
+
+  }, [ driverList])
+  console.log(driverList)
+
+const [filters, setFilters] = useState({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+  'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+  representative: { value: null, matchMode: FilterMatchMode.IN },
+  date: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+  balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+  status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+  activity: { value: null, matchMode: FilterMatchMode.BETWEEN }
+});
+const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const cols = [
+      { field: '_id', header: 'Id' },
+    //   { field: 'name', header: 'Name' },
+      { field: 'name', header: 'Name' },
+    //   { field: 'contactName', header: 'Contact Name' },
+      { field: 'email', header: 'E-mail' },
+      { field: 'onligne', header: 'Is Online' },
+      { field: 'createdAt', header: 'Created At' }
+  ];
+
+  const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
+
+  useEffect(() => {
+    if (count > 0) {
+      const timer = setTimeout(() => {
+        setCount(count - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [count]);
+
+
+
+
+//   console.log(ListOfUsers)
+    const [notificationModal, setnotificationModal] = useState(false)
   // console.log(requestsMunicipal)
 
 
-  const dispatch = useDispatch()
 
+
+
+
+
+
+
+  const showToastMessage = () => {
+    toast.success('Partner deleted  successfully.', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+    });
+  }
   useEffect(() => {
-    dispatch(FetchAllContact())
+    if (isSuccess) {
 
-  }, [ListContact])
+      showToastMessage()
+      setnotificationModal(false)
+    }
+  }, [isSuccess])
 
 
+  const deleteBin = (id)=> {
+    console.log("delete")
 
-  const history = useHistory();
-  const dt = useRef(null);
-  const [filters, setFilters] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-    'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-    representative: { value: null, matchMode: FilterMatchMode.IN },
-    date: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-    balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-    status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-    activity: { value: null, matchMode: FilterMatchMode.BETWEEN }
-  });
-  const [selectedItem, setselectedItem] = useState(null)
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const cols = [
-      { field: '_id', header: 'Id' },
-      { field: 'name', header: 'User' },
-      { field: 'email', header: 'E-mail' },
-      { field: 'tel', header: 'Tel' },
-      { field: 'city', header: 'City' },
-      { field: 'country', header: 'Country' },
-      { field: 'status', header: 'Status' }
-  ];
-  const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+    dispatch(DeleteUserByAdmin(id))
+    setnotificationModal(false)
+    if(isSuccess){
+
+    }
+  }
+
 
   const exportCSV = (selectionOnly) => {
     dt.current.exportCSV({ selectionOnly });
 };
-const saveAsExcelFile = (buffer, fileName) => {
-  import('file-saver').then((module) => {
-      if (module && module.default) {
-          let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-          let EXCEL_EXTENSION = '.xlsx';
-          const data = new Blob([buffer], {
-              type: EXCEL_TYPE
-          });
 
-          module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-      }
-  });
-};
+
+
+
+
+
 const onGlobalFilterChange = (e) => {
-const value = e.target.value;
-let _filters = { ...filters };
+  const value = e.target.value;
+  let _filters = { ...filters };
 
-_filters['global'].value = value;
+  _filters['global'].value = value;
 
-setFilters(_filters);
-setGlobalFilterValue(value);
+  setFilters(_filters);
+  setGlobalFilterValue(value);
 };
 
-
-  useEffect(() => {
-    dispatch(findDemandeInProgress())
-
-  }, [requestsMunicipal])
 
 
 
@@ -126,7 +175,24 @@ setGlobalFilterValue(value);
 
     </>
 );
+const actionBodyTemplate = (rowData) => {
+  return (
+      <React.Fragment>
+        <Link
+                          to={`/admin/edit-Driver/${rowData?._id}`}
+                          >
 
+          <Btn icon="pi pi-pencil" rounded outlined className="mr-2"  />
+                          </Link>
+          <Btn icon="pi pi-trash" rounded outlined severity="danger" onClick={()=>{
+
+setnotificationModal(true)
+
+setselectedItem(rowData?._id)
+} } />
+      </React.Fragment>
+  );
+};
   return (
     <>
     <Header />
@@ -137,93 +203,37 @@ setGlobalFilterValue(value);
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
-                <h3 className="mb-0">List Of Contact requests
-</h3>
+                <Row>
+                  <Col
+                  // lg="6"
+                    md="10"
+                  >
+                <h3 className="mb-0">List Of all Drivers</h3>
+
+                  </Col>
+                  <Col
+                  // lg="6"
+                    md="2"
+                  >
+                     <Link
+                          to={`/admin/AddDriver`}
+                          >
+                            <Button
+                            className="float-right"
+                            // color="primary"
+                            >
+
+
+                Create Driver
+                <i className=" ml-2 fas fa-arrow-right" />
+                            </Button>
+                          </Link>
+                  </Col>
+                </Row>
               </CardHeader>
-              {/* <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">User</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Tel</th>
-                    <th scope="col">city & country</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" />
-                  </tr>
-                </thead>
-                <tbody>
-                  {ListContact &&ListContact?.map((request) => (
 
-
-                  <tr>
-
-                    <th scope="row">
-                    <Media className="align-items-center">
-
-
-                        <Media>
-                          <span className="mb-0 text-sm">
-                            {request?.name}
-                          </span>
-                        </Media>
-                      </Media>
-                    </th>
-                    <td>
-                    {request?.email}
-                      </td>
-                    <td>
-                    {request?.tel}
-                    </td>
-                    <td>
-                    {request?.city} / {request?.country}
-                    </td>
-                    <td>
-                    <td>
-                      <Badge color="" className="badge-dot mr-4">
-                      {request?.status ==='unreaded' ?  (
-                        <>
-<i className="bg-danger" />
-                        unreaded
-                        </>
-
-                      ) : (
-                        <>
-
-<i className="bg-primary" />
-                        Readed
-                        </>
-
-                      )
-                        }
-
-                      </Badge>
-                    </td>
-                    </td>
-                    <td className="text-right">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          href="#pablo"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                          >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-
-                          <Link
-                          to={`/admin/contact-detail/${request?._id}`}
-                          >
-                          <DropdownItem
-
-                          >
-                            Show details
-                          </DropdownItem>
-                            </Link>
-
-                          <Modal
+              <ToastContainer />
+              <Modal
               className="modal-dialog-centered modal-danger"
               contentClassName="bg-gradient-danger"
               isOpen={notificationModal}
@@ -248,15 +258,23 @@ setGlobalFilterValue(value);
                   <i className="ni ni-bell-55 ni-3x" />
                   <h4 className="heading mt-4">You should read this!</h4>
                   <p>
-                    When you click on "Ok , Got it" the request will be deleted
+                    When you click on "Ok , Got it" the request will be deleted {selectedItem}
                   </p>
                 </div>
               </div>
               <div className="modal-footer">
                 <Button className="btn-white" color="default" type="button"
-                onClick={()=>PutRequest("denied", request?._id)}
+                onClick={()=>deleteBin(selectedItem)}
                 >
-                  Ok, Got it
+                  {isLoad ? (
+    <div className="spinner-border text-light" role="status">
+      <span className="visually-hidden"></span>
+    </div>
+  )
+                  :
+                  "Ok, Got it"
+                  }
+
                 </Button>
                 <Button
                   className="text-white ml-auto"
@@ -269,28 +287,17 @@ setGlobalFilterValue(value);
                 </Button>
               </div>
             </Modal>
-
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-
-                  )) || []}
-
-
-                </tbody>
-              </Table> */}
-              <div className="card">
+            <div className="card">
 
               <Tooltip target=".export-buttons>button" position="bottom" />
-              <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={ListContact} header={header} selection={selectedProduct}
+              <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={driverList} header={header} selection={selectedProduct}
               selectionMode={true}
               onSelectionChange={(e) => setSelectedProduct(e.data)}
-              filters={filters} filterDisplay="menu" globalFilterFields={['_id','email', 'tel', 'city', 'country', 'status', ]}
+              filters={filters} filterDisplay="menu" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}
               onRowClick={
                 (e) => {
 
-                  const url = `/admin/contact-detail/${e.data._id}`;
+                  const url = `/admin/partner-details/${e.data._id}`;
   history.push(url);
                 }
               }
@@ -309,7 +316,7 @@ setGlobalFilterValue(value);
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
-                <Column exportable={false} style={{ minWidth: '12rem' }}></Column>
+                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
             </DataTable>
                 </div>
               <CardFooter className="py-4">
@@ -374,4 +381,4 @@ setGlobalFilterValue(value);
   )
 }
 
-export default ContactsList
+export default ListOfDrivers

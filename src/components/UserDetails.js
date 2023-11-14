@@ -34,7 +34,7 @@ const UserDetails = () => {
   const userDetails = useSelector(state=>state?.UsersDetails?.UsersDetails)
   const [notificationModal, setnotificationModal] = useState(false)
   const { id } = useParams();
- 
+
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
   const dispatch = useDispatch()
@@ -50,20 +50,20 @@ const UserDetails = () => {
   }, [userDetails])
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
 
   const block = (id)=>{
-    console.log('block')
+    // console.log('block')
     dispatch(BlockUser(id))
   }
   const Unblock = (id)=>{
-    console.log("Unblock")
+    // console.log("Unblock")
     dispatch(UnBlockUser(id))
   }
-  console.log("userDetails :", userDetails?.users?.accessListBins?.length)
+  // console.log("userDetails :", userDetails?.users?.accessListBins?.length)
 
   return (
     <>
@@ -109,7 +109,7 @@ const UserDetails = () => {
                 </div> */}
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-                
+
                 <div className="text-center mt-md-5">
                   <h3>
                   {userDetails?.users?.name}
@@ -196,11 +196,11 @@ const UserDetails = () => {
                 </Button>
               </div>
             </Modal>
-              
+
             </CardBody>
           </Card>
         </div>
-      
+
         </Row>
         <Row>
         <div style={{ width: "18rem" }}>
@@ -219,11 +219,11 @@ const UserDetails = () => {
                   </div>
                 </Col>
               </Row>
-              
+
             </CardBody>
           </Card>
         </div>
-      
+
         </Row>
                 </div>
               </CardBody>
@@ -248,7 +248,7 @@ const UserDetails = () => {
           <span className="visually-hidden"></span>
         </div>
       ) : (
-        
+
                     userDetails?.users?.isBlocked ? "Unblock" : "Block"
       )}
                     </Button>
@@ -303,7 +303,7 @@ const UserDetails = () => {
 
                           <small>{userDetails?.users?.email}</small>
                           </div>
-                         
+
                         </FormGroup>
                       </Col>
                     </Row>

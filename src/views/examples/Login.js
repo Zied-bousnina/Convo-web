@@ -42,7 +42,7 @@ function Login () {
   const errors1 = useSelector(state=>state?.error?.errors)
   const handleSubmit = (values) => {
     // Perform any actions (e.g., API calls) here
-    console.log(values);
+    // console.log(values);
     // Access form values using "values" object
     dispatch(loginUser(values))
   // Set the submitted state to true

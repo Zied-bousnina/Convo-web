@@ -21,7 +21,7 @@ dispatch({
 
   axios.post(`${process.env.REACT_APP_API_URL}/api/site/AddContactUs`,data )
   .then(res => {
-      console.log(res)
+      // console.log(res)
       dispatch({
         type: SET_ERRORS,
         payload: []
@@ -69,7 +69,7 @@ dispatch({
 export const FetchAllContact = (data)=>dispatch=>{
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/contactUs/fetchAll`,data )
   .then(res => {
-      console.log(res)
+      // console.log(res)
 
       dispatch({
         type: SET_CONTACT_LIST,

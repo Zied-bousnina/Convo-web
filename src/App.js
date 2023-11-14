@@ -65,31 +65,31 @@ function App() {
           // Token has expired
           localStorage.removeItem('jwtToken');
           dispatch(LogOut());
-          // dispatch(setCurrentUser({}));
+          dispatch(setCurrentUser({}));
         } else {
           // Token is still valid, check with the server
           axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`) // Replace with your backend endpoint
             .then(response => {
               // Request was successful, token is valid
-              console.log('Token is valid');
+              // console.log('Token is valid');
             })
             .catch(error => {
               // Request failed, likely due to invalid token
-              console.error('Token validation failed:', error);
+              // console.error('Token validation failed:', error);
               localStorage.removeItem('jwtToken');
+              dispatch(setCurrentUser({}));
               dispatch(LogOut());
-              // dispatch(setCurrentUser({}));
             });
         }
       } catch (error) {
         // Token decoding failed
-        console.error('Token decoding failed:', error);
+        // console.error('Token decoding failed:', error);
         localStorage.removeItem('jwtToken');
+        dispatch(setCurrentUser({}));
         dispatch(LogOut());
-        // dispatch(setCurrentUser({}));
       }
     }
-  }, [dispatch]);
+  }, [dispatch,user]);
   useEffect(() => {
     const value = localStorage.getItem('jwtToken')
 
@@ -107,8 +107,8 @@ function App() {
 
     const activeExpires = new Date(user?.user?.iat);
     const currentDate = new Date();
-    console.log(`activeExpires-----------------------------------------------------------------------------------`,
-     activeExpires < currentDate);
+    // console.log(`activeExpires-----------------------------------------------------------------------------------`,
+    //  activeExpires < currentDate);
     if (currentDate > activeExpires) {
       localStorage.removeItem('jwtToken');
       dispatch(LogOut())

@@ -108,7 +108,7 @@ const PDFDocument = ({data}) => {
 
 
   const deleteBin = ()=> {
-    console.log("delete")
+    // console.log("delete")
     // alert("delete :", selectedItem)
     dispatch(DeletePointBinByID(selectedItem))
     // if(isSuccess){

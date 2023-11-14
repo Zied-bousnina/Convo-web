@@ -25,7 +25,7 @@ export const AddBin = (data) => dispatch => {
 
     axios.post(`${process.env.REACT_APP_API_URL}/api/bin/createBin`, data)
         .then(res => {
-            console.log(res)
+            // console.log(res)
             dispatch({
                 type: SET_ERRORS,
                 payload: []
@@ -75,7 +75,7 @@ export const AddBin = (data) => dispatch => {
 export const FetchAllBins = (data) => dispatch => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/bin/FetchAllBins`, data)
         .then(res => {
-            console.log(res)
+            // console.log(res)
 
             dispatch({
                 type: SET_BINS_LIST,

@@ -112,11 +112,11 @@ useEffect(() => {
     // console.log("bins", selectedValues.value)
     var bin = []
     selectedValues?.map(e=>{
-      console.log("map", e?.value)
+      // console.log("map", e?.value)
       // setForm({ ...form, bins: [...form.bins, e?.value] });
       bin.push(e.value)
     })
-    console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
+    // console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
 
   dispatch(AddPointBin({...form,bins: bin, governorate: selectedValue, municipale: selectedMunicipal, quoteDemande :idQuote}))
 
@@ -141,7 +141,7 @@ useEffect(() => {
       .then(res => {
         setgovernorates(res.data[0]);
       })
-      .catch(err => console.log(err));
+      .catch(err => {});
   }, []);
 
    const municipales = governorates?.governorates?.filter(

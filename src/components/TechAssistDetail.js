@@ -45,7 +45,7 @@ const TechAssistDetail = () => {
   const TechAssistDetails = useSelector(state=>state?.TechAssistDetails?.TechAssistDetails?.TechAssist)
   const [notificationModal, setnotificationModal] = useState(false)
   const { id } = useParams();
- 
+
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
   const dispatch = useDispatch()
@@ -61,22 +61,22 @@ const TechAssistDetail = () => {
   }, [TechAssistDetails])
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
 
   const block = (id)=>{
-    console.log('block')
+    // console.log('block')
     dispatch(UpdateTechAssistStatus(id))
   }
   const Unblock = (id)=>{
-    console.log("Unblock")
+    // console.log("Unblock")
     // dispatch(UnBlockUser(id))
     dispatch(UpdateTechAssistStatus(id))
 
   }
-  console.log("userDetails :", PartnerDetails)
+  // console.log("userDetails :", PartnerDetails)
   const handleDownload = async(filePath) => {
 
 
@@ -88,9 +88,9 @@ const TechAssistDetail = () => {
       const fileName = 'your_file_name.pdf';
       saveAs(response.data, fileName);
     } catch (error) {
-      console.log('Error:', error);
+      // console.log('Error:', error);
     }
-      
+
 
   };
   return (
@@ -102,7 +102,7 @@ const TechAssistDetail = () => {
         <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
           <Card className="card-profile shadow">
             <Row className="justify-content-center">
-              
+
             </Row>
             <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
               {/* <div className="d-flex justify-content-between">
@@ -131,7 +131,7 @@ const TechAssistDetail = () => {
                 </h4>
             </CardHeader>
             <CardBody className="pt-0 pt-md-4">
-              
+
               <div className="text-center mt-md-5">
                 <h3>
                 {/* {PartnerDetails?.partnership?.name} */}
@@ -218,11 +218,11 @@ const TechAssistDetail = () => {
               </Button>
             </div>
           </Modal>
-            
+
           </CardBody>
         </Card>
       </div>
-    
+
       </Row>
       <Row>
       <div style={{ width: "18rem" }}>
@@ -241,11 +241,11 @@ const TechAssistDetail = () => {
                 </div>
               </Col>
             </Row>
-            
+
           </CardBody>
         </Card>
       </div>
-    
+
       </Row>
               </div>
             </CardBody>
@@ -270,7 +270,7 @@ const TechAssistDetail = () => {
         <span className="visually-hidden"></span>
       </div>
     ) : (
-      
+
       QuoteDetails?.status ==='unreaded' ?  "Mark as Read" :"Mark Unread"
     )}
                   </Button>
@@ -325,7 +325,7 @@ const TechAssistDetail = () => {
 
                         <small>{TechAssistDetails?.email}</small>
                         </div>
-                       
+
                       </FormGroup>
                     </Col>
                   </Row>
@@ -440,7 +440,7 @@ const TechAssistDetail = () => {
                         {TechAssistDetails?.productSerialNumber ? TechAssistDetails?.productSerialNumber : "..."  }
                         </spann>
                         <div>
-                        
+
                         </div>
                       </FormGroup>
                     </Col>
@@ -472,7 +472,7 @@ const TechAssistDetail = () => {
                 {/* <h6 className="heading-small text-muted mb-4">
                   Contact information
                 </h6> */}
-                
+
                 <hr className="my-4" />
                  <h6 className="heading-small text-muted mb-4">Attachments</h6>
                 <Row>
@@ -484,7 +484,7 @@ const TechAssistDetail = () => {
                         >
                           Projects For Which You Plan To Use The Solution
                         </label>
-                       
+
                         <div>
                           <small>{QuoteDetails?.ProjectsForWhichYouPlanToUseTheSolution}</small>
                         </div>
@@ -492,14 +492,14 @@ const TechAssistDetail = () => {
                     </Col> */}
                     {
                       TechAssistDetails?.attachment && (
-                     
+
                     <Col lg="4">
                       <FormGroup>
                         <label
                           className="form-control-label"
                           htmlFor="input-country"
                         >
-                         
+
                         </label>
                         {/* <Input
                         // readOnly
@@ -521,17 +521,17 @@ const TechAssistDetail = () => {
             <i className="ni ni-cloud-download-95" />
           {/* </span> */}
         </Button>
-                           
 
-                          
+
+
                           {/* </small> */}
-                          
+
                         </div>
                       </FormGroup>
                     </Col>
                      )
                     }
-                    
+
                     <Col lg="4">
                       <FormGroup>
                         <label

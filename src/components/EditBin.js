@@ -44,7 +44,7 @@ useEffect(() => {
     .then(res => {
       setgovernorates(res.data[0]);
     })
-    .catch(err => console.log(err));
+    .catch(err =>{});
 }, []);
 
  const municipales = governorates?.governorates?.filter(
@@ -90,7 +90,7 @@ useEffect(() => {
   const onSubmit = (e)=>{
 
     e.preventDefault();
-    console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
+    // console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
   dispatch(updateBin(id,{...form, governorate: selectedValue, municipale: selectedMunicipal}))
 
   // !error?.success ? showErrorToastMessage() : null

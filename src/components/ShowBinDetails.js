@@ -40,7 +40,7 @@ const ShowBinDetails = () => {
   const binDetails = useSelector(state=>state?.binDetails?.BinDetails)
   const [notificationModal, setnotificationModal] = useState(false)
   const { id } = useParams();
- 
+
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
   const dispatch = useDispatch()
@@ -56,22 +56,22 @@ const ShowBinDetails = () => {
   }, [binDetails])
   useEffect(() => {
     if (isSuccess) {
-      
+
       showToastMessage()
     }
   }, [isSuccess])
 
   const block = (id)=>{
-    console.log('block')
+    // console.log('block')
     dispatch(UpdatePartnerShipStatus(id))
   }
   const Unblock = (id)=>{
-    console.log("Unblock")
+    // console.log("Unblock")
     // dispatch(UnBlockUser(id))
     dispatch(UpdatePartnerShipStatus(id))
 
   }
-  console.log("userDetails :", PartnerDetails)
+  // console.log("userDetails :", PartnerDetails)
 
   return (
     <>
@@ -82,7 +82,7 @@ const ShowBinDetails = () => {
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
-                
+
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                 {/* <div className="d-flex justify-content-between">
@@ -111,7 +111,7 @@ const ShowBinDetails = () => {
                   </h4>
               </CardHeader>
               <CardBody className="pt-0 pt-md-4">
-                
+
                 <div className="text-center mt-md-5">
                   <h3>
                   {/* {PartnerDetails?.partnership?.name} */}
@@ -198,11 +198,11 @@ const ShowBinDetails = () => {
                 </Button>
               </div>
             </Modal>
-              
+
             </CardBody>
           </Card>
         </div>
-      
+
         </Row>
         <Row>
         <div style={{ width: "18rem" }}>
@@ -221,11 +221,11 @@ const ShowBinDetails = () => {
                   </div>
                 </Col>
               </Row>
-              
+
             </CardBody>
           </Card>
         </div>
-      
+
         </Row>
                 </div>
               </CardBody>
@@ -242,7 +242,7 @@ const ShowBinDetails = () => {
                     <Link
                     to={`/admin/edit-bin/${id}`}
                     >
-                       
+
                     <Button
                       color={`primary`}
                       // href="#pablo"
@@ -303,7 +303,7 @@ const ShowBinDetails = () => {
 
                           <small>{binDetails?.location}</small>
                           </div>
-                         
+
                         </FormGroup>
                       </Col>
                     </Row>
@@ -523,7 +523,7 @@ const ShowBinDetails = () => {
                   </div>
                   <hr className="my-4" />
                   <Row>
-                      
+
                   <Col lg="12">
                         <FormGroup>
                           <label

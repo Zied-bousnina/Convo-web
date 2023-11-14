@@ -51,11 +51,11 @@ const PartnerDetails = () => {
   }, [isSuccess])
 
   const block = (id)=>{
-    console.log('block')
+    // console.log('block')
     dispatch(UpdatePartnerShipStatus(id))
   }
   const Unblock = (id)=>{
-    console.log("Unblock")
+    // console.log("Unblock")
     // dispatch(UnBlockUser(id))
     dispatch(UpdatePartnerShipStatus(id))
 

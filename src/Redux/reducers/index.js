@@ -29,6 +29,8 @@ import MunicipalDetailsReducer from './MunicipalDetails.reducer';
 import DemanedestatistiquesReducer from './Demanedestatistiques.reducer';
 import DemandeDriverRedicers from './DemandeDriver.redicers';
 import SingleDemandeReducer from './SingleDemande.reducer';
+import DriversListReducer from './DriversList.reducer';
+import partnerStatsReducer from './partnerStats.reducer';
 export default combineReducers({
     auth:authReducer,
     error:errorReducer,
@@ -59,5 +61,7 @@ export default combineReducers({
     demandestatistiques : DemanedestatistiquesReducer,
     DemandeDriver : DemandeDriverRedicers,
     Demande : SingleDemandeReducer  ,
+    drivers : DriversListReducer  ,
+    partnerStats : partnerStatsReducer  ,
 
 })

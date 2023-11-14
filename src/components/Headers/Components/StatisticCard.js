@@ -9,7 +9,7 @@ const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon }) =>
   <>
 {
   value?
-  <Col lg="6" xl="6">
+  <Col lg="6" xl="4">
     <Card className="card-stats mb-4 mb-xl-0">
       <CardBody>
         <Row>

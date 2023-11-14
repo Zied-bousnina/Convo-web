@@ -96,7 +96,7 @@ useEffect(() => {
       });
     }
 
-    console.log(form);
+    // console.log(form);
   };
   useEffect(() => {
     if (isSuccess) {
@@ -116,7 +116,7 @@ useEffect(() => {
   const onSubmit = (e)=>{
 
     e.preventDefault();
-    console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
+    // console.log({...form, governorate: selectedValue, municipale: selectedMunicipal})
 
 
   dispatch(AddPointBin({...form, governorate: selectedValue, municipale: selectedMunicipal}))
@@ -156,7 +156,7 @@ useEffect(() => {
       .then(res => {
         setgovernorates(res.data[0]);
       })
-      .catch(err => console.log(err));
+      .catch(err => {});
   }, []);
 
    const municipales = governorates?.governorates?.filter(
@@ -164,7 +164,7 @@ useEffect(() => {
   );
   const deleteBin = (idBin)=> {
 
-    console.log("selectedItem", selectedItem)
+    // console.log("selectedItem", selectedItem)
     dispatch(DeletePointBinByIDFromPointBin(selectedItem, id))
     // if(isSuccess){
 

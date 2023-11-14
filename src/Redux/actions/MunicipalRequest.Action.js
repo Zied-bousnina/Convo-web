@@ -9,7 +9,7 @@ export const findDemandeInProgress = (navigation)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/demande-municipal/findDemandeInProgress`)
   .then(res => {
-      console.log(res)
+      // console.log(res)
       dispatch({
           type: SET_DEMANDES_MUNICIPAL,
           payload: res?.data

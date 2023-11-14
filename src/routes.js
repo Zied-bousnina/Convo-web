@@ -29,6 +29,9 @@ import ListOfPartners from "components/Partner/PartnerList";
 import PartnerDetails from "components/Partner/PartnerDetail";
 import AddPartner from "components/Partner/AddPartner";
 import EditPartner from "components/Partner/EditPartner";
+import ListOfDrivers from "components/Driver/DriverList";
+import AddDriver from "components/Driver/AddDriver";
+import EditDriver from "components/Driver/EditDriver";
 
 
 
@@ -95,6 +98,28 @@ var routes = [
     name: "Edit partner",
     icon: "ni ni-building text-red",
     component: EditPartner,
+    layout: "/admin"
+  },
+
+  {
+    path: "/DriverList",
+    name: "Drivers",
+    icon: "fa fa-car text-info ",
+    component: ListOfDrivers,
+    layout: "/admin"
+  },
+  {
+    path: "/AddDriver",
+    name: "Add Driver",
+    icon: "ni ni-building text-red",
+    component: AddDriver,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-Driver/:id",
+    name: "Edit Driver",
+    icon: "ni ni-building text-red",
+    component: EditDriver,
     layout: "/admin"
   },
 

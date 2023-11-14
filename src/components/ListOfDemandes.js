@@ -45,7 +45,7 @@ const navigate = useHistory()
   const [products, setProducts] = useState([]);
   const history = useHistory();
   const dt = useRef(null);
-  console.log(requests1)
+  // console.log(requests1)
 
   useEffect(() => {
     dispatch(FindRequestDemande())
@@ -114,7 +114,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
   const deleteBin = (id)=> {
-    console.log("delete")
+    // console.log("delete")
 
     dispatch(DeleteBinByID(id))
     // if(isSuccess){
