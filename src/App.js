@@ -30,12 +30,16 @@ import { GetProfile } from "Redux/actions/profile.actions.js";
 import { setCurrentUser } from "Redux/actions/authActions.js";
 import UserDetails from "components/UserDetails.js";
 
+
 //theme
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 
 //core
 import "primereact/resources/primereact.min.css";
 import 'primeicons/primeicons.css'
+import { FetchAllPartnership } from "Redux/actions/PartnershipAction.js";
+import { FindRequestDemande } from "Redux/actions/Demandes.Actions.js";
+import axios from "axios";
 // import 'primeflex/primeflex.css';
 function App() {
   // const user= {
@@ -47,6 +51,45 @@ function App() {
   const user = useSelector(state=>state.auth)
   const profile = useSelector(state=>state?.profile?.profile)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    const jwtToken = localStorage.getItem('jwtToken');
+
+    if (jwtToken) {
+      try {
+        const decodedToken = jwt_decode(jwtToken);
+        const activeExpires = new Date(decodedToken.exp * 1000); // Convert seconds to milliseconds
+        const currentDate = new Date();
+
+        if (currentDate > activeExpires) {
+          // Token has expired
+          localStorage.removeItem('jwtToken');
+          dispatch(LogOut());
+          // dispatch(setCurrentUser({}));
+        } else {
+          // Token is still valid, check with the server
+          axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`) // Replace with your backend endpoint
+            .then(response => {
+              // Request was successful, token is valid
+              console.log('Token is valid');
+            })
+            .catch(error => {
+              // Request failed, likely due to invalid token
+              console.error('Token validation failed:', error);
+              localStorage.removeItem('jwtToken');
+              dispatch(LogOut());
+              // dispatch(setCurrentUser({}));
+            });
+        }
+      } catch (error) {
+        // Token decoding failed
+        console.error('Token decoding failed:', error);
+        localStorage.removeItem('jwtToken');
+        dispatch(LogOut());
+        // dispatch(setCurrentUser({}));
+      }
+    }
+  }, [dispatch]);
   useEffect(() => {
     const value = localStorage.getItem('jwtToken')
 
