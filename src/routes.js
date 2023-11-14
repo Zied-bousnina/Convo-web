@@ -32,6 +32,7 @@ import EditPartner from "components/Partner/EditPartner";
 import ListOfDrivers from "components/Driver/DriverList";
 import AddDriver from "components/Driver/AddDriver";
 import EditDriver from "components/Driver/EditDriver";
+import DriverDetails from "components/Driver/DriverDetails";
 
 
 
@@ -120,6 +121,13 @@ var routes = [
     name: "Edit Driver",
     icon: "ni ni-building text-red",
     component: EditDriver,
+    layout: "/admin"
+  },
+  {
+    path: "/driver-details/:id",
+    name: "driver details",
+    icon: "ni ni-single-02 text-yellow",
+    component: DriverDetails,
     layout: "/admin"
   },
 

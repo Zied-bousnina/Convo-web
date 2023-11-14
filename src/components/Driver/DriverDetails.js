@@ -157,14 +157,14 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
                     <Col xs="8">
                     <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Partner ID #{id}
+                    Driver ID #{id}
                     </h6>
-                    <h2 className="mb-0">Partner Details</h2>
+                    <h2 className="mb-0">Driver Details</h2>
                   </div>
                     </Col>
                     <Col className="text-right" xs="4">
                     <Link
-                            to={`/admin/edit-Partner/${id}`}
+                            to={`/admin/edit-Driver/${id}`}
                             >
 
                       <Button
@@ -195,31 +195,17 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
   >
 
     <ToastContainer />
-    <Row>
-    <Col
-      md="6"
-      >
-         <div className=" mb-3">
-        <label className="form-label">Business Name: </label>
-        <div className="input-group">
 
-          <input type="text" disabled required placeholder="Enter the name of the business" defaultValue={PartnerDetails?.name}  name={"name"} className={classNames("form-control")} onChange={onChangeHandler} />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
+    <Row>
+
       <Col
       md="6"
       >
-         <div className=" mb-3">
-        <label className="form-label"> Contact Person: </label>
+         <div className=" mb-">
+        <label className="form-label">Name:</label>
         <div className="input-group">
 
-          <input type="text" disabled required defaultValue={PartnerDetails?.contactName} placeholder="Enter the contact person's name" name={"contactName"} className={classNames("form-control")} onChange={onChangeHandler} />
+          <input type="text" disabled required defaultValue={PartnerDetails?.name}  placeholder="Enter the business phone number"  name={"name"} className={classNames("form-control")} onChange={onChangeHandler}/>
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -228,29 +214,6 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
-
-    </Row>
-    <Row>
-
-
-      <Col
-      md="12"
-      >
-         <div className=" mb-3">
-        <label className="form-label">Address: </label>
-        <div className="input-group">
-
-          <input type="text" disabled required defaultValue={PartnerDetails?.addressPartner} placeholder="Enter the business address"  name={"addressPartner"} className={classNames("form-control")} onChange={onChangeHandler} />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-    </Row>
-    <Row>
       <Col
       md="6"
       >
@@ -259,22 +222,6 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         <div className="input-group">
 
           <input type="text" disabled required defaultValue={PartnerDetails?.email}   placeholder="Enter the business email address" name={"email"} className={classNames("form-control")} onChange={onChangeHandler}/>
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-      <Col
-      md="6"
-      >
-         <div className=" mb-">
-        <label className="form-label">Phone Number:</label>
-        <div className="input-group">
-
-          <input type="text" disabled required defaultValue={PartnerDetails?.name}  placeholder="Enter the business phone number"  name={"phoneNumber"} className={classNames("form-control")} onChange={onChangeHandler}/>
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}

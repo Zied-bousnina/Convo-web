@@ -297,7 +297,7 @@ setselectedItem(rowData?._id)
               onRowClick={
                 (e) => {
 
-                  const url = `/admin/partner-details/${e.data._id}`;
+                  const url = `/admin/driver-details/${e.data._id}`;
   history.push(url);
                 }
               }
