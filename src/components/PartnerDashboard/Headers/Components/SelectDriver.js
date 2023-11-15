@@ -3,15 +3,11 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Select from 'react-select'
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-]
+
 
 // import React from 'react'
 
-function SelectDriver() {
+function SelectDriver(props) {
   const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
   const [selectedValues, setSelectedValues] = useState([]);
   const dispatch = useDispatch()
@@ -34,6 +30,7 @@ function SelectDriver() {
   // console.log(colourOptions)
   return (
     <Select required
+    {...props}
     className="react-select primary"
     onChange={handleSelectChange}
        isLoading={colourOptions.length==0 ?  true: false}

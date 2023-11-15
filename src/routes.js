@@ -147,13 +147,13 @@ var routes = [
     component: CreateRequest,
     layout: "/partner"
   },
-  {
-    path: "/DriverList",
-    name: "Drivers",
-    icon: "fa fa-car text-info ",
-    component: ListOfDrivers,
-    layout: "/partner"
-  },
+  // {
+  //   path: "/DriverList",
+  //   name: "Drivers",
+  //   icon: "fa fa-car text-info ",
+  //   component: ListOfDrivers,
+  //   layout: "/partner"
+  // },
 
   // {
   //   path: "/user-profile",

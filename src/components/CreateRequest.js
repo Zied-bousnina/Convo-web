@@ -78,13 +78,16 @@ import SelectDriver from "./PartnerDashboard/Headers/Components/SelectDriver.js"
 // import { ToastContainer, toast } from 'react-toastify';
 import ReactDatetime from "react-datetime";
 import Datetime from 'react-datetime';
+import { FetchAllDrivers } from "Redux/actions/Driver.actions.js";
 // import { TimeIcon } from './../../node_modules/@mui/x-date-pickers/icons/index';
+import Select from 'react-select'
+
 
   const CreateRequest = () => {
     const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
-  const [selectedValue, setSelectedValue] = useState('Tunis');
+
     const [selectedMunicipal, setMunicipal] = useState('');
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
@@ -98,7 +101,24 @@ import Datetime from 'react-datetime';
     const [checked, setChecked] = useState(false);
     const [value, setValue]= useState(new Date().toISOString())
     const [fmtValue, setFmtValue]= useState(undefined)
+    const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
+    const [selectedValues, setSelectedValues] = useState([]);
 
+    useEffect(() => {
+      dispatch(FetchAllDrivers())
+
+    }, [ driverList])
+    const colourOptions = []
+
+    const handleSelectChange = (selectedOptions) => {
+
+
+      setSelectedValues(selectedOptions);
+    };
+    driverList?.map(e=>{
+      colourOptions.push({value:e._id, label:`${e.name}|[${e.email}]`})
+
+    })
 
     useEffect(( )=> {
       console.log(`Formatted value is ${fmtValue}`)
@@ -182,9 +202,7 @@ import Datetime from 'react-datetime';
         .catch(err => {});
     }, []);
 
-     const municipales = governorates?.governorates?.filter(
-      (item) => item.name === selectedValue,
-    );
+
 
     const showToastMessage = () => {
       toast.success('Reaquest created successfully.', {
@@ -202,16 +220,19 @@ import Datetime from 'react-datetime';
     })
 
     const onChangeHandler = (e) => {
-      const { name, value } = e.target;
+      const { name, checked, value } = e.target;
+
 
 
         setForm({
           ...form,
-          [name]: value
+          [name]: value,
         });
 
 
+      // console.log(form);
     };
+
     useEffect(() => {
       if (isSuccess) {
 
@@ -241,6 +262,7 @@ import Datetime from 'react-datetime';
               // console.error("Error fetching coordinates from the geocoding service", error);
             }
           }
+          console.log(e)
 
         // If the destination search query is not empty, use a geocoding service to get the coordinates
        // If the destination search query is not empty, use a geocoding service to get the coordinates
@@ -284,14 +306,19 @@ import Datetime from 'react-datetime';
   }
   const distance = getDistanceFromLatLonInKm()
   const data = {
-    // ...form,
+    ...form,
     address: startingPoint,
     destination:destination,
     postalAddress:startingPoint?.display_name,
     postalDestination:destination?.display_name,
     distance:distance,
-    offer:"",
-    comment:""
+    driverIsAuto:!checked,
+    dateDepart:value?._d,
+    driver:selectedValues?.value
+
+
+
+
 
   }
 
@@ -395,10 +422,11 @@ dispatch(AddDemande(data, navigate))
         <Row>
 
           <Col xl="4"
+          style={{marginBottom:"20px"}}
 
            >
             <Card className="shadow "
-            style={{ height: "100vh", marginBottom:10 }}
+            style={{ height: "120vh", marginBottom:10 }}
             >
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
@@ -454,6 +482,7 @@ style={
           onChange={(e) => {
             setstartingPoint(null);
             setSearchQuery(e.target.value);
+            // onChangeHandler(e)
           }}
         />
       </div>
@@ -481,6 +510,7 @@ style={
           onChange={(e) => {
             setdestination(null);
             setDestinationSearchQuery(e.target.value);
+            // onChangeHandler(e)
           }}
         />
       </div>
@@ -540,7 +570,9 @@ Driver Choice :
         </Row>
       </Col>
 </Row>
-<Row>
+<Row
+
+>
 
 <Col>
         {/* Switch button for automatic or manual choice */}
@@ -570,9 +602,34 @@ Manual
 
       </Col>
 </Row>
+<Row
+className="mb-3"
+>
+
+<Col>
+        {/* Switch button for automatic or manual choice */}
+{
+  checked &&<>
+
+
+<label className="form-label">Driver<span style={{color:"red"}}>*</span></label>
+<Select required
+
+   className="react-select primary"
+   onChange={handleSelectChange}
+      isLoading={colourOptions.length==0 ?  true: false}
+      isDisabled={selectedValues.length >3 ?true: false}
+
+    options={colourOptions} />
+  </>
+
+}
+      </Col>
+</Row>
 <Row>
 
 <Col>
+<label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
 <Datetime
 
 onChange={(e)=>setValue(e)}
@@ -580,7 +637,7 @@ value={value}
 // timeFormat={false}
 inputProps={{
   placeholder: "Date Picker Here",
-  name: "date"
+  name: "dateDepart"
 }}
 
 
@@ -589,15 +646,28 @@ inputProps={{
 </Col>
 </Row>
 <Row>
+  <Col md="12">
+    <div className=" mb-3">
+      <label className="form-label">Comment</label>
+      <div className="input-group">
+        <input
+          type="text"
+          // required
+          placeholder="Comment"
 
-<Col>
-        {/* Switch button for automatic or manual choice */}
-{
-  checked &&
-<SelectDriver/>
-}
-      </Col>
+          name={"comment"}
+          className={classNames("form-control")}
+
+          onChange={(e) => {
+            onChangeHandler(e)
+
+          }}
+        />
+      </div>
+    </div>
+  </Col>
 </Row>
+
   <Row>
 
     <Col
