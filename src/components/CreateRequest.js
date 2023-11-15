@@ -23,7 +23,7 @@ import {
   import classNames from "classnames";
   import { AddBin } from "Redux/actions/BinAction";
   import { SET_IS_SECCESS } from "Redux/types";
-
+  import {DatePicker} from 'reactstrap-date-picker'
 
   /*!
 
@@ -76,6 +76,9 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
 import { Switch } from "@chakra-ui/react";
 import SelectDriver from "./PartnerDashboard/Headers/Components/SelectDriver.js";
 // import { ToastContainer, toast } from 'react-toastify';
+import ReactDatetime from "react-datetime";
+import Datetime from 'react-datetime';
+// import { TimeIcon } from './../../node_modules/@mui/x-date-pickers/icons/index';
 
   const CreateRequest = () => {
     const navigate = useHistory();
@@ -93,7 +96,13 @@ import SelectDriver from "./PartnerDashboard/Headers/Components/SelectDriver.js"
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
     const [checked, setChecked] = useState(false);
+    const [value, setValue]= useState(new Date().toISOString())
+    const [fmtValue, setFmtValue]= useState(undefined)
 
+
+    useEffect(( )=> {
+      console.log(`Formatted value is ${fmtValue}`)
+    }, [fmtValue])
     const handleChange = (event) => {
       setChecked(event.target.checked);
       // console.log(checked)
@@ -564,7 +573,19 @@ Manual
 <Row>
 
 <Col>
+<Datetime
 
+onChange={(e)=>setValue(e)}
+value={value}
+// timeFormat={false}
+inputProps={{
+  placeholder: "Date Picker Here",
+  name: "date"
+}}
+
+
+
+ />
 </Col>
 </Row>
 <Row>
