@@ -12,6 +12,11 @@ import { ChakraProvider, ColorModeProvider  } from '@chakra-ui/react'
 import "./assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
+
+// import "./assets/css/nucleo-svg.css";
+import "./assets/css/nucleo-icons.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+// import "./assets/scss/argon-design-system.scss?v1.0.0";
 import store from './Redux/store';
 import { Provider } from "react-redux";
 import App from "App";
