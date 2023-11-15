@@ -27,7 +27,7 @@ const AdminNavbar = (props) => {
   const handleLogout = ()=>{
     dispatch(LogOut())
 
-  
+
   }
   return (
     <>

@@ -11,6 +11,7 @@ import {
     Container,
     Row,
     Col,
+    Label,
   } from "reactstrap";
   // core components
   import UserHeader from "components/Headers/UserHeader.js";
@@ -72,6 +73,7 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.js"
 import "./App.css"
 import LeafletRoutingMachine from "./LeafletRoutingMachine.js";
 import { AddDemande } from "Redux/actions/Demandes.Actions.js";
+import { Switch } from "@chakra-ui/react";
 // import { ToastContainer, toast } from 'react-toastify';
 
   const CreateRequest = () => {
@@ -89,8 +91,12 @@ import { AddDemande } from "Redux/actions/Demandes.Actions.js";
     const isStartingPointRef = useRef(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
+    const [checked, setChecked] = useState(true);
 
-
+    const handleChange = (event) => {
+      setChecked(event.target.checked);
+      // console.log(checked)
+    };
     const dispatch = useDispatch()
     const onMapClick = async (e) => {
         const { lat, lng } = e.latlng;
@@ -375,11 +381,15 @@ dispatch(AddDemande(data, navigate))
       <>
         <UserHeader />
         {/* Page content */}
-        <Container className="mt--7" fluid>
+        <Container className="mt--7 " fluid>
         <Row>
 
-          <Col xl="4">
-            <Card className="shadow">
+          <Col xl="4"
+
+           >
+            <Card className="shadow"
+            style={{ height: "80vh" }}
+            >
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
                   <div className="col">
@@ -391,6 +401,7 @@ dispatch(AddDemande(data, navigate))
                 </Row>
               </CardHeader>
               <CardBody
+
 
 
 
@@ -510,6 +521,52 @@ style={
 
     </Col>
 </Row>
+<Row>
+
+<Col>
+        {/* Switch button for automatic or manual choice */}
+        <Row>
+
+<Label
+className="form-control-label"
+htmlFor="input-username"
+>
+Driver Choice :
+</Label>
+
+
+        </Row>
+      </Col>
+</Row>
+<Row>
+
+<Col>
+        {/* Switch button for automatic or manual choice */}
+
+
+<Label
+className="form-control-label"
+htmlFor="input-username"
+>
+
+Automatic:
+</Label>
+        <Switch
+      checked={checked}
+      onChange={handleChange}
+      inputProps={{ 'aria-label': 'controlled' }}
+    />
+    {/* End of switch button */}
+    {/* Start of map container */}
+    <Label
+className="form-control-label"
+htmlFor="input-username"
+>
+Manual
+</Label>
+
+      </Col>
+</Row>
 
   <Row>
 
@@ -552,7 +609,7 @@ style={
                 {/* <div className="chart"> */}
                 <Tooltip target=".export-buttons>button" position="bottom" />
               <MapContainer
-              style={{ height: "60vh" }}
+              style={{ height: "75vh" }}
                center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

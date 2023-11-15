@@ -5,11 +5,12 @@ const PrivateRouter = ({ user, children }) => {
   if (!user.isConnected) {
     return <Redirect to="/login" />
   }
-  
-  if (!user.isAdmin ) {
+
+
+  if (!user.isAdmin && !user.isPartner) {
     return <Redirect to="/noaccess" />
   }
-  
+
   return children;
 }
 

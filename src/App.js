@@ -17,6 +17,7 @@ import Partnership from "components/Company/Partnership";
 import ContactDetail from "components/contact/ContactDetail";
 import TechnicalAssistance from "components/contact/TechnicalAssistance";
 import AdminLayout from "./layouts/Admin.js";
+import PartnerLayout from "./layouts/Partner.js";
 import PrivateRouter from "components/PrivateRouter.js";
 import ForceRedirect from "components/ForceRedirect.js";
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
@@ -126,42 +127,31 @@ function App() {
 
   return (
     <BrowserRouter>
-    {/* <DemoNavbar/> */}
     <Switch>
            <Route  path="/admin"   render={(props) =>
            <PrivateRouter user={user}>
             <AdminLayout {...props} />
-
-
+           </PrivateRouter>
+          } />
+          <Route  path="/partner"   render={(props) =>
+           <PrivateRouter user={user}>
+            <PartnerLayout {...props} />
+           {/* <Route path="/profile-page" exact render={(props) => <Profile {...props} />}/> */}
 
            </PrivateRouter>
           } />
 
-
 <Route path="/" exact render={(props) => <AdminLayout {...props} />} />
-           {/* <Route path="/" exact render={(props) => <Landing {...props} />} />
-           {/* <Route path="/" exact render={(props) => <Landing {...props} />} />
-           <Route path="/landing-page" exact render={(props) => <Landing {...props} />}/>
-           <Route path="/smart-box" exact render={(props) => <SmartBox {...props} />}/>
-           <Route path="/fleet-management-platform" exact render={(props) => <FleetManagmentPlatform {...props} />}/>
-           <Route path="/quote-request" exact render={(props) => <QuoteRequest {...props} />}/>
-           <Route path="/smart-cities" exact render={(props) => <SmartCities {...props} />}/>
-           <Route path="/commercial-establishments" exact render={(props) => <CommercialEstablishment {...props} />}/> */}
+
            <Route path="/login" render={(props) =>
            <ForceRedirect user={user}>
            {/* <Login /> */}
            <Login {...props} />
          </ForceRedirect>
            } />
-           {/* <Route path="/private-organizations" exact render={(props) => <PrivateOrganization {...props} />}/>
-           <Route path="/waste-collectors" exact render={(props) => <WasteCollector {...props} />}/>
-           <Route path="/about-company" exact render={(props) => <AboutCompany {...props} />}/>
-           <Route path="/partnership-opportunities" exact render={(props) => <Partnership {...props} />}/>
-           <Route path="/contact-details" exact render={(props) => <ContactDetail {...props} />}/>
-           <Route path="/technical-assistance" exact render={(props) => <TechnicalAssistance {...props} />}/> */}
-           {/* <Route path="/login-page" exact render={(props) => <Login {...props} />}/> */}
-           <Route path="/profile-page" exact render={(props) => <Profile {...props} />}/>
-           <Route path="/register-page" exact render={(props) => <Register {...props} />}/>
+
+           {/* <Route path="/profile-page" exact render={(props) => <Profile {...props} />}/>
+           <Route path="/register-page" exact render={(props) => <Register {...props} />}/> */}
            <ForceRedirect user={user}>
            {/* <Login /> */}
            <NoAccess  />

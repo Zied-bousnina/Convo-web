@@ -5,16 +5,16 @@ import { SET_ERRORS, SET_USER, SET_LOADING } from "../types"
 const initialState = {
     isConnected: false,
     isLoading: false,
-   
+
     isAdmin: false,
-    isMunicipal: false,
+    isPartner: false,
     isUser: false,
     isVerified: false,
-    isPrivateCompany: false,
+    // isPrivateCompany: false,
     user: {},
     request: {}
-    
-    
+
+
 }
 
 export default function(state = initialState, action) {
@@ -26,13 +26,13 @@ export default function(state = initialState, action) {
                 user: action.payload,
                 isLoading: isEmpty(action.payload),
                 isAdmin: action.payload?.role === "ADMIN",
-                isMunicipal: action.payload?.role === "MUNICIPAL",
+                isPartner: action.payload?.role === "PARTNER",
                 isUser: action.payload?.role === "USER",
-                isPrivateCompany: action.payload?.role === "PRIVATE_COMPANY",
+                // isPrivateCompany: action.payload?.role === "PRIVATE_COMPANY",
                 isVerified: action.payload?.verified,
 
             }
-        
+
         default:
             return state
     }

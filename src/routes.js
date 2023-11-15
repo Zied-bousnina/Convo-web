@@ -22,6 +22,7 @@ import PointBinDetails from "components/PointBinDetails";
 import EditPointBin from "components/EditPointBins";
 import MunicipalDetails from "components/MunicipalDetails";
 import MapsComponent from "components/MapsComponent";
+
 import CreateRequest from "components/CreateRequest";
 import ListOfDemandes from "components/ListOfDemandes";
 import RequestDetails from "components/RequestDetails";
@@ -33,6 +34,7 @@ import ListOfDrivers from "components/Driver/DriverList";
 import AddDriver from "components/Driver/AddDriver";
 import EditDriver from "components/Driver/EditDriver";
 import DriverDetails from "components/Driver/DriverDetails";
+import MapsComponentPartner from "components/PartnerDashboard/MapsComponentPartner";
 
 
 
@@ -109,6 +111,7 @@ var routes = [
     component: ListOfDrivers,
     layout: "/admin"
   },
+
   {
     path: "/AddDriver",
     name: "Add Driver",
@@ -129,6 +132,20 @@ var routes = [
     icon: "ni ni-single-02 text-yellow",
     component: DriverDetails,
     layout: "/admin"
+  },
+  {
+    path: "/index",
+    name: "Dashboard",
+    icon: "ni ni-tv-2 text-primary",
+    component: MapsComponentPartner,
+    layout: "/partner"
+  },
+  {
+    path: "/AddRequest",
+    name: "Create request",
+    icon: "ni ni-building text-red",
+    component: CreateRequest,
+    layout: "/partner"
   },
 
 
