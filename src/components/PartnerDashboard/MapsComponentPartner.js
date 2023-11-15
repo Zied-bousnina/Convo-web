@@ -147,7 +147,7 @@ function MapsComponentPartner() {
                             >
 
 
-                Create a Request
+create a mission
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>

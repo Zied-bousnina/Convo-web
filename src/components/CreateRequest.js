@@ -74,6 +74,7 @@ import "./App.css"
 import LeafletRoutingMachine from "./LeafletRoutingMachine.js";
 import { AddDemande } from "Redux/actions/Demandes.Actions.js";
 import { Switch } from "@chakra-ui/react";
+import SelectDriver from "./PartnerDashboard/Headers/Components/SelectDriver.js";
 // import { ToastContainer, toast } from 'react-toastify';
 
   const CreateRequest = () => {
@@ -91,7 +92,7 @@ import { Switch } from "@chakra-ui/react";
     const isStartingPointRef = useRef(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState(false);
 
     const handleChange = (event) => {
       setChecked(event.target.checked);
@@ -387,14 +388,14 @@ dispatch(AddDemande(data, navigate))
           <Col xl="4"
 
            >
-            <Card className="shadow"
-            style={{ height: "80vh" }}
+            <Card className="shadow "
+            style={{ height: "100vh", marginBottom:10 }}
             >
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Make request
+                    create a mission
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </div>
@@ -424,67 +425,59 @@ style={
 
 }
 >
-  <Row>
-    <Col
-    md="12"
-    >
-       <div className=" mb-3">
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
       <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-      <input
-  type="text"
-  required
-  placeholder="Choose starting point, or click on the map"
-  value={startingPoint ? startingPoint.display_name : searchQuery}
-  name={"start"}
-  className={classNames("form-control")}
-  onChange={(e) => {
-    setstartingPoint(null);
-    setSearchQuery(e.target.value);
-  }}
-/>
-
-
-         {/* {
-          errors && (<div  className="invalid-feedback">
-          {errors}
-        </div>)
-        } */}
+        <input
+          type="text"
+          required
+          placeholder="Choose starting point, or click on the map"
+          value={startingPoint ? startingPoint.display_name : searchQuery}
+          name={"start"}
+          className={classNames("form-control")}
+          onClick={() => {
+            isStartingPointRef.current = true;
+            setisStartingPoint(true);
+            setisDestination(false);
+          }}
+          onChange={(e) => {
+            setstartingPoint(null);
+            setSearchQuery(e.target.value);
+          }}
+        />
       </div>
     </div>
-    </Col>
+  </Col>
+</Row>
 
-  </Row>
-  <Row>
-    <Col
-    md="12"
-    >
-       <div className=" mb-3">
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
       <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-
-      <input
-  type="text"
-  required
-  placeholder="Choose destination, or click on the map"
-  value={destination ? destination.display_name : destinationSearchQuery}
-  name={"destination"}
-  className={classNames("form-control")}
-  onChange={(e) => {
-    setdestination(null);
-    setDestinationSearchQuery(e.target.value);
-  }}
-/>
-{/* {
-          errors && (<div  className="invalid-feedback">
-          {errors}
-        </div>)
-        } */}
+        <input
+          type="text"
+          required
+          placeholder="Choose destination, or click on the map"
+          value={destination ? destination.display_name : destinationSearchQuery}
+          name={"destination"}
+          className={classNames("form-control")}
+          onClick={() => {
+            isStartingPointRef.current = false;
+            setisStartingPoint(false);
+            setisDestination(true);
+          }}
+          onChange={(e) => {
+            setdestination(null);
+            setDestinationSearchQuery(e.target.value);
+          }}
+        />
       </div>
     </div>
-    </Col>
-
-  </Row>
+  </Col>
+</Row>
 
   {/* <ToastContainer /> */}
 
@@ -545,11 +538,12 @@ Driver Choice :
 
 
 <Label
-className="form-control-label"
+className="form-control-label p-2"
 htmlFor="input-username"
+
 >
 
-Automatic:
+Automatic
 </Label>
         <Switch
       checked={checked}
@@ -559,7 +553,7 @@ Automatic:
     {/* End of switch button */}
     {/* Start of map container */}
     <Label
-className="form-control-label"
+className="form-control-label p-2"
 htmlFor="input-username"
 >
 Manual
@@ -567,7 +561,22 @@ Manual
 
       </Col>
 </Row>
+<Row>
 
+<Col>
+
+</Col>
+</Row>
+<Row>
+
+<Col>
+        {/* Switch button for automatic or manual choice */}
+{
+  checked &&
+<SelectDriver/>
+}
+      </Col>
+</Row>
   <Row>
 
     <Col

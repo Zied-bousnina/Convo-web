@@ -142,12 +142,18 @@ var routes = [
   },
   {
     path: "/AddRequest",
-    name: "Create request",
+    name: " create a mission",
     icon: "ni ni-building text-red",
     component: CreateRequest,
     layout: "/partner"
   },
-
+  {
+    path: "/DriverList",
+    name: "Drivers",
+    icon: "fa fa-car text-info ",
+    component: ListOfDrivers,
+    layout: "/partner"
+  },
 
   // {
   //   path: "/user-profile",

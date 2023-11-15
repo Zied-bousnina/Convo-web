@@ -142,12 +142,14 @@ function App() {
           } />
 
 <Route path="/" exact render={(props) => <AdminLayout {...props} />} />
+<Route path="/" exact render={(props) => <PartnerLayout {...props} />} />
 
            <Route path="/login" render={(props) =>
            <ForceRedirect user={user}>
            {/* <Login /> */}
            <Login {...props} />
          </ForceRedirect>
+
            } />
 
            {/* <Route path="/profile-page" exact render={(props) => <Profile {...props} />}/>
