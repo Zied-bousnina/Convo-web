@@ -35,8 +35,6 @@ import FileInput from "components/FileInput.jsx";
   const AddPartner = () => {
 
     const error = useSelector(state=>state.error?.errors)
-    console.log(error)
-    console.log(error?.email)
 
 
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
@@ -59,6 +57,7 @@ import FileInput from "components/FileInput.jsx";
         kbis: e.target.files[0],
       });
     };
+
     const dispatch = useDispatch()
 
     dispatch({
@@ -74,6 +73,12 @@ import FileInput from "components/FileInput.jsx";
 
     const showToastMessage = () => {
       toast.success('Partner created successfully.', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+      });
+    }
+    const showToastMessage1 = () => {
+      toast.error('K-bis is required', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
       });
@@ -118,6 +123,20 @@ import FileInput from "components/FileInput.jsx";
 
       e.preventDefault();
       // console.log("bins", selectedValues.value)
+
+      console.log(form.kbis)
+      if(
+        form.name === undefined ||
+        form.contactName === undefined ||
+        form.addressPartner === undefined ||
+        form.email === undefined ||
+        form.phoneNumber === undefined ||
+        form.siret === undefined ||
+        form.kbis === undefined
+      ){
+        showToastMessage1()
+        return
+      }
 
 
       const formdata = new FormData();
@@ -359,6 +378,7 @@ import FileInput from "components/FileInput.jsx";
                   name="graphicWraps"
                   onChange={onChangeHandlerGraphicwraps}
                   accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
                 />
           {/* {
             errors && (<div  className="invalid-feedback">

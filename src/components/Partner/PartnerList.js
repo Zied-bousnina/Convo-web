@@ -70,7 +70,7 @@ const [filters, setFilters] = useState({
 });
 const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
-      { field: '_id', header: 'Id' },
+      { field: 'siret', header: 'Siret' },
     //   { field: 'name', header: 'Name' },
       { field: 'name', header: 'Business Name' },
       { field: 'contactName', header: 'Contact Name' },
@@ -124,7 +124,12 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
     console.log("delete")
 
     dispatch(DeleteUserByAdmin(id))
-    setnotificationModal(false)
+    if(isLoad){
+      setnotificationModal(!notificationModal)
+    }else {
+      setnotificationModal(false)
+    }
+    // setnotificationModal(false)
     if(isSuccess){
 
     }
