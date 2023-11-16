@@ -28,21 +28,37 @@ import {
   import makeAnimated from 'react-select/animated';
 import { CreatePartner } from "Redux/actions/authActions.js";
 
+import MaskedInput from 'react-text-mask'
+import { siretMask, sirenMask } from 'text-mask-siret';
+import FileInput from "components/FileInput.jsx";
   const animatedComponents = makeAnimated();
   const AddPartner = () => {
 
     const error = useSelector(state=>state.error?.errors)
+    console.log(error)
+    console.log(error?.email)
 
 
-  const isLoad = useSelector(state=>state?.isLoading?.isLoading)
+    const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     const ListOfQuote= useSelector(state=>state?.quote?.quote?.quotes)
     const ListOfBinsNotInUse= useSelector(state=>state?.ListOfBinsNotInPointBin?.ListOfBinsNotInPointBin)
 
     const [governorates, setgovernorates] = useState([]);
-  const [selectedValue, setSelectedValue] = useState('Tunis');
+    const [selectedValue, setSelectedValue] = useState('Tunis');
     const [selectedMunicipal, setMunicipal] = useState('Tunis');
     const [selectedValues, setSelectedValues] = useState([]);
+    const [form, setForm] = useState({})
+    const mask = siretMask;
+    const onChangeHandlerGraphicwraps = (e) => {
+      const { name, checked, value } = e.target;
+      console.log(e.target.files[0]);
+
+      setForm({
+        ...form,
+        kbis: e.target.files[0],
+      });
+    };
     const dispatch = useDispatch()
 
     dispatch({
@@ -73,7 +89,6 @@ import { CreatePartner } from "Redux/actions/authActions.js";
 
 
 
-    const [form, setForm] = useState({})
 
     const onChangeHandler = (e) => {
       const { name, value } = e.target;
@@ -104,9 +119,22 @@ import { CreatePartner } from "Redux/actions/authActions.js";
       e.preventDefault();
       // console.log("bins", selectedValues.value)
 
-      console.log(form)
 
-    dispatch(CreatePartner(form))
+      const formdata = new FormData();
+
+      Object.keys(form).forEach((key) => {
+        if (Array.isArray(form[key])) {
+          form[key].forEach((value) => {
+            formdata.append(key, value);
+          });
+        } else {
+          formdata.append(key, form[key]);
+        }
+      });
+      console.log(form)
+      console.log("Form Data", formdata)
+
+    dispatch(CreatePartner(formdata))
 
     // !error?.success ? showErrorToastMessage() : null
 
@@ -115,7 +143,7 @@ import { CreatePartner } from "Redux/actions/authActions.js";
 
         // showToastMessage()
         // setSelectedBins([])
-        e.target.reset();
+        // e.target.reset();
 
 
     }
@@ -132,9 +160,7 @@ import { CreatePartner } from "Redux/actions/authActions.js";
         .catch(err => console.log(err));
     }, []);
 
-     const municipales = governorates?.governorates?.filter(
-      (item, index) => item.name === selectedValue,
-    );
+
 
     const colourOptions = []
 
@@ -298,6 +324,52 @@ import { CreatePartner } from "Redux/actions/authActions.js";
     </Row>
 
     <hr/>
+    <Row>
+    <Col
+      md="6"
+      >
+         <div className=" mb-3">
+        <label className="form-label">Siret <span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+        <MaskedInput
+
+        mask={mask}
+        placeholder="Enter the business Siret"
+        name={"siret"}
+        className={classNames("form-control")}
+        onChange={onChangeHandler}
+
+        />
+           {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+      <Col
+      md="6"
+      >
+         <div className=" mb-3">
+        <label className="form-label"> K-Bis <span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+        <FileInput
+                  id="graphic"
+                  name="graphicWraps"
+                  onChange={onChangeHandlerGraphicwraps}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+
+    </Row>
 
 
 
@@ -314,10 +386,23 @@ import { CreatePartner } from "Redux/actions/authActions.js";
       >
          <div className=" mb-3">
         {
-            !error?.success && (<span style={{color:"red"}}>
-  {error?.success ? "" : error?.error}
-            </span>)
+        <span style={{color:"red"}}>
+  { error?.email?
+  error?.email
+  : null
+  }
+
+  { error?.siret?
+  error?.siret
+  : null
+  }
+  { error?.phoneNumber?
+  error?.phoneNumber
+  : null
+  }
+            </span>
           }
+
           <div   >
             {/* {errors}dfds */}
           </div>

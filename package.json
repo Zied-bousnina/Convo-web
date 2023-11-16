@@ -108,6 +108,7 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
+    "react-text-mask": "^5.5.0",
     "react-toastify": "^9.1.2",
     "react-transition-group": "^4.4.5",
     "reactstrap": "8.4.1",
@@ -117,6 +118,7 @@
     "redux-thunk": "^2.4.2",
     "sass": "1.53.0",
     "styled-components": "^5.3.10",
+    "text-mask-siret": "^1.0.0",
     "xlsx": "^0.18.5",
     "yup": "^1.1.1"
   },

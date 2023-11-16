@@ -151,7 +151,9 @@ export const CreatePartner = (userData) => dispatch => {
     })
 
     axios
-        .post(`${process.env.REACT_APP_API_URL}/api/users/AddPartner`, userData)
+        .post(`${process.env.REACT_APP_API_URL}/api/users/AddPartner`, userData,{
+            headers: { "Content-Type": "multipart/form-data" }
+        })
         .then(res => {
             dispatch({
                 type: SET_ERRORS,
@@ -190,6 +192,10 @@ export const CreatePartner = (userData) => dispatch => {
                     )
 
                   }, 3000);
+                  dispatch({
+                    type:SET_IS_LOADING,
+                    payload:false
+                })
         }
 
         )
