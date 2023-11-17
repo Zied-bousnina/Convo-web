@@ -48,7 +48,7 @@ import FileInput from "components/FileInput.jsx";
     const [selectedValues, setSelectedValues] = useState([]);
     const [form, setForm] = useState({})
     const mask = siretMask;
-    const onChangeHandlerGraphicwraps = (e) => {
+    const onChangeHandlerFile = (e) => {
       const { name, checked, value } = e.target;
       console.log(e.target.files[0]);
 
@@ -374,9 +374,9 @@ import FileInput from "components/FileInput.jsx";
         <label className="form-label"> K-Bis <span style={{color:"red"}}>*</span></label>
         <div className="input-group">
         <FileInput
-                  id="graphic"
-                  name="graphicWraps"
-                  onChange={onChangeHandlerGraphicwraps}
+                  id="kbis"
+                  name="kbis"
+                  onChange={onChangeHandlerFile}
                   accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
                 />

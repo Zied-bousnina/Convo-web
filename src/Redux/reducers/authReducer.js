@@ -1,6 +1,6 @@
 
 import isEmpty from "../../utils/isEmpty"
-import { SET_ERRORS, SET_USER, SET_LOADING } from "../types"
+import { SET_ERRORS, SET_USER, SET_LOADING, SET_FIRST_LOGIN } from "../types"
 
 const initialState = {
     isConnected: false,
@@ -12,7 +12,8 @@ const initialState = {
     isVerified: false,
     // isPrivateCompany: false,
     user: {},
-    request: {}
+    request: {},
+    isFirstTime:false
 
 
 }
@@ -31,7 +32,13 @@ export default function(state = initialState, action) {
                 // isPrivateCompany: action.payload?.role === "PRIVATE_COMPANY",
                 isVerified: action.payload?.verified,
 
+                isFirstTime : action.payload?.firstLogin
             }
+            case SET_FIRST_LOGIN:
+                return {
+                    ...state,
+                    isFirstTime: action.payload
+                }
 
         default:
             return state

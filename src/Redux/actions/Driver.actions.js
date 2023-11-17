@@ -61,7 +61,9 @@ export const CreateDriver = (data)=>dispatch=>{
 
 
 
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/AddDriver`,data )
+    axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/AddDriver`,data, {
+      headers: { "Content-Type": "multipart/form-data" }
+    } )
     .then(res => {
         // console.log(res)
         dispatch({
@@ -98,6 +100,10 @@ export const CreateDriver = (data)=>dispatch=>{
             type: SET_ERRORS,
             payload: err?.response?.data
         })
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
         dispatch({
           type:SET_IS_SECCESS,
           payload:false

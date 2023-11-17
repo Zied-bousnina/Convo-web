@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SET_CURRENT_ACCESS, SET_ERRORS, SET_IS_LOADING, SET_IS_SECCESS, SET_LOADING, SET_PROFILES, SET_REQUEST, SET_USER } from '../types'
+import { SET_CURRENT_ACCESS, SET_ERRORS, SET_FIRST_LOGIN, SET_IS_LOADING, SET_IS_SECCESS, SET_LOADING, SET_PROFILES, SET_REQUEST, SET_USER } from '../types'
 
 
 import { SetAuthToken } from '../../utils/SetAuthToken';
@@ -155,6 +155,70 @@ export const CreatePartner = (userData) => dispatch => {
             headers: { "Content-Type": "multipart/form-data" }
         })
         .then(res => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: []
+            })
+            dispatch({
+                type:SET_IS_LOADING,
+                payload:false
+            })
+            dispatch({
+                type: SET_IS_SECCESS,
+                payload: true
+            })
+    //  navigate('/list-of-demandes');
+            setTimeout(() => {
+                dispatch({
+                    type: SET_IS_SECCESS,
+                    payload: false
+                })
+            }, 3000);
+        })
+        .catch(err =>
+           {
+            // console.log(err)
+            dispatch({
+                type: SET_ERRORS,
+                payload: err?.response?.data
+            })
+            dispatch({
+                type: SET_IS_SECCESS,
+                payload: false
+            })
+                  setTimeout(() => {
+                    dispatch(
+                      setLoading(false)
+                    )
+
+                  }, 3000);
+                  dispatch({
+                    type:SET_IS_LOADING,
+                    payload:false
+                })
+        }
+
+        )
+}
+
+export const updatePassword = (userData) => dispatch => {
+
+    dispatch({
+        type: SET_ERRORS,
+        payload: []
+    })
+    dispatch({
+        type:SET_IS_LOADING,
+        payload:true
+    })
+
+    axios
+        .post(`${process.env.REACT_APP_API_URL}/api/users/updatePassword`, userData)
+        .then(res => {
+            dispatch({
+                type: SET_FIRST_LOGIN,
+                payload: false
+            })
             dispatch({
                 type: SET_ERRORS,
                 payload: []
