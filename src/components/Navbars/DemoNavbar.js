@@ -72,13 +72,13 @@ class DemoNavbar extends React.Component {
             expand="lg"
             id="navbar-main"
           >
-           
+
             <Container>
               <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
                 <img
                   alt="..."
                   style={{width: "200px", height: "auto"}}
-                  
+
                   src={"https://xgenbox.com/wp-content/uploads/2023/03/logo-copie.png"}
                 />
               </NavbarBrand>
@@ -110,13 +110,12 @@ class DemoNavbar extends React.Component {
                     </Col>
                   </Row>
                 </div>
-              
+
 
 
 
                 {/*  */}
                 <Nav className="align-items-lg-center ml-lg-auto  " navbar>
-                  
 
 
 
@@ -125,18 +124,19 @@ class DemoNavbar extends React.Component {
 
 
 
-               
+
+
 
 
                 <Nav className="navbar-nav-hover align-items-lg-center  " navbar>
-                
+
 
                   {/* Products */}
                   <UncontrolledDropdown nav>
                     <DropdownToggle nav>
                       <i className="ni ni-collection d-lg-none mr-1" />
                       <span className="nav-link-inner--text ">Products</span>
-                     
+
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem to="/smart-box" tag={Link}>
@@ -145,10 +145,10 @@ class DemoNavbar extends React.Component {
                       <DropdownItem to="/fleet-management-platform" tag={Link}>
                         Fleet Management platform
                       </DropdownItem>
-                      
+
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                  
+
 
                  {/* Markets */}
                   <UncontrolledDropdown nav>
@@ -171,7 +171,7 @@ class DemoNavbar extends React.Component {
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                 
+
                  {/* Company */}
                  <UncontrolledDropdown nav>
                     <DropdownToggle nav>
@@ -207,7 +207,7 @@ class DemoNavbar extends React.Component {
                       <DropdownItem to="/technical-assistance" tag={Link}>
                         Technical assistance
                       </DropdownItem>
-                      
+
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </Nav>

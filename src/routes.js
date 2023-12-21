@@ -55,7 +55,7 @@ var routes = [
   },
   {
     path: "/List-demandes",
-    name: "List Of Requests",
+    name: "List Of Missions",
     icon: "ni ni-folder-17 text-yellow",
     component: ListOfDemandes,
     layout: "/admin"

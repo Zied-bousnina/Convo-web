@@ -33,12 +33,12 @@ const AdminNavbar = (props) => {
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
         <Container fluid>
-          <Link
-            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-            to="/"
+          <span
+            className="h4 mb-0  text-black text-uppercase d-none d-lg-inline-block"
+            // to="/"
           >
             {props.brandText}
-          </Link>
+          </span>
           {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <FormGroup className="mb-0">
               <InputGroup className="input-group-alternative">
@@ -51,7 +51,7 @@ const AdminNavbar = (props) => {
               </InputGroup>
             </FormGroup>
           </Form> */}
-          <Nav className="align-items-center d-none d-md-flex" navbar>
+          <Nav className="align-items-center d-none d-md-flex indent-100" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
@@ -59,14 +59,16 @@ const AdminNavbar = (props) => {
                     <img
                       alt="..."
                       src={
-                        profile?.avatar
+                        profile?.avatar ?
+                        profile?.avatar :
+                       'https://www.gravatar.com/avatar/05b6d7cc7c662bf81e01b39254f88a49?d=identicon'
                       }
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 text-sm font-weight-bold">
-                     {user?.name}
-                    </span>
+                  <span className="mb-0 text-dark font-weight-bold">
+  {user?.name}
+</span>
                   </Media>
                 </Media>
               </DropdownToggle>
@@ -78,18 +80,18 @@ const AdminNavbar = (props) => {
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
+                {/* <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-settings-gear-65" />
                   <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
+                </DropdownItem> */}
+                {/* <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-calendar-grid-58" />
                   <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/" tag={Link}>
+                </DropdownItem> */}
+                {/* <DropdownItem to="/" tag={Link}>
                   <i className="ni ni-support-16" />
                   <span>Support</span>
-                </DropdownItem>
+                </DropdownItem> */}
                 <DropdownItem divider />
               <DropdownItem  onClick={handleLogout}>
                 <i className="ni ni-user-run" />

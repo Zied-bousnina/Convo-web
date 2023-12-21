@@ -1,21 +1,19 @@
 
 import { Button, Container, Row, Col } from "reactstrap";
+import backgroundImage from "../../assets/514f2ec3798090c6df00dad1592c8166.svg";
 
 const UserHeader = () => {
   return (
     <>
-      <div
-        className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+       <div className="header bg-gradient-reverse-primary pb-8 pt-2 pt-md-7 "
         style={{
-          minHeight: "300px",
-          // backgroundImage:
-          //   "url(" + require("../../assets/img/theme/profile-cover.jpg") + ")",
-          backgroundSize: "cover",
-          backgroundPosition: "center top"
-        }}
-      >
+    minHeight: "300px",
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center top"
+  }}>
         {/* Mask */}
-        <span className="mask bg-gradient-green opacity-8" />
+        {/* <span className="mask bg-gradient-green opacity-8" /> */}
         {/* Header container */}
         <Container className="d-flex align-items-center" fluid>
           <Row>

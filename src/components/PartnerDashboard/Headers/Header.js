@@ -18,14 +18,14 @@
 
 // reactstrap components
 import { getDemandesCount } from "Redux/actions/Statistiques.action";
-// import { getBinsCount } from "Redux/actions/Statistiques.action";
-import { getUsersCounts } from "../../../Redux/actions/Statistiques.action";
+import { getBinsCount } from "Redux/actions/Statistiques.action";
+import { getUsersCounts } from "Redux/actions/Statistiques.action";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import StatisticCard from "./Components/StatisticCard";
 import { getPartnerCounts } from "Redux/actions/Statistiques.action";
-
+import backgroundImage from "../../../assets/514f2ec3798090c6df00dad1592c8166.svg";
 
 
 const Header = () => {
@@ -49,7 +49,13 @@ console.log(PartnerStatistiques)
   const allUser = userStatistiques?.total;
 
   return (
-    <div className="header bg-gradient-green pb-8 pt-5 pt-md-8">
+    <div className="header bg-gradient-reverse-primary pb-8 pt-2 pt-md-7 "
+        style={{
+    minHeight: "300px",
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center top"
+  }}>
       <Container fluid>
         <div className="header-body">
           <Row>
