@@ -29,6 +29,7 @@ import {
 import { CreatePartner } from "Redux/actions/authActions.js";
 import { GetPartnerDetailsById } from "Redux/actions/PartnershipAction.js";
 import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
+import Skeleton from "react-loading-skeleton";
 
   const animatedComponents = makeAnimated();
   const PartnerDetails = () => {
@@ -196,6 +197,9 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 
     <ToastContainer />
     <Row>
+    {
+      PartnerDetails ?
+
     <Col
       md="6"
       >
@@ -212,6 +216,29 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+       style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+
+      height={40}
+      width={250}
+      />
+      </Col>
+
+    }
+    {
+      PartnerDetails ?
+
       <Col
       md="6"
       >
@@ -228,9 +255,32 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+
+    }
 
     </Row>
     <Row>
+
+{
+  PartnerDetails ?
+
 
 
       <Col
@@ -249,8 +299,31 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+       style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+
+      height={40}
+      width={250}
+      />
+      </Col>
+
+    }
     </Row>
     <Row>
+    {
+      PartnerDetails ?
+
       <Col
       md="6"
       >
@@ -267,6 +340,29 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+       style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+
+      height={40}
+      width={250}
+      />
+      </Col>
+
+    }
+    {
+      PartnerDetails ?
+
       <Col
       md="6"
       >
@@ -283,6 +379,26 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+       style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+
+      height={40}
+      width={250}
+      />
+      </Col>
+
+    }
       {/* <Col
       md="4"
       >

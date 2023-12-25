@@ -31,6 +31,7 @@ import PartnershipList from 'components/PartnershipList';
 import { FetchAllPartnership } from 'Redux/actions/PartnershipAction';
 import { DeleteUserByAdmin } from 'Redux/actions/userAction';
 import { FetchAllDrivers } from 'Redux/actions/Driver.actions';
+import { SET_PARTNER_DETAILS } from 'Redux/types';
 function ListOfDrivers() {
 const navigate = useHistory()
 
@@ -55,6 +56,10 @@ const navigate = useHistory()
 
   useEffect(() => {
     dispatch(FetchAllDrivers())
+    dispatch({
+      type: SET_PARTNER_DETAILS,
+      payload: {}
+  })
 
   }, [ driverList])
   // console.log(driverList)

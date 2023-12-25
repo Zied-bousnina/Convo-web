@@ -30,6 +30,7 @@ import { FindRequestDemande } from 'Redux/actions/Demandes.Actions';
 import PartnershipList from 'components/PartnershipList';
 import { FetchAllPartnership } from 'Redux/actions/PartnershipAction';
 import { DeleteUserByAdmin } from 'Redux/actions/userAction';
+import { SET_PARTNER_DETAILS } from 'Redux/types';
 function ListOfPartners() {
 const navigate = useHistory()
 
@@ -54,6 +55,10 @@ const navigate = useHistory()
 
   useEffect(() => {
     dispatch(FetchAllPartnership())
+    dispatch({
+      type: SET_PARTNER_DETAILS,
+      payload: {}
+  })
 
   }, [ partnerList])
   console.log(partnerList)

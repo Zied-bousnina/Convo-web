@@ -29,6 +29,9 @@ import {
 import { CreatePartner } from "Redux/actions/authActions.js";
 import { GetPartnerDetailsById } from "Redux/actions/PartnershipAction.js";
 import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
+import FileInput from "components/FileInput.jsx";
+import Skeleton from "react-loading-skeleton";
+import { Alert, AlertIcon } from "@chakra-ui/react";
 
   const animatedComponents = makeAnimated();
   const DriverDetails = () => {
@@ -57,6 +60,7 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
       type:SET_IS_SECCESS,
       payload:false
   })
+  console.log(PartnerDetails)
 
 
 
@@ -179,7 +183,7 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
                   </Row>
                 </CardHeader>
                 <CardBody>
-                <form onSubmit={onSubmit}
+                <form
   style={
     {
       padding:"20px",
@@ -196,16 +200,30 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 
     <ToastContainer />
 
-    <Row>
+<fieldset>
+    <legend>Driver Information</legend>
 
-      <Col
+
+    <Row>
+    {
+      PartnerDetails ?
+
+    <Col
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Name:</label>
+        <label className="form-label">Name</label>
         <div className="input-group">
 
-          <input type="text" disabled required defaultValue={PartnerDetails?.name}  placeholder="Enter the business phone number"  name={"name"} className={classNames("form-control")} onChange={onChangeHandler}/>
+          <input type="text"
+          defaultValue={PartnerDetails?.name}
+           disabled
+            placeholder="Enter the contact person's name"
+            name={"name"}
+            className={classNames("form-control")}
+            // onChange={onChangeHandler}
+
+            />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -214,14 +232,45 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+
+      <Skeleton
+        style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+      </Col>
+    }
+    {
+      PartnerDetails ?
       <Col
       md="6"
       >
          <div className=" mb-3">
-        <label className="form-label">Email: </label>
+        <label className="form-label">Email: <span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="text" disabled required defaultValue={PartnerDetails?.email}   placeholder="Enter the business email address" name={"email"} className={classNames("form-control")} onChange={onChangeHandler}/>
+          <input
+          defaultValue={PartnerDetails?.email}
+          type="text"
+          disabled
+
+              placeholder="Enter the business email address"
+              name={"email"} className={classNames("form-control")}
+
+
+              />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -230,6 +279,27 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+
+      <Skeleton
+        style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+      </Col>
+    }
+
       {/* <Col
       md="4"
       >
@@ -243,6 +313,211 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
       </div>
       </Col> */}
     </Row>
+    </fieldset>
+    <hr/>
+    <Alert status='info'>
+    <AlertIcon />
+    This is a warning alert — This feature is still in development. Some functionalities may not be available yet</Alert>
+    <fieldset>
+    <legend>Driving Documents</legend>
+
+    <Row>
+    <Col
+      md="6"
+      >
+         <div className=" mb-">
+        <label className="form-label">Driver's license (Front card)<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+        <FileInput
+                  id="permisConduirefrontCard"
+                  name="permisConduirefrontCard"
+                  // onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+      <Col
+      md="6"
+      >
+         <div className=" mb-">
+        <label className="form-label">Driver's license (Back card)<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+        <FileInput
+                  id="permisConduirebackCard"
+                  name="permisConduirebackCard"
+                  // onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+
+      {/* <Col
+      md="4"
+      >
+         <div className=" mb-3">
+        <label className="form-label">Job Title</label>
+        <div className="input-group">
+
+          <input type="text"  name={"jobTitle"} className={classNames("form-control")} onChange={onChangeHandler}/>
+
+        </div>
+      </div>
+      </Col> */}
+    </Row>
+    <Row>
+    <Col
+      md="12"
+      >
+         <div className=" mb-">
+        <label className="form-label">Insurance certificate<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+        <FileInput
+                  id="assurance"
+                  name="assurance"
+                  // onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+
+
+      {/* <Col
+      md="4"
+      >
+         <div className=" mb-3">
+        <label className="form-label">Job Title</label>
+        <div className="input-group">
+
+          <input type="text"  name={"jobTitle"} className={classNames("form-control")} onChange={onChangeHandler}/>
+
+        </div>
+      </div>
+      </Col> */}
+    </Row>
+    <Row>
+    <Col
+      md="6"
+      >
+         <div className=" mb-">
+        <label className="form-label">Identity document (Front card)<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+        <FileInput
+                  id="CinfrontCard"
+                  name="CinfrontCard"
+                  // onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+      <Col
+      md="6"
+      >
+         <div className=" mb-">
+        <label className="form-label">Identity document (Back card)<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+        <FileInput
+                  id="CinbackCard"
+                  name="CinbackCard"
+                  // onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+
+      {/* <Col
+      md="4"
+      >
+         <div className=" mb-3">
+        <label className="form-label">Job Title</label>
+        <div className="input-group">
+
+          <input type="text"  name={"jobTitle"} className={classNames("form-control")} onChange={onChangeHandler}/>
+
+        </div>
+      </div>
+      </Col> */}
+    </Row>
+    <Row>
+    <Col
+      md="12"
+      >
+         <div className=" mb-">
+        <label className="form-label">Proof of address<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+        <FileInput
+                  id="proofOfAddress"
+                  name="proofOfAddress"
+                  // onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+
+
+      {/* <Col
+      md="4"
+      >
+         <div className=" mb-3">
+        <label className="form-label">Job Title</label>
+        <div className="input-group">
+
+          <input type="text"  name={"jobTitle"} className={classNames("form-control")} onChange={onChangeHandler}/>
+
+        </div>
+      </div>
+      </Col> */}
+    </Row>
+
+    </fieldset>
+
 
     <hr/>
 
@@ -260,10 +535,16 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
       md="4"
       >
          <div className=" mb-3">
-        {
-            !error?.success && (<span style={{color:"red"}}>
-  {error?.success ? "" : error?.error}
-            </span>)
+         {
+        <span style={{color:"red"}}>
+  { error?.email?
+  error?.email
+  : null
+  }
+
+
+
+            </span>
           }
           <div   >
             {/* {errors}dfds */}
@@ -278,7 +559,20 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 
 
 
+    {/* <Row>
+      <Col>
+      <button type="submit" className="btn btn-outline-primary">
+      {isLoad ? (
+          <div className="spinner-border text-light" role="status">
+            <span className="visually-hidden"></span>
+          </div>
+        ) : (
+          'Submit'
+        )}
 
+                    <i className="fa-solid fa-floppy-disk"></i>
+                  </button></Col>
+    </Row> */}
   </form>
 
 

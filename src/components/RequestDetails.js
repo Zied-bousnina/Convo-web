@@ -18,12 +18,12 @@ import {
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
-  import { useEffect, useRef, useState } from "react";
+  import React, { useEffect, useRef, useState } from "react";
   import axios from "axios";
   import classNames from "classnames";
   import { AddBin } from "Redux/actions/BinAction";
   import { SET_IS_SECCESS } from "Redux/types";
-
+  // import OppositeContentTimeline from './TimeLine.js'
 
   /*!
 
@@ -78,6 +78,17 @@ import CustomizedTimeline from "./TimeLine.js";
 import { useParams } from "react-router-dom";
 import { idText } from "typescript";
 import { FindRequestDemandeById } from "Redux/actions/Demandes.Actions.js";
+import OppositeContentTimeline from "./TimeLine.js";
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import { Divider } from "@chakra-ui/react";
+import Skeleton from "react-loading-skeleton";
+
   const RequestDetails = () => {
     const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
@@ -404,7 +415,7 @@ dispatch(AddDemande(data, navigate))
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    create a mission
+                    Mission details
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </div>
@@ -434,10 +445,13 @@ style={
 
 }
 >
+{
+  SingleDemande ?
+
 <Row>
   <Col md="12">
     <div className=" mb-3">
-      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Starting point</label>
       <div className="input-group">
         <input
           type="text"
@@ -452,11 +466,28 @@ style={
     </div>
   </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+ {
+  SingleDemande ?
 
 <Row>
   <Col md="12">
     <div className=" mb-3">
-      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Destination</label>
       <div className="input-group">
         <input
           type="text"
@@ -470,6 +501,21 @@ style={
     </div>
   </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+ }
 
   {/* <ToastContainer /> */}
 
@@ -485,6 +531,10 @@ style={
 
 
 </Row>
+{
+  SingleDemande ?
+
+
 <Row
 className="mb-3"
 >
@@ -496,7 +546,24 @@ className="mb-3"
   <>
 
 
-<label className="form-label">Driver<span style={{color:"red"}}>*</span></label>
+  <label className="form-label">Mission Status :
+  <span style={{
+    color: SingleDemande?.status === "pending" ? "orange" :
+      SingleDemande?.status === "accepted" ? "green" :
+        SingleDemande?.status === "refused" ? "red" :
+          SingleDemande?.status === "in progress" ? "blue" :
+            SingleDemande?.status === "done" ? "green" :
+              SingleDemande?.status === "canceled" ? "red" : ""
+  }}>
+    {SingleDemande?.status === "pending" ? "Pending" :
+      SingleDemande?.status === "accepted" ? "Accepted" :
+        SingleDemande?.status === "refused" ? "Refused" :
+          SingleDemande?.status === "in progress" ? "In Progress" :
+            SingleDemande?.status === "done" ? "Done" :
+              SingleDemande?.status === "canceled" ? "Canceled" : ""}
+  </span>
+</label>
+
 {/* <Select required
 
    className="react-select primary"
@@ -508,27 +575,170 @@ className="mb-3"
   </>
 
 }
+{/* <OppositeContentTimeline/> */}
+
+
+
+
       </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+{
+  SingleDemande ?
 <Row>
 
 <Col>
-<label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
-{/* <Datetime
-
-onChange={(e)=>setValue(e)}
-value={value}
-// timeFormat={false}
-inputProps={{
-  placeholder: "Date Picker Here",
-  name: "dateDepart"
-}}
-
-
-
- /> */}
+<label className="form-label">date Depart </label>
+<div className="input-group">
+  <input
+    type="text"
+    placeholder="Choose date of departure"
+    value={SingleDemande?.dateDepart&& new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                ).format(new Date(SingleDemande?.dateDepart))}
+    name={"dateDepart"}
+    className={classNames("form-control")}
+    disabled
+  />
+</div>
 </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+{
+  SingleDemande ?
+
+
+  SingleDemande?.driver  &&
+  <React.Fragment>
+  <Divider
+  style={{
+    marginTop:"20px",
+    marginBottom:"20px"
+  }}
+  />
+
+  <label className="form-label">Driver details <Link
+  to={`/admin/driver-details/${SingleDemande?.driver?._id}`}
+  // target="_blank"
+
+
+   style={{color:"#5e72e4"}}>( check more details)</Link></label>
+
+
+
+<Row>
+
+<Col>
+<label className="form-label">Driver Name </label>
+<div className="input-group">
+  <input
+    type="text"
+    placeholder="Choose date of arrival"
+    value={ SingleDemande?.driver?.name}
+    name={"dateArrive"}
+    className={classNames("form-control")}
+    disabled
+  />
+</div>
+</Col>
+</Row>
+
+  </React.Fragment>
+
+
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+
+
+{
+
+  SingleDemande ?
+
+<Row>
+<Col>
+<label className="form-label">Distance (Km) ~</label>
+<div className="input-group">
+  <input
+    type="text"
+    placeholder="Choose distance of mission"
+    value={ `~${Math.floor(SingleDemande?.distance)} km`}
+    name={"distance"}
+    className={classNames("form-control")}
+    disabled
+  />
+</div>
+</Col>
+</Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+
+
+{/*
+</Col>
+</Row> */}
+
+{
+  SingleDemande || SingleDemande?.comment ?
+
+
+  SingleDemande?.comment &&
+
 <Row>
   <Col md="12">
     <div className=" mb-3">
@@ -537,20 +747,39 @@ inputProps={{
         <input
           type="text"
           // required
-          placeholder="Comment"
 
-          name={"comment"}
+
+
           className={classNames("form-control")}
+          disabled
+          value={
+            SingleDemande?.comment
+          }
 
-          onChange={(e) => {
-            onChangeHandler(e)
 
-          }}
         />
       </div>
     </div>
   </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+{
+  SingleDemande ?
 
   <Row>
 
@@ -567,18 +796,41 @@ inputProps={{
 
 
     >
-    <button type="submit" className="btn m-1 ml-3 btn-outline-success">
-    {isLoad ? (
-        <div className="spinner-border text-light" role="status">
-          <span className="visually-hidden"></span>
-        </div>
-      ) : (
-        'Submit'
-      )}
+    <Link
+    to={`/admin/edit-mission/${SingleDemande?._id}`}
+    // target="_blank"
+    state={{ SingleDemmande : SingleDemande}}
+    >
+    <Button
+    className="btn-icon btn-3"
+    color="primary"
+    type="button"
 
-                  <i className="fa-solid fa-floppy-disk"></i>
-                </button></Col>
+    >
+    <span className="btn-inner--icon">
+    <i className="ni ni-bold-right"></i>
+    </span>
+    <span className="btn-inner--text">Edit Mission </span>
+    </Button>
+    </Link>
+
+  </Col>
   </Row>
+  :
+  <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={150}
+height={50}
+
+/>
+}
 
 </form>
                 </div>
