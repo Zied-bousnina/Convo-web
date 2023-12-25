@@ -82,6 +82,7 @@ const Sidebar = (props) => {
       prop.path !=='/request-details/:id'&&
       prop.path !=='/AddDriver' &&
       prop.path !=='/edit-Driver/:id'&&
+      prop.path !=='/edit-mission/:id'&&
       prop.path !=='/driver-details/:id'
       ) {
         return (

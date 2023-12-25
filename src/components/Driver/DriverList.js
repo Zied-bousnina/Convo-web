@@ -71,13 +71,13 @@ const [filters, setFilters] = useState({
 });
 const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
-      { field: '_id', header: 'Id' },
+      // { field: '_id', header: 'Id' },
     //   { field: 'name', header: 'Name' },
       { field: 'name', header: 'Name' },
     //   { field: 'contactName', header: 'Contact Name' },
       { field: 'email', header: 'E-mail' },
       { field: 'onligne', header: 'Is Online' },
-      { field: 'createdAt', header: 'Created At' }
+      // { field: 'createdAt', header: 'Created At' }
   ];
 
   const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
@@ -310,12 +310,20 @@ setselectedItem(rowData?._id)
                 <Column field="gaz" header="Gaz" sortable style={{ width: '25%' }}></Column>
                 <Column field="niv" header="Level" sortable style={{ width: '25%' }}>
                   hjh
-                </Column> */}
+                </Column> */
+               }
+               <Column field={"_id"}
+                body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
+                header={"ID"} sortable style={{ width: '25%' }}></Column>
                 {
                   cols.map(e=>{
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
+                <Column field={"createdAt"}
+                body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                ).format(new Date(rowData.createdAt))}
+                header={"Created At"} sortable style={{ width: '25%' }}></Column>
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
             </DataTable>
                 </div>

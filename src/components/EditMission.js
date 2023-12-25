@@ -81,10 +81,16 @@ import Datetime from 'react-datetime';
 import { FetchAllDrivers } from "Redux/actions/Driver.actions.js";
 // import { TimeIcon } from './../../node_modules/@mui/x-date-pickers/icons/index';
 import Select from 'react-select'
-
-
-  const CreateRequest = () => {
-    const navigate = useHistory();
+import { useParams } from "react-router-dom";
+import { FindRequestDemandeById } from "Redux/actions/Demandes.Actions.js";
+import Skeleton from 'react-loading-skeleton'
+import { UpdateMission } from "Redux/actions/Demandes.Actions.js";
+import { RadioButton } from "primereact/radiobutton";
+import { SelectButton } from 'primereact/selectbutton';
+import { MultiStateCheckbox } from 'primereact/multistatecheckbox';
+import { Calendar } from 'primereact/calendar';
+const EditMission = () => {
+  const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
 
@@ -98,12 +104,21 @@ import Select from 'react-select'
     const isStartingPointRef = useRef(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
-    const [checked, setChecked] = useState(false);
+    const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
+    const [checked, setChecked] = useState( SingleDemande?.driverIsAuto ? SingleDemande?.driverIsAuto : false);
     const [value, setValue]= useState(new Date().toISOString())
     const [fmtValue, setFmtValue]= useState(undefined)
     const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
     const [selectedValues, setSelectedValues] = useState([]);
+    const [ingredient, setIngredient] = useState('');
+    const [value3, setValue3] = useState('Automatic');
+    const options = [
+        { value: 'Manual'  },
 
+    ];
+
+    const { id } = useParams();
+    // console.log("driver is auto ", SingleDemande?.driverIsAuto)
     useEffect(() => {
       dispatch(FetchAllDrivers())
 
@@ -121,7 +136,7 @@ import Select from 'react-select'
     })
 
     useEffect(( )=> {
-      console.log(`Formatted value is ${fmtValue}`)
+      // console.log(`Formatted value is ${fmtValue}`)
     }, [fmtValue])
     const handleChange = (event) => {
       setChecked(event.target.checked);
@@ -202,6 +217,12 @@ import Select from 'react-select'
         .catch(err => {});
     }, []);
 
+    useEffect(() => {
+        dispatch(FindRequestDemandeById(id))
+      }, [SingleDemande])
+      const [value1, setValue2] = useState();
+      console.log(value1)
+
 
 
     const showToastMessage = () => {
@@ -217,10 +238,15 @@ import Select from 'react-select'
 
 
     const [form, setForm] = useState({
+
+
+
+
     })
 
     const onChangeHandler = (e) => {
       const { name, checked, value } = e.target;
+
 
 
 
@@ -262,7 +288,7 @@ import Select from 'react-select'
               // console.error("Error fetching coordinates from the geocoding service", error);
             }
           }
-          console.log(e)
+          // console.log(e)
 
         // If the destination search query is not empty, use a geocoding service to get the coordinates
        // If the destination search query is not empty, use a geocoding service to get the coordinates
@@ -285,10 +311,10 @@ import Select from 'react-select'
     }
   }
   const getDistanceFromLatLonInKm=()=>{
-    const lat1 = startingPoint?.latitude;
-  const lon1 = startingPoint?.longitude;
-  const lat2 = destination?.latitude;
-  const lon2 = destination?.longitude;
+    const lat1 = startingPoint ? startingPoint?.latitude : SingleDemande?.address?.latitude;
+  const lon1 =     startingPoint ? startingPoint?.longitude : SingleDemande?.address?.longitude  ;
+  const lat2 = destination ? destination?.latitude : SingleDemande?.destination?.latitude;
+  const lon2 = destination ? destination?.longitude : SingleDemande?.destination?.longitude;
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
     var dLon = deg2rad(lon2-lon1);
@@ -307,23 +333,29 @@ import Select from 'react-select'
   const distance = getDistanceFromLatLonInKm()
   const data = {
     ...form,
-    address: startingPoint,
-    destination:destination,
-    postalAddress:startingPoint?.display_name,
-    postalDestination:destination?.display_name,
+    address: startingPoint ? startingPoint : SingleDemande?.address,
+    destination:destination ? destination : SingleDemande?.destination,
+    postalAddress:startingPoint ? startingPoint?.display_name : SingleDemande?.address?.display_name,
+    postalDestination:destination ? destination?.display_name : SingleDemande?.destination?.display_name,
     distance:distance,
-    driverIsAuto:!checked,
-    dateDepart:value?._d,
-    driver:selectedValues?.value
+    driverIsAuto:value3 == "Manual"? false: true,
+    // dateDepart: SingleDemande ?SingleDemande?.dateDepart :value,
+    dateDepart: value ? value : SingleDemande?.dateDepart,
+    comment: form?.comment ?form?.comment: SingleDemande?.comment,
+    // dateDepart:value?._d,
+    driver: value3 == "Manual" ?selectedValues?.value :""
 
 
 
 
 
   }
+  // console.log(SingleDemande)
 
   // console.log(data)
-dispatch(AddDemande(data, navigate))
+  // console.log("value3", value3)
+// dispatch(AddDemande(data, navigate))
+dispatch(UpdateMission(id,data))
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
@@ -368,6 +400,7 @@ dispatch(AddDemande(data, navigate))
       dispatch(GetAllUsers())
 
     }, [dispatch,AllUsers])
+    // console.log(SingleDemande)
 
 
     useEffect(() => {
@@ -432,7 +465,7 @@ dispatch(AddDemande(data, navigate))
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    create a mission
+                    Edit mission
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </div>
@@ -464,14 +497,20 @@ style={
 >
 <Row>
   <Col md="12">
+      {
+        SingleDemande ?
     <div className=" mb-3">
       <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
+
         <input
           type="text"
-          required
-          placeholder="Choose starting point, or click on the map"
+          // required
+          placeholder={SingleDemande?.address?.display_name}
+          // disabled
           value={startingPoint ? startingPoint.display_name : searchQuery}
+        defaultValue={SingleDemande?.address?.display_name}
+        // disabled
           name={"start"}
           className={classNames("form-control")}
           onClick={() => {
@@ -487,19 +526,36 @@ style={
         />
       </div>
     </div>
+        :
+        (
+
+        <Skeleton
+        style={{marginTop:"2rem"}}
+
+        // style={{marginTop:"2rem"}}
+
+         width={300} height={30} />
+
+        )
+      }
   </Col>
 </Row>
 
 <Row>
   <Col md="12">
+
+      {
+
+        SingleDemande ?
     <div className=" mb-3">
       <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
         <input
           type="text"
-          required
-          placeholder="Choose destination, or click on the map"
+          // required
+          placeholder={SingleDemande?.destination?.display_name}
           value={destination ? destination.display_name : destinationSearchQuery}
+        // value={SingleDemande?.destination?.display_name}
           name={"destination"}
           className={classNames("form-control")}
           onClick={() => {
@@ -513,8 +569,13 @@ style={
             // onChangeHandler(e)
           }}
         />
-      </div>
-    </div>
+         </div>
+    </div> :
+          <Skeleton
+          style={{marginTop:"2rem"}}
+           width={300} height={30} />
+
+      }
   </Col>
 </Row>
 
@@ -523,9 +584,10 @@ style={
 
 
 
-
-<Row>
+  <Row>
     <Col>
+    {
+      SingleDemande ?
     <button
     type="button"
   onClick={() => {
@@ -537,10 +599,18 @@ style={
 >
   Set Starting Point
 </button>
+:(
+  <Skeleton
+  style={{marginTop:"2rem"}}
+   width={100} height={60} />
+)
+    }
 
 
     </Col>
     <Col>
+    {  SingleDemande ?
+
     <button
     type="button"
   onClick={() => {
@@ -552,9 +622,18 @@ style={
 >
   Set Destination
 </button>
+:(
+  <Skeleton
+  style={{marginTop:"2rem"}}
+   width={100} height={60} />
+)
+    }
 
     </Col>
 </Row>
+{
+  SingleDemande?.driverIsAuto &&
+
 <Row>
 
 <Col>
@@ -572,46 +651,28 @@ Driver Choice :
         </Row>
       </Col>
 </Row>
-<Row
+}
+<div className="card flex justify-content-center">
+{
+  SingleDemande?.driverIsAuto &&
+  <>
+  <div className="card flex flex-column align-items-center gap-3">
 
->
+  <MultiStateCheckbox value={value3} onChange={(e) => setValue3(e.value)} options={options} optionValue="value" />
+            <span>{value3 || 'Automatique'}</span>
+  </div>
+  </>
+}
+        </div>
 
-<Col>
-        {/* Switch button for automatic or manual choice */}
-
-
-<Label
-className="form-control-label p-2"
-htmlFor="input-username"
-
->
-
-Automatic
-</Label>
-        <Switch
-      checked={checked}
-      onChange={handleChange}
-      inputProps={{ 'aria-label': 'controlled' }}
-    />
-    {/* End of switch button */}
-    {/* Start of map container */}
-    <Label
-className="form-control-label p-2"
-htmlFor="input-username"
->
-Manual
-</Label>
-
-      </Col>
-</Row>
 <Row
 className="mb-3"
 >
 
 <Col>
-        {/* Switch button for automatic or manual choice */}
 {
-  checked &&<>
+   value3=="Manual" &&<>
+        {/* Switch button for automatic or manual choice */}
 
 
 <label className="form-label">Driver<span style={{color:"red"}}>*</span></label>
@@ -624,17 +685,28 @@ className="mb-3"
 
     options={colourOptions} />
   </>
-
 }
+
+
+
       </Col>
 </Row>
+
 <Row>
 
 <Col>
-<label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
+{
+  SingleDemande?.dateDepart ?
+  <div className=" mb-3">
+
+<label className="form-label">date Depart</label>
+{/* <Calendar id="calendar-24h" value={value} onChange={(e) => setValue(e.value)} showTime hourFormat="24" /> */}
 <Datetime
 
-onChange={(e)=>setValue(e)}
+onChange={(e)=>{setValue(e?._d)
+  console.log(e?._d)
+  console.log(value)
+}}
 value={value}
 // timeFormat={false}
 inputProps={{
@@ -645,10 +717,20 @@ inputProps={{
 
 
  />
+  </div>
+ :
+ <Skeleton
+ style={{marginTop:"2rem"}}
+  width={300} height={30} />
+}
 </Col>
 </Row>
 <Row>
   <Col md="12">
+  {
+    SingleDemande ?
+
+
     <div className=" mb-3">
       <label className="form-label">Comment</label>
       <div className="input-group">
@@ -664,39 +746,72 @@ inputProps={{
             onChangeHandler(e)
 
           }}
+          defaultValue={SingleDemande?.comment}
         />
       </div>
     </div>
+    :(
+  <Skeleton
+  style={{marginTop:"2rem"}}
+   width={300} height={30} />
+)
+    }
   </Col>
 </Row>
 
-  <Row>
-
-    <Col
+<Row>
+  <Col
     className="col-12"
     style={{
       height: "60vh",
       width: "85%",
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginTop: "20px",
+      marginBottom: "20px",
     }}
+  >
+    {SingleDemande ? (
+      <>
+        <button type="submit" className="btn m-1 ml-3 btn-outline-success">
+          {isLoad ? (
+            <div className="spinner-border text-light" role="status">
+              <span className="visually-hidden"></span>
+            </div>
+          ) : (
+            <>
+              Modifier <i className="fa-solid fa-floppy-disk"></i>
+            </>
+          )}
+        </button>
+        {/* <button type="button"
+        onClick={()=>{
 
+          setdestination()
+          setstartingPoint()
+          setisStartingPoint(true)
+          setisDestination(false)
+          setSearchQuery("")
+          setDestinationSearchQuery("")
+          setForm(
+            {
+              ...form,
+              comment: SingleDemande?.comment,
 
-    >
-    <button type="submit" className="btn m-1 ml-3 btn-outline-success">
-    {isLoad ? (
-        <div className="spinner-border text-light" role="status">
-          <span className="visually-hidden"></span>
-        </div>
-      ) : (
-        'Submit'
-      )}
+            }
 
-                  <i className="fa-solid fa-floppy-disk"></i>
-                </button></Col>
-  </Row>
+          )
+        }
+        }
+        className="btn m-1 ml-3 btn-outline-secondary">
+          Reset
+        </button> */}
+      </>
+    ) : (
+      <Skeleton style={{ marginTop: "2rem" }} width={100} height={60} />
+    )}
+  </Col>
+</Row>
 
 </form>
                 </div>
@@ -769,4 +884,4 @@ inputProps={{
     );
   };
 
-  export default CreateRequest;
+  export default EditMission;

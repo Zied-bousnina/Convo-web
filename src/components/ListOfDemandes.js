@@ -11,6 +11,7 @@ import {
   CardFooter,
   Button,
   Modal,
+  Label,
 } from "reactstrap";
 import Header from './Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,12 +22,20 @@ import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Tooltip } from 'primereact/tooltip';
+// import { Tooltip } from 'primereact/tooltip';
+import { Tooltip  } from '@chakra-ui/react'
 import { useHistory } from 'react-router-dom';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { toast } from 'react-toastify';
 import { FindRequestDemande } from 'Redux/actions/Demandes.Actions';
+import { Switch } from '@chakra-ui/react';
+import { SET_DEMANDES } from 'Redux/types';
+import { SET_SINGLE_DEMANDE } from 'Redux/types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { FindRequestDemandeByPartner } from 'Redux/actions/Demandes.Actions';
+
 function ListOfDemandes() {
 const navigate = useHistory()
 
@@ -37,6 +46,7 @@ const navigate = useHistory()
   const isSuccess = useSelector(state=>state?.success?.success)
 
   const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
+  const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
   const requests1 = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
   const [selectedItem, setselectedItem] = useState(null)
   const dispatch = useDispatch()
@@ -45,12 +55,19 @@ const navigate = useHistory()
   const [products, setProducts] = useState([]);
   const history = useHistory();
   const dt = useRef(null);
+  const [tab, settab] = useState("admin")
   // console.log(requests1)
 
   useEffect(() => {
+    dispatch({
+      type: SET_SINGLE_DEMANDE,
+      payload: {},
+    });
     dispatch(FindRequestDemande())
+    dispatch(FindRequestDemandeByPartner())
 
-  }, [ requests])
+  }, [ requests,requestsByPartner])
+
 
 const [filters, setFilters] = useState({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -64,12 +81,14 @@ const [filters, setFilters] = useState({
 });
 const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
-      { field: '_id', header: 'Id' },
+      // { field: '_id', header: 'Id' },
     //   { field: 'name', header: 'Name' },
       { field: 'address.display_name', header: 'Starting point' },
       { field: 'destination.display_name', header: 'Destination' },
-      { field: 'distance', header: 'Distance (km)' },
-      { field: 'createdAt', header: 'Created At' }
+      // { field: 'distance', header: 'Distance (km)' },
+      // { field: 'createdAt', header: 'Created At' },
+      { field: 'driverIsAuto', header: 'driverIsAuto' }
+      // tab === "partner" ? { field: 'partnerName', header: 'Partner' } : null
   ];
 
   const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
@@ -143,8 +162,11 @@ const onGlobalFilterChange = (e) => {
   setGlobalFilterValue(value);
 };
 
-
-
+const [checked, setChecked] = useState(false);
+const handleChange = (event) => {
+  setChecked(event.target.checked);
+  // console.log(checked)
+};
 
   const header = (
     <>
@@ -170,10 +192,21 @@ const actionBodyTemplate = (rowData) => {
   return (
       <React.Fragment>
         <Link
-                          to={`/admin/edit-bin/${rowData?._id}`}
+                          to={`/admin/edit-mission/${rowData?._id}`}
+                          onClick={(e) => {
+    // Your custom click handling logic here
+    // e.preventDefault(); // Prevents the default navigation behavior
+    dispatch({
+        type: SET_SINGLE_DEMANDE,
+        payload: {},
+      });
+  }}
+
                           >
 
-          <Btn icon="pi pi-pencil" rounded outlined className="mr-2"  />
+          <Btn icon="pi pi-pencil" rounded outlined className="mr-2"
+
+            />
                           </Link>
           <Btn icon="pi pi-trash" rounded outlined severity="danger" onClick={()=>{
 
@@ -181,7 +214,21 @@ setnotificationModal(true)
 
 setselectedItem(rowData?._id)
 } } />
+
       </React.Fragment>
+  );
+};
+const actionBodyTemplate2 = (rowData) => {
+  return (
+<React.Fragment>
+
+    <Switch
+    checked={checked}
+    onChange={handleChange}
+    inputProps={{ 'aria-label': 'controlled' }}
+    size='lg'
+  />
+</React.Fragment>
   );
 };
   return (
@@ -199,7 +246,7 @@ setselectedItem(rowData?._id)
                   // lg="6"
                     md="10"
                   >
-                <h3 className="mb-0">List Of all Requests</h3>
+                <h3 className="mb-0">List Of all Missions  {tab =="partner" && 'Created By Partners'} </h3>
 
                   </Col>
                   <Col
@@ -209,6 +256,7 @@ setselectedItem(rowData?._id)
                      <Link
                           to={`/admin/AddRequest`}
                           >
+
                             <Button
                             className="float-right"
                             // color="primary"
@@ -220,6 +268,35 @@ setselectedItem(rowData?._id)
                             </Button>
                           </Link>
                   </Col>
+                  <Col md="2">
+  {/* <Link to={`/company/index`}> */}
+
+
+    <Button className="float-right"
+    onClick={() => settab("partner")}
+
+    >
+  <Tooltip label='By Partners' fontSize='md'>
+      {/* <Link to="/company/List-bins"> */}
+        <i className="fas fa-users" />
+  </Tooltip>
+      {/* </Link> */}
+    </Button>
+
+    <Button className="float-right"
+    onClick={() => settab("Admin")}
+    >
+      {/* <Link to="/company/index"> */}
+        {/* <i className="fas fa-users-tie" /> */}
+        <Tooltip label='By Admin' fontSize='md'>
+
+        <FontAwesomeIcon icon={faUserTie} />
+        </Tooltip>
+      {/* </Link> */}
+    </Button>
+
+  {/* </Link> */}
+</Col>
                 </Row>
               </CardHeader>
 
@@ -280,8 +357,10 @@ setselectedItem(rowData?._id)
             </Modal>
             <div className="card">
 
-              <Tooltip target=".export-buttons>button" position="bottom" />
-              <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={requests} header={header} selection={selectedProduct}
+              {/* <Tooltip target=".export-buttons>button" position="bottom" /> */}
+              <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={
+                tab =="partner" ? requestsByPartner : requests
+              } header={header} selection={selectedProduct}
               selectionMode={true}
               onSelectionChange={(e) => setSelectedProduct(e.data)}
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}
@@ -302,12 +381,29 @@ setselectedItem(rowData?._id)
                 <Column field="niv" header="Level" sortable style={{ width: '25%' }}>
                   hjh
                 </Column> */}
+                <Column field={"_id"}
+                body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
+                header={"ID"} sortable style={{ width: '25%' }}></Column>
+                {tab === "partner" ?
+                <Column field={"user.contactName"}
+                body={(rowData) => rowData.user.contactName.toUpperCase()}
+                header={"Partner Name"} sortable style={{ width: '25%' }}></Column>
+                : null}
                 {
                   cols.map(e=>{
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
+                <Column field={"distance"}
+                body={(rowData) => `~${Math.floor(rowData.distance )}km`}
+                header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
+                  <Column field={"createdAt"}
+                body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                ).format(new Date(rowData.createdAt))}
+                header={"Created At"} sortable style={{ width: '25%' }}></Column>
+                {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
+                {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
             </DataTable>
                 </div>
               <CardFooter className="py-4">

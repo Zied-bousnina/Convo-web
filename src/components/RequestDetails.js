@@ -11,6 +11,7 @@ import {
     Container,
     Row,
     Col,
+    Label,
   } from "reactstrap";
   // core components
   import UserHeader from "components/Headers/UserHeader.js";
@@ -147,7 +148,7 @@ import { FindRequestDemandeById } from "Redux/actions/Demandes.Actions.js";
       // console.log(SingleDemande)
 
 
-
+console.log(SingleDemande)
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -392,19 +393,25 @@ dispatch(AddDemande(data, navigate))
         <Container className="mt--7" fluid>
         <Row>
 
-          <Col xl="4">
-            <Card className="shadow">
+        <Col xl="4"
+          style={{marginBottom:"20px"}}
+
+           >
+            <Card className="shadow "
+            style={{ height: "120vh", marginBottom:10 }}
+            >
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Request Id #{SingleDemande?._id}
+                    create a mission
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </div>
                 </Row>
               </CardHeader>
               <CardBody
+
 
 
 
@@ -427,128 +434,42 @@ style={
 
 }
 >
-  <Row>
-    <Col
-    md="12"
-    >
-       <div className=" mb-3">
-      <label className="form-label">Starting point</label>
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
+      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
+        <input
+          type="text"
+          placeholder="Choose starting point, or click on the map"
+          value={SingleDemande?.address?.display_name}
+          name={"start"}
+          className={classNames("form-control")}
+          disabled
 
-      <input
-  type="text"
-  // required
-  value={SingleDemande?.address?.display_name}
-  placeholder="starting point"
-  disabled
-  // value={startingPoint ? startingPoint.display_name : searchQuery}
-  name={"start"}
-  className={classNames("form-control")}
-
-/>
-
-
-         {/* {
-          errors && (<div  className="invalid-feedback">
-          {errors}
-        </div>)
-        } */}
+        />
       </div>
     </div>
-    </Col>
+  </Col>
+</Row>
 
-  </Row>
-  <Row>
-    <Col
-    md="12"
-    >
-       <div className=" mb-3">
-      <label className="form-label">Destination</label>
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
+      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-
-      <input
-  type="text"
-  required
-  placeholder=" destination"
-  // value={destination ? destination.display_name : destinationSearchQuery}
-  name={"destination"}
-  className={classNames("form-control")}
-  value={SingleDemande?.destination?.display_name}
-  // editable={false}
-  disabled
-
-/>
-{/* {
-          errors && (<div  className="invalid-feedback">
-          {errors}
-        </div>)
-        } */}
+        <input
+          type="text"
+          placeholder="Choose destination, or click on the map"
+          value={SingleDemande?.destination?.display_name}
+          name={"destination"}
+          className={classNames("form-control")}
+          disabled
+        />
       </div>
     </div>
-    </Col>
-
-  </Row>
-  <Row>
-    <Col
-    md="12"
-    >
-       <div className=" mb-3">
-      <label className="form-label">Distance</label>
-      <div className="input-group">
-
-      <input
-  type="text"
-  required
-  placeholder="distance"
-  // value={destination ? destination.display_name : destinationSearchQuery}
-  name={"distance"}
-  className={classNames("form-control")}
-  value={SingleDemande?.distance +"Km"}
-  // editable={false}
-  disabled
-
-/>
-
-{/* {
-          errors && (<div  className="invalid-feedback">
-          {errors}
-        </div>)
-        } */}
-      </div>
-    </div>
-    </Col>
-
-  </Row>
-  <Row>
-    <Col
-    md="12"
-    >
-       <div className=" mb-3">
-      <label className="form-label">Created At</label>
-      <div className="input-group">
-
-      <input
-  type="text"
-  required
-  placeholder="created AT"
-  // value={destination ? destination.display_name : destinationSearchQuery}
-  name={"created At"}
-  className={classNames("form-control")}
-  value={SingleDemande?.createdAt}
-  // editable={false}
-  disabled
-
-/>
-{/* {
-          errors && (<div  className="invalid-feedback">
-          {errors}
-        </div>)
-        } */}
-      </div>
-    </div>
-    </Col>
-
-  </Row>
+  </Col>
+</Row>
 
   {/* <ToastContainer /> */}
 
@@ -558,7 +479,106 @@ style={
 
 
 
+<Row
 
+>
+
+
+</Row>
+<Row
+className="mb-3"
+>
+
+<Col>
+        {/* Switch button for automatic or manual choice */}
+{
+  true &&
+  <>
+
+
+<label className="form-label">Driver<span style={{color:"red"}}>*</span></label>
+{/* <Select required
+
+   className="react-select primary"
+   onChange={handleSelectChange}
+      isLoading={colourOptions.length==0 ?  true: false}
+      isDisabled={selectedValues.length >3 ?true: false}
+
+    options={colourOptions} /> */}
+  </>
+
+}
+      </Col>
+</Row>
+<Row>
+
+<Col>
+<label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
+{/* <Datetime
+
+onChange={(e)=>setValue(e)}
+value={value}
+// timeFormat={false}
+inputProps={{
+  placeholder: "Date Picker Here",
+  name: "dateDepart"
+}}
+
+
+
+ /> */}
+</Col>
+</Row>
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
+      <label className="form-label">Comment</label>
+      <div className="input-group">
+        <input
+          type="text"
+          // required
+          placeholder="Comment"
+
+          name={"comment"}
+          className={classNames("form-control")}
+
+          onChange={(e) => {
+            onChangeHandler(e)
+
+          }}
+        />
+      </div>
+    </div>
+  </Col>
+</Row>
+
+  <Row>
+
+    <Col
+    className="col-12"
+    style={{
+      height: "60vh",
+      width: "85%",
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }}
+
+
+    >
+    <button type="submit" className="btn m-1 ml-3 btn-outline-success">
+    {isLoad ? (
+        <div className="spinner-border text-light" role="status">
+          <span className="visually-hidden"></span>
+        </div>
+      ) : (
+        'Submit'
+      )}
+
+                  <i className="fa-solid fa-floppy-disk"></i>
+                </button></Col>
+  </Row>
 
 </form>
                 </div>

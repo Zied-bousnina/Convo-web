@@ -31,6 +31,7 @@ import DemandeDriverRedicers from './DemandeDriver.redicers';
 import SingleDemandeReducer from './SingleDemande.reducer';
 import DriversListReducer from './DriversList.reducer';
 import partnerStatsReducer from './partnerStats.reducer';
+import missionsByPartnersReducer from './missionsByPartners.reducer';
 export default combineReducers({
     auth:authReducer,
     error:errorReducer,
@@ -63,5 +64,6 @@ export default combineReducers({
     Demande : SingleDemandeReducer  ,
     drivers : DriversListReducer  ,
     partnerStats : partnerStatsReducer  ,
+    partnersMissions : missionsByPartnersReducer  ,
 
 })

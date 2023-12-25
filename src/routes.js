@@ -35,6 +35,7 @@ import AddDriver from "components/Driver/AddDriver";
 import EditDriver from "components/Driver/EditDriver";
 import DriverDetails from "components/Driver/DriverDetails";
 import MapsComponentPartner from "components/PartnerDashboard/MapsComponentPartner";
+import EditMission from "components/EditMission";
 
 
 
@@ -65,6 +66,13 @@ var routes = [
     name: "Create request",
     icon: "ni ni-building text-red",
     component: CreateRequest,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-mission/:id",
+    name: "Create request",
+    icon: "ni ni-building text-red",
+    component: EditMission,
     layout: "/admin"
   },
   {
