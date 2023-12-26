@@ -139,6 +139,11 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
     // console.log("delete")
 
     dispatch(DeleteBinByID(id))
+
+    setTimeout(() => {
+        setnotificationModal(false)
+
+    }, 3000);
     // if(isSuccess){
 
     //   startTimer()

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon,to }) => (
   <>
 {
-  value?
+  value || value==0?
   <Col xs="12" md="6" lg="6" xl="6">
   <Link to={to}>
 
@@ -53,6 +53,8 @@ const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon,to })
 
       {/* <Row> */}
         <Skeleton
+        className="card-stats mb-4 mb-xl-0 bg-white "
+
           width={`${(6 / 6) * 100}%`} // Set the width based on the Col size (6 columns out of 12)
           height={100}
           baseColor="#FAFAFA"

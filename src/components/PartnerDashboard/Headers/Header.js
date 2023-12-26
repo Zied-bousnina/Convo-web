@@ -27,6 +27,7 @@ import StatisticCard from "./Components/StatisticCard";
 import { getPartnerCounts } from "Redux/actions/Statistiques.action";
 import backgroundImage from "../../../assets/514f2ec3798090c6df00dad1592c8166.svg";
 import { FindRequestDemandeByPartner } from "Redux/actions/Demandes.Actions";
+import { getMissionByPartnerCounts } from "Redux/actions/Statistiques.action";
 
 
 const Header = () => {
@@ -35,17 +36,17 @@ const Header = () => {
   const BinStatistiques = useSelector((state) => state?.binStatistiques?.statistiques);
   const DemandesStatistiques = useSelector((state) => state?.demandestatistiques?.statistiques?.total);
   const PartnerStatistiques = useSelector((state) => state?.partnerStats?.statistiques?.total);
-  const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
+  const requestsByPartner = useSelector(state=>state?.MissionsStatistiqueByPartner?.statistiques?.missionCount)
 console.log(PartnerStatistiques)
   useEffect(() => {
     dispatch(getUsersCounts());
     // dispatch(getBinsCount())
     dispatch(getDemandesCount());
-    dispatch(FindRequestDemandeByPartner())
+    dispatch(getMissionByPartnerCounts())
     dispatch(getPartnerCounts());
   }, [userStatistiques, DemandesStatistiques,PartnerStatistiques,requestsByPartner, dispatch]);
 
-//  console.log(requestsByPartner?.length)
+ console.log(requestsByPartner)
 
 
 // console.log(userStatistiques)
@@ -66,7 +67,7 @@ console.log(PartnerStatistiques)
             {/* <StatisticCard title="Bins Count" iconClass="bg-green" value={BinStatistiques?.totalCount} percentageIncrease={BinStatistiques?.percentageIncrease} /> */}
             <StatisticCard key={1} to="/partner/DriverList" icon={"fas fa-users"} title="Driver Count" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
             {/* <StatisticCard key={2} to="/partner/PartnerList" icon={"fas fa-handshake"} title="Partner Count" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} /> */}
-            <StatisticCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Driver requests" iconClass="bg-info" value={requestsByPartner?.length} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
+            <StatisticCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Driver requests" iconClass="bg-info" value={requestsByPartner} percentageIncrease={DemandesStatistiques?.percentageIncrease} />
           </Row>
         </div>
       </Container>

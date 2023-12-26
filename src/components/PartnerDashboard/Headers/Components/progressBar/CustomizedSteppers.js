@@ -10,7 +10,7 @@ export const CustomizedSteppers = ({status}) => {
 <ProgressBar
         percent={
           status === "in progress"
-            ? 50
+            ? 35
             : status === "Accepted"
             ? 75
             : status === "Completed"
@@ -19,7 +19,7 @@ export const CustomizedSteppers = ({status}) => {
         }
         filledBackground={`linear-gradient(to right, ${
           status === "in progress"
-            ? "#fefb72"
+            ? "#72A8FE"
             : status === "Accepted"
             ? "#01bf71"
             : status === "Completed"
@@ -27,7 +27,7 @@ export const CustomizedSteppers = ({status}) => {
             : "#fefb72"
         }, ${
           status === "in progress"
-            ? "#f0bb31"
+            ? "#72A8FE"
             : status === "Accepted"
             ? "#01bf71"
             : status === "Completed"

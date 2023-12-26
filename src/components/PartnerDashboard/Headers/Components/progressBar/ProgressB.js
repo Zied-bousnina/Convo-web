@@ -28,7 +28,7 @@ export const ProgressB = () => {
       startingStep={0}
       onSubmit={onFormSubmit}
       label={"mission creation"}
-      
+
       steps={[
 
         {
