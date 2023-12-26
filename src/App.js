@@ -41,6 +41,7 @@ import 'primeicons/primeicons.css'
 import { FetchAllPartnership } from "Redux/actions/PartnershipAction.js";
 import { FindRequestDemande } from "Redux/actions/Demandes.Actions.js";
 import axios from "axios";
+import ForgotPassword from "views/examples/ForgotPassword.js";
 // import 'primeflex/primeflex.css';
 function App() {
   // const user= {
@@ -154,6 +155,8 @@ function App() {
 
            {/* <Route path="/profile-page" exact render={(props) => <Profile {...props} />}/>
            <Route path="/register-page" exact render={(props) => <Register {...props} />}/> */}
+           <Route path="/forgotpassword-page" exact render={(props) => <ForgotPassword {...props} />}/>
+
            <ForceRedirect user={user}>
            {/* <Login /> */}
            <NoAccess  />

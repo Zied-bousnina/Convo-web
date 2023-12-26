@@ -1,5 +1,21 @@
+/*!
 
-import React from "react";
+=========================================================
+* Argon Design System React - v1.1.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-design-system-react
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
@@ -17,35 +33,59 @@ import {
   Row,
   Col
 } from "reactstrap";
-import { Link } from "react-router-dom";
 
+// core components
+import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "Redux/actions/authActions";
-
-
+import AppLoader from "assets/Animations/AppLoader";
+import { Link } from "react-router-dom";
+import { forgotPassword } from "Redux/actions/authActions";
+import { ToastContainer, toast } from "react-toastify";
 const initialValues = {
   email: '',
-   password: ''
+
    }
 
    const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+
   });
 
-function Login () {
-
+function ForgotPassword () {
+  const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch()
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const errors1 = useSelector(state=>state?.error?.errors)
+  console.log(errors1)
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const isSuccess = useSelector(state=>state?.success?.success)
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const showToastMessage = () => {
+    toast.success(`Email has been sent `, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+    });
+
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+
+      showToastMessage()
+    }
+  }, [isSuccess])
   const handleSubmit = (values) => {
     // Perform any actions (e.g., API calls) here
-    // console.log(values);
+    console.log(values);
     // Access form values using "values" object
-    dispatch(loginUser(values))
-  // Set the submitted state to true
+    dispatch(forgotPassword(values.email))
+    setSubmitted(true); // Set the submitted state to true
   };
   // console.log(errors && errors)
 
@@ -56,9 +96,9 @@ function Login () {
     return (
       <>
       {/* <AppLoader/> */}
-        {/* <DemoNavbar /> */}
+
         <main >
-          <section className="section section-shaped section-lg">
+        <section className="section section-shaped section-lg">
             <div className="shape shape-style-1 bg-gradient-default">
               <span />
               <span />
@@ -74,20 +114,15 @@ function Login () {
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white pb-5">
-                      <div className="text-muted text-center mb-5">
-                        {/* <small>Sign in </small> */}
-                        {/* <img
-                  alt="..."
-                  style={{width: "200px", height: "auto"}}
-
-                  src={"https://xgenbox.com/wp-content/uploads/2023/03/Sans-titre-2.png"}
-                /> */}
+                      <div className="text-muted text-center mb-3">
+                        <small>Forgot Password ?</small>
                       </div>
+
 
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
                       <div className="text-center text-muted mb-4">
-                        <big> sign in </big>
+                        <small>Don't worry! it happens, please enter the address associated with your account</small>
                       </div>
                       <Formik
   initialValues={initialValues}
@@ -124,31 +159,8 @@ function Login () {
 
         </InputGroup>
       </FormGroup>
-      <FormGroup className={`mb-3   ${
-              touched.password && errors.password ? 'has-danger' : ''
-            }`}>
-        <InputGroup className="input-group-alternative">
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText>
-              <i className="ni ni-lock-circle-open" />
-            </InputGroupText>
-          </InputGroupAddon>
-          <Field
-            name="password"
-            placeholder="Password"
-            type="password"
-            autoComplete="off"
-            className={`form-control ${
-              touched.password && errors.password ? 'is-invalid' : ''
-            }`}
-          />
-          <ErrorMessage
-            name="password"
-            component="div"
-            className="invalid-feedback"
-          />
-        </InputGroup>
-      </FormGroup>
+      <ToastContainer />
+
       <div className="  ">
         {/* <Field
           type="checkbox"
@@ -160,16 +172,22 @@ function Login () {
           className="custom-control-label"
           htmlFor="customCheckLogin"
         > */}
-          {(touched.email && errors.email) || (errors1&& errors1.email) ? (
+          {touched.email && errors.email || errors1&& errors1.email ? (
             <>
             <br/>
                   <span style={{color:"red"}}> {errors1 && errors1.email} </span>
             </>
                   ) : null}
-                  {(touched.password && errors.password) || (errors1&& errors1.password) ? (
+                  {touched.password && errors.password || errors1&& errors1.password ? (
             <>
             <br/>
                   <span style={{color:"red"}}> {errors1 && errors1.password} </span>
+            </>
+                  ) : null}
+                  { errors1&& errors1.error ? (
+            <>
+            <br/>
+                  <span style={{color:"red"}}> {errors1 && errors1.error} </span>
             </>
                   ) : null}
         {/* </label> */}
@@ -187,39 +205,31 @@ function Login () {
           <span className="visually-hidden"></span>
         </div>
       ) : (
-        'Sign in'
+        'Send Link'
       )}
     </Button>
       </div>
     </Form>
   )}
 </Formik>
-
                     </CardBody>
                   </Card>
                   <Row className="mt-3">
                     <Col xs="6">
                      <Link
                         className="text-light"
-                        to="/forgotpassword-page"
+                        to="/login"
                       >
-                        <small>Forgot password?</small>
+                        <small>Login</small>
                       </Link>
                     </Col>
-                    {/* <Col className="text-right" xs="6">
-                    <Link
-                        className="text-light"
-                        to="/signupChoice-page"
-                      >
-                        <small>Create new account</small>
-                      </Link>
-                    </Col> */}
-                  </Row>
 
+                  </Row>
                 </Col>
               </Row>
             </Container>
           </section>
+
         </main>
         {/* <SimpleFooter /> */}
       </>
@@ -227,4 +237,4 @@ function Login () {
 
 }
 
-export default Login;
+export default ForgotPassword;
