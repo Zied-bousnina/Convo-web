@@ -22,7 +22,7 @@ import { Tooltip } from 'primereact/tooltip';
 
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "Redux/actions/userAction";
-
+import { useHistory } from 'react-router-dom';
 function MapsComponent() {
   // const [currentLocation, setCurrentLocation] = useState(null);
   const [currentLocation, setCurrentLocation] = useState([48.709438,2.503570]);
@@ -30,6 +30,7 @@ function MapsComponent() {
     const AllUsers = useSelector(state => state?.users?.users?.users);
     const defaultCenter = currentLocation || position;
     const defaultZoom = 13;
+    const navigate = useHistory();
     const bounds = AllUsers?.reduce(
       (acc, pointBin) => {
         const [lat, lon] = [
@@ -186,7 +187,12 @@ function MapsComponent() {
               position={[e?.address?.latitude, e?.address?.longitude]} // Update property names
                 icon={myIcon}
                 eventHandlers={{
-              click: () => alert('A marker has been clicked!')
+
+              click: () => {
+                // const navigate = useHistory();
+                  navigate.push(`/admin/driver-details/${e._id}`);
+                // alert('A marker has been clicked!')
+                }
             }}
             >
 
