@@ -202,6 +202,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
                       </Button>
                         </Link>
                     </Col>
+
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -536,6 +537,41 @@ height={30}
         </div>
       </div>
       </Col> */}
+
+    </Row>
+    <Row>
+    <Col
+    className="col-12"
+    style={{
+      // height: "60vh",
+      // width: "85%",
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }}
+
+
+    >
+    <Link
+    to={`/admin/SpecifiqueMission/${id}`}
+    // target="_blank"
+    // state={{ SingleDemmande : SingleDemande}}
+    >
+    <Button
+    className="btn-icon btn-3"
+    color="primary"
+    type="button"
+
+    >
+    <span className="btn-inner--icon">
+    <i className="ni ni-bold-right"></i>
+    </span>
+    <span className="btn-inner--text">Go Mission</span>
+    </Button>
+    </Link>
+
+  </Col>
     </Row>
 
     </fieldset>

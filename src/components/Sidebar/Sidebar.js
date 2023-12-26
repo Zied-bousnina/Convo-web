@@ -83,7 +83,8 @@ const Sidebar = (props) => {
       prop.path !=='/AddDriver' &&
       prop.path !=='/edit-Driver/:id'&&
       prop.path !=='/edit-mission/:id'&&
-      prop.path !=='/driver-details/:id'
+      prop.path !=='/driver-details/:id'&&
+      prop.path !=='/SpecifiqueMission/:id'
       ) {
         return (
           <NavItem key={key}>

@@ -36,6 +36,7 @@ import EditDriver from "components/Driver/EditDriver";
 import DriverDetails from "components/Driver/DriverDetails";
 import MapsComponentPartner from "components/PartnerDashboard/MapsComponentPartner";
 import EditMission from "components/EditMission";
+import SpecifiqueMission from "components/Driver/SpecifiqueMission";
 
 
 
@@ -52,6 +53,13 @@ var routes = [
     name: "map component",
     icon: "ni ni-folder-17 text-yellow",
     component: MapsComponent,
+    layout: "/admin"
+  },
+  {
+    path: "/SpecifiqueMission/:id",
+    name: "Create Mission",
+    icon: "ni ni-folder-17 text-yellow",
+    component: SpecifiqueMission,
     layout: "/admin"
   },
   {
