@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 
 // reactstrap components
 import {
@@ -40,6 +40,11 @@ function Login () {
   const dispatch = useDispatch()
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const errors1 = useSelector(state=>state?.error?.errors)
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
   const handleSubmit = (values) => {
     // Perform any actions (e.g., API calls) here
     // console.log(values);
@@ -136,12 +141,26 @@ function Login () {
           <Field
             name="password"
             placeholder="Password"
-            type="password"
+            // type="password"
             autoComplete="off"
+            type={passwordVisible ? 'text' : 'password'}
             className={`form-control ${
               touched.password && errors.password ? 'is-invalid' : ''
             }`}
+
           />
+          <Button
+      type="button"
+      className="btn-icon"
+      onClick={togglePasswordVisibility}
+      style={{ marginLeft: '0px' }}
+    >
+      {passwordVisible ? (
+        "Hide"
+      ) : (
+        "Show"
+      )}
+    </Button>
           <ErrorMessage
             name="password"
             component="div"
