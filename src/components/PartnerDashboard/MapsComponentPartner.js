@@ -162,8 +162,11 @@ create a mission
               <Tooltip target=".export-buttons>button" position="bottom" />
               <MapContainer
         style={{ height: "60vh" }}
-               center={defaultCenter}
-                zoom={defaultZoom} scrollWheelZoom={true}
+        center={
+                { lat: currentLocation[0], lng: currentLocation[1] }
+               }
+                zoom={defaultZoom}
+                 scrollWheelZoom={true}
                bounds={bounds}
 
 
