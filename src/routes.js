@@ -177,7 +177,7 @@ var routes = [
     path: "/factures",
     name: "Factures",
     icon: "ni ni-folder-17 text-red",
-    component: ListOfDemandes,
+    component: ListOfMissions,
     layout: "/partner"
   },
   {
