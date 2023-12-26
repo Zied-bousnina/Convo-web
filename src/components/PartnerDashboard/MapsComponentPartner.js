@@ -22,8 +22,10 @@ import { Tooltip } from 'primereact/tooltip';
 
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "../../Redux/actions/userAction";
-
+import { useHistory } from 'react-router-dom';
+import { SET_PARTNER_DETAILS } from "Redux/types";
 function MapsComponentPartner() {
+  const navigate = useHistory();
   const [currentLocation, setCurrentLocation] = useState([48.709438,2.503570]);
     const position = [51.505, -0.09];
     const AllUsers = useSelector(state => state?.users?.users?.users);
@@ -79,6 +81,11 @@ function MapsComponentPartner() {
 
     useEffect(() => {
       dispatch(GetAllUsers())
+      dispatch({
+        type: SET_PARTNER_DETAILS,
+        payload: {}
+    })
+
 
     }, [dispatch,AllUsers])
 
@@ -184,7 +191,10 @@ create a mission
               position={[e?.address?.latitude, e?.address?.longitude]} // Update property names
                 icon={myIcon}
                 eventHandlers={{
-              click: () => alert('A marker has been clicked!')
+              click: () => {
+
+                 navigate.push(`/partner/driver-details/${e._id}`);
+                }
             }}
             >
 
@@ -194,7 +204,7 @@ create a mission
           <Marker position={currentLocation}
             // icon={}
             eventHandlers={{
-              click: () => alert('A marker has been clicked!')
+              // click: () => alert('A marker has been clicked!')
             }}
 
           >

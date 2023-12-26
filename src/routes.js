@@ -37,6 +37,8 @@ import DriverDetails from "components/Driver/DriverDetails";
 import MapsComponentPartner from "components/PartnerDashboard/MapsComponentPartner";
 import EditMission from "components/EditMission";
 import SpecifiqueMission from "components/Driver/SpecifiqueMission";
+import CreateMission from "components/PartnerDashboard/CreateMission";
+import ListOfMissions from "components/PartnerDashboard/ListOfMissions";
 
 
 
@@ -69,6 +71,7 @@ var routes = [
     component: ListOfDemandes,
     layout: "/admin"
   },
+
   {
     path: "/AddRequest",
     name: "Create request",
@@ -150,6 +153,13 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/driver-details/:id",
+    name: "driver details",
+    icon: "ni ni-single-02 text-yellow",
+    component: DriverDetails,
+    layout: "/partner"
+  },
+  {
     path: "/index",
     name: "Dashboard",
     icon: "ni ni-tv-2 text-primary",
@@ -157,10 +167,24 @@ var routes = [
     layout: "/partner"
   },
   {
+    path: "/List-demandes",
+    name: "List Of Missions",
+    icon: "ni ni-folder-17 text-yellow",
+    component: ListOfMissions,
+    layout: "/partner"
+  },
+  {
+    path: "/factures",
+    name: "Factures",
+    icon: "ni ni-folder-17 text-red",
+    component: ListOfDemandes,
+    layout: "/partner"
+  },
+  {
     path: "/AddRequest",
     name: " create a mission",
     icon: "ni ni-building text-red",
-    component: CreateRequest,
+    component: CreateMission,
     layout: "/partner"
   },
   // {

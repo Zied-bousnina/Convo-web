@@ -4,12 +4,15 @@ import { getDemandesCount, getBinsCount, getUsersCounts } from "Redux/actions/St
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
-const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon }) => (
+import { Link } from "react-router-dom";
+const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon,to }) => (
   <>
 {
   value?
-  <Col xs="12" md="6" lg="4" xl="4">
+  <Col xs="12" md="6" lg="6" xl="6">
+  <Link to={to}>
+
+
     <Card className="card-stats mb-4 mb-xl-0 bg-white "
       style={{
         boxShadow: "1px 3px 6px 2px rgb(75 98 148 /20%)",
@@ -41,14 +44,16 @@ const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon }) =>
           <span className="text-nowrap">Since yesterday</span>
         </p> */}
       </CardBody>
+
     </Card>
+    </Link>
   </Col> :
-  <Col lg="4" xl="4">
+  <Col lg="6" xl="6">
 
 
       {/* <Row> */}
         <Skeleton
-          width={`${(4 / 4) * 100}%`} // Set the width based on the Col size (6 columns out of 12)
+          width={`${(6 / 6) * 100}%`} // Set the width based on the Col size (6 columns out of 12)
           height={100}
           baseColor="#FAFAFA"
           highlightColor="#4444"
