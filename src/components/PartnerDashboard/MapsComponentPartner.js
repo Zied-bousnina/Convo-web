@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "../../Redux/actions/userAction";
 
 function MapsComponentPartner() {
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState([48.709438,2.503570]);
     const position = [51.505, -0.09];
     const AllUsers = useSelector(state => state?.users?.users?.users);
     const defaultCenter = currentLocation || position;
@@ -101,11 +101,11 @@ function MapsComponentPartner() {
           map.flyTo(e.latlng, map.getZoom());
         },
       });
-      useEffect(() => {
-        if (currentLocation) {
-          map.flyTo(currentLocation, map.getZoom());
-        }
-      }, [ map]);
+      // useEffect(() => {
+      //   if (currentLocation) {
+      //     map.flyTo(currentLocation, map.getZoom());
+      //   }
+      // }, [ map]);
       return position1 === null ? null : (
         <Marker position={position1}
         // icon={}
