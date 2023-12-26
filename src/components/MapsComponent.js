@@ -23,6 +23,7 @@ import { Tooltip } from 'primereact/tooltip';
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "Redux/actions/userAction";
 import { useHistory } from 'react-router-dom';
+import { SET_PARTNER_DETAILS } from "Redux/types";
 function MapsComponent() {
   // const [currentLocation, setCurrentLocation] = useState(null);
   const [currentLocation, setCurrentLocation] = useState([48.709438,2.503570]);
@@ -81,6 +82,10 @@ function MapsComponent() {
 
     useEffect(() => {
       dispatch(GetAllUsers())
+      dispatch({
+        type: SET_PARTNER_DETAILS,
+        payload: {}
+    })
 
     }, [dispatch,AllUsers])
 
