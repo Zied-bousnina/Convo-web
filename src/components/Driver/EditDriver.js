@@ -30,6 +30,7 @@ import { CreatePartner } from "Redux/actions/authActions.js";
 import { GetPartnerDetailsById } from "Redux/actions/PartnershipAction.js";
 import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 import { UpdateDriver } from "Redux/actions/Driver.actions.js";
+import Skeleton from "react-loading-skeleton";
 
   const animatedComponents = makeAnimated();
   const EditDriver = () => {
@@ -143,7 +144,30 @@ import { UpdateDriver } from "Redux/actions/Driver.actions.js";
                     <Col xs="8">
                     <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Driver ID #{id}
+
+                      {
+      PartnerDetails ?
+
+
+                    `Driver ID #${id.toString().slice(-5)}`
+                    :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
                     </h6>
                     <h2 className="mb-0">Edit a Driver</h2>
                   </div>
@@ -183,6 +207,9 @@ import { UpdateDriver } from "Redux/actions/Driver.actions.js";
     <ToastContainer />
 
     <Row>
+    {
+      PartnerDetails ?
+
 
       <Col
       md="6"
@@ -200,6 +227,27 @@ import { UpdateDriver } from "Redux/actions/Driver.actions.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
+    {
+      PartnerDetails ?
+
       <Col
       md="6"
       >
@@ -216,6 +264,24 @@ import { UpdateDriver } from "Redux/actions/Driver.actions.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
       {/* <Col
       md="4"
       >
@@ -265,6 +331,9 @@ import { UpdateDriver } from "Redux/actions/Driver.actions.js";
 
 
     <Row>
+    {
+      PartnerDetails ?
+
       <Col>
       <button type="submit" className="btn btn-outline-primary">
       {isLoad ? (
@@ -277,6 +346,24 @@ import { UpdateDriver } from "Redux/actions/Driver.actions.js";
 
                     <i className="fa-solid fa-floppy-disk"></i>
                   </button></Col>
+                  :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
     </Row>
   </form>
 

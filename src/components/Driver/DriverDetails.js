@@ -161,7 +161,29 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
                     <Col xs="8">
                     <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Driver ID #{id}
+                    {
+      PartnerDetails ?
+
+
+                    `Driver ID #${id.toString().slice(-5)}`
+                    :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
                     </h6>
                     <h2 className="mb-0">Driver Details</h2>
                   </div>

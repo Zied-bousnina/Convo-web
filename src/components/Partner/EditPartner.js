@@ -29,6 +29,7 @@ import {
 import { CreatePartner } from "Redux/actions/authActions.js";
 import { GetPartnerDetailsById } from "Redux/actions/PartnershipAction.js";
 import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
+import Skeleton from "react-loading-skeleton";
 
   const animatedComponents = makeAnimated();
   const EditPartner = () => {
@@ -148,7 +149,29 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
                     <Col xs="8">
                     <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Partner ID #{id}
+                    {
+      PartnerDetails ?
+
+
+                    `Partner ID #${id.toString().slice(-5)}`
+                    :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
                     </h6>
                     <h2 className="mb-0">Edit a partner</h2>
                   </div>
@@ -187,6 +210,10 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 
     <ToastContainer />
     <Row>
+    {
+      PartnerDetails ?
+
+
     <Col
       md="6"
       >
@@ -203,6 +230,27 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
+    {
+      PartnerDetails ?
+
       <Col
       md="6"
       >
@@ -219,10 +267,31 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
 
     </Row>
     <Row>
 
+
+    {
+      PartnerDetails ?
 
       <Col
       md="12"
@@ -240,8 +309,29 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
     </Row>
     <Row>
+    {
+      PartnerDetails ?
+
       <Col
       md="6"
       >
@@ -258,6 +348,27 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
+    {
+      PartnerDetails ?
+
       <Col
       md="6"
       >
@@ -274,6 +385,24 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
         </div>
       </div>
       </Col>
+      :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
       {/* <Col
       md="4"
       >
@@ -300,6 +429,7 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 
 
     <Row>
+
       <Col
       md="4"
       >
@@ -323,6 +453,9 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 
 
     <Row>
+    {
+      PartnerDetails ?
+
       <Col>
       <button type="submit" className="btn btn-outline-primary">
       {isLoad ? (
@@ -335,6 +468,24 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 
                     <i className="fa-solid fa-floppy-disk"></i>
                   </button></Col>
+                  :
+      <Col
+      md="6"
+      >
+      <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+      height={40}
+      width={250}
+      />
+      </Col>
+    }
     </Row>
   </form>
 
