@@ -77,7 +77,7 @@ export const getUsersCounts = () => (dispatch) => {
       // });
 
       // You may also want to rethrow the error if you want it to propagate to the next catch block outside this function
-      // throw error;
+      throw error;
     }
   };
   export const getMissionByPartnerCounts = () => (dispatch) => {
@@ -155,7 +155,7 @@ export const getUsersCounts = () => (dispatch) => {
       // });
 
       // You may also want to rethrow the error if you want it to propagate to the next catch block outside this function
-      // throw error;
+      throw error;
     }
   };
 
@@ -194,6 +194,6 @@ export const getUsersCounts = () => (dispatch) => {
       // });
 
       // You may also want to rethrow the error if you want it to propagate to the next catch block outside this function
-      // throw error;
+      throw error;
     }
   };

@@ -38,6 +38,8 @@ import { FindRequestDemandeByPartner } from 'Redux/actions/Demandes.Actions';
 import { DeleteMission } from 'Redux/actions/Demandes.Actions';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
+import { Toast } from 'primereact/toast';
+import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
 
 function ListOfDemandes() {
 const navigate = useHistory()
@@ -61,7 +63,7 @@ const navigate = useHistory()
   const dt = useRef(null);
   const [tab, settab] = useState("admin")
   // console.log(requests1)
-
+  const requestsByPartnerV2 = useSelector(state=>state?.MissionByPartnerV2?.demandes)
   useEffect(() => {
     dispatch({
       type: SET_SINGLE_DEMANDE,
@@ -69,8 +71,9 @@ const navigate = useHistory()
     });
     dispatch(FindRequestDemande())
     dispatch(FindRequestDemandeByPartner())
+    dispatch(FindRequestDemandeByPartnerV2())
 
-  }, [ requests,requestsByPartner])
+  }, [ requests,requestsByPartner,requestsByPartnerV2])
 
 
 const [filters, setFilters] = useState({
@@ -242,6 +245,78 @@ const statusRowFilterTemplate = (options) => {
       itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
   );
 };
+// --------------------------------------------------------------------------------------------------
+const [expandedRows, setExpandedRows] = useState(null);
+const toast = useRef(null);
+const onRowExpand = (event) => {
+  toast.current.show({ severity: 'info', summary: 'Product Expanded', detail: event.data.name, life: 3000 });
+};
+
+const onRowCollapse = (event) => {
+  toast.current.show({ severity: 'success', summary: 'Product Collapsed', detail: event.data.name, life: 3000 });
+};
+const allowExpansion = (rowData) => {
+  console.log(rowData)
+  return rowData.demands?.length > 0;
+};
+
+const rowExpansionTemplate = (data) => {
+  console.log('(((((((((((((((((((((((((((((((((((((', data)
+  return (
+      <div className="p-3">
+          <h5>missions from {data.partner.name}</h5>
+          <DataTable
+              paginator
+              rows={5}
+              rowsPerPageOptions={[5, 10, 25]}
+               ref={dt}
+              value={data?.demands}
+              header={header}
+              selection={selectedProduct}
+              selectionMode={true}
+              onSelectionChange={(e) => setSelectedProduct(e.data)}
+              filters={filters}
+              filterDisplay="row"
+              globalFilterFields={['_id','name', 'status']}
+              onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
+               sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
+               emptyMessage="No Missions found."
+               loading={TableIsLOad}
+               >
+                {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
+                <Column field="name" header="Name" sortable className="thead-light" ></Column>
+                <Column field="address" header="Address" sortable style={{ width: '25%' }}></Column>
+                <Column field="gaz" header="Gaz" sortable style={{ width: '25%' }}></Column>
+                <Column field="niv" header="Level" sortable style={{ width: '25%' }}>
+                  hjh
+                </Column> */}
+                <Column field={"_id"}
+                body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
+                header={"ID"} sortable style={{ width: '25%' }}></Column>
+
+                {
+                  cols.map(e=>{
+                    return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
+                  })
+                }
+                <Column field={"distance"}
+                body={(rowData) => `~${Math.floor(rowData.distance )}km`}
+                header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
+                  <Column field={"createdAt"}
+                body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                ).format(new Date(rowData.createdAt))}
+                header={"Created At"} sortable style={{ width: '25%' }}></Column>
+                {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
+                <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
+
+                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
+                {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
+
+            </DataTable>
+      </div>
+  );
+};
+// --------------------------------------------------------------------------------------------------
 const actionBodyTemplate = (rowData) => {
   return (
       <React.Fragment>
@@ -436,6 +511,9 @@ const actionBodyTemplate2 = (rowData) => {
             <div className="card">
 
               {/* <Tooltip target=".export-buttons>button" position="bottom" /> */}
+              {
+                tab !=='partner' ?
+
               <DataTable
               paginator
               rows={5}
@@ -488,6 +566,25 @@ const actionBodyTemplate2 = (rowData) => {
                 {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
 
             </DataTable>
+            :
+            <div className="card">
+            <Toast ref={toast} />
+            <DataTable value={requestsByPartnerV2} expandedRows={expandedRows} onRowToggle={(e) => {
+            //  alert(e?.data)
+              setExpandedRows(e?.data)
+            }}
+                    rowExpansionTemplate={rowExpansionTemplate}
+                    dataKey="partner._id" header={header} tableStyle={{ minWidth: '60rem' }}>
+                <Column expander={allowExpansion} style={{ width: '5rem' }} />
+                <Column field="partner.name" header="Name" sortable />
+                <Column field="partner.email" header="E-mail" sortable />
+                {/* <Column header="Image" body={imageBodyTemplate} /> */}
+                {/* <Column field="price" header="Price" sortable body={priceBodyTemplate} /> */}
+                <Column field="partner.phoneNumber" header="Tel" sortable />
+                {/* <Column field="rating" header="Reviews" sortable body={ratingBodyTemplate} /> */}
+            </DataTable>
+        </div>
+              }
                 </div>
               <CardFooter className="py-4">
                 <nav aria-label="...">

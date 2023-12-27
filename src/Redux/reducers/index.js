@@ -36,6 +36,8 @@ import MissionCountByPartner from './MissionCountByPartner';
 import DriverTableLoading from './DriverTableLoading';
 import MissionTaleReload from './MissionTaleReload';
 import partnerTableReload from './partnerTableReload';
+import MissionByPartnerV2 from './MissionByPartnerV2';
+// import MissionByPartnerReducer from './MissionByPartner.reducer';
 export default combineReducers({
     auth:authReducer,
     error:errorReducer,
@@ -72,6 +74,7 @@ export default combineReducers({
     MissionsStatistiqueByPartner : MissionCountByPartner  ,
     TableDriverLoading : DriverTableLoading,
     MissionTableLoad : MissionTaleReload,
-    PartnerTableLoad: partnerTableReload
+    PartnerTableLoad: partnerTableReload,
+    MissionByPartnerV2 :  MissionByPartnerV2
 
 })

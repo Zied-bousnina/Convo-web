@@ -30,6 +30,7 @@ export const GetAllUsers = (navigation)=>dispatch=>{
           payload: err?.response?.data
       })
       // dispatch(registerGoogleUser(data))
+      throw err
   }
   )
 }

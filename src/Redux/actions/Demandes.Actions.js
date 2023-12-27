@@ -7,6 +7,7 @@ import { SET_DEMANDES } from "Redux/types";
 import { SET_SINGLE_DEMANDE } from "Redux/types";
 import { SET_DEMANDES_BY_PARTNERS } from "Redux/types";
 import { SET_IS_LOADING_TABLE_MISSION } from "Redux/types";
+import { SET_DEMANDES_BY_PARTNERS_V2 } from "Redux/types";
 
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
@@ -132,6 +133,38 @@ export const FindRequestDemande = ( )=> (dispatch) => {
             //   payload: [],
 
             // })
+        }
+
+
+
+    )
+
+  }
+  export const FindRequestDemandeByPartnerV2 = ( )=> (dispatch) => {
+    axios.get(`http://localhost:3600/api/users/findAllPartnersAndTheirDemands`)
+    .then(async(res) => {
+      console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+      dispatch({
+        type: SET_DEMANDES_BY_PARTNERS_V2,
+        payload: res?.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
+            console.log("error")
         }
 
 

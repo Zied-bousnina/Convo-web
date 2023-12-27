@@ -40,6 +40,7 @@ import { CustomizedSteppers } from './Headers/Components/progressBar/CustomizedS
 import { DeleteMission } from 'Redux/actions/Demandes.Actions';
 import { Tag } from 'primereact/tag';
 import { Dropdown } from 'primereact/dropdown';
+import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
 
 function ListOfMissions() {
 const navigate = useHistory()
@@ -52,6 +53,7 @@ const navigate = useHistory()
 
   const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
   const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
+
   const requests1 = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
   const [selectedItem, setselectedItem] = useState(null)
   const dispatch = useDispatch()
@@ -61,7 +63,6 @@ const navigate = useHistory()
   const history = useHistory();
   const dt = useRef(null);
   const TableIsLOad = useSelector(state=>state?.MissionTableLoad?.isLoading)
-  // console.log(requests1)
 
   useEffect(() => {
     dispatch({
@@ -71,8 +72,10 @@ const navigate = useHistory()
     dispatch(FindRequestDemande())
     dispatch(FindRequestDemandeByPartner())
 
+
   }, [ requests,requestsByPartner])
 
+  // console.log(requestsByPartnerV2)
 
 const [filters, setFilters] = useState({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
