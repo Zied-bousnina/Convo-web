@@ -35,6 +35,9 @@ import { SET_SINGLE_DEMANDE } from 'Redux/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { FindRequestDemandeByPartner } from 'Redux/actions/Demandes.Actions';
+import { DeleteMission } from 'Redux/actions/Demandes.Actions';
+import { Dropdown } from 'primereact/dropdown';
+import { Tag } from 'primereact/tag';
 
 function ListOfDemandes() {
 const navigate = useHistory()
@@ -76,7 +79,7 @@ const [filters, setFilters] = useState({
   representative: { value: null, matchMode: FilterMatchMode.IN },
   date: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
   balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-  status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+  status: { value: null, matchMode: FilterMatchMode.EQUALS },
   activity: { value: null, matchMode: FilterMatchMode.BETWEEN }
 });
 const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -132,14 +135,23 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   }, [isSuccess])
 
 
-  const deleteBin = (id)=> {
+  const deleteMission = (id)=> {
     // console.log("delete")
 
-    dispatch(DeleteBinByID(id))
-    // if(isSuccess){
+    dispatch(DeleteMission(id))
+    .then(() => {
+      // Handle success
+      setnotificationModal(false)
+    })
+    .catch((error) => {
+      // Handle error
+      setnotificationModal(false)
+    });
 
-    //   startTimer()
-    // }
+  //   setTimeout(() => {
+  //     setnotificationModal(false)
+
+  // }, 3000);
   }
 
 
@@ -188,6 +200,47 @@ const handleChange = (event) => {
 
     </>
 );
+// "in progress"
+//             ? 35
+//             : status === "Accepted"
+//             ? 75
+//             : status === "Completed"
+const getSeverity = (status) => {
+  switch (status) {
+      case 'in progress':
+          return 'danger';
+
+      case 'Accepted':
+          return 'success';
+
+      case 'Completed':
+          return 'info';
+
+      case 'rejected':
+          return 'warning';
+
+
+  }
+};
+
+const statusItemTemplate = (option) => {
+  return <Tag value={option} severity={getSeverity(option)} />;
+};
+const [statuses] = useState(['in progress', 'Accepted', 'Completed', 'rejected']);
+
+const statusBodyTemplate = (rowData) => {
+  return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
+};
+const statusRowFilterTemplate = (options) => {
+  return (
+      <Dropdown value={options.value} options={statuses}
+      onChange={(e) => {
+        console.log('Selected value:', e.value);
+        options.filterApplyCallback(e.value);
+      }}
+      itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
+  );
+};
 const actionBodyTemplate = (rowData) => {
   return (
       <React.Fragment>
@@ -332,7 +385,7 @@ const actionBodyTemplate2 = (rowData) => {
               </div>
               <div className="modal-footer">
                 <Button className="btn-white" color="default" type="button"
-                onClick={()=>deleteBin(selectedItem)}
+                onClick={()=>deleteMission(selectedItem)}
                 >
                   {isLoad ? (
     <div className="spinner-border text-light" role="status">
@@ -358,22 +411,24 @@ const actionBodyTemplate2 = (rowData) => {
             <div className="card">
 
               {/* <Tooltip target=".export-buttons>button" position="bottom" /> */}
-              <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={
-                tab =="partner" ? requestsByPartner : requests
-              } header={header} selection={selectedProduct}
+              <DataTable
+              paginator
+              rows={5}
+              rowsPerPageOptions={[5, 10, 25]}
+               ref={dt}
+              value={tab =="partner" ? requestsByPartner : requests}
+              header={header}
+              selection={selectedProduct}
               selectionMode={true}
               onSelectionChange={(e) => setSelectedProduct(e.data)}
-              filters={filters} filterDisplay="menu" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}
-              onRowClick={
-                (e) => {
-
-                  const url = `/admin/request-details/${e.data._id}`;
-  history.push(url);
-                }
-              }
-
-
-               sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}>
+              filters={filters}
+              filterDisplay="row"
+              globalFilterFields={['_id','name', 'status']}
+              onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
+               sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
+               emptyMessage="No Missions found."
+               loading={isLoad}
+               >
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
                 <Column field="address" header="Address" sortable style={{ width: '25%' }}></Column>
@@ -402,8 +457,11 @@ const actionBodyTemplate2 = (rowData) => {
                 ).format(new Date(rowData.createdAt))}
                 header={"Created At"} sortable style={{ width: '25%' }}></Column>
                 {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
+                <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
+
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
                 {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
+
             </DataTable>
                 </div>
               <CardFooter className="py-4">

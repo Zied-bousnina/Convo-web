@@ -39,6 +39,7 @@ import EditMission from "components/EditMission";
 import SpecifiqueMission from "components/Driver/SpecifiqueMission";
 import CreateMission from "components/PartnerDashboard/CreateMission";
 import ListOfMissions from "components/PartnerDashboard/ListOfMissions";
+import DriverDetailsForPartner from "components/PartnerDashboard/DriverDetailsForPartner";
 
 
 
@@ -156,7 +157,7 @@ var routes = [
     path: "/driver-details/:id",
     name: "driver details",
     icon: "ni ni-single-02 text-yellow",
-    component: DriverDetails,
+    component: DriverDetailsForPartner,
     layout: "/partner"
   },
   {

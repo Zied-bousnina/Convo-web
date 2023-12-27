@@ -37,6 +37,7 @@ import { faUser, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { FindRequestDemandeByPartner } from 'Redux/actions/Demandes.Actions';
 import { ProgressB } from './Headers/Components/progressBar/ProgressB';
 import { CustomizedSteppers } from './Headers/Components/progressBar/CustomizedSteppers';
+import { DeleteMission } from 'Redux/actions/Demandes.Actions';
 
 function ListOfMissions() {
 const navigate = useHistory()
@@ -135,15 +136,20 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   }, [isSuccess])
 
 
-  const deleteBin = (id)=> {
+  const deleteMission = (id)=> {
     // console.log("delete")
 
-    dispatch(DeleteBinByID(id))
+    dispatch(DeleteMission(id))
+    .then(() => {
+      // Handle success
+      setnotificationModal(false)
+    })
+    .catch((error) => {
+      // Handle error
+      setnotificationModal(false)
+    });
 
-    setTimeout(() => {
-        setnotificationModal(false)
 
-    }, 3000);
     // if(isSuccess){
 
     //   startTimer()
@@ -312,7 +318,7 @@ const actionBodyTemplate2 = (rowData) => {
               </div>
               <div className="modal-footer">
                 <Button className="btn-white" color="default" type="button"
-                onClick={()=>deleteBin(selectedItem)}
+                onClick={()=>deleteMission(selectedItem)}
                 >
                   {isLoad ? (
     <div className="spinner-border text-light" role="status">

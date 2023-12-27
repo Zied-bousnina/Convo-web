@@ -138,6 +138,74 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     )
 
   }
+  export const DeleteMission = (missionId) => (dispatch) => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: [],
+    });
+
+    dispatch({
+      type: SET_IS_LOADING,
+      payload: true,
+    });
+
+    // Return the promise from axios.delete
+    return axios
+      .delete(`${process.env.REACT_APP_API_URL}/api/users/mission/deleteMission/${missionId}`)
+      .then((res) => {
+        dispatch({
+          type: SET_ERRORS,
+          payload: [],
+        });
+        dispatch({
+          type: SET_DEMANDES_BY_PARTNERS,
+          payload: {},
+
+        })
+        dispatch(FindRequestDemandeByPartner())
+        setTimeout(() => {
+          dispatch({
+            type: SET_IS_LOADING,
+            payload: false,
+          });
+        }, 1000);
+
+        dispatch({
+          type: SET_IS_SECCESS,
+          payload: true,
+        });
+
+        setTimeout(() => {
+          dispatch({
+            type: SET_IS_SECCESS,
+            payload: false,
+          });
+        }, 3000);
+      })
+      .catch((err) => {
+        dispatch({
+          type: SET_DEMANDES_BY_PARTNERS,
+          payload: {},
+
+        })
+        dispatch({
+          type: SET_IS_LOADING,
+          payload: false,
+        });
+        dispatch(FindRequestDemandeByPartner())
+
+        dispatch({
+          type: SET_IS_SECCESS,
+          payload: false,
+        });
+
+        // You can handle the error further if needed
+        // console.log("err in authAction.js line 366", err);
+
+        // Re-throw the error to propagate it to the next catch block
+        throw err;
+      });
+  };
 
 
   export const FindRequestDemandeById = (demandeid) => async (dispatch) => {

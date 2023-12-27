@@ -32,6 +32,10 @@ import { FetchAllPartnership } from 'Redux/actions/PartnershipAction';
 import { DeleteUserByAdmin } from 'Redux/actions/userAction';
 import { FetchAllDrivers } from 'Redux/actions/Driver.actions';
 import { SET_PARTNER_DETAILS } from 'Redux/types';
+import { classNames } from 'primereact/utils';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+import { Tag } from 'primereact/tag';
+import { Dropdown } from 'primereact/dropdown';
 function ListOfDrivers() {
 const navigate = useHistory()
 
@@ -72,7 +76,9 @@ const [filters, setFilters] = useState({
   date: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
   balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
   status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-  activity: { value: null, matchMode: FilterMatchMode.BETWEEN }
+  activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
+  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+  onligne: { value: null, matchMode: FilterMatchMode.EQUALS }
 });
 const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
@@ -81,7 +87,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
       { field: 'name', header: 'Name' },
     //   { field: 'contactName', header: 'Contact Name' },
       { field: 'email', header: 'E-mail' },
-      { field: 'onligne', header: 'Is Online' },
+      // { field: 'onligne', header: 'Is Online' },
       // { field: 'createdAt', header: 'Created At' }
   ];
 
@@ -106,7 +112,20 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
+  const verifiedBodyTemplate = (rowData) => {
+    return (
+      <i
+        className={classNames('pi', {
+          'text-green-500 pi-check-circle': rowData.verified,
+          'text-red-500 pi-times-circle': !rowData.verified,
+        })}
+      ></i>
+    );
+  };
 
+const verifiedRowFilterTemplate = (options) => {
+  return <TriStateCheckbox value={options.value} onChange={(e) => options.filterApplyCallback(e.value)} />;
+};
 
 
 
@@ -180,6 +199,40 @@ const onGlobalFilterChange = (e) => {
 
     </>
 );
+const [statuses] = useState(['Online', 'Hors-ligne']);
+
+const getSeverity = (status) => {
+    switch (status) {
+        case false:
+            return 'danger';
+
+        case true:
+            return 'success';
+
+
+    }
+};
+const statusBodyTemplate = (rowData) => {
+  return <Tag value={
+    rowData.onligne?
+    "Online"
+    :
+    "Hors-ligne"
+  } severity={getSeverity(rowData.onligne)} />;
+};
+
+const statusRowFilterTemplate = (options) => {
+  return (
+      <Dropdown value={options.value} options={statuses} onChange={(e) => {
+        options.filterApplyCallback(
+          e.value === 'Online' ? true : false
+        )}} itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
+  );
+};
+
+const statusItemTemplate = (option) => {
+  return <Tag value={option} severity={getSeverity(option)} />;
+};
 const actionBodyTemplate = (rowData) => {
   return (
       <React.Fragment>
@@ -298,7 +351,7 @@ setselectedItem(rowData?._id)
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={driverList} header={header} selection={selectedProduct}
               selectionMode={true}
               onSelectionChange={(e) => setSelectedProduct(e.data)}
-              filters={filters} filterDisplay="menu" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}
+              filters={filters} filterDisplay="row" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}
               onRowClick={
                 (e) => {
 
@@ -325,11 +378,16 @@ setselectedItem(rowData?._id)
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
+                <Column field="onligne" header="is Online" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }}
+                body={statusBodyTemplate} filter
+                filterElement={statusRowFilterTemplate} />
                 <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
                 header={"Created At"} sortable style={{ width: '25%' }}></Column>
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
+                <Column field="verified" header="Verified" dataType="boolean" style={{ minWidth: '6rem' }} body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
+
             </DataTable>
                 </div>
               <CardFooter className="py-4">
