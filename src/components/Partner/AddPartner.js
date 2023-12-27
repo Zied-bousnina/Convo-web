@@ -205,7 +205,7 @@ import FileInput from "components/FileInput.jsx";
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">Create a Partner</h3>
+                      <h3 className="mb-0">Créer un partenaire</h3>
                     </Col>
                     <Col className="text-right" xs="4">
                     <Link
@@ -216,7 +216,7 @@ import FileInput from "components/FileInput.jsx";
                         // color="primary"
 
                         size="md"
-                        >  List Partner
+                        >  Liste des partenaires
                         <i className=" ml-2 fas fa-arrow-right" />
                       </Button>
                         </Link>
@@ -245,10 +245,10 @@ import FileInput from "components/FileInput.jsx";
       md="6"
       >
          <div className=" mb-3">
-        <label className="form-label">Business Name: <span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Nom de l'entreprise: <span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="text" required placeholder="Enter the name of the business"  name={"name"} className={classNames("form-control")} onChange={onChangeHandler} />
+          <input type="text" required placeholder="Entrez le nom de l'entreprise"  name={"name"} className={classNames("form-control")} onChange={onChangeHandler} />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -261,10 +261,10 @@ import FileInput from "components/FileInput.jsx";
       md="6"
       >
          <div className=" mb-3">
-        <label className="form-label"> Contact Person: <span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Contact Person: <span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="text" required placeholder="Enter the contact person's name" name={"contactName"} className={classNames("form-control")} onChange={onChangeHandler} />
+          <input type="text" required placeholder="Entrez le nom de la personne de contact" name={"contactName"} className={classNames("form-control")} onChange={onChangeHandler} />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -282,10 +282,10 @@ import FileInput from "components/FileInput.jsx";
       md="12"
       >
          <div className=" mb-3">
-        <label className="form-label">Address: <span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Adresse: <span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="text" required placeholder="Enter the business address"  name={"addressPartner"} className={classNames("form-control")} onChange={onChangeHandler} />
+          <input type="text" required placeholder="Entrez l'adresse de l'entreprise"  name={"addressPartner"} className={classNames("form-control")} onChange={onChangeHandler} />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -303,7 +303,7 @@ import FileInput from "components/FileInput.jsx";
         <label className="form-label">Email: <span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="text" required   placeholder="Enter the business email address" name={"email"} className={classNames("form-control")} onChange={onChangeHandler}/>
+          <input type="text" required   placeholder="Entrez l'adresse e-mail de l'entreprise" name={"email"} className={classNames("form-control")} onChange={onChangeHandler}/>
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -316,10 +316,10 @@ import FileInput from "components/FileInput.jsx";
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Phone Number:<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Numéro de téléphone:<span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="text" required  placeholder="Enter the business phone number"  name={"phoneNumber"} className={classNames("form-control")} onChange={onChangeHandler}/>
+          <input type="text" required  placeholder="Entrez le numéro de téléphone de l'entreprise"  name={"phoneNumber"} className={classNames("form-control")} onChange={onChangeHandler}/>
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -353,7 +353,7 @@ import FileInput from "components/FileInput.jsx";
         <MaskedInput
 
         mask={mask}
-        placeholder="Enter the business Siret"
+        placeholder="Entrez le numéro SIRET de l'entreprise"
         name={"siret"}
         className={classNames("form-control")}
         onChange={onChangeHandler}
@@ -444,7 +444,7 @@ import FileInput from "components/FileInput.jsx";
             <span className="visually-hidden"></span>
           </div>
         ) : (
-          'Submit'
+          'Valider'
         )}
 
                     <i className="fa-solid fa-floppy-disk"></i>

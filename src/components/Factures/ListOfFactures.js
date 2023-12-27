@@ -13,7 +13,7 @@ import {
   Modal,
   Label,
 } from "reactstrap";
-import Header from './Headers/Header';
+import Header from '../Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
 import { FetchAllBins } from 'Redux/actions/BinAction';
@@ -41,7 +41,7 @@ import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
 import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
 
-function ListOfDemandes() {
+function ListOfFactures() {
 const navigate = useHistory()
 
   const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
@@ -90,11 +90,11 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
       // { field: '_id', header: 'Id' },
     //   { field: 'name', header: 'Name' },
-      { field: 'address.display_name', header: 'Point de départ' },
+      { field: 'address.display_name', header: 'Starting point' },
       { field: 'destination.display_name', header: 'Destination' },
       // { field: 'distance', header: 'Distance (km)' },
       // { field: 'createdAt', header: 'Created At' },
-      { field: 'driverIsAuto', header: 'Conducteur automatique' }
+      { field: 'driverIsAuto', header: 'driverIsAuto' }
       // tab === "partner" ? { field: 'partnerName', header: 'Partner' } : null
   ];
 
@@ -305,9 +305,9 @@ const rowExpansionTemplate = (data) => {
                   <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
-                header={"Créé le"} sortable style={{ width: '25%' }}></Column>
+                header={"Created At"} sortable style={{ width: '25%' }}></Column>
                 {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
-                <Column field="status" header="Statut" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
+                <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
 
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
                 {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
@@ -375,7 +375,7 @@ const actionBodyTemplate2 = (rowData) => {
                   // lg="6"
                     md="10"
                   >
-                <h3 className="mb-0">Liste de toutes les missions  {tab =="partner" && 'créées par les partenaires'} </h3>
+                <h3 className="mb-0">List Of all invoices  {tab =="partner" && 'Created By Partners'} </h3>
 
                   </Col>
                   <Col
@@ -416,7 +416,7 @@ const actionBodyTemplate2 = (rowData) => {
                             >
 
 
-Créer une mission
+                Create Request
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>
@@ -648,4 +648,4 @@ Créer une mission
   )
 }
 
-export default ListOfDemandes
+export default ListOfFactures

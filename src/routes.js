@@ -40,13 +40,14 @@ import SpecifiqueMission from "components/Driver/SpecifiqueMission";
 import CreateMission from "components/PartnerDashboard/CreateMission";
 import ListOfMissions from "components/PartnerDashboard/ListOfMissions";
 import DriverDetailsForPartner from "components/PartnerDashboard/DriverDetailsForPartner";
+import ListOfFactures from "components/Factures/ListOfFactures";
 
 
 
 var routes = [
   {
     path: "/index",
-    name: "Dashboard",
+    name: "Tableau de bord",
     icon: "ni ni-tv-2 text-primary",
     component: MapsComponent,
     layout: "/admin"
@@ -67,7 +68,7 @@ var routes = [
   },
   {
     path: "/List-demandes",
-    name: "List Of Missions",
+    name: "Liste des missions",
     icon: "ni ni-folder-17 text-yellow",
     component: ListOfDemandes,
     layout: "/admin"
@@ -96,7 +97,7 @@ var routes = [
   },
   {
     path: "/PartnerList",
-    name: "Partners",
+    name: "Partenaires",
     icon: "ni ni-building text-red",
     component: ListOfPartners,
     layout: "/admin"
@@ -126,7 +127,7 @@ var routes = [
 
   {
     path: "/DriverList",
-    name: "Drivers",
+    name: "conducteurs",
     icon: "fa fa-car text-info ",
     component: ListOfDrivers,
     layout: "/admin"
@@ -154,6 +155,13 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/factures",
+    name: "Factures",
+    icon: "ni ni-folder-17 text-red",
+    component: ListOfFactures,
+    layout: "/admin"
+  },
+  {
     path: "/driver-details/:id",
     name: "driver details",
     icon: "ni ni-single-02 text-yellow",
@@ -162,14 +170,14 @@ var routes = [
   },
   {
     path: "/index",
-    name: "Dashboard",
+    name: "Tableau de bord",
     icon: "ni ni-tv-2 text-primary",
     component: MapsComponentPartner,
     layout: "/partner"
   },
   {
     path: "/List-demandes",
-    name: "List Of Missions",
+    name: "Liste des missions",
     icon: "ni ni-folder-17 text-yellow",
     component: ListOfMissions,
     layout: "/partner"
@@ -190,7 +198,7 @@ var routes = [
   },
   // {
   //   path: "/DriverList",
-  //   name: "Drivers",
+  //   name: "conducteurs",
   //   icon: "fa fa-car text-info ",
   //   component: ListOfDrivers,
   //   layout: "/partner"

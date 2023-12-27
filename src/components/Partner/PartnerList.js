@@ -80,8 +80,8 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
       { field: 'siret', header: 'Siret' },
     //   { field: 'name', header: 'Name' },
-      { field: 'name', header: 'Business Name' },
-      { field: 'contactName', header: 'Contact Name' },
+      { field: 'name', header: "Nom de l'entreprise" },
+      { field: 'contactName', header: 'Nom du contact' },
       { field: 'email', header: 'E-mail' },
       // { field: 'createdAt', header: 'Created At' }
   ];
@@ -236,7 +236,7 @@ setselectedItem(rowData?._id)
                   // lg="6"
                     md="10"
                   >
-                <h3 className="mb-0">List Of all Partners</h3>
+                <h3 className="mb-0">Liste de tous les partenaires</h3>
 
                   </Col>
                   <Col
@@ -278,7 +278,7 @@ setselectedItem(rowData?._id)
                             >
 
 
-                Create Partner
+Créer un partenaire
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>
@@ -377,7 +377,7 @@ setselectedItem(rowData?._id)
                 <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
-                header={"Created At"} sortable style={{ width: '25%' }}></Column>
+                header={"Créé le"} sortable style={{ width: '25%' }}></Column>
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
             </DataTable>
                 </div>

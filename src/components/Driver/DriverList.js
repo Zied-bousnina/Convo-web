@@ -86,7 +86,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
       // { field: '_id', header: 'Id' },
     //   { field: 'name', header: 'Name' },
-      { field: 'name', header: 'Name' },
+      { field: 'name', header: 'Nom' },
     //   { field: 'contactName', header: 'Contact Name' },
       { field: 'email', header: 'E-mail' },
       // { field: 'onligne', header: 'Is Online' },
@@ -268,7 +268,7 @@ setselectedItem(rowData?._id)
                   lg="8"
                     md="8"
                   >
-                <h3 className="mb-0">List Of all Drivers</h3>
+                <h3 className="mb-0">Liste de tous les conducteurs</h3>
 
                   </Col>
                   <Col
@@ -309,7 +309,7 @@ setselectedItem(rowData?._id)
                             >
 
 
-                Create Driver
+Créer un conducteur
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>
@@ -406,13 +406,13 @@ setselectedItem(rowData?._id)
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
-                <Column field="onligne" header="is Online" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }}
+                <Column field="onligne" header="Est en ligne" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }}
                 body={statusBodyTemplate} filter
                 filterElement={statusRowFilterTemplate} />
                 <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
-                header={"Created At"} sortable style={{ width: '25%' }}></Column>
+                header={"Créé le"} sortable style={{ width: '25%' }}></Column>
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
                 <Column field="verified" header="Verified" dataType="boolean" style={{ minWidth: '6rem' }} body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
 

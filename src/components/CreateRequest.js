@@ -432,7 +432,7 @@ dispatch(AddDemande(data, navigate))
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    create a mission
+                    Créer une mission
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </div>
@@ -465,12 +465,12 @@ style={
 <Row>
   <Col md="12">
     <div className=" mb-3">
-      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Point de départ<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
         <input
           type="text"
           required
-          placeholder="Choose starting point, or click on the map"
+          placeholder="Choisissez un point de départ ou cliquez sur la carte."
           value={startingPoint ? startingPoint.display_name : searchQuery}
           name={"start"}
           className={classNames("form-control")}
@@ -498,7 +498,7 @@ style={
         <input
           type="text"
           required
-          placeholder="Choose destination, or click on the map"
+          placeholder="Choisissez une destination ou cliquez sur la carte."
           value={destination ? destination.display_name : destinationSearchQuery}
           name={"destination"}
           className={classNames("form-control")}
@@ -535,7 +535,7 @@ style={
   }}
   className={classnames("btn m-1 ", { "btn-primary": isStartingPoint },{"btn-outline-primary": !isStartingPoint})}
 >
-  Set Starting Point
+  Définir le point de départ
 </button>
 
 
@@ -550,7 +550,7 @@ style={
   }}
   className={classnames("btn m-1  ", { "btn-primary": isDestination  }, {"btn-outline-primary": !isDestination})}
 >
-  Set Destination
+ Définir la destination
 </button>
 
     </Col>
@@ -565,7 +565,7 @@ style={
 className="form-control-label"
 htmlFor="input-username"
 >
-Driver Choice :
+Choix du conducteur :
 </Label>
 
 
@@ -586,7 +586,7 @@ htmlFor="input-username"
 
 >
 
-Automatic
+Automatique
 </Label>
         <Switch
       checked={checked}
@@ -599,7 +599,7 @@ Automatic
 className="form-control-label p-2"
 htmlFor="input-username"
 >
-Manual
+Manuel
 </Label>
 
       </Col>
@@ -614,7 +614,7 @@ className="mb-3"
   checked &&<>
 
 
-<label className="form-label">Driver<span style={{color:"red"}}>*</span></label>
+<label className="form-label">Conducteur<span style={{color:"red"}}>*</span></label>
 <Select required
 
    className="react-select primary"
@@ -631,7 +631,7 @@ className="mb-3"
 <Row>
 
 <Col>
-<label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
+<label className="form-label">Date de départ<span style={{color:"red"}}>*</span></label>
 <Datetime
 
 onChange={(e)=>setValue(e)}
@@ -650,12 +650,12 @@ inputProps={{
 <Row>
   <Col md="12">
     <div className=" mb-3">
-      <label className="form-label">Comment</label>
+      <label className="form-label">Commentaire</label>
       <div className="input-group">
         <input
           type="text"
           // required
-          placeholder="Comment"
+          placeholder="Commentaire"
 
           name={"comment"}
           className={classNames("form-control")}
@@ -691,7 +691,7 @@ inputProps={{
           <span className="visually-hidden"></span>
         </div>
       ) : (
-        'Submit'
+        'Valider'
       )}
 
                   <i className="fa-solid fa-floppy-disk"></i>
