@@ -46,6 +46,7 @@ const navigate = useHistory()
 
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
+  const TableIsLOad = useSelector(state=>state?.MissionTableLoad?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
 
   const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
@@ -208,7 +209,7 @@ const handleChange = (event) => {
 const getSeverity = (status) => {
   switch (status) {
       case 'in progress':
-          return 'danger';
+          return 'warning';
 
       case 'Accepted':
           return 'success';
@@ -217,7 +218,7 @@ const getSeverity = (status) => {
           return 'info';
 
       case 'rejected':
-          return 'warning';
+          return 'danger';
 
 
   }
@@ -300,6 +301,30 @@ const actionBodyTemplate2 = (rowData) => {
                     md="10"
                   >
                 <h3 className="mb-0">List Of all Missions  {tab =="partner" && 'Created By Partners'} </h3>
+
+                  </Col>
+                  <Col
+                  // lg="6"
+                    md="10"
+                  >
+
+                            <Button
+                            className="float-right"
+                            // color="primary"
+                            onClick={()=>{
+                              dispatch(FindRequestDemande())
+    dispatch(FindRequestDemandeByPartner())
+                            }
+                            }
+                            >
+
+
+<Tooltip label='refresh data ' fontSize='md'>
+
+                              <i className="fas fa-sync-alt" />
+</Tooltip>
+                {/* <i className=" ml-2 fas fa-arrow-right" /> */}
+                            </Button>
 
                   </Col>
                   <Col
@@ -427,7 +452,7 @@ const actionBodyTemplate2 = (rowData) => {
               onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
                emptyMessage="No Missions found."
-               loading={isLoad}
+               loading={TableIsLOad}
                >
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>

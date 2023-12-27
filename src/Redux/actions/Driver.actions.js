@@ -2,6 +2,7 @@ import { SET_BIN_STATISTIQUES } from "Redux/types"
 import { SET_DEMANDES_MUNICIPAL } from "Redux/types"
 import { SET_IS_SECCESS } from "Redux/types"
 import { SET_PARTNER_DETAILS } from "Redux/types"
+import { SET_IS_LOADING_DRIVER_TABLE } from "Redux/types"
 import { SET_ALL_DRIVER } from "Redux/types"
 import { SET_PARTNERSHIP_LIST } from "Redux/types"
 import { SET_IS_LOADING } from "Redux/types"
@@ -12,6 +13,10 @@ import axios from "axios"
 
 
 export const FetchAllDrivers = ()=>dispatch=>{
+  dispatch({
+    type:SET_IS_LOADING_DRIVER_TABLE,
+    payload:true
+  })
   axios.get(`${process.env.REACT_APP_API_URL}/api/users/driver/fetchAll` )
   .then(res => {
       // console.log(res)
@@ -21,6 +26,10 @@ export const FetchAllDrivers = ()=>dispatch=>{
         payload: res.data
     })
 
+    dispatch({
+      type:SET_IS_LOADING_DRIVER_TABLE,
+      payload:false
+    })
 
 
 
@@ -41,6 +50,10 @@ export const FetchAllDrivers = ()=>dispatch=>{
       dispatch({
         type:SET_IS_SECCESS,
         payload:false
+    })
+    dispatch({
+      type:SET_IS_LOADING_DRIVER_TABLE,
+      payload:false
     })
 
       // dispatch(registerGoogleUser(data))

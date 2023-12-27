@@ -2,6 +2,7 @@ import { SET_BIN_STATISTIQUES } from "Redux/types"
 import { SET_DEMANDES_MUNICIPAL } from "Redux/types"
 import { SET_IS_SECCESS } from "Redux/types"
 import { SET_PARTNER_DETAILS } from "Redux/types"
+import { SET_IS_LOADING_PARTNER_TABLE } from "Redux/types"
 import { SET_PARTNERSHIP_LIST } from "Redux/types"
 import { SET_IS_LOADING } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
@@ -70,6 +71,16 @@ dispatch({
 
 
 export const FetchAllPartnership = ()=>dispatch=>{
+  dispatch({
+    type: SET_ERRORS,
+    payload: []
+})
+
+dispatch({
+  type:SET_IS_LOADING_PARTNER_TABLE,
+  payload:true
+})
+
   axios.get(`${process.env.REACT_APP_API_URL}/api/users/partnerShip/fetchAll` )
   .then(res => {
       // console.log(res)
@@ -78,6 +89,15 @@ export const FetchAllPartnership = ()=>dispatch=>{
         type: SET_PARTNERSHIP_LIST,
         payload: res.data
     })
+    dispatch({
+      type: SET_ERRORS,
+      payload: []
+  })
+
+dispatch({
+  type:SET_IS_LOADING_PARTNER_TABLE,
+  payload:false
+})
 
 
 
@@ -96,10 +116,16 @@ export const FetchAllPartnership = ()=>dispatch=>{
           type: SET_ERRORS,
           payload: err?.response?.data
       })
+
       dispatch({
         type:SET_IS_SECCESS,
         payload:false
     })
+    dispatch({
+      type:SET_IS_LOADING_PARTNER_TABLE,
+      payload:false
+    })
+
 
       // dispatch(registerGoogleUser(data))
   }

@@ -21,7 +21,7 @@ import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Tooltip } from 'primereact/tooltip';
+// import { Tooltip } from 'primereact/tooltip';
 import { useHistory } from 'react-router-dom';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
@@ -36,6 +36,7 @@ import { classNames } from 'primereact/utils';
 import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { Tag } from 'primereact/tag';
 import { Dropdown } from 'primereact/dropdown';
+import { Tooltip } from '@chakra-ui/react';
 function ListOfDrivers() {
 const navigate = useHistory()
 
@@ -43,6 +44,7 @@ const navigate = useHistory()
 
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
+  const TableDriverLoadingisLoad = useSelector(state=>state?.TableDriverLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
 
 
@@ -263,10 +265,35 @@ setselectedItem(rowData?._id)
               <CardHeader className="border-0">
                 <Row>
                   <Col
-                  // lg="6"
-                    md="10"
+                  lg="8"
+                    md="8"
                   >
                 <h3 className="mb-0">List Of all Drivers</h3>
+
+                  </Col>
+                  <Col
+                  // lg="6"
+                    md="2"
+                  >
+
+                            <Button
+                            className="float-right"
+                            // color="primary"
+                            onClick={()=>{
+                              dispatch(FetchAllDrivers())
+                            }
+                            }
+                            >
+
+
+
+<Tooltip label='refresh data ' fontSize='md'>
+
+<i className="fas fa-sync-alt" />
+</Tooltip>
+
+                {/* <i className=" ml-2 fas fa-arrow-right" /> */}
+                            </Button>
 
                   </Col>
                   <Col
@@ -347,9 +374,10 @@ setselectedItem(rowData?._id)
             </Modal>
             <div className="card">
 
-              <Tooltip target=".export-buttons>button" position="bottom" />
+              {/* <Tooltip target=".export-buttons>button" position="bottom" /> */}
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={driverList} header={header} selection={selectedProduct}
               selectionMode={true}
+              // loading={TableDriverLoadingisLoad}
               onSelectionChange={(e) => setSelectedProduct(e.data)}
               filters={filters} filterDisplay="row" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}
               onRowClick={

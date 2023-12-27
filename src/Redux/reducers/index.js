@@ -33,6 +33,9 @@ import DriversListReducer from './DriversList.reducer';
 import partnerStatsReducer from './partnerStats.reducer';
 import missionsByPartnersReducer from './missionsByPartners.reducer';
 import MissionCountByPartner from './MissionCountByPartner';
+import DriverTableLoading from './DriverTableLoading';
+import MissionTaleReload from './MissionTaleReload';
+import partnerTableReload from './partnerTableReload';
 export default combineReducers({
     auth:authReducer,
     error:errorReducer,
@@ -67,5 +70,8 @@ export default combineReducers({
     partnerStats : partnerStatsReducer  ,
     partnersMissions : missionsByPartnersReducer  ,
     MissionsStatistiqueByPartner : MissionCountByPartner  ,
+    TableDriverLoading : DriverTableLoading,
+    MissionTableLoad : MissionTaleReload,
+    PartnerTableLoad: partnerTableReload
 
 })

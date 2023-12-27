@@ -185,53 +185,60 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
   }
 
 
-  export const DeleteUserByAdmin = (id) => dispatch => {
-    // console.log("teeeeeeeeeee")
+  export const DeleteUserByAdmin = (id) => (dispatch) => {
     dispatch({
-        type: SET_ERRORS,
-        payload: []
-    })
+      type: SET_ERRORS,
+      payload: [],
+    });
+
     dispatch({
-        type: SET_IS_LOADING,
-        payload: true
-    })
+      type: SET_IS_LOADING,
+      payload: true,
+    });
 
-    axios.delete(`${process.env.REACT_APP_API_URL}/api/users/deleteAccountByAdmin/${id}`)
-        .then(res => {
-            dispatch({
-                type: SET_ERRORS,
-                payload: []
-            })
-            dispatch({
-                type: SET_IS_LOADING,
-                payload: false
-            })
-            dispatch({
-                type: SET_IS_SECCESS,
-                payload: true
-            })
-            dispatch({
-                type: SET_IS_SECCESS,
-                payload: false
-            })
-        })
-
-    .catch(err => {
+    return axios
+      .delete(`${process.env.REACT_APP_API_URL}/api/users/deleteAccountByAdmin/${id}`)
+      .then((res) => {
         dispatch({
-            type: SET_ERRORS,
-            payload: err ?.response ?.data
-        })
+          type: SET_ERRORS,
+          payload: [],
+        });
         dispatch({
+          type: SET_IS_LOADING,
+          payload: false,
+        });
+        dispatch({
+          type: SET_IS_SECCESS, // Assuming you have a SET_IS_SECCESS action type
+          payload: true,
+        });
+        // Assuming you want to reset success after a certain duration
+        setTimeout(() => {
+          dispatch({
             type: SET_IS_SECCESS,
-            payload: false
-        })
-        dispatch({
-            type: SET_IS_LOADING,
-            payload: false
-        })
-    })
+            payload: false,
+          });
+        }, 3000);
 
-}
+        return res.data; // Return data if needed
+      })
+      .catch((err) => {
+        dispatch({
+          type: SET_ERRORS,
+          payload: err?.response?.data,
+        });
+        dispatch({
+          type: SET_IS_SECCESS, // Assuming you have a SET_IS_SECCESS action type
+          payload: false,
+        });
+        dispatch({
+          type: SET_IS_LOADING,
+          payload: false,
+        });
+        throw err; // Rethrow the error if needed
+      });
+  };
+
+
 
 
 

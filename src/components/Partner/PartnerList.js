@@ -21,7 +21,7 @@ import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Tooltip } from 'primereact/tooltip';
+// import { Tooltip } from 'primereact/tooltip';
 import { useHistory } from 'react-router-dom';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
@@ -31,6 +31,8 @@ import PartnershipList from 'components/PartnershipList';
 import { FetchAllPartnership } from 'Redux/actions/PartnershipAction';
 import { DeleteUserByAdmin } from 'Redux/actions/userAction';
 import { SET_PARTNER_DETAILS } from 'Redux/types';
+import { SET_PARTNERSHIP_LIST } from 'Redux/types';
+import { Tooltip } from '@chakra-ui/react';
 function ListOfPartners() {
 const navigate = useHistory()
 
@@ -38,6 +40,7 @@ const navigate = useHistory()
 
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
+  const PartnerTableLoadisLoad = useSelector(state=>state?.PartnerTableLoad?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
 
 
@@ -110,35 +113,52 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-  const showToastMessage = () => {
+  const showToastMessageDelete = () => {
     toast.success('Partner deleted  successfully.', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
     });
   }
-  useEffect(() => {
-    if (isSuccess) {
+  const showToastMessageError = () => {
+    toast.success('    An error occurred during the deletion process. Please try again later or contact support.', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+    });
+  }
+  // useEffect(() => {
+  //   if (isSuccess) {
 
-      showToastMessage()
-      setnotificationModal(false)
-    }
-  }, [isSuccess])
+  //     showToastMessage()
+  //     setnotificationModal(false)
+  //   }
+  // }, [isSuccess])
 
 
-  const deleteBin = (id)=> {
-    console.log("delete")
+  const deletePartner = (id) => {
+    console.log("delete");
 
     dispatch(DeleteUserByAdmin(id))
-    if(isLoad){
-      setnotificationModal(!notificationModal)
-    }else {
-      setnotificationModal(false)
-    }
-    // setnotificationModal(false)
-    if(isSuccess){
-
-    }
-  }
+      .then((data) => {
+        // Handle success
+        // console.log(data);
+        // alert("hhhhhhh");
+        setnotificationModal(false);
+        dispatch({
+          type: SET_PARTNERSHIP_LIST,
+          payload: {}
+      })
+        showToastMessageDelete()
+        // dispatch(FetchAllPartnership())
+        // history.push("/admin/ListOfPartners")
+      })
+      .catch((error) => {
+        // Handle error
+        setnotificationModal(false);
+        // alert("Error deleting user");
+        // console.error(error);
+        showToastMessageError()
+      });
+  };
 
 
   const exportCSV = (selectionOnly) => {
@@ -221,6 +241,32 @@ setselectedItem(rowData?._id)
                   </Col>
                   <Col
                   // lg="6"
+                    md="10"
+                  >
+
+                            <Button
+                            className="float-right"
+                            // color="primary"
+                            onClick={()=>{
+                              dispatch(FetchAllPartnership())
+                            }
+                            }
+                            >
+<Tooltip label='refresh data ' fontSize='md'>
+
+                              <i className="fas fa-sync-alt" />
+</Tooltip>
+
+
+
+
+
+
+                            </Button>
+
+                  </Col>
+                  <Col
+                  // lg="6"
                     md="2"
                   >
                      <Link
@@ -272,7 +318,7 @@ setselectedItem(rowData?._id)
               </div>
               <div className="modal-footer">
                 <Button className="btn-white" color="default" type="button"
-                onClick={()=>deleteBin(selectedItem)}
+                onClick={()=>deletePartner(selectedItem)}
                 >
                   {isLoad ? (
     <div className="spinner-border text-light" role="status">
@@ -297,8 +343,9 @@ setselectedItem(rowData?._id)
             </Modal>
             <div className="card">
 
-              <Tooltip target=".export-buttons>button" position="bottom" />
+              {/* <Tooltip target=".export-buttons>button" position="bottom" /> */}
               <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25]} ref={dt} value={partnerList} header={header} selection={selectedProduct}
+              // loading={PartnerTableLoadisLoad}
               selectionMode={true}
               onSelectionChange={(e) => setSelectedProduct(e.data)}
               filters={filters} filterDisplay="menu" globalFilterFields={['_id','name', 'address', 'gaz', 'niv', 'status']}

@@ -6,6 +6,7 @@ import { SET_IS_SECCESS } from "Redux/types";
 import { SET_DEMANDES } from "Redux/types";
 import { SET_SINGLE_DEMANDE } from "Redux/types";
 import { SET_DEMANDES_BY_PARTNERS } from "Redux/types";
+import { SET_IS_LOADING_TABLE_MISSION } from "Redux/types";
 
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
@@ -217,6 +218,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     //   type: SET_SINGLE_DEMANDE,
     //   payload: {},
     // });
+    dispatch({
+      type: SET_IS_LOADING_TABLE_MISSION,
+      payload: true,
+    });
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandById/${demandeid}`);
 
@@ -224,6 +229,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       dispatch({
         type: SET_SINGLE_DEMANDE,
         payload: res.data,
+      });
+      dispatch({
+        type: SET_IS_LOADING_TABLE_MISSION,
+        payload: false,
       });
     } catch (err) {
       dispatch({
@@ -234,6 +243,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       //   type: SET_DEMANDES,
       //   payload: [],
       // });
+      dispatch({
+        type: SET_IS_LOADING_TABLE_MISSION,
+        payload: false,
+      });
     }
   };
 
