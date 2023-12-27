@@ -141,7 +141,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   }
   export const FindRequestDemandeByPartnerV2 = ( )=> (dispatch) => {
-    axios.get(`http://localhost:3600/api/users/findAllPartnersAndTheirDemands`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllPartnersAndTheirDemands`)
     .then(async(res) => {
       console.log(">>>>>>>>>>>>>>>>>>>",res.data)
       dispatch({
