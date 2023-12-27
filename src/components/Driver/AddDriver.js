@@ -167,7 +167,7 @@ import FileInput from "components/FileInput.jsx";
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">Create a Driver</h3>
+                      <h3 className="mb-0">Créer un conducteur</h3>
                     </Col>
                     <Col className="text-right" xs="4">
                     <Link
@@ -178,7 +178,7 @@ import FileInput from "components/FileInput.jsx";
                         // color="primary"
 
                         size="md"
-                        >  List of Driver
+                        >  Liste des conducteurs
                         <i className=" ml-2 fas fa-arrow-right" />
                       </Button>
                         </Link>
@@ -204,7 +204,7 @@ import FileInput from "components/FileInput.jsx";
     <ToastContainer />
 
 <fieldset>
-    <legend>Driver Information</legend>
+    <legend>Informations sur le conducteur</legend>
 
 
     <Row>
@@ -212,10 +212,10 @@ import FileInput from "components/FileInput.jsx";
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Name<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Nom<span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="text" required  placeholder="Enter the contact person's name"  name={"name"} className={classNames("form-control")} onChange={onChangeHandler}/>
+          <input type="text" required  placeholder="Entrez le nom de la personne de contact"  name={"name"} className={classNames("form-control")} onChange={onChangeHandler}/>
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
