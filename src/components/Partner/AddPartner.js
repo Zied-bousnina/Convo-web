@@ -65,10 +65,7 @@ import FileInput from "components/FileInput.jsx";
       payload:false
   })
 
-  useEffect(() => {
-    dispatch(FetchAllQuote())
 
-  }, [ListOfQuote])
 
 
     const showToastMessage = () => {

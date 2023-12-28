@@ -63,7 +63,7 @@ const navigate = useHistory()
       payload: {}
   })
 
-  }, [ partnerList])
+  }, [ partnerList?.length])
   console.log(partnerList)
 
 const [filters, setFilters] = useState({

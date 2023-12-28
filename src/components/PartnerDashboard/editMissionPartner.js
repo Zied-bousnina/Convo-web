@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
     Button,
     Card,
@@ -58,7 +59,7 @@ import {
   parseOptions,
   chartExample1,
   chartExample2,
-} from "../variables/charts.js";
+} from "../../variables/charts.js";
 import { GetAllUsers } from "Redux/actions/userAction.js";
 // --------------------------Map
 import {Link} from "react-router-dom"
@@ -70,11 +71,11 @@ import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaf
 import L from "leaflet"
 import "leaflet-control-geocoder/dist/Control.Geocoder.css"
 import "leaflet-control-geocoder/dist/Control.Geocoder.js"
-import "./App.css"
-import LeafletRoutingMachine from "./LeafletRoutingMachine.js";
+import "../App.css"
+import LeafletRoutingMachine from "../LeafletRoutingMachine.js";
 import { AddDemande } from "Redux/actions/Demandes.Actions.js";
 import { Switch } from "@chakra-ui/react";
-import SelectDriver from "./PartnerDashboard/Headers/Components/SelectDriver.js";
+import SelectDriver from "../PartnerDashboard/Headers/Components/SelectDriver.js";
 // import { ToastContainer, toast } from 'react-toastify';
 import ReactDatetime from "react-datetime";
 import Datetime from 'react-datetime';
@@ -89,7 +90,7 @@ import { RadioButton } from "primereact/radiobutton";
 import { SelectButton } from 'primereact/selectbutton';
 import { MultiStateCheckbox } from 'primereact/multistatecheckbox';
 import { Calendar } from 'primereact/calendar';
-const EditMission = () => {
+const editMissionPartner = () => {
   const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
@@ -331,12 +332,12 @@ const EditMission = () => {
     postalAddress:startingPoint ? startingPoint?.display_name : SingleDemande?.address?.display_name,
     postalDestination:destination ? destination?.display_name : SingleDemande?.destination?.display_name,
     distance:distance,
-    driverIsAuto:value3 == "Manual"? false: true,
+    // driverIsAuto:value3 == "Manual"? false: true,
     // dateDepart: SingleDemande ?SingleDemande?.dateDepart :value,
     dateDepart: value ? value : SingleDemande?.dateDepart,
     comment: form?.comment ?form?.comment: SingleDemande?.comment,
     // dateDepart:value?._d,
-    driver: value3 == "Manual" ?selectedValues?.value :""
+    // driver: value3 == "Manual" ?selectedValues?.value :""
 
 
 
@@ -360,7 +361,7 @@ dispatch(UpdateMission(id,data))
 
     let DefaultIcon = L.icon({
 
-      iconUrl: require("../assets/img/brand/Marker-location.png"),
+      iconUrl: require("../../assets/img/brand/Marker-location.png"),
       iconSize: [60, 60],
       iconAnchor: [22, 94],
       popupAnchor: [-3, -76],
@@ -373,7 +374,7 @@ dispatch(UpdateMission(id,data))
 
 
     const myIcon = L.icon({
-        iconUrl: require("../assets/img/brand/marker-courier.png"),
+        iconUrl: require("../../assets/img/brand/marker-courier.png"),
         iconSize: [60, 60],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76],
@@ -392,7 +393,7 @@ dispatch(UpdateMission(id,data))
     useEffect(() => {
       dispatch(GetAllUsers())
 
-    }, [dispatch,AllUsers])
+    }, [dispatch,AllUsers?.length])
     // console.log(SingleDemande)
 
 
@@ -624,39 +625,8 @@ style={
 
     </Col>
 </Row>
-{
-  SingleDemande?.driverIsAuto &&
-
-<Row>
-
-<Col>
-        {/* Switch button for automatic or manual choice */}
-        <Row>
-
-<Label
-className="form-control-label"
-htmlFor="input-username"
->
-Driver Choice :
-</Label>
 
 
-        </Row>
-      </Col>
-</Row>
-}
-<div className="card flex justify-content-center">
-{
-  SingleDemande?.driverIsAuto &&
-  <>
-  <div className="card flex flex-column align-items-center gap-3">
-
-  <MultiStateCheckbox value={value3} onChange={(e) => setValue3(e.value)} options={options} optionValue="value" />
-            <span>{value3 || 'Automatique'}</span>
-  </div>
-  </>
-}
-        </div>
 
 <Row
 className="mb-3"
@@ -688,8 +658,8 @@ className="mb-3"
 <Row>
 
 <Col>
-{
-  SingleDemande?.dateDepart ?
+{/* {
+  SingleDemande?.dateDepart ? */}
   <div className=" mb-3">
 
 <label className="form-label">date Depart</label>
@@ -711,11 +681,7 @@ inputProps={{
 
  />
   </div>
- :
- <Skeleton
- style={{marginTop:"2rem"}}
-  width={300} height={30} />
-}
+
 </Col>
 </Row>
 <Row>
@@ -877,4 +843,4 @@ inputProps={{
     );
   };
 
-  export default EditMission;
+  export default editMissionPartner;

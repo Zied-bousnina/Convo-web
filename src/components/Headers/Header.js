@@ -41,7 +41,7 @@ console.log(PartnerStatistiques)
     // dispatch(getBinsCount())
     dispatch(getDemandesCount());
     dispatch(getPartnerCounts());
-  }, [userStatistiques, DemandesStatistiques,PartnerStatistiques, dispatch]);
+  }, [userStatistiques?.totalCount, DemandesStatistiques?.totalCount,PartnerStatistiques?.totalCount    , dispatch]);
 
 
 

@@ -84,7 +84,7 @@ import { ProgressB } from "./Headers/Components/progressBar/ProgressB.js";
     useEffect(() => {
       dispatch(FetchAllDrivers())
 
-    }, [ driverList])
+    }, [ driverList?.length])
     const colourOptions = []
 
     const handleSelectChange = (selectedOptions) => {
@@ -344,7 +344,7 @@ dispatch(AddDemande(data, navigate))
     useEffect(() => {
       dispatch(GetAllUsers())
 
-    }, [dispatch,AllUsers])
+    }, [dispatch,AllUsers?.length])
 
 
     useEffect(() => {

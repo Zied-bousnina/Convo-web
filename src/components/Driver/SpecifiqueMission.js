@@ -111,7 +111,7 @@ import Skeleton from "react-loading-skeleton";
       dispatch(FetchAllDrivers())
       dispatch(GetPartnerDetailsById(id))
 
-    }, [dispatch, PartnerDetails])
+    }, [dispatch, PartnerDetails?._id])
 
 
     const handleSelectChange = (selectedOptions) => {
@@ -368,7 +368,7 @@ dispatch(AddDemande(data, navigate))
     useEffect(() => {
       dispatch(GetAllUsers())
 
-    }, [dispatch,AllUsers])
+    }, [dispatch,AllUsers?.length])
 
 
     useEffect(() => {

@@ -2,7 +2,7 @@
 import Profile from "views/examples/Profile.js";
 import Maps from "views/examples/Maps";
 import RequestsMunicpal from "./components/RequestsMunicpal";
-import ListOfUsers from "components/ListOfUsers";
+// import ListOfUsers from "components/ListOfUsers";
 import UserDetails from "components/UserDetails";
 import PartnershipList from "components/PartnershipList";
 import QuoteList from "components/QuoteList";
@@ -41,6 +41,8 @@ import CreateMission from "components/PartnerDashboard/CreateMission";
 import ListOfMissions from "components/PartnerDashboard/ListOfMissions";
 import DriverDetailsForPartner from "components/PartnerDashboard/DriverDetailsForPartner";
 import ListOfFactures from "components/Factures/ListOfFactures";
+import requestDetailsPartner from "components/PartnerDashboard/requestDetailsPartner";
+import editMissionPartner from "components/PartnerDashboard/editMissionPartner";
 
 
 
@@ -89,6 +91,13 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/edit-mission/:id",
+    name: "Create request",
+    icon: "ni ni-building text-red",
+    component: editMissionPartner,
+    layout: "/partner"
+  },
+  {
     path: "/AddPartner",
     name: "Add Partner",
     icon: "ni ni-building text-red",
@@ -109,6 +118,13 @@ var routes = [
     icon: "ni ni-single-02 text-yellow",
     component: RequestDetails,
     layout: "/admin"
+  },
+  {
+    path: "/request-details/:id",
+    name: "requestDetails",
+    icon: "ni ni-single-02 text-yellow",
+    component: requestDetailsPartner,
+    layout: "/partner"
   },
   {
     path: "/partner-details/:id",

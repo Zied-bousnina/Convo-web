@@ -50,7 +50,7 @@ import Skeleton from "react-loading-skeleton";
   const { id } = useParams();
   useEffect(() => {
     dispatch(GetPartnerDetailsById(id))
-  }, [dispatch,PartnerDetails])
+  }, [dispatch,PartnerDetails?._id])
 //   console.log(PartnerDetails)
     dispatch({
       type:SET_IS_SECCESS,

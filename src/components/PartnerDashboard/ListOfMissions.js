@@ -73,7 +73,7 @@ const navigate = useHistory()
     dispatch(FindRequestDemandeByPartner())
 
 
-  }, [ requests,requestsByPartner])
+  }, [ requests?.length,requestsByPartner?.length])
 
   // console.log(requestsByPartnerV2)
 
@@ -398,7 +398,7 @@ const actionBodyTemplate2 = (rowData) => {
               size={"small"}
               filterDisplay="row"
               globalFilterFields={['_id','name', 'status']}
-              onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
+              onRowClick={(e) => {const url = `/partner/request-details/${e.data._id}`; history.push(url); }}
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
                emptyMessage="No Missions found."
                loading={TableIsLOad}

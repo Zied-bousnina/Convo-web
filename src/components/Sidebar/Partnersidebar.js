@@ -55,7 +55,8 @@ const Partnersidebar = (props) => {
       prop.path !=='/request-details/:id'&&
       prop.path !=='/AddDriver' &&
       prop.path !=='/edit-Driver/:id'&&
-      prop.path !=='/driver-details/:id'
+      prop.path !=='/driver-details/:id'&&
+      prop.path !=='/edit-mission/:id'
       ) {
         return (
           <NavItem key={key}>

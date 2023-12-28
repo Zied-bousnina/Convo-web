@@ -154,12 +154,12 @@ import Skeleton from "react-loading-skeleton";
       };
       useEffect(() => {
         dispatch(FindRequestDemandeById(id))
-      }, [SingleDemande])
+      }, [SingleDemande?._id])
 
-      // console.log(SingleDemande)
+      // console.log(SingleDemande?._id)
 
 
-console.log(SingleDemande)
+// console.log(SingleDemande)
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -349,9 +349,9 @@ dispatch(AddDemande(data, navigate))
     useEffect(() => {
       dispatch(GetAllUsers())
 
-    }, [dispatch,AllUsers])
+    }, [dispatch,AllUsers?.length])
 
-
+// console.log(AllUsers)
     useEffect(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;

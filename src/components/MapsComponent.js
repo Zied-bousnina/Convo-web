@@ -87,7 +87,8 @@ function MapsComponent() {
         payload: {}
     })
 
-    }, [dispatch,AllUsers])
+    }, [dispatch,AllUsers?.address?.latitude])
+    // console.log(AllUsers)
 
 
     useEffect(() => {

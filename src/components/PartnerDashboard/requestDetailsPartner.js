@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
     Button,
     Card,
@@ -18,12 +19,12 @@ import {
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
-  import { useEffect, useRef, useState } from "react";
+  import React, { useEffect, useRef, useState } from "react";
   import axios from "axios";
   import classNames from "classnames";
   import { AddBin } from "Redux/actions/BinAction";
   import { SET_IS_SECCESS } from "Redux/types";
-  import {DatePicker} from 'reactstrap-date-picker'
+  // import OppositeContentTimeline from './TimeLine.js'
 
   /*!
 
@@ -58,7 +59,7 @@ import {
   parseOptions,
   chartExample1,
   chartExample2,
-} from "../variables/charts.js";
+} from "../../variables/charts.js";
 import { GetAllUsers } from "Redux/actions/userAction.js";
 // --------------------------Map
 import {Link} from "react-router-dom"
@@ -70,33 +71,34 @@ import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaf
 import L from "leaflet"
 import "leaflet-control-geocoder/dist/Control.Geocoder.css"
 import "leaflet-control-geocoder/dist/Control.Geocoder.js"
-import "./App.css"
-import LeafletRoutingMachine from "./LeafletRoutingMachine.js";
+import "../App.css"
+import LeafletRoutingMachine from "../LeafletRoutingMachine.js";
 import { AddDemande } from "Redux/actions/Demandes.Actions.js";
-import { Switch } from "@chakra-ui/react";
-import SelectDriver from "./PartnerDashboard/Headers/Components/SelectDriver.js";
+import CustomizedTimeline from "../TimeLine.js";
 // import { ToastContainer, toast } from 'react-toastify';
-import ReactDatetime from "react-datetime";
-import Datetime from 'react-datetime';
-import { FetchAllDrivers } from "Redux/actions/Driver.actions.js";
-// import { TimeIcon } from './../../node_modules/@mui/x-date-pickers/icons/index';
-import Select from 'react-select'
 import { useParams } from "react-router-dom";
+import { idText } from "typescript";
 import { FindRequestDemandeById } from "Redux/actions/Demandes.Actions.js";
-import Skeleton from 'react-loading-skeleton'
-import { UpdateMission } from "Redux/actions/Demandes.Actions.js";
-import { RadioButton } from "primereact/radiobutton";
-import { SelectButton } from 'primereact/selectbutton';
-import { MultiStateCheckbox } from 'primereact/multistatecheckbox';
-import { Calendar } from 'primereact/calendar';
-const EditMission = () => {
-  const navigate = useHistory();
+import OppositeContentTimeline from "../TimeLine.js";
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import { Divider } from "@chakra-ui/react";
+import Skeleton from "react-loading-skeleton";
+
+  const requestDetailsPartner = () => {
+    const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
-
+  const [selectedValue, setSelectedValue] = useState('Tunis');
     const [selectedMunicipal, setMunicipal] = useState('');
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
+    const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
     const [isStartingPoint, setisStartingPoint] = useState(true)
     const [isDestination, setisDestination] = useState(false)
     const [startingPoint, setstartingPoint] = useState()
@@ -104,44 +106,9 @@ const EditMission = () => {
     const isStartingPointRef = useRef(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
-    const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
-    const [checked, setChecked] = useState( SingleDemande?.driverIsAuto ? SingleDemande?.driverIsAuto : false);
-    const [value, setValue]= useState(new Date().toISOString())
-    const [fmtValue, setFmtValue]= useState(undefined)
-    const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
-    const [selectedValues, setSelectedValues] = useState([]);
-    const [ingredient, setIngredient] = useState('');
-    const [value3, setValue3] = useState('Automatic');
-    const options = [
-        { value: 'Manual'  },
-
-    ];
-
     const { id } = useParams();
-    // console.log("driver is auto ", SingleDemande?.driverIsAuto)
-    useEffect(() => {
-      dispatch(FetchAllDrivers())
 
-    }, [ driverList?.length])
-    const colourOptions = []
-
-    const handleSelectChange = (selectedOptions) => {
-
-
-      setSelectedValues(selectedOptions);
-    };
-    driverList?.map(e=>{
-      colourOptions.push({value:e._id, label:`${e.name}|[${e.email}]`})
-
-    })
-
-    useEffect(( )=> {
-      // console.log(`Formatted value is ${fmtValue}`)
-    }, [fmtValue])
-    const handleChange = (event) => {
-      setChecked(event.target.checked);
-      // console.log(checked)
-    };
+    // console.log(id)
     const dispatch = useDispatch()
     const onMapClick = async (e) => {
         const { lat, lng } = e.latlng;
@@ -186,8 +153,14 @@ const EditMission = () => {
           }
         }
       };
+      useEffect(() => {
+        dispatch(FindRequestDemandeById(id))
+      }, [SingleDemande?._id])
+
+      // console.log(SingleDemande?._id)
 
 
+// console.log(SingleDemande)
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -208,15 +181,20 @@ const EditMission = () => {
 
 
 
+  useEffect(() => {
+      axios
+        .get(`https://xgenboxv2.onrender.com/api/governorates`)
+        .then(res => {
+          setgovernorates(res.data[0]);
+        })
+        .catch(err => {
+          // console.log(err)
+        });
+    }, []);
 
-
-    useEffect(() => {
-        dispatch(FindRequestDemandeById(id))
-      }, [SingleDemande?._id])
-      const [value1, setValue2] = useState();
-      console.log(value1)
-
-
+     const municipales = governorates?.governorates?.filter(
+      (item) => item.name === selectedValue,
+    );
 
     const showToastMessage = () => {
       toast.success('Reaquest created successfully.', {
@@ -231,27 +209,19 @@ const EditMission = () => {
 
 
     const [form, setForm] = useState({
-
-
-
-
     })
 
     const onChangeHandler = (e) => {
-      const { name, checked, value } = e.target;
-
-
+      const { name, value } = e.target;
 
 
         setForm({
           ...form,
-          [name]: value,
+          [name]: value
         });
 
 
-      // console.log(form);
     };
-
     useEffect(() => {
       if (isSuccess) {
 
@@ -281,7 +251,6 @@ const EditMission = () => {
               // console.error("Error fetching coordinates from the geocoding service", error);
             }
           }
-          // console.log(e)
 
         // If the destination search query is not empty, use a geocoding service to get the coordinates
        // If the destination search query is not empty, use a geocoding service to get the coordinates
@@ -304,10 +273,10 @@ const EditMission = () => {
     }
   }
   const getDistanceFromLatLonInKm=()=>{
-    const lat1 = startingPoint ? startingPoint?.latitude : SingleDemande?.address?.latitude;
-  const lon1 =     startingPoint ? startingPoint?.longitude : SingleDemande?.address?.longitude  ;
-  const lat2 = destination ? destination?.latitude : SingleDemande?.destination?.latitude;
-  const lon2 = destination ? destination?.longitude : SingleDemande?.destination?.longitude;
+    const lat1 = startingPoint?.latitude;
+  const lon1 = startingPoint?.longitude;
+  const lat2 = destination?.latitude;
+  const lon2 = destination?.longitude;
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
     var dLon = deg2rad(lon2-lon1);
@@ -325,30 +294,19 @@ const EditMission = () => {
   }
   const distance = getDistanceFromLatLonInKm()
   const data = {
-    ...form,
-    address: startingPoint ? startingPoint : SingleDemande?.address,
-    destination:destination ? destination : SingleDemande?.destination,
-    postalAddress:startingPoint ? startingPoint?.display_name : SingleDemande?.address?.display_name,
-    postalDestination:destination ? destination?.display_name : SingleDemande?.destination?.display_name,
+    // ...form,
+    address: startingPoint,
+    destination:destination,
+    postalAddress:startingPoint?.display_name,
+    postalDestination:destination?.display_name,
     distance:distance,
-    driverIsAuto:value3 == "Manual"? false: true,
-    // dateDepart: SingleDemande ?SingleDemande?.dateDepart :value,
-    dateDepart: value ? value : SingleDemande?.dateDepart,
-    comment: form?.comment ?form?.comment: SingleDemande?.comment,
-    // dateDepart:value?._d,
-    driver: value3 == "Manual" ?selectedValues?.value :""
-
-
-
-
+    offer:"",
+    comment:""
 
   }
-  // console.log(SingleDemande)
 
   // console.log(data)
-  // console.log("value3", value3)
-// dispatch(AddDemande(data, navigate))
-dispatch(UpdateMission(id,data))
+dispatch(AddDemande(data, navigate))
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
@@ -360,7 +318,7 @@ dispatch(UpdateMission(id,data))
 
     let DefaultIcon = L.icon({
 
-      iconUrl: require("../assets/img/brand/Marker-location.png"),
+      iconUrl: require("../../assets/img/brand/Marker-location.png"),
       iconSize: [60, 60],
       iconAnchor: [22, 94],
       popupAnchor: [-3, -76],
@@ -373,7 +331,7 @@ dispatch(UpdateMission(id,data))
 
 
     const myIcon = L.icon({
-        iconUrl: require("../assets/img/brand/marker-courier.png"),
+        iconUrl: require("../../assets/img/brand/marker-courier.png"),
         iconSize: [60, 60],
         iconAnchor: [22, 94],
         popupAnchor: [-3, -76],
@@ -392,10 +350,9 @@ dispatch(UpdateMission(id,data))
     useEffect(() => {
       dispatch(GetAllUsers())
 
-    }, [dispatch,AllUsers])
-    // console.log(SingleDemande)
+    }, [dispatch,AllUsers?.length])
 
-
+// console.log(AllUsers)
     useEffect(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
@@ -427,27 +384,28 @@ dispatch(UpdateMission(id,data))
         </Marker>
       );
     };
-    const MapEvents = () => {
-        const map = useMapEvents({
-          click: onMapClick,
-        });
+    // const MapEvents = () => {
+    //     const map = useMapEvents({
+    //       click: onMapClick,
+    //     });
 
-        useEffect(() => {
-          if (currentLocation) {
-            map.flyTo(currentLocation, map.getZoom());
-          }
-        }, [map]);
+    //     useEffect(() => {
+    //       if (currentLocation) {
+    //         map.flyTo(currentLocation, map.getZoom());
+    //       }
+    //     }, [map]);
 
-        return null;
-      };
+    //     return null;
+    //   };
     return (
       <>
         <UserHeader />
+        {/* <CustomizedTimeline/> */}
         {/* Page content */}
-        <Container className="mt--7 " fluid>
+        <Container className="mt--7" fluid>
         <Row>
 
-          <Col xl="4"
+        <Col xl="4"
           style={{marginBottom:"20px"}}
 
            >
@@ -458,7 +416,7 @@ dispatch(UpdateMission(id,data))
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Edit mission
+                    Mission details
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </div>
@@ -488,323 +446,392 @@ style={
 
 }
 >
+{
+  SingleDemande ?
+
 <Row>
   <Col md="12">
-      {
-        SingleDemande ?
     <div className=" mb-3">
-      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Starting point</label>
       <div className="input-group">
-
         <input
           type="text"
-          // required
-          placeholder={SingleDemande?.address?.display_name}
-          // disabled
-          value={startingPoint ? startingPoint.display_name : searchQuery}
-        defaultValue={SingleDemande?.address?.display_name}
-        // disabled
+          placeholder="Choose starting point, or click on the map"
+          value={SingleDemande?.address?.display_name}
           name={"start"}
           className={classNames("form-control")}
-          onClick={() => {
-            isStartingPointRef.current = true;
-            setisStartingPoint(true);
-            setisDestination(false);
-          }}
-          onChange={(e) => {
-            setstartingPoint(null);
-            setSearchQuery(e.target.value);
-            // onChangeHandler(e)
-          }}
+          disabled
+
         />
       </div>
     </div>
-        :
-        (
-
-        <Skeleton
-        style={{marginTop:"2rem"}}
-
-        // style={{marginTop:"2rem"}}
-
-         width={300} height={30} />
-
-        )
-      }
   </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+ {
+  SingleDemande ?
 
 <Row>
   <Col md="12">
-
-      {
-
-        SingleDemande ?
     <div className=" mb-3">
-      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Destination</label>
       <div className="input-group">
         <input
           type="text"
-          // required
-          placeholder={SingleDemande?.destination?.display_name}
-          value={destination ? destination.display_name : destinationSearchQuery}
-        // value={SingleDemande?.destination?.display_name}
+          placeholder="Choose destination, or click on the map"
+          value={SingleDemande?.destination?.display_name}
           name={"destination"}
           className={classNames("form-control")}
-          onClick={() => {
-            isStartingPointRef.current = false;
-            setisStartingPoint(false);
-            setisDestination(true);
-          }}
-          onChange={(e) => {
-            setdestination(null);
-            setDestinationSearchQuery(e.target.value);
-            // onChangeHandler(e)
-          }}
+          disabled
         />
-         </div>
-    </div> :
-          <Skeleton
-          style={{marginTop:"2rem"}}
-           width={300} height={30} />
-
-      }
+      </div>
+    </div>
   </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+ }
 
   {/* <ToastContainer /> */}
 
 
 
 
-  <Row>
-    <Col>
-    {
-      SingleDemande ?
-    <button
-    type="button"
-  onClick={() => {
-    isStartingPointRef.current = true;
-    setisStartingPoint(true);
-    setisDestination(false);
-  }}
-  className={classnames("btn m-1 ", { "btn-primary": isStartingPoint },{"btn-outline-primary": !isStartingPoint})}
+
+
+
+<Row
+
 >
-  Set Starting Point
-</button>
-:(
-  <Skeleton
-  style={{marginTop:"2rem"}}
-   width={100} height={60} />
-)
-    }
 
 
-    </Col>
-    <Col>
-    {  SingleDemande ?
-
-    <button
-    type="button"
-  onClick={() => {
-    isStartingPointRef.current = false;
-    setisStartingPoint(false);
-    setisDestination(true);
-  }}
-  className={classnames("btn m-1  ", { "btn-primary": isDestination  }, {"btn-outline-primary": !isDestination})}
->
-  Set Destination
-</button>
-:(
-  <Skeleton
-  style={{marginTop:"2rem"}}
-   width={100} height={60} />
-)
-    }
-
-    </Col>
 </Row>
 {
-  SingleDemande?.driverIsAuto &&
+  SingleDemande ?
 
-<Row>
-
-<Col>
-        {/* Switch button for automatic or manual choice */}
-        <Row>
-
-<Label
-className="form-control-label"
-htmlFor="input-username"
->
-Driver Choice :
-</Label>
-
-
-        </Row>
-      </Col>
-</Row>
-}
-<div className="card flex justify-content-center">
-{
-  SingleDemande?.driverIsAuto &&
-  <>
-  <div className="card flex flex-column align-items-center gap-3">
-
-  <MultiStateCheckbox value={value3} onChange={(e) => setValue3(e.value)} options={options} optionValue="value" />
-            <span>{value3 || 'Automatique'}</span>
-  </div>
-  </>
-}
-        </div>
 
 <Row
 className="mb-3"
 >
 
 <Col>
-{
-   value3=="Manual" &&<>
         {/* Switch button for automatic or manual choice */}
+{
+  true &&
+  <>
 
 
-<label className="form-label">Driver<span style={{color:"red"}}>*</span></label>
-<Select required
+  <label className="form-label">Mission Status :
+  <span style={{
+    color: SingleDemande?.status === "pending" ? "orange" :
+      SingleDemande?.status === "accepted" ? "green" :
+        SingleDemande?.status === "refused" ? "red" :
+          SingleDemande?.status === "in progress" ? "blue" :
+            SingleDemande?.status === "done" ? "green" :
+              SingleDemande?.status === "canceled" ? "red" : ""
+  }}>
+    {SingleDemande?.status === "pending" ? "Pending" :
+      SingleDemande?.status === "accepted" ? "Accepted" :
+        SingleDemande?.status === "refused" ? "Refused" :
+          SingleDemande?.status === "in progress" ? "In Progress" :
+            SingleDemande?.status === "done" ? "Done" :
+              SingleDemande?.status === "canceled" ? "Canceled" : ""}
+  </span>
+</label>
+
+{/* <Select required
 
    className="react-select primary"
    onChange={handleSelectChange}
       isLoading={colourOptions.length==0 ?  true: false}
       isDisabled={selectedValues.length >3 ?true: false}
 
-    options={colourOptions} />
+    options={colourOptions} /> */}
   </>
+
 }
+{/* <OppositeContentTimeline/> */}
+
 
 
 
       </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+{
+  SingleDemande ?
+<Row>
+
+<Col>
+<label className="form-label">date Depart </label>
+<div className="input-group">
+  <input
+    type="text"
+    placeholder="Choose date of departure"
+    value={SingleDemande?.dateDepart&& new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                ).format(new Date(SingleDemande?.dateDepart))}
+    name={"dateDepart"}
+    className={classNames("form-control")}
+    disabled
+  />
+</div>
+</Col>
+</Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+{
+  SingleDemande ?
+
+
+  SingleDemande?.driver  &&
+  <React.Fragment>
+  <Divider
+  style={{
+    marginTop:"20px",
+    marginBottom:"20px"
+  }}
+  />
+
+  <label className="form-label">Driver details <Link
+  to={`/admin/driver-details/${SingleDemande?.driver?._id}`}
+  // target="_blank"
+
+
+   style={{color:"#5e72e4"}}>( check more details)</Link></label>
+
+
 
 <Row>
 
 <Col>
-{
-  SingleDemande?.dateDepart ?
-  <div className=" mb-3">
-
-<label className="form-label">date Depart</label>
-{/* <Calendar id="calendar-24h" value={value} onChange={(e) => setValue(e.value)} showTime hourFormat="24" /> */}
-<Datetime
-
-onChange={(e)=>{setValue(e?._d)
-  console.log(e?._d)
-  console.log(value)
-}}
-value={value}
-// timeFormat={false}
-inputProps={{
-  placeholder: "Date Picker Here",
-  name: "dateDepart"
-}}
-
-
-
- />
-  </div>
- :
- <Skeleton
- style={{marginTop:"2rem"}}
-  width={300} height={30} />
-}
+<label className="form-label">Driver Name </label>
+<div className="input-group">
+  <input
+    type="text"
+    placeholder="Choose date of arrival"
+    value={ SingleDemande?.driver?.name}
+    name={"dateArrive"}
+    className={classNames("form-control")}
+    disabled
+  />
+</div>
 </Col>
 </Row>
+
+  </React.Fragment>
+
+
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+
+
+{
+
+  SingleDemande ?
+
+<Row>
+<Col>
+<label className="form-label">Distance (Km) ~</label>
+<div className="input-group">
+  <input
+    type="text"
+    placeholder="Choose distance of mission"
+    value={ `~${Math.floor(SingleDemande?.distance)} km`}
+    name={"distance"}
+    className={classNames("form-control")}
+    disabled
+  />
+</div>
+</Col>
+</Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+
+
+{/*
+</Col>
+</Row> */}
+
+{
+  SingleDemande || SingleDemande?.comment ?
+
+
+  SingleDemande?.comment &&
+
 <Row>
   <Col md="12">
-  {
-    SingleDemande ?
-
-
     <div className=" mb-3">
       <label className="form-label">Comment</label>
       <div className="input-group">
         <input
           type="text"
           // required
-          placeholder="Comment"
 
-          name={"comment"}
+
+
           className={classNames("form-control")}
+          disabled
+          value={
+            SingleDemande?.comment
+          }
 
-          onChange={(e) => {
-            onChangeHandler(e)
 
-          }}
-          defaultValue={SingleDemande?.comment}
         />
       </div>
     </div>
-    :(
-  <Skeleton
-  style={{marginTop:"2rem"}}
-   width={300} height={30} />
-)
-    }
   </Col>
 </Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
 
-<Row>
-  <Col
+/>
+}
+
+{
+  SingleDemande ?
+
+  <Row>
+
+    <Col
     className="col-12"
     style={{
       height: "60vh",
       width: "85%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      marginTop: "20px",
-      marginBottom: "20px",
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
     }}
-  >
-    {SingleDemande ? (
-      <>
-        <button type="submit" className="btn m-1 ml-3 btn-outline-success">
-          {isLoad ? (
-            <div className="spinner-border text-light" role="status">
-              <span className="visually-hidden"></span>
-            </div>
-          ) : (
-            <>
-              Modifier <i className="fa-solid fa-floppy-disk"></i>
-            </>
-          )}
-        </button>
-        {/* <button type="button"
-        onClick={()=>{
 
-          setdestination()
-          setstartingPoint()
-          setisStartingPoint(true)
-          setisDestination(false)
-          setSearchQuery("")
-          setDestinationSearchQuery("")
-          setForm(
-            {
-              ...form,
-              comment: SingleDemande?.comment,
 
-            }
+    >
+    <Link
+    to={`/partner/edit-mission/${SingleDemande?._id}`}
+    // target="_blank"
+    state={{ SingleDemmande : SingleDemande}}
+    >
+    <Button
+    className="btn-icon btn-3"
+    color="primary"
+    type="button"
 
-          )
-        }
-        }
-        className="btn m-1 ml-3 btn-outline-secondary">
-          Reset
-        </button> */}
-      </>
-    ) : (
-      <Skeleton style={{ marginTop: "2rem" }} width={100} height={60} />
-    )}
+    >
+    <span className="btn-inner--icon">
+    <i className="ni ni-bold-right"></i>
+    </span>
+    <span className="btn-inner--text">Edit Mission </span>
+    </Button>
+    </Link>
+
   </Col>
-</Row>
+  </Row>
+  :
+  <Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={150}
+height={50}
+
+/>
+}
 
 </form>
                 </div>
@@ -819,36 +846,42 @@ inputProps={{
                 {/* <div className="chart"> */}
                 <Tooltip target=".export-buttons>button" position="bottom" />
               <MapContainer
-              style={{ height: "75vh" }}
-               center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
+              style={{ height: "60vh" }}
+              center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {
-            (startingPoint &&destination) &&
+            (SingleDemande?.address &&SingleDemande?.destination) &&
 <LeafletRoutingMachine
-            startingPoint={startingPoint}
-            destination={destination}
+            startingPoint={{
+              latitude: SingleDemande?.address?.latitude,
+              longitude: SingleDemande?.address?.longitude,
+            }}
+            destination={{
+              latitude: SingleDemande?.destination?.latitude,
+              longitude: SingleDemande?.destination?.longitude,
+            }}
 
 />
         }
-        <MapEvents />
+        {/* <MapEvents /> */}
 
             <Marker
             //   key={pointBin._id}
-            position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
+            position={SingleDemande?.destination?.latitude && SingleDemande?.destination?.longitude ? [SingleDemande?.destination.latitude, SingleDemande?.destination.longitude] : [0, 0]} // Update property names
                 icon={myIcon}
             //     eventHandlers={{
             //   click: () => alert('A marker has been clicked!')
             // }}
             >
-<Popup>{destination?.display_name}</Popup>
+<Popup>{SingleDemande?.destination?.display_name}</Popup>
             </Marker>
 
-        {startingPoint && (
+        {SingleDemande?.address && (
           <Marker
-           position={startingPoint?.latitude && startingPoint?.longitude ? [startingPoint.latitude, startingPoint.longitude] : [36.8019592, 10.9403163]}
+           position={SingleDemande?.address?.latitude && SingleDemande?.address?.longitude ? [SingleDemande?.address.latitude, SingleDemande?.address.longitude] : [36.8019592, 10.9403163]}
         //   position={
         //     [startingPoint.latitude, startingPoint.longitude]
 
@@ -860,7 +893,7 @@ inputProps={{
             // }}
 
           >
-            <Popup>{startingPoint?.display_name}</Popup>
+            <Popup>{SingleDemande?.address?.display_name}</Popup>
           </Marker>
         )}
         <MapsMarker />
@@ -877,4 +910,4 @@ inputProps={{
     );
   };
 
-  export default EditMission;
+  export default requestDetailsPartner;

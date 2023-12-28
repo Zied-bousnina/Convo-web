@@ -15,7 +15,7 @@ function SelectDriver(props) {
   useEffect(() => {
     dispatch(FetchAllDrivers())
 
-  }, [ driverList])
+  }, [ driverList?.length])
   const colourOptions = []
 
   const handleSelectChange = (selectedOptions) => {

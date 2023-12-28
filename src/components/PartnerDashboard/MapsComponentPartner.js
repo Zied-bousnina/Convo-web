@@ -87,7 +87,7 @@ function MapsComponentPartner() {
     })
 
 
-    }, [dispatch,AllUsers])
+    }, [dispatch,AllUsers?.length])
 
 
     useEffect(() => {

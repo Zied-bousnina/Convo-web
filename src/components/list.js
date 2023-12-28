@@ -2,148 +2,85 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from './service/ProductService';
-import { Rating } from 'primereact/rating';
 import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
-import { Toast } from 'primereact/toast';
+import { Tooltip } from 'primereact/tooltip';
+import { ProductService } from './service/ProductService';
 
-export default function RowExpansionDemo() {
+export default function ExportDemo() {
     const [products, setProducts] = useState([]);
-    const [expandedRows, setExpandedRows] = useState(null);
-    const toast = useRef(null);
+    const dt = useRef(null);
+
+    const cols = [
+        { field: 'code', header: 'Code' },
+        { field: 'name', header: 'Name' },
+        { field: 'category', header: 'Category' },
+        { field: 'quantity', header: 'Quantity' }
+    ];
+
+    const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
 
     useEffect(() => {
-        ProductService.getProductsWithOrdersSmall().then((data) => setProducts(data));
+        ProductService.getProductsMini().then((data) => setProducts(data));
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const onRowExpand = (event) => {
-        toast.current.show({ severity: 'info', summary: 'Product Expanded', detail: event.data.name, life: 3000 });
+    const exportCSV = (selectionOnly) => {
+        dt.current.exportCSV({ selectionOnly });
     };
 
-    const onRowCollapse = (event) => {
-        toast.current.show({ severity: 'success', summary: 'Product Collapsed', detail: event.data.name, life: 3000 });
+    const exportPdf = () => {
+        import('jspdf').then((jsPDF) => {
+            import('jspdf-autotable').then(() => {
+                const doc = new jsPDF.default(0, 0);
+
+                doc.autoTable(exportColumns, products);
+                doc.save('products.pdf');
+            });
+        });
     };
 
-    const expandAll = () => {
-        let _expandedRows = {};
+    const exportExcel = () => {
+        import('xlsx').then((xlsx) => {
+            const worksheet = xlsx.utils.json_to_sheet(products);
+            const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+            const excelBuffer = xlsx.write(workbook, {
+                bookType: 'xlsx',
+                type: 'array'
+            });
 
-        products.forEach((p) => (_expandedRows[`${p.id}`] = true));
-
-        setExpandedRows(_expandedRows);
+            saveAsExcelFile(excelBuffer, 'products');
+        });
     };
 
-    const collapseAll = () => {
-        setExpandedRows(null);
-    };
+    const saveAsExcelFile = (buffer, fileName) => {
+        import('file-saver').then((module) => {
+            if (module && module.default) {
+                let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+                let EXCEL_EXTENSION = '.xlsx';
+                const data = new Blob([buffer], {
+                    type: EXCEL_TYPE
+                });
 
-    const formatCurrency = (value) => {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    };
-
-    const amountBodyTemplate = (rowData) => {
-        return formatCurrency(rowData.amount);
-    };
-
-    const statusOrderBodyTemplate = (rowData) => {
-        return <Tag value={rowData.status.toLowerCase()} severity={getOrderSeverity(rowData)}></Tag>;
-    };
-
-    const searchBodyTemplate = () => {
-        return <Button icon="pi pi-search" />;
-    };
-
-    const imageBodyTemplate = (rowData) => {
-        return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image} width="64px" className="shadow-4" />;
-    };
-
-    const priceBodyTemplate = (rowData) => {
-        return formatCurrency(rowData.price);
-    };
-
-    const ratingBodyTemplate = (rowData) => {
-        return <Rating value={rowData.rating} readOnly cancel={false} />;
-    };
-
-    const statusBodyTemplate = (rowData) => {
-        return <Tag value={rowData.inventoryStatus} severity={getProductSeverity(rowData)}></Tag>;
-    };
-
-    const getProductSeverity = (product) => {
-        switch (product.inventoryStatus) {
-            case 'INSTOCK':
-                return 'success';
-
-            case 'LOWSTOCK':
-                return 'warning';
-
-            case 'OUTOFSTOCK':
-                return 'danger';
-
-            default:
-                return null;
-        }
-    };
-
-    const getOrderSeverity = (order) => {
-        switch (order.status) {
-            case 'DELIVERED':
-                return 'success';
-
-            case 'CANCELLED':
-                return 'danger';
-
-            case 'PENDING':
-                return 'warning';
-
-            case 'RETURNED':
-                return 'info';
-
-            default:
-                return null;
-        }
-    };
-
-    const allowExpansion = (rowData) => {
-        return rowData.orders.length > 0;
-    };
-
-    const rowExpansionTemplate = (data) => {
-        return (
-            <div className="p-3">
-                <h5>Orders for {data.name}</h5>
-                <DataTable value={data.orders}>
-                    <Column field="id" header="Id" sortable></Column>
-                    <Column field="customer" header="Customer" sortable></Column>
-                    <Column field="date" header="Date" sortable></Column>
-                    <Column field="amount" header="Amount" body={amountBodyTemplate} sortable></Column>
-                    <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable></Column>
-                    <Column headerStyle={{ width: '4rem' }} body={searchBodyTemplate}></Column>
-                </DataTable>
-            </div>
-        );
+                module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+            }
+        });
     };
 
     const header = (
-        <div className="flex flex-wrap justify-content-end gap-2">
-            <Button icon="pi pi-plus" label="Expand All" onClick={expandAll} text />
-            <Button icon="pi pi-minus" label="Collapse All" onClick={collapseAll} text />
+        <div className="flex align-items-center justify-content-end gap-2">
+            <Button type="button" icon="pi pi-file" rounded onClick={() => exportCSV(false)} data-pr-tooltip="CSV" />
+            <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" />
+            <Button type="button" icon="pi pi-file-pdf" severity="warning" rounded onClick={exportPdf} data-pr-tooltip="PDF" />
         </div>
     );
 
     return (
         <div className="card">
-            <Toast ref={toast} />
-            <DataTable value={products} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)}
-                    onRowExpand={onRowExpand} onRowCollapse={onRowCollapse} rowExpansionTemplate={rowExpansionTemplate}
-                    dataKey="id" header={header} tableStyle={{ minWidth: '60rem' }}>
-                <Column expander={allowExpansion} style={{ width: '5rem' }} />
-                <Column field="name" header="Name" sortable />
-                <Column header="Image" body={imageBodyTemplate} />
-                <Column field="price" header="Price" sortable body={priceBodyTemplate} />
-                <Column field="category" header="Category" sortable />
-                <Column field="rating" header="Reviews" sortable body={ratingBodyTemplate} />
-                <Column field="inventoryStatus" header="Status" sortable body={statusBodyTemplate} />
+            <Tooltip target=".export-buttons>button" position="bottom" />
+
+            <DataTable ref={dt} value={products} header={header} tableStyle={{ minWidth: '50rem' }}>
+                {cols.map((col, index) => (
+                    <Column key={index} field={col.field} header={col.header} />
+                ))}
             </DataTable>
         </div>
     );

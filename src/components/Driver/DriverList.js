@@ -67,7 +67,7 @@ const navigate = useHistory()
       payload: {}
   })
 
-  }, [ driverList])
+  }, [ driverList?.length])
   // console.log(driverList)
 
 const [filters, setFilters] = useState({

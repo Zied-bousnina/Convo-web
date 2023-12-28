@@ -73,7 +73,8 @@ const navigate = useHistory()
     dispatch(FindRequestDemandeByPartner())
     dispatch(FindRequestDemandeByPartnerV2())
 
-  }, [ requests,requestsByPartner,requestsByPartnerV2])
+  }, [ requests?.length,requestsByPartner?.length,requestsByPartnerV2?.length])
+  // console.log(requests?.length)
 
 
 const [filters, setFilters] = useState({

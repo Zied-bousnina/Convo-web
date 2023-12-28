@@ -44,7 +44,7 @@ console.log(PartnerStatistiques)
     dispatch(getDemandesCount());
     dispatch(getMissionByPartnerCounts())
     dispatch(getPartnerCounts());
-  }, [userStatistiques, DemandesStatistiques,PartnerStatistiques,requestsByPartner, dispatch]);
+  }, [userStatistiques?.totalCount, DemandesStatistiques?.totalCount,PartnerStatistiques?.totalCount,requestsByPartner?.length, dispatch]);
 
  console.log(requestsByPartner)
 
