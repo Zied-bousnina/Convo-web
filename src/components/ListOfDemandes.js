@@ -184,6 +184,32 @@ const handleChange = (event) => {
   // console.log(checked)
 };
 
+console.log(requests)
+const exportPdf = () => {
+  import('jspdf').then((jsPDF) => {
+      import('jspdf-autotable').then(() => {
+          const doc = new jsPDF.default(0, 0);
+          const cols = [
+            { field: '_id', header: 'ID' },
+            { field: 'postalAddress', header: 'Point de départ' },
+            { field: 'postalDestination', header: 'Destination' },
+            { field: 'driverIsAuto', header: 'Conducteur automatique' },
+            { field: 'distance', header: 'Distance (km)' },
+            { field: 'createdAt', header: 'Créé le' },
+            // Add other columns as needed
+          ];
+
+          const exportColumns1 = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
+          doc.autoTable(exportColumns1,
+            tab === "partner" ? requestsByPartner : requests
+
+            );
+          doc.save('products.pdf');
+      });
+  });
+};
+
   const header = (
     <>
     <Row>
@@ -198,6 +224,7 @@ const handleChange = (event) => {
         <Btn type="button" icon="pi pi-file" rounded onClick={() => exportCSV(false)} data-pr-tooltip="CSV" />
         {/* <Btn type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" />
         <Btn type="button" icon="pi pi-file-pdf" severity="warning" rounded onClick={exportPdf} data-pr-tooltip="PDF" /> */}
+        <Btn type="button" icon="pi pi-file-pdf" severity="warning" rounded onClick={exportPdf} data-pr-tooltip="PDF" />
         {/* </div> */}
         </Col>
     </Row>
