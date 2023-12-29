@@ -30,7 +30,7 @@ import { SetAuthToken } from "utils/SetAuthToken.js";
 import { GetProfile } from "Redux/actions/profile.actions.js";
 import { setCurrentUser } from "Redux/actions/authActions.js";
 import UserDetails from "components/UserDetails.js";
-
+import { io } from "socket.io-client"
 
 //theme
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -48,6 +48,28 @@ function App() {
   //   isConnected:false,
   //   role:"ADMIN"
   // }
+useEffect(() => {
+  const socket = io(
+    "ws://localhost:3600",
+    { transports: ["websocket", "polling", "flashsocket"] }
+
+
+    // { transports: ["websocket", "polling", "flashsocket"] }
+
+  );
+  socket.on("connect", () => {
+    console.log("connected");
+  });
+  socket.on("connection", () => {
+    console.log("disconnected");
+  });
+  socket.on("message", (message) => {
+    console.log(message);
+  });
+  socket.on("connect_error", (err) => {
+    console.log(`connect_error due to ${err.message}`);
+  });
+}, [])
 
 
   const user = useSelector(state=>state.auth)

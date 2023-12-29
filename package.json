@@ -120,6 +120,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
     "sass": "1.53.0",
+    "socket.io-client": "^4.7.2",
     "styled-components": "^5.3.10",
     "text-mask-siret": "^1.0.0",
     "xlsx": "^0.18.5",

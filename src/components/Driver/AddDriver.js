@@ -40,6 +40,7 @@ import FileInput from "components/FileInput.jsx";
       setForm({
         ...form,
         [name]: files[0],
+        // kbis: e.target.files[0]
       });
     };
 
@@ -97,7 +98,7 @@ import FileInput from "components/FileInput.jsx";
       e.preventDefault();
       // console.log("bins", selectedValues.value)
       console.log(form)
-
+      console.log(form.kbis)
       if(
 
         form.permisConduirefrontCard=== undefined ||
@@ -105,7 +106,17 @@ import FileInput from "components/FileInput.jsx";
         form.assurance=== undefined ||
         form.CinfrontCard=== undefined ||
         form.CinbackCard === undefined||
-        form.proofOfAddress=== undefined
+        form.proofOfAddress=== undefined||
+        form.kbis === undefined
+      ){
+        showToastMessage1()
+        return
+      }
+
+
+      if (
+        form.kbis === undefined
+
       ){
         showToastMessage1()
         return
@@ -253,6 +264,29 @@ import FileInput from "components/FileInput.jsx";
         </div>
       </div>
       </Col> */}
+    </Row>
+    <Row>
+    <Col
+      md="6"
+      >
+         <div className=" mb-3">
+        <label className="form-label"> K-Bis <span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+        <FileInput
+                  id="kbis"
+                  name="kbis"
+                  onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
     </Row>
     </fieldset>
     <hr/>

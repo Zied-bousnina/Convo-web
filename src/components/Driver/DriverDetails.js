@@ -342,6 +342,29 @@ height={30}
 
     <Row>
     <Col
+      md="12"
+      >
+         <div className=" mb-3">
+        <label className="form-label"> K-Bis <span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+        <FileInput
+                  id="kbis"
+                  name="kbis"
+                  // onChange={onChangeHandlerFile}
+                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+                />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+    </Row>
+    <Row>
+    <Col
       md="6"
       >
          <div className=" mb-">

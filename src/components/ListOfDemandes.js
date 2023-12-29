@@ -55,6 +55,7 @@ const navigate = useHistory()
   const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
   const requests1 = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
   const [selectedItem, setselectedItem] = useState(null)
+  const [selectedStatus, setselectedStatus] = useState()
   const dispatch = useDispatch()
   const [count, setCount] = useState(10);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -188,26 +189,125 @@ const handleChange = (event) => {
 console.log(requests)
 const exportPdf = () => {
   import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then(() => {
-          const doc = new jsPDF.default(0, 0);
-          const cols = [
-            { field: '_id', header: 'ID' },
-            { field: 'postalAddress', header: 'Point de départ' },
-            { field: 'postalDestination', header: 'Destination' },
-            { field: 'driverIsAuto', header: 'Conducteur automatique' },
-            { field: 'distance', header: 'Distance (km)' },
-            { field: 'createdAt', header: 'Créé le' },
-            // Add other columns as needed
-          ];
+    import('jspdf-autotable').then(() => {
+      const doc = new jsPDF.default(0, 0);
+      const cols = [
+        // { field: '_id', header: 'ID' },
+        { field: 'postalAddress', header: 'Point de départ' },
+        { field: 'postalDestination', header: 'Destination' },
+        { field: 'driverIsAuto', header: 'Conducteur automatique' },
+        { field: 'distance', header: 'Distance (km)' },
+        { field: 'createdAt', header: 'Créé le' },
+        // { field: 'status', header: 'Statut' }, // New status column
+        // Add other columns as needed
+      ];
 
-          const exportColumns1 = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+      const exportColumns1 = cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+        styles: {
+          fillColor: col.field === 'status' ? [211, 211, 211] : null, // Set background color for the status column
+        },
+        columnWidth: col.field === '_id' ? 30 : 'auto', // Adjust column width for _id field
+        cell: (cell) => col.field === '_id' ? { content: cell.raw.toString().slice(-5) } : cell.raw, // Apply .toString().slice(-5) for _id field // Apply .toString().slice(-5) for _id field
+      }));
 
-          doc.autoTable(exportColumns1,
-            tab === "partner" ? requestsByPartner : requests
+      // Add title and date variables
+      const title = tab === 'partner' ?
+        'Liste des missions  ' :
+        'Liste des missions  ';
 
-            );
-          doc.save('products.pdf');
-      });
+      const exportDate = new Date().toLocaleString('fr-FR'); // Format the date as needed
+
+      // Add title and date to the header
+      doc.text(`${title} - ${selectedStatus? selectedStatus: ''}`, 14, 10);
+      doc.text(` ${exportDate}`, 140, 10,
+      { lineHeightFactor: 10 }
+      );
+
+      // Filter the data based on the selected status
+      console.log(selectedStatus);
+      const filteredData = tab === 'partner' ?
+        (selectedStatus ? requestsByPartner.filter(item => item.status === selectedStatus) : requestsByPartner) :
+        (selectedStatus ? requests.filter(item => item.status === selectedStatus) : requests);
+
+      // Add the table with the modified header and filtered data
+      doc.autoTable(exportColumns1, filteredData);
+
+      // Save the document
+      doc.save(`missions_list_${
+        tab === 'partner' ? 'partner' : 'admin'
+      }_${exportDate}.pdf`,
+      {
+        styles: { fillColor: [211, 211, 211] }, // Add background color for the table header
+        columnStyles: { _id: { cellWidth: 30 } }, // Adjust the _id column width
+        addPageContent: () => {
+          // Add footer
+          doc.text('Liste des missions', 14, doc.internal.pageSize.height - 15);
+          doc.text(`${exportDate}`, doc.internal.pageSize.width - 35, doc.internal.pageSize.height - 15);
+        },
+      }
+
+      );
+    });
+  });
+};
+const exportPdf2 = (data,name) => {
+  import('jspdf').then((jsPDF) => {
+    import('jspdf-autotable').then(() => {
+      const doc = new jsPDF.default(0, 0);
+      const cols = [
+        // { field: '_id', header: 'ID' },
+        { field: 'postalAddress', header: 'Point de départ' },
+        { field: 'postalDestination', header: 'Destination' },
+        { field: 'driverIsAuto', header: 'Conducteur automatique' },
+        { field: 'distance', header: 'Distance (km)' },
+        { field: 'createdAt', header: 'Créé le' },
+        // { field: 'status', header: 'Statut' }, // New status column
+        // Add other columns as needed
+      ];
+
+      const exportColumns1 = cols.map((col) => ({
+        title: col.header,
+        dataKey: col.field,
+        styles: {
+          fillColor: col.field === 'status' ? [211, 211, 211] : null, // Set background color for the status column
+        },
+        columnWidth: col.field === '_id' ? 30 : 'auto', // Adjust column width for _id field
+        cell: (cell) => col.field === '_id' ? { content: cell.raw.toString().slice(-5) } : cell.raw, // Apply .toString().slice(-5) for _id field // Apply .toString().slice(-5) for _id field
+      }));
+
+      // Add title and date variables
+      const title = tab === 'partner' ?
+        `Liste des missions - ${name}  ` :
+        `Liste des missions - ${name}  `;
+
+      const exportDate = new Date().toLocaleString('fr-FR'); // Format the date as needed
+
+      // Add title and date to the header
+      doc.text(`${title} - ${selectedStatus? selectedStatus: ''}`, 14, 10);
+      doc.text(` ${exportDate}`, 140, 10,
+      { lineHeightFactor: 10 }
+      );
+
+      // Filter the data based on the selected status
+      console.log(selectedStatus);
+      const filteredData = tab === 'partner' ?
+        (selectedStatus ? requestsByPartner.filter(item => item.status === selectedStatus) : requestsByPartner) :
+        (selectedStatus ? requests.filter(item => item.status === selectedStatus) : requests);
+
+      // Add the table with the modified header and filtered data
+      console.log(data)
+      doc.autoTable(exportColumns1, data);
+
+      // Save the document
+      doc.save(`missions_list_${
+        tab === 'partner' ? 'partner' : 'admin'
+      }_${exportDate}.pdf`,
+
+
+      );
+    });
   });
 };
 
@@ -232,6 +332,33 @@ const exportPdf = () => {
 
     </>
 );
+const header2 =(data, name)=> {
+
+
+  return(
+
+    <>
+  <Row>
+      <Col >
+      <span className="p-input-icon-left">
+                  <i className="pi pi-search" />
+                  <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+              </span>
+      </Col>
+      <Col xs="auto">
+      {/* <div className="flex align-items-center justify-content-end gap-2"> */}
+      <Btn type="button" icon="pi pi-file" rounded onClick={() => exportCSV(false)} data-pr-tooltip="CSV" />
+      {/* <Btn type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS" />
+      <Btn type="button" icon="pi pi-file-pdf" severity="warning" rounded onClick={exportPdf} data-pr-tooltip="PDF" /> */}
+      <Btn type="button" icon="pi pi-file-pdf" severity="warning" rounded onClick={()=>exportPdf2(data,name)} data-pr-tooltip="PDF" />
+      {/* </div> */}
+      </Col>
+  </Row>
+
+  </>
+  )
+}
+
 // "in progress"
 //             ? 35
 //             : status === "Accepted"
@@ -269,6 +396,11 @@ const statusRowFilterTemplate = (options) => {
       onChange={(e) => {
         console.log('Selected value:', e.value);
         options.filterApplyCallback(e.value);
+        setselectedStatus(
+          e.value
+
+        )
+
       }}
       itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
   );
@@ -299,7 +431,7 @@ const rowExpansionTemplate = (data) => {
               rowsPerPageOptions={[5, 10, 25]}
                ref={dt}
               value={data?.demands}
-              header={header}
+              header={_=>header2(data?.demands,data.partner.name)}
               selection={selectedProduct}
               selectionMode={true}
               onSelectionChange={(e) => setSelectedProduct(e.data)}
@@ -454,7 +586,11 @@ Créer une mission
 
 
     <Button className="float-right"
-    onClick={() => settab("partner")}
+    onClick={() => {settab("partner")
+    setselectedStatus(
+      null
+    )
+    }}
 
     >
   <Tooltip label='By Partners' fontSize='md'>
@@ -600,6 +736,7 @@ Créer une mission
             <DataTable value={requestsByPartnerV2} expandedRows={expandedRows} onRowToggle={(e) => {
             //  alert(e?.data)
               setExpandedRows(e?.data)
+
             }}
                     rowExpansionTemplate={rowExpansionTemplate}
                     dataKey="partner._id" header={header} tableStyle={{ minWidth: '60rem' }}>

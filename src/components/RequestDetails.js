@@ -154,7 +154,7 @@ import Skeleton from "react-loading-skeleton";
       };
       useEffect(() => {
         dispatch(FindRequestDemandeById(id))
-      }, [SingleDemande?._id])
+      }, [SingleDemande])
 
       // console.log(SingleDemande?._id)
 
@@ -548,18 +548,18 @@ className="mb-3"
 
   <label className="form-label">Mission Status :
   <span style={{
-    color: SingleDemande?.status === "pending" ? "orange" :
-      SingleDemande?.status === "accepted" ? "green" :
-        SingleDemande?.status === "refused" ? "red" :
-          SingleDemande?.status === "in progress" ? "blue" :
-            SingleDemande?.status === "done" ? "green" :
+    color: SingleDemande?.status === "in progress" ? "orange" :
+      SingleDemande?.status === "Accepted" ? "green" :
+        SingleDemande?.status === "rejected" ? "red" :
+          // SingleDemande?.status === "in progress" ? "blue" :
+            SingleDemande?.status === "Completed" ? "green" :
               SingleDemande?.status === "canceled" ? "red" : ""
   }}>
-    {SingleDemande?.status === "pending" ? "Pending" :
-      SingleDemande?.status === "accepted" ? "Accepted" :
-        SingleDemande?.status === "refused" ? "Refused" :
-          SingleDemande?.status === "in progress" ? "In Progress" :
-            SingleDemande?.status === "done" ? "Done" :
+    {SingleDemande?.status === "in progress" ? "Pending" :
+      SingleDemande?.status === "Accepted" ? "Accepted" :
+        SingleDemande?.status === "rejected" ? "rejected" :
+
+            SingleDemande?.status === "Completed" ? "Done" :
               SingleDemande?.status === "canceled" ? "Canceled" : ""}
   </span>
 </label>
