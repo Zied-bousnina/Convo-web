@@ -113,6 +113,20 @@ const editMissionPartner = () => {
     const [selectedValues, setSelectedValues] = useState([]);
     const [ingredient, setIngredient] = useState('');
     const [value3, setValue3] = useState('Automatic');
+    const [selectedVehicleType, setSelectedVehicleType] = useState(null);
+const [selectedMissionType, setSelectedMissionType] = useState(null);
+
+    const vehicleTypeOptions = [
+      { value: 'car', label: 'Car' },
+      { value: 'bike', label: 'Bike' },
+      // Add more options as needed
+    ];
+
+    const missionTypeOptions = [
+      { value: 'delivery', label: 'Delivery' },
+      { value: 'pickup', label: 'Pickup' },
+      // Add more options as needed
+    ];
     const options = [
         { value: 'Manual'  },
 
@@ -338,6 +352,15 @@ const editMissionPartner = () => {
     comment: form?.comment ?form?.comment: SingleDemande?.comment,
     // dateDepart:value?._d,
     // driver: value3 == "Manual" ?selectedValues?.value :""
+    vehicleType:
+    selectedVehicleType?.value
+    ? selectedVehicleType?.value
+    : SingleDemande?.vehicleType
+    ,
+    missionType: selectedMissionType?.value
+    ? selectedMissionType?.value
+    : SingleDemande?.missionType
+    ,
 
 
 
@@ -683,6 +706,28 @@ inputProps={{
   </div>
 
 </Col>
+</Row>
+<Row>
+  <Col>
+    <label className="form-label">Type de véhicule</label>
+    <Select
+      className="react-select primary"
+      onChange={(selectedOption) => setSelectedVehicleType(selectedOption)}
+      options={vehicleTypeOptions}
+      value={selectedVehicleType}
+    />
+  </Col>
+</Row>
+<Row>
+  <Col>
+    <label className="form-label">Nature de mission</label>
+    <Select
+      className="react-select primary"
+      onChange={(selectedOption) => setSelectedMissionType(selectedOption)}
+      options={missionTypeOptions}
+      value={selectedMissionType}
+    />
+  </Col>
 </Row>
 <Row>
   <Col md="12">

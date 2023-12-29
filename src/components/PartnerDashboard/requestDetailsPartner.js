@@ -598,6 +598,82 @@ height={30}
 
 />
 }
+{
+  SingleDemande?.missionType?
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
+      <label className="form-label">mission Type
+</label>
+      <div className="input-group">
+        <input
+          type="text"
+          // placeholder="Choose starting point, or click on the map"
+          value={ SingleDemande?.missionType}
+          name={"start"}
+          className={classNames("form-control")}
+          disabled
+
+        />
+      </div>
+    </div>
+  </Col>
+</Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
+
+{
+  SingleDemande?.vehicleType?
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
+      <label className="form-label">
+vehicle Type
+
+</label>
+      <div className="input-group">
+        <input
+          type="text"
+          // placeholder="Choose starting point, or click on the map"
+          value={ SingleDemande?.vehicleType
+}
+          name={"start"}
+          className={classNames("form-control")}
+          disabled
+
+        />
+      </div>
+    </div>
+  </Col>
+</Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
 
 {
   SingleDemande ?

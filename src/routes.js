@@ -175,7 +175,18 @@ var routes = [
     name: "Factures",
     icon: "ni ni-folder-17 text-red",
     component: ListOfFactures,
-    layout: "/admin"
+    layout: "/admin",
+    collapse: true,
+    views: [
+      {
+        path: "/pricing",
+        name: "Pricing",
+        miniName: "P",
+        component: ListOfFactures,
+        layout: "/auth"
+      },
+    ]
+
   },
   {
     path: "/driver-details/:id",

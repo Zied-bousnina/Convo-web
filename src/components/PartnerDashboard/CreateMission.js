@@ -80,7 +80,19 @@ import { ProgressB } from "./Headers/Components/progressBar/ProgressB.js";
     const [fmtValue, setFmtValue]= useState(undefined)
     const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
     const [selectedValues, setSelectedValues] = useState([]);
+    const [selectedVehicleType, setSelectedVehicleType] = useState(null);
+const [selectedMissionType, setSelectedMissionType] = useState(null);
+    const vehicleTypeOptions = [
+      { value: 'car', label: 'Car' },
+      { value: 'bike', label: 'Bike' },
+      // Add more options as needed
+    ];
 
+    const missionTypeOptions = [
+      { value: 'delivery', label: 'Delivery' },
+      { value: 'pickup', label: 'Pickup' },
+      // Add more options as needed
+    ];
     useEffect(() => {
       dispatch(FetchAllDrivers())
 
@@ -291,7 +303,10 @@ import { ProgressB } from "./Headers/Components/progressBar/ProgressB.js";
     distance:distance,
     driverIsAuto:!checked,
     dateDepart:value?._d,
-    driver:selectedValues?.value
+    driver:selectedValues?.value,
+    vehicleType: selectedVehicleType?.value,
+    missionType: selectedMissionType?.value,
+
 
 
 
@@ -553,6 +568,30 @@ inputProps={{
 
  />
 </Col>
+</Row>
+<Row>
+  <Col>
+    <label className="form-label">Type de véhicule<span style={{color:"red"}}>*</span></label>
+    <Select
+      className="react-select primary"
+      onChange={(selectedOption) => setSelectedVehicleType(selectedOption)}
+      options={vehicleTypeOptions}
+      value={selectedVehicleType}
+      required
+    />
+  </Col>
+</Row>
+<Row>
+  <Col>
+    <label className="form-label">Nature de mission<span style={{color:"red"}}>*</span></label>
+    <Select
+      className="react-select primary"
+      onChange={(selectedOption) => setSelectedMissionType(selectedOption)}
+      options={missionTypeOptions}
+      value={selectedMissionType}
+      required
+    />
+  </Col>
 </Row>
 <Row>
   <Col md="12">
