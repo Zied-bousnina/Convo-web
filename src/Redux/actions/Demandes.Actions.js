@@ -8,6 +8,7 @@ import { SET_SINGLE_DEMANDE } from "Redux/types";
 import { SET_DEMANDES_BY_PARTNERS } from "Redux/types";
 import { SET_IS_LOADING_TABLE_MISSION } from "Redux/types";
 import { SET_DEMANDES_BY_PARTNERS_V2 } from "Redux/types";
+import { SET_ALL_CATEGORIES } from "Redux/types";
 
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
@@ -332,4 +333,37 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         // dispatch(registerGoogleUser(data))
     }
     )
+  }
+
+
+  export const FindAllCategories = ( )=> (dispatch) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/categorie/getAllCategorie`)
+    .then(async(res) => {
+      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+      dispatch({
+        type: SET_ALL_CATEGORIES,
+        payload: res.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
+        }
+
+
+
+    )
+
   }

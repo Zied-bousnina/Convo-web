@@ -43,6 +43,8 @@ import DriverDetailsForPartner from "components/PartnerDashboard/DriverDetailsFo
 import ListOfFactures from "components/Factures/ListOfFactures";
 import requestDetailsPartner from "components/PartnerDashboard/requestDetailsPartner";
 import editMissionPartner from "components/PartnerDashboard/editMissionPartner";
+import AddCategorie from "components/Factures/AddCategorie";
+import CreateDevise from "components/Factures/CreateDevise";
 
 
 
@@ -171,19 +173,45 @@ var routes = [
     layout: "/admin"
   },
   {
+    path: "/createDevise/:id",
+    name: "create devise",
+    icon: "ni ni-single-02 text-yellow",
+    component: CreateDevise,
+    layout: "/admin"
+  },
+  {
     path: "/factures",
-    name: "Factures",
+    name: "Facturation",
     icon: "ni ni-folder-17 text-red",
-    component: ListOfFactures,
+    component: AddCategorie,
     layout: "/admin",
     collapse: true,
     views: [
       {
-        path: "/pricing",
-        name: "Pricing",
+        path: "/factures",
+        name: "Gérer les paramètres",
+        miniName: "P",
+        component: AddCategorie,
+        icon: "ni ni-ui-04 text-info",
+        layout: "/admin",
+      },
+      {
+
+        path: "/DriverList",
+        name: "Créer un Devis ",
         miniName: "P",
         component: ListOfFactures,
-        layout: "/auth"
+        icon: "ni ni-money-coins text-info",
+        layout: "/admin",
+      },
+      {
+
+        path: "/devis",
+        name: "Créer Facture",
+        miniName: "P",
+        component: ListOfFactures,
+        icon: "ni ni-single-copy-04 text-pink",
+        layout: "/admin",
       },
     ]
 

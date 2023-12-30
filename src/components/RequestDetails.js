@@ -312,8 +312,14 @@ dispatch(AddDemande(data, navigate))
         e.target.reset();
       };
     // --------------------------------Map--------------------------------
-    const [currentLocation, setCurrentLocation] = useState(null);
+    const [currentLocation, setCurrentLocation] = useState(
+      SingleDemande?
+      [SingleDemande?.address?.latitude, SingleDemande?.address?.longitude]
+      :
+
+      [48.709438,2.503570]);
     const position = [51.505, -0.09];
+    const defaultZoom = 13;
 
     let DefaultIcon = L.icon({
 
@@ -372,9 +378,20 @@ dispatch(AddDemande(data, navigate))
       });
       useEffect(() => {
         if (currentLocation) {
-          map.flyTo(currentLocation, map.getZoom());
+          map.flyTo(
+            { lat:
+              SingleDemande?.
+              address?.latitude
+              ? SingleDemande?.address?.latitude
+              : currentLocation[0],
+               lng: SingleDemande?.address?.longitude
+               ? SingleDemande?.address?.longitude
+               : currentLocation[1]},
+
+             map.getZoom());
         }
-      }, [ map]);
+      }, [SingleDemande?.
+        address?.latitude]);
       return position1 === null ? null : (
         <Marker position={position1}
         // icon={}
@@ -413,12 +430,30 @@ dispatch(AddDemande(data, navigate))
             >
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
-                  <div className="col">
+                  <Col
+                    xs="8"
+                  >
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
                     Mission details
+
                     </h6>
                     <h2 className="mb-0">Directions</h2>
-                  </div>
+                  </Col>
+                  <Col className="text-right" xs="4">
+                    <Link
+                            to={`/admin/edit-mission/${id}`}
+                            >
+
+                      <Button
+                        // color="primary"
+
+                        size="sm"
+                        >  Edit
+                        <i className=" ml-2 fas fa-arrow-right" />
+                      </Button>
+                        </Link>
+                    </Col>
+
                 </Row>
               </CardHeader>
               <CardBody
@@ -873,7 +908,7 @@ height={30}
 
     >
     <Link
-    to={`/admin/edit-mission/${SingleDemande?._id}`}
+    to={`/admin/createDevise/${SingleDemande?._id}`}
     // target="_blank"
     state={{ SingleDemmande : SingleDemande}}
     >
@@ -886,7 +921,7 @@ height={30}
     <span className="btn-inner--icon">
     <i className="ni ni-bold-right"></i>
     </span>
-    <span className="btn-inner--text">Edit Mission </span>
+    <span className="btn-inner--text">Devise </span>
     </Button>
     </Link>
 
@@ -922,7 +957,13 @@ height={50}
                 <Tooltip target=".export-buttons>button" position="bottom" />
               <MapContainer
               style={{ height: "60vh" }}
-              center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
+              center={
+                { lat: currentLocation[0], lng: currentLocation[1] }
+               }
+                zoom={defaultZoom}
+                 scrollWheelZoom={true}
+              //  bounds={bounds}
+>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
