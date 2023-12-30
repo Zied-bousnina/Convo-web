@@ -364,7 +364,13 @@ const data = {
   partner:   SingleDemande?.user?.contactName && SingleDemande?.user?._id,
   distance :
   SingleDemande?.distance,
-    rectification:Rectification,
+    rectification:Rectification ?
+    Rectification.toString()
+    :
+    devis?.[0]?.rectification.toString()
+
+
+    ,
 }
 
 console.log("--------------------------data",data)
