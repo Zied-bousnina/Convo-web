@@ -98,6 +98,7 @@ import Skeleton from "react-loading-skeleton";
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
+    const devis = useSelector(state=>state?.Demande?.demandes?.devis)
     const [isStartingPoint, setisStartingPoint] = useState(true)
     const [isDestination, setisDestination] = useState(false)
     const [startingPoint, setstartingPoint] = useState()
@@ -177,6 +178,7 @@ import Skeleton from "react-loading-skeleton";
       type:SET_IS_SECCESS,
       payload:false
   })
+  // alert(devis)
 
 
 
@@ -921,7 +923,7 @@ height={30}
     <span className="btn-inner--icon">
     <i className="ni ni-bold-right"></i>
     </span>
-    <span className="btn-inner--text">Devise </span>
+    <span className="btn-inner--text">Devis </span>
     </Button>
     </Link>
 
