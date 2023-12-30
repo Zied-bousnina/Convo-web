@@ -313,6 +313,15 @@ const onGlobalFilterChange = (e) => {
   const dialogFooterTemplate = () => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
+console.log("Unist price", selectedValues?.unitPrice)
+console.log("Rectification",Rectification)
+console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}))
+
+// ((selectedValues?.unitPrice
+//   + Rectification)
+//    *
+//   SingleDemande?.distance
+//   ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
   const header = (
     <>
     <Row>
@@ -964,7 +973,9 @@ onChange={handleSelectChange}
 
 
 
-          }/>
+          }
+            value={Rectification}
+          />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -997,15 +1008,13 @@ onChange={handleSelectChange}
     Montant Final!
   </AlertTitle>
   <AlertDescription maxWidth='sm'>
+
    {
+!confirme ?
 
-
-        ((selectedValues?.unitPrice
-        + Rectification)
-         *
-        SingleDemande?.distance
-        ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
-
+    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+:
+    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
    }
   </AlertDescription>
 </Alert>
