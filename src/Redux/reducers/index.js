@@ -38,6 +38,8 @@ import MissionTaleReload from './MissionTaleReload';
 import partnerTableReload from './partnerTableReload';
 import MissionByPartnerV2 from './MissionByPartnerV2';
 import AllCategorieReducer from './AllCategorie.reducer';
+import categorieDetailsReducer from './categorieDetails.reducer';
+import DevisByPartnerReducer from './DevisByPartner.reducer';
 // import MissionByPartnerReducer from './MissionByPartner.reducer';
 export default combineReducers({
     auth:authReducer,
@@ -77,6 +79,8 @@ export default combineReducers({
     MissionTableLoad : MissionTaleReload,
     PartnerTableLoad: partnerTableReload,
     MissionByPartnerV2 :  MissionByPartnerV2,
-    AllCategories :  AllCategorieReducer
+    AllCategories :  AllCategorieReducer,
+    categorie :  categorieDetailsReducer,
+    DevisByPartner :  DevisByPartnerReducer
 
 })

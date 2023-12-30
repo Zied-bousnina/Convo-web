@@ -46,6 +46,10 @@ import editMissionPartner from "components/PartnerDashboard/editMissionPartner";
 import AddCategorie from "components/Factures/AddCategorie";
 import CreateDevise from "components/Factures/CreateDevise";
 import EditDevis from "components/Factures/EditDevis";
+import ListCategorie from "components/Factures/ListCategorie";
+import CategorieDetails from "components/Factures/CategorieDetails";
+import UpdateCategorie from "components/Factures/UpdateCategorie";
+// import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
 
@@ -175,18 +179,42 @@ var routes = [
   },
   {
     path: "/createDevis/:id",
-    name: "create devise",
+    name: "create devis",
     icon: "ni ni-single-02 text-yellow",
     component: CreateDevise,
     layout: "/admin"
   },
   {
     path: "/editdevis/:id",
-    name: "create devise",
+    name: "create devis",
     icon: "ni ni-single-02 text-yellow",
     component: EditDevis,
     layout: "/admin"
   },
+  {
+    path: "/updateCategorie/:id",
+    name: "modifier categorie",
+    icon: "ni ni-single-02 text-yellow",
+    component: UpdateCategorie,
+    layout: "/admin"
+  },
+  {
+    path: "/ListCategorie/",
+    name: "create devis",
+    icon: "ni ni-single-02 text-yellow",
+    component: ListCategorie,
+    layout: "/admin",
+    invisible:true
+  },
+  {
+    path: "/catDetails/:id",
+    name: "Détails de la Catégorie",
+    icon: "ni ni-single-02 text-yellow",
+    component: CategorieDetails,
+    layout: "/admin",
+    invisible:true
+  },
+
   {
     path: "/factures",
     name: "Facturation",
@@ -198,20 +226,22 @@ var routes = [
       {
         path: "/factures",
         name: "Gérer les paramètres",
-        miniName: "P",
+        // miniName: "P",
+        collapse: true,
         component: AddCategorie,
         icon: "ni ni-ui-04 text-info",
         layout: "/admin",
       },
-      // {
+      {
 
-      //   path: "/DriverList",
-      //   name: "Créer un Devis ",
-      //   miniName: "P",
-      //   component: ListOfFactures,
-      //   icon: "ni ni-money-coins text-info",
-      //   layout: "/admin",
-      // },
+        path: "/ListCategorie",
+        name: "Liste Categorie",
+        // miniName: "P",
+        component: ListCategorie,
+        icon: "ni ni-money-coins text-info",
+        layout: "/admin",
+        collapse: true,
+      },
       // {
 
       //   path: "/devis",

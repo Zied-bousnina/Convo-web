@@ -27,7 +27,7 @@ import { Tooltip  } from '@chakra-ui/react'
 import { useHistory } from 'react-router-dom';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
-import { toast } from 'react-toastify';
+
 import { FindRequestDemande } from 'Redux/actions/Demandes.Actions';
 import { Switch } from '@chakra-ui/react';
 import { SET_DEMANDES } from 'Redux/types';
@@ -38,11 +38,13 @@ import { FindRequestDemandeByPartner } from 'Redux/actions/Demandes.Actions';
 import { DeleteMission } from 'Redux/actions/Demandes.Actions';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
-import { Toast } from 'primereact/toast';
+
 import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
+import { FindAllCategories } from 'Redux/actions/Demandes.Actions';
+import { DeleteCategorie } from 'Redux/actions/Demandes.Actions';
 import { SET_ERRORS } from 'Redux/types';
 
-function ListOfFactures() {
+function ListCategorie() {
 const navigate = useHistory()
 
   const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
@@ -75,8 +77,11 @@ const navigate = useHistory()
     dispatch(FindRequestDemandeByPartnerV2())
 
   }, [ requests?.length,requestsByPartner?.length,requestsByPartnerV2?.length])
+  const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
+  useEffect(() => {
 
-
+    dispatch(FindAllCategories())
+  }, [ Categories?.length])
 const [filters, setFilters] = useState({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
@@ -89,13 +94,10 @@ const [filters, setFilters] = useState({
 });
 const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
-      // { field: '_id', header: 'Id' },
-    //   { field: 'name', header: 'Name' },
-      { field: 'address.display_name', header: 'Starting point' },
-      { field: 'destination.display_name', header: 'Destination' },
+
       // { field: 'distance', header: 'Distance (km)' },
       // { field: 'createdAt', header: 'Created At' },
-      { field: 'driverIsAuto', header: 'driverIsAuto' }
+      { field: 'description', header: 'Description' }
       // tab === "partner" ? { field: 'partnerName', header: 'Partner' } : null
   ];
 
@@ -125,29 +127,14 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-  useEffect(() => {
-    dispatch({
-      type: SET_ERRORS,
-      payload: {}})
-  }, [])
-  const showToastMessage = () => {
-    toast.success('Request sent successfully.', {
-        position: toast?.POSITION?.TOP_RIGHT,
-        autoClose: 3000,
-    });
-  }
-  useEffect(() => {
-    if (isSuccess) {
 
-      showToastMessage()
-    }
-  }, [isSuccess])
+
 
 
   const deleteMission = (id)=> {
     // console.log("delete")
 
-    dispatch(DeleteMission(id))
+    dispatch(DeleteCategorie(id))
     .then(() => {
       // Handle success
       setnotificationModal(false)
@@ -252,81 +239,21 @@ const statusRowFilterTemplate = (options) => {
 };
 // --------------------------------------------------------------------------------------------------
 const [expandedRows, setExpandedRows] = useState(null);
-const toast = useRef(null);
-const onRowExpand = (event) => {
-  toast.current.show({ severity: 'info', summary: 'Product Expanded', detail: event.data.name, life: 3000 });
-};
 
-const onRowCollapse = (event) => {
-  toast.current.show({ severity: 'success', summary: 'Product Collapsed', detail: event.data.name, life: 3000 });
-};
-const allowExpansion = (rowData) => {
-  console.log(rowData)
-  return rowData.demands?.length > 0;
-};
 
-const rowExpansionTemplate = (data) => {
-  console.log('(((((((((((((((((((((((((((((((((((((', data)
-  return (
-      <div className="p-3">
-          <h5>missions from {data.partner.name}</h5>
-          <DataTable
-              paginator
-              rows={5}
-              rowsPerPageOptions={[5, 10, 25]}
-               ref={dt}
-              value={data?.demands}
-              header={header}
-              selection={selectedProduct}
-              selectionMode={true}
-              onSelectionChange={(e) => setSelectedProduct(e.data)}
-              filters={filters}
-              filterDisplay="row"
-              globalFilterFields={['_id','name', 'status']}
-              onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
-               sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
-               emptyMessage="No Missions found."
-               loading={TableIsLOad}
-               >
-                {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
-                <Column field="name" header="Name" sortable className="thead-light" ></Column>
-                <Column field="address" header="Address" sortable style={{ width: '25%' }}></Column>
-                <Column field="gaz" header="Gaz" sortable style={{ width: '25%' }}></Column>
-                <Column field="niv" header="Level" sortable style={{ width: '25%' }}>
-                  hjh
-                </Column> */}
-                <Column field={"_id"}
-                body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
-                header={"ID"} sortable style={{ width: '25%' }}></Column>
 
-                {
-                  cols.map(e=>{
-                    return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
-                  })
-                }
-                <Column field={"distance"}
-                body={(rowData) => `~${Math.floor(rowData.distance )}km`}
-                header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
-                  <Column field={"createdAt"}
-                body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
-                ).format(new Date(rowData.createdAt))}
-                header={"Created At"} sortable style={{ width: '25%' }}></Column>
-                {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
-                <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
 
-                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
-                {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
-
-            </DataTable>
-      </div>
-  );
-};
-// --------------------------------------------------------------------------------------------------
+useEffect(() => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: {}})
+  }, [])
+// ------------------------------------------------------------------------------------------------
 const actionBodyTemplate = (rowData) => {
   return (
       <React.Fragment>
         <Link
-                          to={`/admin/edit-mission/${rowData?._id}`}
+                          to={`/admin/updateCategorie/${rowData?._id}`}
                           onClick={(e) => {
     // Your custom click handling logic here
     // e.preventDefault(); // Prevents the default navigation behavior
@@ -380,7 +307,7 @@ const actionBodyTemplate2 = (rowData) => {
                   // lg="6"
                     md="10"
                   >
-                <h3 className="mb-0">List Of all invoices  {tab =="partner" && 'Created By Partners'} </h3>
+                <h3 className="mb-0">Liste des Catégories  </h3>
 
                   </Col>
                   <Col
@@ -412,7 +339,7 @@ const actionBodyTemplate2 = (rowData) => {
                     md="2"
                   >
                      <Link
-                          to={`/admin/AddRequest`}
+                          to={`/admin/factures`}
                           >
 
                             <Button
@@ -421,40 +348,12 @@ const actionBodyTemplate2 = (rowData) => {
                             >
 
 
-                Create Request
+                Ajouter Catégorie
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>
                   </Col>
-                  <Col md="2">
-  {/* <Link to={`/company/index`}> */}
 
-
-    <Button className="float-right"
-    onClick={() => settab("partner")}
-
-    >
-  <Tooltip label='By Partners' fontSize='md'>
-      {/* <Link to="/company/List-bins"> */}
-        <i className="fas fa-users" />
-  </Tooltip>
-      {/* </Link> */}
-    </Button>
-
-    <Button className="float-right"
-    onClick={() => settab("Admin")}
-    >
-      {/* <Link to="/company/index"> */}
-        {/* <i className="fas fa-users-tie" /> */}
-        <Tooltip label='By Admin' fontSize='md'>
-
-        <FontAwesomeIcon icon={faUserTie} />
-        </Tooltip>
-      {/* </Link> */}
-    </Button>
-
-  {/* </Link> */}
-</Col>
                 </Row>
               </CardHeader>
 
@@ -516,15 +415,14 @@ const actionBodyTemplate2 = (rowData) => {
             <div className="card">
 
               {/* <Tooltip target=".export-buttons>button" position="bottom" /> */}
-              {
-                tab !=='partner' ?
+
 
               <DataTable
               paginator
               rows={5}
               rowsPerPageOptions={[5, 10, 25]}
                ref={dt}
-              value={tab =="partner" ? requestsByPartner : requests}
+              value={Categories}
               header={header}
               selection={selectedProduct}
               selectionMode={true}
@@ -532,10 +430,11 @@ const actionBodyTemplate2 = (rowData) => {
               filters={filters}
               filterDisplay="row"
               globalFilterFields={['_id','name', 'status']}
-              onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
+              onRowClick={(e) => {const url = `/admin/catDetails/${e.data._id}`; history.push(url); }}
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
                emptyMessage="No Missions found."
                loading={TableIsLOad}
+               size='small'
                >
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -547,49 +446,23 @@ const actionBodyTemplate2 = (rowData) => {
                 <Column field={"_id"}
                 body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
                 header={"ID"} sortable style={{ width: '25%' }}></Column>
-                {tab === "partner" ?
-                <Column field={"user.contactName"}
-                body={(rowData) => rowData.user.contactName.toUpperCase()}
-                header={"Partner Name"} sortable style={{ width: '25%' }}></Column>
-                : null}
+
                 {
                   cols.map(e=>{
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
-                <Column field={"distance"}
-                body={(rowData) => `~${Math.floor(rowData.distance )}km`}
-                header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
+
                   <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
                 header={"Created At"} sortable style={{ width: '25%' }}></Column>
-                {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
-                <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
 
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
                 {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
 
             </DataTable>
-            :
-            <div className="card">
-            <Toast ref={toast} />
-            <DataTable value={requestsByPartnerV2} expandedRows={expandedRows} onRowToggle={(e) => {
-            //  alert(e?.data)
-              setExpandedRows(e?.data)
-            }}
-                    rowExpansionTemplate={rowExpansionTemplate}
-                    dataKey="partner._id" header={header} tableStyle={{ minWidth: '60rem' }}>
-                <Column expander={allowExpansion} style={{ width: '5rem' }} />
-                <Column field="partner.name" header="Name" sortable />
-                <Column field="partner.email" header="E-mail" sortable />
-                {/* <Column header="Image" body={imageBodyTemplate} /> */}
-                {/* <Column field="price" header="Price" sortable body={priceBodyTemplate} /> */}
-                <Column field="partner.phoneNumber" header="Tel" sortable />
-                {/* <Column field="rating" header="Reviews" sortable body={ratingBodyTemplate} /> */}
-            </DataTable>
-        </div>
-              }
+
                 </div>
               <CardFooter className="py-4">
                 <nav aria-label="...">
@@ -653,4 +526,4 @@ const actionBodyTemplate2 = (rowData) => {
   )
 }
 
-export default ListOfFactures
+export default ListCategorie

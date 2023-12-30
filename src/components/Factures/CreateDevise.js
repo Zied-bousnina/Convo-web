@@ -32,6 +32,7 @@ import MaskedInput from "react-text-mask";
 import FileInput from "components/FileInput.jsx";
 import Select from 'react-select'
 import { AddDevis } from "Redux/actions/Demandes.Actions.js";
+import { SET_ERRORS } from "Redux/types.js";
   const CreateDevise = () => {
     const navigate = useHistory();
     const isSuccess = useSelector(state=>state?.success?.success)
@@ -310,6 +311,11 @@ console.log("Unist price", selectedValues?.unitPrice)
 console.log("Rectification",Rectification)
 console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}))
 
+useEffect(() => {
+  dispatch({
+    type: SET_ERRORS,
+    payload: {}})
+}, [])
 // ((selectedValues?.unitPrice
 //   + Rectification)
 //    *

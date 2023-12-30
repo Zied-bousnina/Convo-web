@@ -1,32 +1,37 @@
 
 import { Card, CardHeader, CardBody, Container, Row, Col, Button } from "reactstrap";
-  import UserHeader from "../../components/Headers/UserHeader.js";
+  import UserHeader from "../Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
   import { useEffect, useState } from "react";
   import classNames from "classnames";
-  import { SET_ERRORS, SET_IS_SECCESS } from "../../Redux/types";
+  import { SET_ERRORS, SET_IS_SECCESS } from "../../Redux/types.js";
 import { CreatePartner } from "Redux/actions/authActions.js";
 import { createCategorie } from "Redux/actions/authActions.js";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import {Link} from "react-router-dom"
-  const AddCategorie = () => {
-
+import { FindCategorieById } from "Redux/actions/Demandes.Actions.js";
+import { useParams } from "react-router-dom";
+import { UpdateCategorie1 } from "Redux/actions/Demandes.Actions.js";
+  const UpdateCategorie = () => {
+    const Categorie = useSelector(state=>state?.categorie?.categorie?.categorie)
     const error = useSelector(state=>state.error?.errors)
+    // const error2 = useSelector(state=>state.error)
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     const [form, setForm] = useState({})
     const dispatch = useDispatch()
+    const { id } = useParams();
+    // console.log(error2)
     useEffect(() => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: {}})
-    }, [])
+
+      dispatch(FindCategorieById(id))
+    }, [ Categorie?._id])
 dispatch({type:SET_IS_SECCESS, payload:false })
 
 const showToastMessage = () => {
-      toast.success('Categorie created successfully.', {
+      toast.success('Categorie Updated successfully.', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
       });
@@ -46,17 +51,12 @@ const onChangeHandler = (e) => {
     };
 
     const onSubmit = (e)=>{
+      console.log("hkjhkhlhlikhjkbhkjbl")
 
       e.preventDefault();
 
 
-      if(
-        !form?.description ||
-        !form?.unitPrice
-      ){
-        showToastMessage()
-        return
-        }
+
 
       const formdata = new FormData();
 
@@ -72,13 +72,19 @@ const onChangeHandler = (e) => {
       console.log(form)
       console.log("Form Data", formdata)
 
-    dispatch(createCategorie(formdata))
+    dispatch(UpdateCategorie1(id,formdata))
 
 
 
     }
 
     console.log(error)
+    useEffect(() => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: {}})
+    }, [])
+
 
 
     return (
@@ -94,7 +100,7 @@ const onChangeHandler = (e) => {
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">Ajouter Catégorie</h3>
+                      <h3 className="mb-0">Modifier Catégorie</h3>
                     </Col>
                     <Col className="text-right" xs="4">
                     <Link
@@ -132,7 +138,7 @@ const onChangeHandler = (e) => {
     <Row>
     <Col md="6">
     <div className="mb-3">
-      <label className="form-label">Description<span style={{color:"red"}}>*</span> :</label>
+      <label className="form-label">Description:</label>
       <div className="input-group">
         <input
           type="text"
@@ -140,7 +146,10 @@ const onChangeHandler = (e) => {
           name={"description"}
           className={classNames("form-control")}
           onChange={onChangeHandler}
-          required
+          // required
+          defaultValue={
+            Categorie?.description
+          }
         />
       </div>
     </div>
@@ -148,7 +157,7 @@ const onChangeHandler = (e) => {
 
   <Col md="6">
     <div className="mb-3">
-      <label className="form-label">Prix unitaire<span style={{color:"red"}}>*</span> € : </label>
+      <label className="form-label">Prix unitaire € : </label>
       <div className="input-group">
         <input
           type="number"
@@ -156,7 +165,10 @@ const onChangeHandler = (e) => {
           name={"unitPrice"}
           className={classNames("form-control")}
           onChange={onChangeHandler}
-          required
+          // required
+          defaultValue={
+            Categorie?.unitPrice
+          }
         />
       </div>
     </div>
@@ -229,7 +241,7 @@ const onChangeHandler = (e) => {
             <span className="visually-hidden"></span>
           </div>
         ) : (
-          'Valider'
+          'Modifier'
         )}
 
                     <i className="fa-solid fa-floppy-disk"></i>
@@ -247,4 +259,4 @@ const onChangeHandler = (e) => {
     );
   };
 
-  export default AddCategorie;
+  export default UpdateCategorie;
