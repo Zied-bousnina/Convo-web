@@ -925,7 +925,7 @@ onChange={handleSelectChange}
       md="12"
       >
             <div className=" mb-3 ">
-        <label className="form-label">Confirmer montant   <span>   :  </span></label>
+        <label className="form-label">Confirmer montant proposé  <span>   :  </span></label>
 
       <Switch
         id="offer"
