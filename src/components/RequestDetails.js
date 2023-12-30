@@ -88,6 +88,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import { Divider } from "@chakra-ui/react";
 import Skeleton from "react-loading-skeleton";
+import { SET_SINGLE_DEMANDE } from "Redux/types.js";
 
   const RequestDetails = () => {
     const navigate = useHistory();
@@ -158,7 +159,13 @@ import Skeleton from "react-loading-skeleton";
       }, [SingleDemande])
 
       // console.log(SingleDemande?._id)
+      useEffect(() => {
+        dispatch({
+          type: SET_SINGLE_DEMANDE,
+          payload: {},
+        });
 
+      }, [])
 
 // console.log(SingleDemande)
     const [activeNav, setActiveNav] = useState(1);
@@ -415,6 +422,7 @@ dispatch(AddDemande(data, navigate))
 
     //     return null;
     //   };
+    // console.log(devis?.length)
     return (
       <>
         <UserHeader />
@@ -909,8 +917,12 @@ height={30}
 
 
     >
+    {
+      !devis?.length ?
+
+
     <Link
-    to={`/admin/createDevise/${SingleDemande?._id}`}
+    to={`/admin/createDevis/${SingleDemande?._id}`}
     // target="_blank"
     state={{ SingleDemmande : SingleDemande}}
     >
@@ -926,7 +938,25 @@ height={30}
     <span className="btn-inner--text">Devis </span>
     </Button>
     </Link>
+    :
+    <Link
+    to={`/admin/editdevis/${SingleDemande?._id}`}
+    // target="_blank"
+    state={{ SingleDemmande : SingleDemande}}
+    >
+    <Button
+    className="btn-icon btn-3"
+    color="primary"
+    type="button"
 
+    >
+    <span className="btn-inner--icon">
+    <i className="ni ni-bold-right"></i>
+    </span>
+    <span className="btn-inner--text">Edit devis </span>
+    </Button>
+    </Link>
+    }
   </Col>
   </Row>
   :

@@ -45,6 +45,7 @@ import requestDetailsPartner from "components/PartnerDashboard/requestDetailsPar
 import editMissionPartner from "components/PartnerDashboard/editMissionPartner";
 import AddCategorie from "components/Factures/AddCategorie";
 import CreateDevise from "components/Factures/CreateDevise";
+import EditDevis from "components/Factures/EditDevis";
 
 
 
@@ -173,10 +174,17 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/createDevise/:id",
+    path: "/createDevis/:id",
     name: "create devise",
     icon: "ni ni-single-02 text-yellow",
     component: CreateDevise,
+    layout: "/admin"
+  },
+  {
+    path: "/editdevis/:id",
+    name: "create devise",
+    icon: "ni ni-single-02 text-yellow",
+    component: EditDevis,
     layout: "/admin"
   },
   {
@@ -195,24 +203,24 @@ var routes = [
         icon: "ni ni-ui-04 text-info",
         layout: "/admin",
       },
-      {
+      // {
 
-        path: "/DriverList",
-        name: "Créer un Devis ",
-        miniName: "P",
-        component: ListOfFactures,
-        icon: "ni ni-money-coins text-info",
-        layout: "/admin",
-      },
-      {
+      //   path: "/DriverList",
+      //   name: "Créer un Devis ",
+      //   miniName: "P",
+      //   component: ListOfFactures,
+      //   icon: "ni ni-money-coins text-info",
+      //   layout: "/admin",
+      // },
+      // {
 
-        path: "/devis",
-        name: "Créer Facture",
-        miniName: "P",
-        component: ListOfFactures,
-        icon: "ni ni-single-copy-04 text-pink",
-        layout: "/admin",
-      },
+      //   path: "/devis",
+      //   name: "Créer Facture",
+      //   miniName: "P",
+      //   component: ListOfFactures,
+      //   icon: "ni ni-single-copy-04 text-pink",
+      //   layout: "/admin",
+      // },
     ]
 
   },

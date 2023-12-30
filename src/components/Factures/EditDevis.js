@@ -31,8 +31,10 @@ import { siretMask } from "text-mask-siret";
 import MaskedInput from "react-text-mask";
 import FileInput from "components/FileInput.jsx";
 import Select from 'react-select'
+
 import { AddDevis } from "Redux/actions/Demandes.Actions.js";
-  const CreateDevise = () => {
+import { UpdateDevis } from "Redux/actions/Demandes.Actions.js";
+  const EditDevis = () => {
     const navigate = useHistory();
     const isSuccess = useSelector(state=>state?.success?.success)
     const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
@@ -40,12 +42,19 @@ import { AddDevis } from "Redux/actions/Demandes.Actions.js";
     const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
     const { id } = useParams();
     const dispatch = useDispatch()
+    const devis = useSelector(state=>state?.Demande?.demandes?.devis)
     const colourOptions = []
-    const [selectedValues, setSelectedValues] = useState();
+    const [selectedValues, setSelectedValues] = useState(
+        {value:devis?.[0]?.categorie?._id, label:`${devis?.[0]?.categorie?.description}|[${devis?.[0]?.categorie?.unitPrice}]`,
+        unitPrice:devis?.[0]?.categorie?.unitPrice,
+    }
+    )
+    console.log(selectedValues)
+    console.log("devis", devis)
     useEffect(() => {
       dispatch(FindRequestDemandeById(id))
 
-    }, [SingleDemande?._id, devsList?.devisList?.length])
+    }, [SingleDemande?._id, devsList?.devisList?.length, devis?.length])
     useEffect(() => {
 
         dispatch(FindAllCategories())
@@ -302,7 +311,13 @@ const onGlobalFilterChange = (e) => {
   };
   const [dialogVisible, setDialogVisible] = useState(false);
   const [confirme, setconfirme] = useState(false)
-  const [Rectification, setRectification] = useState(0)
+  const [Rectification, setRectification] = useState(
+    devis?.[0]?.rectification ?
+    devis?.[0]?.rectification
+    :
+    0
+
+  )
   const dialogFooterTemplate = () => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
@@ -338,17 +353,6 @@ console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?
 );
 const onSubmit = async (e) => {
   e.preventDefault();
-  if((confirme ?
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) )
-    :
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification))) <0
-    ) {
-    toast.error('Montant ne peut pas être négatif.', {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 3000,
-  });
-
-    }
 const data = {
   categorie:selectedValues?.value,
   mission: SingleDemande?._id,
@@ -360,12 +364,13 @@ const data = {
   partner:   SingleDemande?.user?.contactName && SingleDemande?.user?._id,
   distance :
   SingleDemande?.distance,
-  rectification: Rectification ?
-  Rectification.toString()
-  :
-  "0"
+    rectification:Rectification,
 }
-dispatch(AddDevis(data, navigate))
+
+console.log("--------------------------data",data)
+dispatch(UpdateDevis(data,
+    devis?.[0]?._id,
+     navigate))
 console.log(data)
   e.target.reset();
 };
@@ -820,7 +825,8 @@ height={50}
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">Devis</h3>
+                      <h3 className="mb-0">Edit Devis</h3>
+                      <h6 className="text-uppercase text-muted ls-1 mb-1">#{devis[0]?._id.toString().slice(-5)}</h6>
                     </Col>
                     <Col className="text-right" xs="4">
                     <Link
@@ -873,7 +879,13 @@ onChange={handleSelectChange}
    isLoading={colourOptions.length==0 ?  true: false}
 //    isDisabled={selectedValues.length >3 ?true: false}
 
- options={colourOptions} />
+ options={colourOptions}
+ value={
+    selectedValues
+ }
+
+
+ />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -993,7 +1005,7 @@ onChange={handleSelectChange}
         <label className="form-label">Rectification:<span style={{color:"red"}}>*</span></label>
         <div className="input-group">
 
-          <input type="number"   placeholder="Rectification"  name={"Rectification"} className={classNames("form-control")} onChange={
+          <input type="number" required  placeholder="Rectification"  name={"Rectification"} className={classNames("form-control")} onChange={
                 (e)=>{
                     setRectification(e.target.value)
                 }
@@ -1001,7 +1013,10 @@ onChange={handleSelectChange}
 
 
           }
-            value={Rectification}
+            value={
+                Rectification
+
+            }
           />
           {/* {
             errors && (<div  className="invalid-feedback">
@@ -1128,4 +1143,4 @@ onChange={handleSelectChange}
     );
   };
 
-  export default CreateDevise;
+  export default EditDevis;

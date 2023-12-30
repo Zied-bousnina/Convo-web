@@ -42,6 +42,7 @@ import { FetchAllPartnership } from "Redux/actions/PartnershipAction.js";
 import { FindRequestDemande } from "Redux/actions/Demandes.Actions.js";
 import axios from "axios";
 import ForgotPassword from "views/examples/ForgotPassword.js";
+import { SET_SINGLE_DEMANDE } from "Redux/types.js";
 // import 'primeflex/primeflex.css';
 function App() {
   // const user= {
@@ -144,6 +145,13 @@ useEffect(() => {
     dispatch(GetProfile())
 
   }, [profile])
+  useEffect(() => {
+    dispatch({
+      type: SET_SINGLE_DEMANDE,
+      payload: {},
+    });
+
+  }, [])
 
 
 

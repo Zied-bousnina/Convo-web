@@ -71,12 +71,22 @@ const navigate = useHistory()
       payload: {},
     });
 
+
     dispatch(FindRequestDemande())
     dispatch(FindRequestDemandeByPartner())
     dispatch(FindRequestDemandeByPartnerV2())
 
   }, [ requests?.length,requestsByPartner?.length,requestsByPartnerV2?.length])
   // console.log(requests?.length)
+
+  useEffect(() => {
+    dispatch({
+      type: SET_SINGLE_DEMANDE,
+      payload: {},
+    });
+
+  }, [])
+
 
 
 const [filters, setFilters] = useState({
