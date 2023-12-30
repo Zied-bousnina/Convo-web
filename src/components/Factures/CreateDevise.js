@@ -383,6 +383,10 @@ style={
   }
 }
 >
+{SingleDemande?.user?.contactName&&
+
+
+<>
 <fieldset>
 <legend>Historique Partenaire</legend>
 <Btn label="Show" icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
@@ -444,6 +448,8 @@ style={
         </Dialog>
 </fieldset>
 <hr/>
+</>
+}
 
 <fieldset>
 <legend>Information Générales</legend>
@@ -479,8 +485,9 @@ width={300}
 height={30}
 />
 }
+
 {
-  SingleDemande?.user?.contactName ?
+  SingleDemande?.user?.contactName &&
 <Row>
 <Col>
 <label className="form-label">Nom du  Partenaire </label>
@@ -496,19 +503,7 @@ height={30}
 </div>
 </Col>
 </Row>
-:
-<Skeleton
-  style={
-    {
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
-    }
-  }
-width={300}
-height={30}
-/>
+
 }
 {
   SingleDemande ?
