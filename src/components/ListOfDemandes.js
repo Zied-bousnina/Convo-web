@@ -70,6 +70,7 @@ const navigate = useHistory()
       type: SET_SINGLE_DEMANDE,
       payload: {},
     });
+
     dispatch(FindRequestDemande())
     dispatch(FindRequestDemandeByPartner())
     dispatch(FindRequestDemandeByPartnerV2())

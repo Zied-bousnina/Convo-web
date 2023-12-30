@@ -31,10 +31,12 @@ import { siretMask } from "text-mask-siret";
 import MaskedInput from "react-text-mask";
 import FileInput from "components/FileInput.jsx";
 import Select from 'react-select'
+import { AddDevis } from "Redux/actions/Demandes.Actions.js";
   const CreateDevise = () => {
     const navigate = useHistory();
     const isSuccess = useSelector(state=>state?.success?.success)
     const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
+    const devsList = useSelector(state=>state?.Demande?.demandes)
     const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
     const { id } = useParams();
     const dispatch = useDispatch()
@@ -43,7 +45,7 @@ import Select from 'react-select'
     useEffect(() => {
       dispatch(FindRequestDemandeById(id))
 
-    }, [SingleDemande?._id])
+    }, [SingleDemande?._id, devsList?.devisList?.length])
     useEffect(() => {
 
         dispatch(FindAllCategories())
@@ -52,7 +54,7 @@ import Select from 'react-select'
 
 
         setSelectedValues(selectedOptions);
-        console.log(selectedValues)
+        // console.log(selectedValues)
     };
     Categories?.map(e=>{
       colourOptions.push({value:e._id, label:`${e.description}|[${e.unitPrice}]`,
@@ -81,15 +83,7 @@ useEffect(() => {
         showToastMessage()
       }
     }, [isSuccess])
-    const onSubmit = async (e) => {
-        e.preventDefault();
-  const data = {
-    offer:"",
-    comment:""
-  }
-dispatch(AddDemande(data, navigate))
-        e.target.reset();
- };
+
 
     const AllUsers = useSelector(state => state?.users?.users?.users);
     useEffect(() => {
@@ -101,6 +95,7 @@ dispatch(AddDemande(data, navigate))
   const [selectedStatus, setselectedStatus] = useState()
   const [selectedProduct, setSelectedProduct] = useState(null);
     const error = useSelector(state=>state.error?.errors)
+    console.log(error?.errors)
 
 
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
@@ -146,14 +141,13 @@ const [filters, setFilters] = useState({
   });
   const [globalFilterValue, setGlobalFilterValue] = useState('');
     const cols = [
-        // { field: '_id', header: 'Id' },
-      //   { field: 'name', header: 'Name' },
-        { field: 'address.display_name', header: 'Point de départ' },
-        { field: 'destination.display_name', header: 'Destination' },
-        // { field: 'distance', header: 'Distance (km)' },
-        // { field: 'createdAt', header: 'Created At' },
-        { field: 'driverIsAuto', header: 'Conducteur automatique' }
-        // tab === "partner" ? { field: 'partnerName', header: 'Partner' } : null
+      // { field: '_id', header: 'ID' },
+      // { field: 'partner.contactName', header: 'Partner Name' },
+      // { field: 'categorie', header: 'Categorie' },
+      // { field: 'montant', header: 'Montant' },
+      // { field: 'createdAt', header: 'Créé le' },
+      // { field: 'status', header: 'Statut' }, // New status column
+      // Add other columns as needed
     ];
     const [notificationModal, setnotificationModal] = useState(false)
     const exportCSV = (selectionOnly) => {
@@ -177,9 +171,9 @@ const onGlobalFilterChange = (e) => {
         const doc = new jsPDF.default(0, 0);
         const cols = [
           // { field: '_id', header: 'ID' },
-          { field: 'postalAddress', header: 'Point de départ' },
-          { field: 'postalDestination', header: 'Destination' },
-          { field: 'driverIsAuto', header: 'Conducteur automatique' },
+          { field: 'montant', header: 'Montant' },
+
+
           { field: 'distance', header: 'Distance (km)' },
           { field: 'createdAt', header: 'Créé le' },
           // { field: 'status', header: 'Statut' }, // New status column
@@ -211,9 +205,8 @@ const onGlobalFilterChange = (e) => {
 
         // Filter the data based on the selected status
         console.log(selectedStatus);
-        const filteredData = tab === 'partner' ?
-          (selectedStatus ? requestsByPartner.filter(item => item.status === selectedStatus) : requestsByPartner) :
-          (selectedStatus ? requests.filter(item => item.status === selectedStatus) : requests);
+        const filteredData = (selectedStatus ? devsList?.devisList.filter(item => item.status === selectedStatus) : devsList?.devisList) ;
+
 
         // Add the table with the modified header and filtered data
         doc.autoTable(exportColumns1, filteredData);
@@ -239,7 +232,7 @@ const onGlobalFilterChange = (e) => {
   const actionBodyTemplate = (rowData) => {
     return (
         <React.Fragment>
-          <Link
+          {/* <Link
                             to={`/admin/edit-mission/${rowData?._id}`}
                             onClick={(e) => {
       // Your custom click handling logic here
@@ -261,7 +254,7 @@ const onGlobalFilterChange = (e) => {
   setnotificationModal(true)
 
   setselectedItem(rowData?._id)
-  } } />
+  } } /> */}
 
         </React.Fragment>
     );
@@ -343,6 +336,24 @@ console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?
 
     </>
 );
+const onSubmit = async (e) => {
+  e.preventDefault();
+const data = {
+  categorie:selectedValues?.value,
+  mission: SingleDemande?._id,
+  montant:
+  confirme ?
+  (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) ).toString()
+  :
+  (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toString(),
+  partner:   SingleDemande?.user?.contactName && SingleDemande?.user?._id,
+  distance :
+  SingleDemande?.distance,
+}
+dispatch(AddDevis(data, navigate))
+console.log(data)
+  e.target.reset();
+};
     return (
       <>
         <UserHeader />
@@ -398,7 +409,9 @@ style={
 <>
 <fieldset>
 <legend>Historique Partenaire</legend>
-<Btn label="Show" icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
+<Btn label="Show"
+type="button"
+icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
         <Dialog header="Flex Scroll" visible={dialogVisible} style={{ width: '75vw' }} maximizable
                 modal contentStyle={{ height: '300px' }} onHide={() => setDialogVisible(false)} footer={dialogFooterTemplate}>
              <DataTable
@@ -407,7 +420,7 @@ style={
               size={"small"}
               rowsPerPageOptions={[5, 10, 25]}
                ref={dt}
-              value={tab =="partner" ? requestsByPartner : requests}
+              value={devsList?.devisList}
               header={header}
               selection={selectedProduct}
               selectionMode={true}
@@ -415,18 +428,14 @@ style={
               filters={filters}
               filterDisplay="row"
               globalFilterFields={['_id','name', 'status']}
-              onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
-               sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
+              // onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
+               sortMode="multiple"
+               className="thead-light"
+                tableStyle={{ minWidth: '50rem' }}
                emptyMessage="No Missions found."
-              //  loading={TableIsLOad}
+
                >
-                {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
-                <Column field="name" header="Name" sortable className="thead-light" ></Column>
-                <Column field="address" header="Address" sortable style={{ width: '25%' }}></Column>
-                <Column field="gaz" header="Gaz" sortable style={{ width: '25%' }}></Column>
-                <Column field="niv" header="Level" sortable style={{ width: '25%' }}>
-                  hjh
-                </Column> */}
+
                 <Column field={"_id"}
                 body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
                 header={"ID"} sortable style={{ width: '25%' }}></Column>
@@ -441,12 +450,15 @@ style={
                   })
                 }
                 <Column field={"distance"}
-                body={(rowData) => `~${Math.floor(rowData.distance )}km`}
+                body={(rowData) => `${Number(rowData.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
+                header={"Montant"} sortable style={{ width: '25%' }}></Column>
+                <Column field={"distance"}
+                body={(rowData) => `~${Math.floor(rowData.mission?.distance )}km`}
                 header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
                   <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
-                header={"Created At"} sortable style={{ width: '25%' }}></Column>
+                header={"Créé le "} sortable style={{ width: '25%' }}></Column>
                 {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
                 <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
 
@@ -1039,17 +1051,22 @@ onChange={handleSelectChange}
          <div className=" mb-3">
         {
         <span style={{color:"red"}}>
-  { error?.email?
-  error?.email
+  { error?.errors?.categorie?
+  error?.errors?.categorie
   : null
   }
 
-  { error?.siret?
-  error?.siret
+  { error?.errors?.mission?
+  error?.errors?.mission
   : null
   }
-  { error?.phoneNumber?
-  error?.phoneNumber
+  { error?.errors?.montant?
+  error?.errors?.montant
+  : null
+  }
+
+  { error?.errors?.description?
+  error?.errors?.description
   : null
   }
             </span>
