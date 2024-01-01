@@ -177,7 +177,7 @@ if(newMessage?.partner?._id ==user?.id ){
   <DropdownToggle
 
   onClick={()=> {
-    if (noti.length !== 0){
+    if (noti?.length !== 0){
       //  dispatch(removeSeenMsg([]))
       // dispatch(RemoveNotification())
        };
@@ -185,7 +185,7 @@ if(newMessage?.partner?._id ==user?.id ){
   }}
   nav className="nav-link-icon">
     <i className="ni ni-bell-55" />
-    <Badge color="danger" className="ml-1">{user?.role=="PARTNER"&&  currentUser?.length}</Badge> {/* Add a Badge with the notification count */}
+    <Badge color="danger" className="ml-1">{user?.role=="PARTNER"&&  noti?.length}</Badge> {/* Add a Badge with the notification count */}
   </DropdownToggle>
   <DropdownMenu
     aria-labelledby="navbar-default_dropdown_1"
