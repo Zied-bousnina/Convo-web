@@ -82,8 +82,21 @@ export const MyChat = () => {
 };
 
 export default function Notificationcomp() {
+  const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
   const [isLoad, setisLoad] = useState(false)
-    const [loadid, setLoadid] = useState(1)
+  const [loadid, setLoadid] = useState(1)
+  useEffect(() => {
+    dispatch(GetCurrentUser())
+    dispatch(removeSeenMsg([]))
+    dispatch(addUnseenmsg(currentUser?.Newsocket))
+
+  }, [dispatch,currentUser?.length])
+    const [noti, setnoti] = useState(
+      currentUser?
+      [...currentUser]
+      :[]
+      )
+    console.log(currentUser)
     const click =  (id)=> {
         setLoadid(id)
         setisLoad(true)
@@ -92,17 +105,10 @@ export default function Notificationcomp() {
             const url = `/partner/factures/`; history.push(url);
         }, 1000);
     }
-  const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
   // const user = useSelector(state=>state?.currentUser?.users?.user)
   const dispatch = useDispatch()
   const history = useHistory();
 
-  useEffect(() => {
-    dispatch(GetCurrentUser())
-    dispatch(removeSeenMsg([]))
-    dispatch(addUnseenmsg(currentUser?.Newsocket))
-
-  }, [dispatch,currentUser?.length])
   const user = useSelector(state=>state?.auth?.user)
   useEffect(() => {
     if (user) {
@@ -115,6 +121,9 @@ export default function Notificationcomp() {
       console.log(user)
       console.log("test",newMessage?.partner ==user?.id, newMessage?.partner, user?.id)
 if(newMessage?.partner?._id ==user?.id ){
+  setnoti(
+    [...noti, newMessage]
+  )
 
   handleNotyfy(newMessage);
 }
@@ -168,7 +177,7 @@ if(newMessage?.partner?._id ==user?.id ){
   <DropdownToggle
 
   onClick={()=> {
-    if (unseenmsg.length !== 0){
+    if (noti.length !== 0){
       //  dispatch(removeSeenMsg([]))
       // dispatch(RemoveNotification())
        };
@@ -190,10 +199,10 @@ if(newMessage?.partner?._id ==user?.id ){
 
 
   >
-   {!currentUser?.length || user?.role=="ADMIN"  ? (
+   {!noti?.length || user?.role=="ADMIN"  ? (
           <DropdownItem sx={{ p: 2, width: 50 }}>No new messages.</DropdownItem>
         ) : (
-          currentUser?.map((el, index) => (
+          noti?.map((el, index) => (
             <>
             <DropdownItem
   onClick={() => {
