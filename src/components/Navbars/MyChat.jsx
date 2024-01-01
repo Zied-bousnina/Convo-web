@@ -206,6 +206,11 @@ if(newMessage?.partner?._id ==user?.id ){
             <>
             <DropdownItem
   onClick={() => {
+    const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
     dispatch(ByIdRemoveNotification(el._id));
     const url = `/partner/devisDetail/${el._id}`;
     history.push(url);
@@ -255,6 +260,11 @@ if(newMessage?.partner?._id ==user?.id ){
                         dispatch(
                   ByIdRemoveNotification(el._id )
                 )
+                const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
                       } }
                     >
                       {isLoad && loadid == 1 ? (
@@ -278,6 +288,11 @@ if(newMessage?.partner?._id ==user?.id ){
                         dispatch(
                   ByIdRemoveNotification(el._id )
                 )
+                const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
                       } }
                       type="button" className="btn btn-danger">
                       {isLoad && loadid == 2 ? (
