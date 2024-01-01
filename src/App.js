@@ -23,7 +23,7 @@ import ForceRedirect from "components/ForceRedirect.js";
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import NoAccess from "components/NoAccess.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import jwt_decode from 'jwt-decode';
 import { LogOut } from "Redux/actions/authActions.js";
 import { SetAuthToken } from "utils/SetAuthToken.js";
@@ -44,33 +44,25 @@ import axios from "axios";
 import ForgotPassword from "views/examples/ForgotPassword.js";
 import { SET_SINGLE_DEMANDE } from "Redux/types.js";
 // import 'primeflex/primeflex.css';
+import { socket } from './socket';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { addUnseenmsg } from "Redux/actions/Notification.action.js";
+
 function App() {
-  // const user= {
-  //   isConnected:false,
-  //   role:"ADMIN"
-  // }
-useEffect(() => {
-  const socket = io(
-    "ws://localhost:3600",
-    { transports: ["websocket", "polling", "flashsocket"] }
+  // const userId = useSelector(state=>state?.auth?.user?._id)
 
-
-    // { transports: ["websocket", "polling", "flashsocket"] }
-
-  );
-  socket.on("connect", () => {
-    console.log("connected");
-  });
-  socket.on("connection", () => {
-    console.log("disconnected");
-  });
-  socket.on("message", (message) => {
-    console.log(message);
-  });
-  socket.on("connect_error", (err) => {
-    console.log(`connect_error due to ${err.message}`);
-  });
-}, [])
+  const  sendMessage=()=> {
+    console.log("Button clicked");
+    socket.emit("send_message", { message: "Hello from client" });
+  }
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      alert(data.message);
+    });
+  }, [socket]);
 
 
   const user = useSelector(state=>state.auth)
@@ -154,10 +146,36 @@ useEffect(() => {
   }, [])
 
 
+  useEffect(() => {
 
+    socket.on("message recieved", (newMessage) => {
+      console.log("------------------------------------------------------------------------------")
+      console.log("New message received",newMessage);
+      // alert("partner",newMessage?.partner)
+      // alert("userId",user?._id)
+      console.log("test",newMessage?.partner ==user?._id, newMessage?.partner, user?.user?._id)
+      console.log("test", newMessage?.partner, user?.user?._id)
+      console.log("user",user)
+      // console.log("test",newMessage?.partner ==userId, newMessage?.partner, userId)
+      // alert(newMessage?.partner ==user?.user?._id )
+
+      // if(newMessage?.partner ==user?.user?._id ){
+
+        handleNotyfy(newMessage);
+      // }
+
+    });
+
+  const handleNotyfy = (newMessage) => {
+    dispatch(addUnseenmsg(newMessage));
+  };
+}, [])
 
   return (
     <BrowserRouter>
+     {/* <input placeholder="Message" />
+      <button onClick={sendMessage}>Send message</button> */}
+
     <Switch>
            <Route  path="/admin"   render={(props) =>
            <PrivateRouter user={user}>

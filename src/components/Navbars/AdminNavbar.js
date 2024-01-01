@@ -17,8 +17,17 @@ import {
   Navbar,
   Nav,
   Container,
-  Media
+  Media,
+  NavItem,
+  NavLink,
+  ListGroup,
+  ListGroupItem,
+  Row,
+  Col,
+  Badge
 } from "reactstrap";
+import { MyChat } from "./MyChat";
+import classNames from "classnames";
 
 const AdminNavbar = (props) => {
   const user = useSelector(state=>state?.auth?.user)
@@ -51,6 +60,8 @@ const AdminNavbar = (props) => {
               </InputGroup>
             </FormGroup>
           </Form> */}
+          <MyChat/>
+
           <Nav className="align-items-center d-none d-md-flex indent-100" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>

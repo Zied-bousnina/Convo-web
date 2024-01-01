@@ -40,6 +40,10 @@ import MissionByPartnerV2 from './MissionByPartnerV2';
 import AllCategorieReducer from './AllCategorie.reducer';
 import categorieDetailsReducer from './categorieDetails.reducer';
 import DevisByPartnerReducer from './DevisByPartner.reducer';
+import recentchatReducer from './recentchat.reducer';
+import chattingReducer from './chattingReducer';
+import { notyficationReducer } from './notification.reducer';
+import { serachReducer } from './searching.reducer';
 // import MissionByPartnerReducer from './MissionByPartner.reducer';
 export default combineReducers({
     auth:authReducer,
@@ -81,6 +85,10 @@ export default combineReducers({
     MissionByPartnerV2 :  MissionByPartnerV2,
     AllCategories :  AllCategorieReducer,
     categorie :  categorieDetailsReducer,
-    DevisByPartner :  DevisByPartnerReducer
+    DevisByPartner :  DevisByPartnerReducer,
+    recentChat :  recentchatReducer,
+    chatting :  chattingReducer,
+    notification :  notyficationReducer,
+    search :  serachReducer,
 
 })

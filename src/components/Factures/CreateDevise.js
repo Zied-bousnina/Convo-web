@@ -33,12 +33,14 @@ import FileInput from "components/FileInput.jsx";
 import Select from 'react-select'
 import { AddDevis } from "Redux/actions/Demandes.Actions.js";
 import { SET_ERRORS } from "Redux/types.js";
+import { socket } from "socket.js";
   const CreateDevise = () => {
     const navigate = useHistory();
     const isSuccess = useSelector(state=>state?.success?.success)
     const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
     const devsList = useSelector(state=>state?.Demande?.demandes)
     const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
+    const { user } = useSelector((store) => store.auth);
     const { id } = useParams();
     const dispatch = useDispatch()
     const colourOptions = []
@@ -48,6 +50,29 @@ import { SET_ERRORS } from "Redux/types.js";
 
     }, [SingleDemande?._id, devsList?.devisList?.length])
     useEffect(() => {
+      // socket = io(SERVER_POINT);
+      socket.emit("setup", user);
+      socket.on("connected", () => {
+        // setconnectedtosocket(true);
+      });
+    }, []);
+    // useEffect(() => {
+    //   //_id is of selected chat so that user can join same chat room
+    //   if (!_id) return;
+    //   dispatch(fetchCurrentMessages(_id, token, socket));
+
+    //   currentChattingWith = _id;
+    // }, [_id]);
+    // useEffect(() => {
+    //   socket.on("message recieved", (newMessage) => {
+    //     if (!currentChattingWith || currentChattingWith !== newMessage.chat._id) {
+    //       handleNotyfy(newMessage);
+    //     } else {
+    //       dispatch(sendMessage(newMessage));
+    //     }
+    //   });
+    // }, []);
+    useEffect(() => {
 
         dispatch(FindAllCategories())
       }, [ Categories?.length])
@@ -55,7 +80,6 @@ import { SET_ERRORS } from "Redux/types.js";
 
 
         setSelectedValues(selectedOptions);
-        // console.log(selectedValues)
     };
     Categories?.map(e=>{
       colourOptions.push({value:e._id, label:`${e.description}|[${e.unitPrice}]`,
@@ -96,7 +120,6 @@ useEffect(() => {
   const [selectedStatus, setselectedStatus] = useState()
   const [selectedProduct, setSelectedProduct] = useState(null);
     const error = useSelector(state=>state.error?.errors)
-    console.log(error?.errors)
 
 
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
@@ -113,11 +136,9 @@ useEffect(() => {
           });
 
 
-        console.log(form);
       };
     const onChangeHandlerFile = (e) => {
       const { name, checked, value } = e.target;
-      console.log(e.target.files[0]);
 
       setForm({
         ...form,
@@ -205,7 +226,6 @@ const onGlobalFilterChange = (e) => {
         );
 
         // Filter the data based on the selected status
-        console.log(selectedStatus);
         const filteredData = (selectedStatus ? devsList?.devisList.filter(item => item.status === selectedStatus) : devsList?.devisList) ;
 
 
@@ -290,7 +310,6 @@ const onGlobalFilterChange = (e) => {
     return (
         <Dropdown value={options.value} options={statuses}
         onChange={(e) => {
-          console.log('Selected value:', e.value);
           options.filterApplyCallback(e.value);
           setselectedStatus(
             e.value
@@ -307,9 +326,6 @@ const onGlobalFilterChange = (e) => {
   const dialogFooterTemplate = () => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
-console.log("Unist price", selectedValues?.unitPrice)
-console.log("Rectification",Rectification)
-console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}))
 
 useEffect(() => {
   dispatch({
@@ -372,7 +388,6 @@ const data = {
   "0"
 }
 dispatch(AddDevis(data, navigate))
-console.log(data)
   e.target.reset();
 };
     return (

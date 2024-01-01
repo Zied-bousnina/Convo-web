@@ -2,8 +2,8 @@ import {   SET_CONTACT_LIST} from "../types"
 
 const initialState = {
     ContactList: {}
-    
-    
+
+
 }
 
 export default function(state = initialState, action) {
@@ -12,9 +12,9 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 ContactList: action.payload
-              
+
             }
-        
+
         default:
             return state
     }
