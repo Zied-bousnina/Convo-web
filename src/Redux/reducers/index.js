@@ -44,8 +44,12 @@ import recentchatReducer from './recentchat.reducer';
 import chattingReducer from './chattingReducer';
 import { notyficationReducer } from './notification.reducer';
 import { serachReducer } from './searching.reducer';
+import CurrentUserReducer from './CurrentUser.reducer';
+import DevisByCurrenPartnerReducer from './DevisByCurrenPartner.reducer';
+import devisDetailReducer from './devisDetail.reducer';
 // import MissionByPartnerReducer from './MissionByPartner.reducer';
 export default combineReducers({
+    currentUser:CurrentUserReducer,
     auth:authReducer,
     error:errorReducer,
     isLoading: LoadingReducer,
@@ -90,5 +94,7 @@ export default combineReducers({
     chatting :  chattingReducer,
     notification :  notyficationReducer,
     search :  serachReducer,
+    DevisByCurrenPartner :  DevisByCurrenPartnerReducer,
+    devisDetails :  devisDetailReducer,
 
 })

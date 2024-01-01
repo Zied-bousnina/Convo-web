@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
@@ -23,6 +23,29 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "Redux/actions/authActions";
+import { SET_ALL_BINS_ } from "Redux/types";
+import { SET_ALL_CATEGORIES } from "Redux/types";
+import { SET_ALL_POINT_BINS } from "Redux/types";
+import { SET_USERS } from "Redux/types";
+import { SET_CATEGORIE_DETAILS } from "Redux/types";
+import { SET_DEMANDES } from "Redux/types";
+import { SET_DEMANDE_STATISTIQUES } from "Redux/types";
+import { SET_DEVIS_BY_PARTNER } from "Redux/types";
+import { SET_ALL_DRIVER } from "Redux/types";
+import { SET_DEMANDES_BY_PARTNERS_V2 } from "Redux/types";
+import { SET_MISSION_BY_PARTNER_STATISTIQUES } from "Redux/types";
+import { SET_DEMANDES_BY_PARTNERS } from "Redux/types";
+import { SET_IS_LOADING_TABLE_MISSION } from "Redux/types";
+import { SET_PARTNER_DETAILS } from "Redux/types";
+import { SET_PARTNER_STATISTIQUES } from "Redux/types";
+import { SET_PARTNERSHIP_LIST } from "Redux/types";
+import { SET_PROFILES } from "Redux/types";
+import { SET_SINGLE_DEMANDE } from "Redux/types";
+import { SET_USERS_DETAILS } from "Redux/types";
+import { SET_STATISTIQUES } from "Redux/types";
+import { SET_CURRENT_USER } from "Redux/types";
+import { ADD_UNSEEN_MSG } from "Redux/types";
+import { removeSeenMsg } from "Redux/actions/Notification.action";
 
 
 const initialValues = {
@@ -57,6 +80,32 @@ function Login () {
   // {touched[name] && errors[name] || errors1&& errors1[name] ? (
   //   <Text style={styles.error}>{errors[name]} {errors1 && errors1[name]} </Text>
   //   ) : null}
+  useEffect(() => {
+    dispatch({type: SET_ALL_BINS_,payload: [],})
+    dispatch({type: SET_ALL_CATEGORIES,payload: [],})
+    dispatch({type: SET_ALL_POINT_BINS,payload: [],})
+    dispatch({type: SET_USERS,payload: [],})
+    dispatch({type: SET_CATEGORIE_DETAILS,payload: {},})
+    dispatch({type: SET_DEMANDES,payload: [],})
+    dispatch({type: SET_DEMANDE_STATISTIQUES,payload: [],})
+    dispatch({type: SET_DEVIS_BY_PARTNER,payload: [],})
+    dispatch({type: SET_ALL_DRIVER,payload: [],})
+    dispatch({type: SET_DEMANDES_BY_PARTNERS_V2,payload: [],})
+    dispatch({type: SET_MISSION_BY_PARTNER_STATISTIQUES,payload: [],})
+    dispatch({type: SET_DEMANDES_BY_PARTNERS,payload: [],})
+    dispatch({type: SET_IS_LOADING_TABLE_MISSION,payload: [],})
+    dispatch({type: SET_PARTNER_DETAILS,payload: [],})
+    dispatch({type: SET_PARTNER_STATISTIQUES,payload: [],})
+    dispatch({type: SET_PARTNERSHIP_LIST,payload: {},})
+    dispatch({type: SET_PROFILES,payload: {},})
+    dispatch({type: SET_SINGLE_DEMANDE,payload: {},})
+    dispatch({type: SET_USERS_DETAILS,payload: [],})
+    dispatch({type: SET_STATISTIQUES,payload: {},})
+    dispatch({type: SET_CURRENT_USER,payload: {},})
+    dispatch({type: ADD_UNSEEN_MSG,payload: [],})
+    dispatch(removeSeenMsg([]))
+
+  }, [])
 
     return (
       <>

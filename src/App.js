@@ -50,6 +50,28 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { addUnseenmsg } from "Redux/actions/Notification.action.js";
+import { SET_ALL_BINS_ } from "Redux/types.js";
+import { SET_ALL_CATEGORIES } from "Redux/types.js";
+import { SET_ALL_POINT_BINS } from "Redux/types.js";
+import { SET_USERS } from "Redux/types.js";
+import { SET_USER } from "Redux/types.js";
+import { SET_CATEGORIE_DETAILS } from "Redux/types.js";
+import { SET_DEMANDES } from "Redux/types.js";
+import { SET_DEMANDE_STATISTIQUES } from "Redux/types.js";
+import { SET_DEVIS_BY_PARTNER } from "Redux/types.js";
+import { SET_ALL_DRIVER } from "Redux/types.js";
+import { SET_DEMANDES_BY_PARTNERS_V2 } from "Redux/types.js";
+import { SET_MISSION_BY_PARTNER_STATISTIQUES } from "Redux/types.js";
+import { SET_DEMANDES_BY_PARTNERS } from "Redux/types.js";
+import { SET_IS_LOADING_TABLE_MISSION } from "Redux/types.js";
+import { SET_PARTNER_DETAILS } from "Redux/types.js";
+import { SET_PARTNER_STATISTIQUES } from "Redux/types.js";
+import { SET_PARTNERSHIP_LIST } from "Redux/types.js";
+import { SET_PROFILES } from "Redux/types.js";
+import { SET_USERS_DETAILS } from "Redux/types.js";
+import { SET_STATISTIQUES } from "Redux/types.js";
+import { GetCurrentUser } from "Redux/actions/userAction.js";
+import { removeSeenMsg } from "Redux/actions/Notification.action.js";
 
 function App() {
   // const userId = useSelector(state=>state?.auth?.user?._id)
@@ -67,7 +89,16 @@ function App() {
 
   const user = useSelector(state=>state.auth)
   const profile = useSelector(state=>state?.profile?.profile)
+  const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
   const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   dispatch(GetCurrentUser())
+  //   dispatch(removeSeenMsg([]))
+  //   dispatch(addUnseenmsg(currentUser?.Newsocket))
+
+  // }, [dispatch,currentUser?.length])
+  console.log("current user ", currentUser)
 
   useEffect(() => {
     const jwtToken = localStorage.getItem('jwtToken');
@@ -145,23 +176,23 @@ function App() {
 
   }, [])
 
-
+  const user2 = useSelector(state=>state?.auth?.user)
   useEffect(() => {
 
-    socket.on("message recieved", (newMessage) => {
+    socket.on("add-user", (newMessage) => {
       console.log("------------------------------------------------------------------------------")
       console.log("New message received",newMessage);
       // alert("partner",newMessage?.partner)
       // alert("userId",user?._id)
-      console.log("test",newMessage?.partner ==user?._id, newMessage?.partner, user?.user?._id)
-      console.log("test", newMessage?.partner, user?.user?._id)
-      console.log("user",user)
+      // console.log("test",newMessage?.partner ==user?._id, newMessage?.partner, user?.user?._id)
+      // console.log("test", newMessage?.partner, user?.user?._id)
+      // console.log("user",user)
       // console.log("test",newMessage?.partner ==userId, newMessage?.partner, userId)
       // alert(newMessage?.partner ==user?.user?._id )
 
-      // if(newMessage?.partner ==user?.user?._id ){
+      // if(newMessage?.partner ==user2?.id ){
 
-        handleNotyfy(newMessage);
+      //   handleNotyfy(newMessage);
       // }
 
     });
@@ -170,6 +201,9 @@ function App() {
     dispatch(addUnseenmsg(newMessage));
   };
 }, [])
+
+
+
 
   return (
     <BrowserRouter>

@@ -49,6 +49,8 @@ import EditDevis from "components/Factures/EditDevis";
 import ListCategorie from "components/Factures/ListCategorie";
 import CategorieDetails from "components/Factures/CategorieDetails";
 import UpdateCategorie from "components/Factures/UpdateCategorie";
+import HistoriqueFactures from "components/PartnerDashboard/factures/HistoriqueFacture";
+import devisDetail from "components/PartnerDashboard/factures/devisDetails";
 // import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
@@ -276,11 +278,50 @@ var routes = [
     layout: "/partner"
   },
   {
-    path: "/factures",
-    name: "Factures",
-    icon: "ni ni-folder-17 text-red",
-    component: ListOfMissions,
+    path: "/devisDetail/:id",
+    name: "devis details",
+    icon: "ni ni-folder-17 text-yellow",
+    component: devisDetail,
     layout: "/partner"
+  },
+  {
+    path: "/factures",
+    name: "Facturation",
+    icon: "ni ni-folder-17 text-red",
+    component: HistoriqueFactures,
+    layout: "/partner",
+    collapse: true,
+    views: [
+      {
+        path: "/factures",
+        name: "Historique",
+        // miniName: "P",
+        collapse: true,
+        component: HistoriqueFactures,
+        icon: "ni ni-ui-04 text-info",
+        layout: "/partner",
+      },
+      // {
+
+      //   path: "/ListCategorie",
+      //   name: "Liste Categorie",
+      //   // miniName: "P",
+      //   component: ListCategorie,
+      //   icon: "ni ni-money-coins text-info",
+      //   layout: "/partner",
+      //   collapse: true,
+      // },
+      // {
+
+      //   path: "/devis",
+      //   name: "Créer Facture",
+      //   miniName: "P",
+      //   component: ListOfFactures,
+      //   icon: "ni ni-single-copy-04 text-pink",
+      //   layout: "/admin",
+      // },
+    ]
+
   },
   {
     path: "/AddRequest",

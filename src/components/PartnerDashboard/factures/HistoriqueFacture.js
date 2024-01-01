@@ -13,7 +13,7 @@ import {
   Modal,
   Label,
 } from "reactstrap";
-import Header from './Headers/Header';
+import Header from '../Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
 import { FetchAllBins } from 'Redux/actions/BinAction';
@@ -35,14 +35,15 @@ import { SET_SINGLE_DEMANDE } from 'Redux/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { FindRequestDemandeByPartner } from 'Redux/actions/Demandes.Actions';
-import { ProgressB } from './Headers/Components/progressBar/ProgressB';
-import { CustomizedSteppers } from './Headers/Components/progressBar/CustomizedSteppers';
+// import { ProgressB } from './Headers/Components/progressBar/ProgressB';
+// import { CustomizedSteppers } from './Headers/Components/progressBar/CustomizedSteppers';
 import { DeleteMission } from 'Redux/actions/Demandes.Actions';
 import { Tag } from 'primereact/tag';
 import { Dropdown } from 'primereact/dropdown';
 import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
+import { FinddevisByPartner } from 'Redux/actions/Demandes.Actions';
 
-function ListOfMissions() {
+function HistoriqueFactures() {
 const navigate = useHistory()
 
   const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
@@ -50,6 +51,7 @@ const navigate = useHistory()
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
   const isSuccess = useSelector(state=>state?.success?.success)
+  const devisByPartner = useSelector(state=>state?.DevisByCurrenPartner?.devis?.devis)
 
   const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
   const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
@@ -71,9 +73,10 @@ const navigate = useHistory()
     });
     dispatch(FindRequestDemande())
     dispatch(FindRequestDemandeByPartner())
+    dispatch(FinddevisByPartner())
 
 
-  }, [ requests?.length,requestsByPartner?.length])
+  }, [ requests?.length,requestsByPartner?.length, devisByPartner?.length])
 
   // console.log(requestsByPartnerV2)
 
@@ -91,12 +94,12 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
       // { field: '_id', header: 'Id' },
     //   { field: 'name', header: 'Name' },
-      { field: 'address.display_name', header: 'Starting point' },
-      { field: 'destination.display_name', header: 'Destination' },
+      { field: 'mission.postalAddress', header: 'Starting point' },
+      { field: 'mission.postalDestination', header: 'Destination' },
     //   { field: 'status', header: 'Mission status' },
       // { field: 'distance', header: 'Distance (km)' },
       // { field: 'createdAt', header: 'Created At' },
-      { field: 'driverIsAuto', header: 'driverIsAuto' }
+    //   { field: ', header: 'driverIsAuto' }
       // tab === "partner" ? { field: 'partnerName', header: 'Partner' } : null
   ];
 
@@ -245,7 +248,7 @@ const handleChange = (event) => {
 const actionBodyTemplate = (rowData) => {
   return (
       <React.Fragment>
-        <Link
+        {/* <Link
                           to={`/partner/edit-mission/${rowData?._id}`}
                           onClick={(e) => {
     // Your custom click handling logic here
@@ -267,7 +270,7 @@ const actionBodyTemplate = (rowData) => {
 setnotificationModal(true)
 
 setselectedItem(rowData?._id)
-} } />
+} } /> */}
 
       </React.Fragment>
   );
@@ -300,10 +303,10 @@ const actionBodyTemplate2 = (rowData) => {
                   // lg="6"
                     md="10"
                   >
-                <h3 className="mb-0">List Of all Missions  </h3>
+                <h3 className="mb-0">Historique devis </h3>
 
                   </Col>
-                  <Col
+                  {/* <Col
                   // lg="6"
                     md="2"
                   >
@@ -321,7 +324,7 @@ const actionBodyTemplate2 = (rowData) => {
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>
-                  </Col>
+                  </Col> */}
 
                 </Row>
               </CardHeader>
@@ -389,7 +392,7 @@ const actionBodyTemplate2 = (rowData) => {
               rows={5}
               rowsPerPageOptions={[5, 10, 25]}
                ref={dt}
-              value={ requests}
+              value={ devisByPartner}
               header={header}
               selection={selectedProduct}
               selectionMode={true}
@@ -398,7 +401,7 @@ const actionBodyTemplate2 = (rowData) => {
               size={"small"}
               filterDisplay="row"
               globalFilterFields={['_id','name', 'status']}
-              onRowClick={(e) => {const url = `/partner/request-details/${e.data._id}`; history.push(url); }}
+              onRowClick={(e) => {const url = `/partner/devisDetail/${e.data._id}`; history.push(url); }}
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
                emptyMessage="No Missions found."
               //  loading={TableIsLOad}
@@ -422,6 +425,9 @@ const actionBodyTemplate2 = (rowData) => {
                 <Column field={"distance"}
                 body={(rowData) => `~${Math.floor(rowData.distance )}km`}
                 header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
+                 <Column field={"distance"}
+                body={(rowData) => `${Number(rowData.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
+                header={"Montant"} sortable style={{ width: '25%' }}></Column>
                   <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
@@ -429,7 +435,7 @@ const actionBodyTemplate2 = (rowData) => {
                 {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
                 <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
 
-                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
+                {/* <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
                 {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
 
             </DataTable>
@@ -496,4 +502,4 @@ const actionBodyTemplate2 = (rowData) => {
   )
 }
 
-export default ListOfMissions
+export default HistoriqueFactures

@@ -1,11 +1,94 @@
 
 import { SET_ERRORS } from "Redux/types"
 import { SET_IS_LOADING } from "Redux/types"
+import { SET_CURRENT_USER } from "Redux/types"
 import { SET_IS_SECCESS } from "Redux/types"
 import { SET_USERS_DETAILS } from "Redux/types"
 import { SET_USERS } from "Redux/types"
 
 import axios from "axios"
+import { removeSeenMsg } from "./Notification.action"
+
+
+export const GetCurrentUser = (navigation)=>dispatch=>{
+
+  axios.get(`${process.env.REACT_APP_API_URL}/api/users/users/currentUser`)
+  .then(res => {
+      // console.log(res)
+      dispatch({
+          type: SET_CURRENT_USER,
+          payload: res?.data
+      })
+
+
+      // dispatch(registerGoogleUser(data))
+
+      // dispatch(loginUser(data))
+  })
+  .catch(err =>
+     {
+      // console.log("err in authAction.js line 366",err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err?.response?.data
+      })
+      // dispatch(registerGoogleUser(data))
+      throw err
+  }
+  )
+}
+
+export const RemoveNotification = (navigation)=>dispatch=>{
+
+  axios.post(`${process.env.REACT_APP_API_URL}/api/users/users/EmptySocket`)
+  .then(res => {
+      // console.log(res)
+      dispatch(removeSeenMsg([]))
+
+
+      // dispatch(registerGoogleUser(data))
+
+      // dispatch(loginUser(data))
+      dispatch(GetCurrentUser())
+  })
+  .catch(err =>
+     {
+      // console.log("err in authAction.js line 366",err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err?.response?.data
+      })
+      // dispatch(registerGoogleUser(data))
+      throw err
+  }
+  )
+}
+export const ByIdRemoveNotification = (id,navigation)=>dispatch=>{
+
+  axios.post(`${process.env.REACT_APP_API_URL}/api/users/users/RemoveSocketById/${id}`)
+  .then(res => {
+      // console.log(res)
+      dispatch(removeSeenMsg([]))
+
+
+      // dispatch(registerGoogleUser(data))
+
+      // dispatch(loginUser(data))
+      dispatch(GetCurrentUser())
+  })
+  .catch(err =>
+     {
+      // console.log("err in authAction.js line 366",err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err?.response?.data
+      })
+      // dispatch(registerGoogleUser(data))
+      throw err
+  }
+  )
+}
+
 
 export const GetAllUsers = (navigation)=>dispatch=>{
 

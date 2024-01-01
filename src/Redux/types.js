@@ -70,6 +70,9 @@ export const SEND_MESSAGE = "SEND_MESSAGE"
 export const SEARCH_LOADING = "SEARCH_LOADING";
 export const SEARCH_ERROR = "SEARCH_ERROR";
 export const SEARCH_RESULT = "SEARCH_RESULT";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const SET_DEVIS_BY_CURRENT_PARTNER = "SET_DEVIS_BY_CURRENT_PARTNER";
+export const SET_devis_DETAIL = "SET_devis_DETAIL";
 
 
 

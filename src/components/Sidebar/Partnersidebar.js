@@ -50,13 +50,14 @@ const Partnersidebar = (props) => {
   const profile = useSelector(state=>state?.profile?.profile)
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
-    return routes.map((prop, key) => {
+    return routes?.map((prop, key) => {
       if (prop.layout === "/partner" && prop.path !== "/user-details/:id" && prop.path !== "/partner-details/:id" && prop.path !== "/AddPartner" && prop.path !== "/edit-Partner/:id" && prop.path !=='/partner-details/:id' && prop.path !=='/quote-details/:id'  && prop.path !=='/tech-assist-detail/:id' && prop.path !=='/contact-detail/:id' && prop.path !=='/AddRequest' && prop.path !=='/Add-Point-Bin' && prop.path !=='/bin-details/:id' && prop.path !=='/quote-details/:id'  && prop.path !=='/tech-assist-detail/:id' && prop.path !=='/contact-detail/:id' && prop.path !=='/AddRequest' && prop.path !=='/Add-Point-Bin' && prop.path !=='/edit-bin/:id' && prop.path !=='/point-bin-details/:id' && prop.path !=='/edit-Point-bin/:id' && prop.path !=='/user-profile' && prop.path !=='/municipal-details/:id'&& prop.path !=='/Add-Point-Bin/:idQuote'&& prop.path !=='/Mapcomponent'&&
       prop.path !=='/request-details/:id'&&
       prop.path !=='/AddDriver' &&
       prop.path !=='/edit-Driver/:id'&&
       prop.path !=='/driver-details/:id'&&
-      prop.path !=='/edit-mission/:id'
+      prop.path !=='/edit-mission/:id'&&
+      prop.path !=='/devisDetail/:id'
       ) {
         return (
           <NavItem key={key}>
@@ -65,10 +66,28 @@ const Partnersidebar = (props) => {
               tag={NavLinkRRD}
               onClick={closeCollapse}
               activeClassName="active"
+
+              data-toggle={
+                prop?.collapse
+                  ? "collapse"
+                  : ""
+              }
+
             >
               <i className={prop.icon} />
               {prop.name}
             </NavLink>
+            <Collapse isOpen={prop?.collapse
+            ?
+            activeRoute(prop.layout + prop.path)
+            :
+            false
+            }>
+              <Nav className="nav-sm flex-column">
+                {createLinks(prop.views)}
+
+              </Nav>
+            </Collapse>
           </NavItem>
         );
       } else {

@@ -12,6 +12,8 @@ import { SET_ALL_CATEGORIES } from "Redux/types";
 import { SET_CATEGORIE_DETAILS } from "Redux/types";
 import { SET_DEVIS_BY_PARTNER } from "Redux/types";
 import { socket}  from "../../socket.js"
+import { SET_DEVIS_BY_CURRENT_PARTNER } from "Redux/types";
+import { SET_devis_DETAIL } from "Redux/types";
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
     // console.log(userData)
@@ -80,7 +82,69 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
         )
   }
 
+  export const FinddevisByPartner = ( )=> (dispatch) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisByPartner`)
+    .then(async(res) => {
+      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+      dispatch({
+        type: SET_DEVIS_BY_CURRENT_PARTNER,
+        payload: res.data,
 
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
+        }
+
+
+
+    )
+
+  }
+
+  export const FinddevisById = (id )=> (dispatch) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisById/${id}`)
+    .then(async(res) => {
+      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+      dispatch({
+        type: SET_devis_DETAIL,
+        payload: res.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
+        }
+
+
+
+    )
+
+  }
 export const FindRequestDemande = ( )=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandsByUserId`)
     .then(async(res) => {
@@ -531,7 +595,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   }
 
-  export const AddDevis = (userData, navigate) => async (dispatch) => {
+  export const AddDevis = (userData, navigate,user2) => async (dispatch) => {
     try {
         dispatch({
             type: SET_IS_LOADING,
@@ -544,6 +608,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         console.log("Response", res);
 
         console.log("done!");
+        if(user2) {
+
+          socket.emit("add-user", user2.id);
+        }
         socket.emit("new message", res.data);
 
         dispatch({
@@ -592,6 +660,73 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         }, 3000);
     }
 };
+export const rejectDevis =  ( id, navigate ) => (dispatch) => {
+
+  // console.log(userData)
+  // const [token, settoken] = useState('')
+  dispatch({
+    type:SET_IS_LOADING,
+    payload:true
+})
+
+  axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/rejectDevis/${id}`)
+      .then(async(res) => {
+        //////////////////////////////////////////console.log(res)
+
+
+
+
+
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+        setTimeout(() => {
+          dispatch(
+            setLoading(false)
+          )
+
+        }, 3000);
+        // navigate.push("/home");
+        dispatch({
+          type: SET_IS_SECCESS,
+          payload: true
+      })
+//  navigate('/list-of-demandes');
+      setTimeout(() => {
+          dispatch({
+              type: SET_IS_SECCESS,
+              payload: false
+          })
+      }, 3000);
+        // console.log("res", res?.data?.demande?._id)
+      //   navigation.navigate("FindDriverScreen",{...userData, demandeId:res?.data?.demande?._id} )
+
+      })
+      .catch( (err) =>{
+        // console.log("errrrrrrrrrrrrrrrrrr",err)
+        dispatch({
+          type: SET_ERRORS,
+          payload: err?.response?.data
+      })
+      dispatch({
+        type:SET_IS_LOADING,
+        payload:false
+    })
+    dispatch({
+      type: SET_IS_SECCESS,
+      payload: false
+  })
+        setTimeout(() => {
+          dispatch(
+            setLoading(false)
+          )
+
+        }, 3000);
+      }
+
+      )
+}
 
   export const UpdateDevis =  (userData, id, navigate ) => (dispatch) => {
 

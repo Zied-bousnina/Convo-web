@@ -5,6 +5,7 @@ import { SET_CURRENT_ACCESS, SET_ERRORS, SET_FIRST_LOGIN, SET_IS_LOADING, SET_IS
 import { SetAuthToken } from '../../utils/SetAuthToken';
 import jwt_decode from "jwt-decode"
 import { GetProfile } from './profile.actions';
+import { GetCurrentUser } from './userAction';
 
 
 export function setLoading(isLoading) {
@@ -49,6 +50,7 @@ export const loginUser = (userData) => dispatch => {
             // Set token to Auth header
             SetAuthToken(token)
             dispatch(GetProfile())
+            dispatch(GetCurrentUser())
             // Decode token to get user data
             const decoded = jwt_decode(token)
             // Set current user

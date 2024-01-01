@@ -14,16 +14,23 @@ import { makeSearchApi } from "Redux/actions/searching.action";
 import { accessChat } from "Redux/actions/RecentChat.action";
 import { makeRecentChatApi } from "Redux/actions/RecentChat.action";
 import { selectChat } from "Redux/actions/chatting.action";
-import { Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import { Badge, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from "reactstrap";
 import { Avatar } from "@chakra-ui/react";
 import { socket } from "../../socket.js";
 import { addUnseenmsg } from "Redux/actions/Notification.action.js";
+import { GetCurrentUser } from "Redux/actions/userAction.js";
+import { RemoveNotification } from "Redux/actions/userAction.js";
+import { ByIdRemoveNotification } from "Redux/actions/userAction.js";
 // import { Avatar } from "@chakra-ui/react";
 // import { Badge } from "reactstrap";
 // import { makeRecentChatApi } from "Redux/actions/RecentChat.action";
 // import { makeRecentChatApi } from "Redux/actions/RecentChat.action";
 // import { removeSeenMsg } from "./Redux/Notification/action";
+import { useHistory } from 'react-router-dom';
+import { rejectDevis } from "Redux/actions/Demandes.Actions.js";
 export const MyChat = () => {
+
+  const history = useHistory();
   const user = {
     _id: "6161c9b1c9e7a5b8b5b2b1e8",
     name: "Rahul",
@@ -75,16 +82,42 @@ export const MyChat = () => {
 };
 
 export default function Notificationcomp() {
-  const user = useSelector(state=>state?.auth?.user?._id)
-  useEffect(() => {
-    socket.on("message recieved", (newMessage) => {
-      // console.log("New message received");
-      // alert("gggg")
-      console.log("test",newMessage?.partner ==user, newMessage?.partner, user)
-// if(newMessage?.partner ==user ){
+  const [isLoad, setisLoad] = useState(false)
+    const [loadid, setLoadid] = useState(1)
+    const click =  (id)=> {
+        setLoadid(id)
+        setisLoad(true)
+        setTimeout(() => {
+            setisLoad(false)
+            const url = `/partner/factures/`; history.push(url);
+        }, 1000);
+    }
+  const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
+  // const user = useSelector(state=>state?.currentUser?.users?.user)
+  const dispatch = useDispatch()
+  const history = useHistory();
 
-  // handleNotyfy(newMessage);
-// }
+  useEffect(() => {
+    dispatch(GetCurrentUser())
+    dispatch(removeSeenMsg([]))
+    dispatch(addUnseenmsg(currentUser?.Newsocket))
+
+  }, [dispatch,currentUser?.length])
+  const user = useSelector(state=>state?.auth?.user)
+  useEffect(() => {
+    if (user) {
+      // socket.current = io(host);
+      // socket.emit("add-user", user.id);
+    }
+    socket.on("message recieved", (newMessage) => {
+      console.log("New message received",newMessage);
+      // alert("gggg")
+      console.log(user)
+      console.log("test",newMessage?.partner ==user?.id, newMessage?.partner, user?.id)
+if(newMessage?.partner?._id ==user?.id ){
+
+  handleNotyfy(newMessage);
+}
 
     });
   }, [socket]);
@@ -116,7 +149,7 @@ export default function Notificationcomp() {
   //   },
   // ]
   const [anchorEl, setAnchorEl] = useState(null);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -135,28 +168,121 @@ export default function Notificationcomp() {
   <DropdownToggle
 
   onClick={()=> {
-    if (unseenmsg.length !== 0) dispatch(removeSeenMsg([]));
+    if (unseenmsg.length !== 0){
+      //  dispatch(removeSeenMsg([]))
+      // dispatch(RemoveNotification())
+       };
 
   }}
   nav className="nav-link-icon">
     <i className="ni ni-bell-55" />
-    <Badge color="danger" className="ml-1">{notification}</Badge> {/* Add a Badge with the notification count */}
+    <Badge color="danger" className="ml-1">{user?.role=="PARTNER"&&  currentUser?.length}</Badge> {/* Add a Badge with the notification count */}
   </DropdownToggle>
   <DropdownMenu
     aria-labelledby="navbar-default_dropdown_1"
     className="dropdown-menu-arrow"
     right
+    style={{ maxHeight: '160px',
+    maxWidth:"500px",
+
+     overflowY: 'auto', zIndex: 9999 }}
 
 
 
   >
-   {!unseenmsg?.length ? (
-          <DropdownItem sx={{ p: 2, width: 170 }}>No new messages.</DropdownItem>
+   {!currentUser?.length || user?.role=="ADMIN"  ? (
+          <DropdownItem sx={{ p: 2, width: 50 }}>No new messages.</DropdownItem>
         ) : (
-          unseenmsg?.map((el, index) => (
-            <DropdownItem key={index} sx={{ p: 2, width: 170 }}>
-              {/* {el.sender.name + " " + el.content.substring(0, 15) + "..."} */}
-            </DropdownItem>
+          currentUser?.map((el, index) => (
+            <>
+            <DropdownItem
+  onClick={() => {
+    dispatch(ByIdRemoveNotification(el._id));
+    const url = `/partner/devisDetail/${el._id}`;
+    history.push(url);
+  }}
+  key={index}
+  sx={{
+    p: 2,
+    maxWidth: 300,
+    backgroundColor: '#f0f0f0',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#e0e0e0',
+    },
+    maxHeight: '100px', // Set a max height for scrolling
+    overflowY: 'auto', // Enable vertical scrolling
+  }}
+>
+  <div style={{ marginBottom: '8px' }}>
+    <strong>Montant Proposé:</strong>{' '}
+    {el?.montant.toLocaleString('fr-FR', {
+      style: 'currency',
+      currency: 'EUR',
+    })}
+  </div>
+  <div style={{ marginBottom: '8px' }}>
+    <strong>Depart:</strong> {el?.mission?.postalAddress}
+  </div>
+  <div>
+    <strong>Destination:</strong> {el?.mission?.postalDestination}
+  </div>
+</DropdownItem>
+
+
+
+            <DropdownItem>
+                <hr className="my-0" />
+                <Row>
+                  <Col
+                    md="2"
+                  >
+                    <button type="button" className="btn btn-outline-success"
+                      onClick={() => {
+                        socket.emit("accept devis",el);
+                        click(1)
+                        dispatch(
+                  ByIdRemoveNotification(el._id )
+                )
+                      } }
+                    >
+                      {isLoad && loadid == 1 ? (
+                        <div className="spinner-border text-light" role="status">
+                          <span className="visually-hidden"></span>
+                        </div>
+                      ) : (
+                        'Accepté'
+                      )}
+
+                      <i className="fa-solid fa-floppy-disk"></i>
+                    </button></Col>
+                  <Col
+                    md="2">
+                    <button
+                      onClick={() => {
+                        // socket.emit("reject devis",devsList);
+                        click(2);
+                        dispatch(rejectDevis(el?._id));
+
+                        dispatch(
+                  ByIdRemoveNotification(el._id )
+                )
+                      } }
+                      type="button" className="btn btn-danger">
+                      {isLoad && loadid == 2 ? (
+                        <div className="spinner-border text-light" role="status">
+                          <span className="visually-hidden"></span>
+                        </div>
+                      ) : (
+                        'Rejeté'
+                      )}
+
+                      <i className="fa-solid fa-floppy-disk"></i>
+                    </button></Col>
+                </Row>
+              </DropdownItem></>
           ))
         )}
   </DropdownMenu>

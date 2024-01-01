@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {Button,Card,CardHeader,CardBody,Container,Row,Col} from "reactstrap";
   import UserHeader from "components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +9,7 @@ import {Button,Card,CardHeader,CardBody,Container,Row,Col} from "reactstrap";
   import { SET_IS_SECCESS } from "Redux/types";
 import Chart from "chart.js";
 import { useHistory } from 'react-router-dom';
-import { chartOptions,parseOptions} from "../../variables/charts.js";
+import { chartOptions,parseOptions} from "../../../variables/charts.js";
 import { GetAllUsers } from "Redux/actions/userAction.js";
 import {Link} from "react-router-dom"
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,11 +35,20 @@ import Select from 'react-select'
 import { AddDevis } from "Redux/actions/Demandes.Actions.js";
 import { SET_ERRORS } from "Redux/types.js";
 import { socket } from "socket.js";
-  const CreateDevise = () => {
+import { FinddevisByPartner } from "Redux/actions/Demandes.Actions.js";
+import { FinddevisById } from "Redux/actions/Demandes.Actions.js";
+import { rejectDevis } from "Redux/actions/Demandes.Actions.js";
+
+
+
+
+
+  const devisDetail = () => {
+
     const navigate = useHistory();
     const isSuccess = useSelector(state=>state?.success?.success)
     const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
-    const devsList = useSelector(state=>state?.Demande?.demandes)
+    const devsList = useSelector(state=>state?.devisDetails?.devisDetails?.devis)
     const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
     const { user } = useSelector((store) => store.auth);
     const { id } = useParams();
@@ -46,9 +56,10 @@ import { socket } from "socket.js";
     const colourOptions = []
     const [selectedValues, setSelectedValues] = useState();
     useEffect(() => {
-      dispatch(FindRequestDemandeById(id))
+      dispatch(FinddevisById(id))
 
-    }, [SingleDemande?._id, devsList?.devisList?.length])
+    }, [ devsList?.length])
+    console.log(devsList)
     useEffect(() => {
       // socket = io(SERVER_POINT);
       socket.emit("setup", user);
@@ -122,7 +133,17 @@ useEffect(() => {
     const error = useSelector(state=>state.error?.errors)
 
 
-    const isLoad = useSelector(state=>state?.isLoading?.isLoading)
+    // const isLoad = useSelector(state=>state?.isLoading?.isLoading)
+    const [isLoad, setisLoad] = useState(false)
+    const [loadid, setLoadid] = useState(1)
+    const click =  (id)=> {
+        setLoadid(id)
+        setisLoad(true)
+        setTimeout(() => {
+            setisLoad(false)
+            const url = `/partner/factures/`; history.push(url);
+        }, 1000);
+    }
     // const [form, setForm] = useState({})
     const mask = siretMask;
     const onChangeHandler = (e) => {
@@ -408,7 +429,7 @@ dispatch(AddDevis(data, navigate, user2))
                     xs="8"
                   >
                     <h6 className="text-uppercase text-muted ls-1 mb-1">
-                    Créer un devis
+                     mission details
 
                     </h6>
                     <h2 className="mb-0">Directions</h2>
@@ -444,67 +465,7 @@ style={
 
 
 <>
-<fieldset>
-<legend>Historique Partenaire</legend>
-<Btn label="Show"
-type="button"
-icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
-        <Dialog header="Flex Scroll" visible={dialogVisible} style={{ width: '75vw' }} maximizable
-                modal contentStyle={{ height: '300px' }} onHide={() => setDialogVisible(false)} footer={dialogFooterTemplate}>
-             <DataTable
-              paginator
-              rows={5}
-              size={"small"}
-              rowsPerPageOptions={[5, 10, 25]}
-               ref={dt}
-              value={devsList?.devisList}
-              header={header}
-              selection={selectedProduct}
-              selectionMode={true}
-              onSelectionChange={(e) => setSelectedProduct(e.data)}
-              filters={filters}
-              filterDisplay="row"
-              globalFilterFields={['_id','name', 'status']}
-              // onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
-               sortMode="multiple"
-               className="thead-light"
-                tableStyle={{ minWidth: '50rem' }}
-               emptyMessage="No Missions found."
 
-               >
-
-                <Column field={"_id"}
-                body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
-                header={"ID"} sortable style={{ width: '25%' }}></Column>
-                {tab === "partner" ?
-                <Column field={"user.contactName"}
-                body={(rowData) => rowData.user.contactName.toUpperCase()}
-                header={"Partner Name"} sortable style={{ width: '25%' }}></Column>
-                : null}
-                {
-                  cols.map(e=>{
-                    return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
-                  })
-                }
-                <Column field={"distance"}
-                body={(rowData) => `${Number(rowData.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
-                header={"Montant"} sortable style={{ width: '25%' }}></Column>
-                <Column field={"distance"}
-                body={(rowData) => `~${Math.floor(rowData.mission?.distance )}km`}
-                header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
-                  <Column field={"createdAt"}
-                body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
-                ).format(new Date(rowData.createdAt))}
-                header={"Créé le "} sortable style={{ width: '25%' }}></Column>
-                {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
-                <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
-
-                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
-                {/* { field: 'driverIsAuto', header: 'driverIsAuto' } */}
-
-            </DataTable>
-        </Dialog>
-</fieldset>
 <hr/>
 </>
 }
@@ -512,59 +473,11 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
 <fieldset>
 <legend>Information Générales</legend>
 </fieldset>
-{
-  SingleDemande ?
-<Row>
-<Col>
-<label className="form-label">Date de réception </label>
-<div className="input-group">
-  <input
-    type="text"
-    placeholder="Choose date of departure"
-    value={SingleDemande?.dateDepart && new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(SingleDemande?.dateDepart.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$1-$2')))}
-    name={"dateDepart"}
-    className={classNames("form-control")}
-    disabled
-  />
-</div>
-</Col>
-</Row>
-:
-<Skeleton
-  style={
-    {
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
-    }
-  }
-width={300}
-height={30}
-/>
-}
+
+
 
 {
-  SingleDemande?.user?.contactName &&
-<Row>
-<Col>
-<label className="form-label">Nom du  Partenaire </label>
-<div className="input-group">
-  <input
-    type="text"
-    placeholder="Choose date of departure"
-    value={ SingleDemande?.user?.contactName}
-    name={"dateDepart"}
-    className={classNames("form-control")}
-    disabled
-  />
-</div>
-</Col>
-</Row>
-
-}
-{
-  SingleDemande ?
+    devsList ?
 
 <Row>
   <Col md="12">
@@ -574,7 +487,7 @@ height={30}
         <input
           type="text"
           placeholder="Choose starting point, or click on the map"
-          value={SingleDemande?.address?.display_name}
+          value={devsList?.mission?.address?.display_name}
           name={"start"}
           className={classNames("form-control")}
           disabled
@@ -600,7 +513,7 @@ height={30}
 />
 }
  {
-  SingleDemande ?
+    devsList ?
 
 <Row>
   <Col md="12">
@@ -610,7 +523,7 @@ height={30}
         <input
           type="text"
           placeholder="Choose destination, or click on the map"
-          value={SingleDemande?.destination?.display_name}
+          value={devsList?.mission?.destination?.display_name}
           name={"destination"}
           className={classNames("form-control")}
           disabled
@@ -636,7 +549,7 @@ height={30}
  }
 
 {
-  SingleDemande?.missionType?
+    devsList?.mission?.missionType?
 <Row>
   <Col md="12">
     <div className=" mb-3">
@@ -646,7 +559,7 @@ height={30}
         <input
           type="text"
           // placeholder="Choose starting point, or click on the map"
-          value={ SingleDemande?.missionType}
+          value={ devsList?.mission?.missionType}
           name={"start"}
           className={classNames("form-control")}
           disabled
@@ -670,7 +583,7 @@ height={30}
 />
 }
 {
-  SingleDemande?.vehicleType?
+    devsList?.mission?.vehicleType?
 <Row>
   <Col md="12">
     <div className=" mb-3">
@@ -681,7 +594,7 @@ vehicle Type
         <input
           type="text"
           // placeholder="Choose starting point, or click on the map"
-          value={ SingleDemande?.vehicleType
+          value={ devsList?.mission?.vehicleType
 }
           name={"start"}
           className={classNames("form-control")}
@@ -706,53 +619,9 @@ height={30}
 />
 }
 
-{
-  SingleDemande ?
 
-
-  SingleDemande?.driver  &&
-  <React.Fragment>
-  <Divider
-  style={{
-    marginTop:"20px",
-    marginBottom:"20px"
-  }}
-  />
-  <label className="form-label">Driver details <Link
-  to={`/admin/driver-details/${SingleDemande?.driver?._id}`}
-   style={{color:"#5e72e4"}}>( check more details)</Link></label>
-<Row>
-<Col>
-<label className="form-label">Driver Name </label>
-<div className="input-group">
-  <input
-    type="text"
-    placeholder="Choose date of arrival"
-    value={ SingleDemande?.driver?.name}
-    name={"dateArrive"}
-    className={classNames("form-control")}
-    disabled
-  />
-</div>
-</Col>
-</Row>
-  </React.Fragment>
-:
-<Skeleton
-  style={
-    {
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
-    }
-  }
-width={300}
-height={30}
-/>
-}
 {
-  SingleDemande ?
+    devsList ?
 <Row>
 <Col>
 <label className="form-label">Distance (Km) ~</label>
@@ -760,7 +629,7 @@ height={30}
   <input
     type="text"
     placeholder="Choose distance of mission"
-    value={ `~${Math.floor(SingleDemande?.distance)} km`}
+    value={ `~${Math.floor(devsList?.mission?.distance)} km`}
     name={"distance"}
     className={classNames("form-control")}
     disabled
@@ -846,14 +715,14 @@ height={50}
                     </Col>
                     <Col className="text-right" xs="4">
                     <Link
-                            to={`/admin/PartnerList`}
+                            to={`/partner/factures`}
                             >
 
                       <Button
                         // color="primary"
 
                         size="md"
-                        >  Liste des partenaires
+                        >  factures
                         <i className=" ml-2 fas fa-arrow-right" />
                       </Button>
                         </Link>
@@ -878,64 +747,41 @@ height={50}
   >
 
     <ToastContainer />
-    <Row>
-    <Col
-      md={
-        selectedValues?.unitPrice ? "6" : "12"
-      }
-      >
-         <div className=" mb-3">
-        <label className="form-label">Categorie: <span style={{color:"red"}}>*</span></label>
-        {/* <div className="input-group"> */}
-
-        <Select required
-
-className="react-select primary"
-onChange={handleSelectChange}
-   isLoading={colourOptions.length==0 ?  true: false}
-//    isDisabled={selectedValues.length >3 ?true: false}
-
- options={colourOptions} />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        {/* </div> */}
-      </div>
-      </Col>
-  {selectedValues?.unitPrice && (
-      <Col md="6">
-    <div className="mb-3">
-      <label className="form-label">
-        Prix Unitaire: <span style={{ color: "red" }}>*</span>
-      </label>
-      <div className="input-group">
-        <input
-          type="text"
-          required
-          placeholder="Prix Unitaire"
-          name={"contactName"}
-          className={classNames("form-control")}
-          value={selectedValues?.unitPrice}
-          disabled
-        />
-        {/* Displaying errors - uncomment if needed */}
-        {/* {errors && (
-          <div className="invalid-feedback">
-            {/* Display your error messages here */}
-          {/* </div>
-        )} */}
-      </div>
-    </div>
+    {
+    devsList ?
+<Row>
+<Col>
+<label className="form-label">categorie </label>
+<div className="input-group">
+  <input
+    type="text"
+    placeholder="Choose distance of mission"
+    value={ `${devsList?.categorie?.description} `}
+    name={"distance"}
+    className={classNames("form-control")}
+    disabled
+  />
+</div>
 </Col>
-  )}
-
-
-    </Row>
+</Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+/>
+}
+<hr/>
     <Row>
     <Col md="12">
-  {selectedValues?.unitPrice && (
+  {devsList?.montant && (
     <Alert
   status='info'
   variant='subtle'
@@ -951,8 +797,8 @@ onChange={handleSelectChange}
   </AlertTitle>
   <AlertDescription maxWidth='sm'>
    {
-        (selectedValues?.unitPrice *
-        SingleDemande?.distance
+        (
+            devsList?.montant
         ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 
    }
@@ -1004,73 +850,17 @@ onChange={handleSelectChange}
       </Col> */}
     </Row>
     }
-    {
-        (!confirme&&selectedValues?.unitPrice)  &&
 
-    <Row>
-    <Col
-      md="6"
-      >
-         <div className=" mb-">
-        <label className="form-label">Rectification:<span style={{color:"red"}}>*</span></label>
-        <div className="input-group">
-
-          <input type="number"   placeholder="Rectification"  name={"Rectification"} className={classNames("form-control")} onChange={
-                (e)=>{
-                    setRectification(e.target.value)
-                }
-
-
-
-          }
-            value={Rectification}
-          />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-    </Row>
-}
 
     <hr/>
-    <Row>
 
-      <Col
-      md="12"
-      >
-     {selectedValues?.unitPrice && (
-    <Alert
-  status='success'
-  variant='subtle'
-  flexDirection='column'
-  alignItems='center'
-  justifyContent='center'
-  textAlign='center'
-  height='200px'
->
-  <AlertIcon boxSize='40px' mr={0} />
-  <AlertTitle mt={4} mb={1} fontSize='lg'>
-    Montant Final!
-  </AlertTitle>
-  <AlertDescription maxWidth='sm'>
 
-   {
-!confirme ?
 
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
-:
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
-   }
-  </AlertDescription>
-</Alert>
-  )}
-      </Col>
 
-    </Row>
+
+
+
+
 
 
 
@@ -1083,54 +873,42 @@ onChange={handleSelectChange}
 
     <Row>
       <Col
-      md="4"
+        md="2"
       >
-         <div className=" mb-3">
-        {
-        <span style={{color:"red"}}>
-  { error?.errors?.categorie?
-  error?.errors?.categorie
-  : null
-  }
+      <button type="button" className="btn btn-outline-success"
+        onClick={()=>{
+            socket.emit("accept devis",devsList);
+            click(1)
 
-  { error?.errors?.mission?
-  error?.errors?.mission
-  : null
-  }
-  { error?.errors?.montant?
-  error?.errors?.montant
-  : null
-  }
-
-  { error?.errors?.description?
-  error?.errors?.description
-  : null
-  }
-            </span>
-          }
-
-          <div   >
-            {/* {errors}dfds */}
-          </div>
-      </div>
-      </Col>
-
-    </Row>
-
-
-
-
-
-
-    <Row>
-      <Col>
-      <button type="submit" className="btn btn-outline-primary">
-      {isLoad ? (
+            }
+        }
+      >
+      {isLoad && loadid==1 ? (
           <div className="spinner-border text-light" role="status">
             <span className="visually-hidden"></span>
           </div>
         ) : (
-          'Valider'
+          'Accepté'
+        )}
+
+                    <i className="fa-solid fa-floppy-disk"></i>
+                  </button></Col>
+                  <Col
+                  md="2">
+      <button
+        onClick={()=>{
+            // socket.emit("reject devis",devsList);
+            click(2)
+            dispatch(rejectDevis(devsList?._id))
+            }
+        }
+      type="button" className="btn btn-danger">
+      {isLoad&& loadid==2 ? (
+          <div className="spinner-border text-light" role="status">
+            <span className="visually-hidden"></span>
+          </div>
+        ) : (
+          'Rejeté'
         )}
 
                     <i className="fa-solid fa-floppy-disk"></i>
@@ -1150,4 +928,4 @@ onChange={handleSelectChange}
     );
   };
 
-  export default CreateDevise;
+  export default devisDetail;
