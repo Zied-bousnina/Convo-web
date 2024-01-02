@@ -188,6 +188,7 @@ Créer une mission
 
         {AllUsers &&
           AllUsers?.map(e => (
+            e?.address?.latitude &&
             <Marker
               key={e._id}
               position={[e?.address?.latitude, e?.address?.longitude]} // Update property names
