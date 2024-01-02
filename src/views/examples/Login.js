@@ -46,6 +46,9 @@ import { SET_STATISTIQUES } from "Redux/types";
 import { SET_CURRENT_USER } from "Redux/types";
 import { ADD_UNSEEN_MSG } from "Redux/types";
 import { removeSeenMsg } from "Redux/actions/Notification.action";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 
 const initialValues = {
@@ -108,40 +111,38 @@ function Login () {
   }, [])
 
     return (
-      <>
-      {/* <AppLoader/> */}
-        {/* <DemoNavbar /> */}
+
         <main >
+            <div className="shape shape-style-1 bg-gradient-default" style={{ height: '100vh' }}>
           <section className="section section-shaped section-lg">
-            <div className="shape shape-style-1 bg-gradient-default">
+              {/* <span />
               <span />
               <span />
               <span />
               <span />
               <span />
               <span />
-              <span />
-              <span />
-            </div>
-            <Container className="pt-lg-7">
+              <span /> */}
+
+            <Container
+            fluid
+             className="pt-lg-7">
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white pb-5">
-                      <div className="text-muted text-center mb-5">
-                        {/* <small>Sign in </small> */}
-                        {/* <img
-                  alt="..."
-                  style={{width: "200px", height: "auto"}}
-
-                  src={"https://xgenbox.com/wp-content/uploads/2023/03/Sans-titre-2.png"}
-                /> */}
-                      </div>
+                    <div className="text-muted text-center d-flex justify-content-center align-items-center">
+  <img
+    alt="Your Image Alt Text"
+    style={{ width: "200px", height: "auto" }}
+    src={require("../../assets/img/brand/logo.png")}
+  />
+</div>
 
                     </CardHeader>
-                    <CardBody className="px-lg-5 py-lg-5">
+                    <CardBody className="px-lg-2 py-lg-2">
                       <div className="text-center text-muted mb-4">
-                        <big> sign in </big>
+                        <big> Sign in </big>
                       </div>
                       <Formik
   initialValues={initialValues}
@@ -205,9 +206,9 @@ function Login () {
       style={{ marginLeft: '0px' }}
     >
       {passwordVisible ? (
-        "Hide"
+        <FontAwesomeIcon icon={faEye} />
       ) : (
-        "Show"
+        <FontAwesomeIcon icon={faEyeSlash} />
       )}
     </Button>
           <ErrorMessage
@@ -288,9 +289,9 @@ function Login () {
               </Row>
             </Container>
           </section>
+            </div>
         </main>
-        {/* <SimpleFooter /> */}
-      </>
+
     );
 
 }
