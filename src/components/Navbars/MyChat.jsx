@@ -111,10 +111,19 @@ export default function Notificationcomp() {
 
   const user = useSelector(state=>state?.auth?.user)
   useEffect(() => {
+    socket.on('connect', () => {
+    console.log('Connected to server');
     if (user) {
       // socket.current = io(host);
       // socket.emit("add-user", user.id);
     }
+
+});
+socket.on('error', (error) => {
+    console.error('Socket error:', error);
+});
+
+
     socket.on("message recieved", (newMessage) => {
       console.log("New message received",newMessage);
       // alert("gggg")
