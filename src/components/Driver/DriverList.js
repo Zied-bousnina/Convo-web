@@ -79,7 +79,7 @@ const [filters, setFilters] = useState({
   balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
   status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
   activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+  driverIsVerified: { value: null, matchMode: FilterMatchMode.EQUALS },
   onligne: { value: null, matchMode: FilterMatchMode.EQUALS }
 });
 const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -118,8 +118,8 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
     return (
       <i
         className={classNames('pi', {
-          'text-green-500 pi-check-circle': rowData.verified,
-          'text-red-500 pi-times-circle': !rowData.verified,
+          'text-green-500 pi-check-circle': rowData.driverIsVerified,
+          'text-red-500 pi-times-circle': !rowData.driverIsVerified,
         })}
       ></i>
     );
@@ -414,7 +414,7 @@ Créer un conducteur
                 ).format(new Date(rowData.createdAt))}
                 header={"Créé le"} sortable style={{ width: '25%' }}></Column>
                 <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
-                <Column field="verified" header="Verified" dataType="boolean" style={{ minWidth: '6rem' }} body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
+                <Column field="driverIsVerified" header="Verified" dataType="boolean" style={{ minWidth: '6rem' }} body={verifiedBodyTemplate} filter filterElement={verifiedRowFilterTemplate} />
 
             </DataTable>
                 </div>
