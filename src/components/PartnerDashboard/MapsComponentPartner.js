@@ -13,24 +13,25 @@ import {
   CardFooter,
   Button,
 } from "reactstrap";
-import Header from './Headers/Header';
+import Header from '../Headers/Header';
 import {Link} from "react-router-dom"
-
+import { socket } from "../../socket.js";
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Tooltip } from 'primereact/tooltip';
 
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllUsers } from "../../Redux/actions/userAction";
+import { GetAllUsers } from "Redux/actions/userAction";
 import { useHistory } from 'react-router-dom';
 import { SET_PARTNER_DETAILS } from "Redux/types";
 function MapsComponentPartner() {
-  const navigate = useHistory();
+  // const [currentLocation, setCurrentLocation] = useState(null);
   const [currentLocation, setCurrentLocation] = useState([48.709438,2.503570]);
     const position = [51.505, -0.09];
     const AllUsers = useSelector(state => state?.users?.users?.users);
     const defaultCenter = currentLocation || position;
     const defaultZoom = 13;
+    const navigate = useHistory();
     const bounds = AllUsers?.reduce(
       (acc, pointBin) => {
         const [lat, lon] = [
@@ -86,8 +87,8 @@ function MapsComponentPartner() {
         payload: {}
     })
 
-
-    }, [dispatch,AllUsers?.length])
+    }, [dispatch,AllUsers?.address?.latitude])
+    // console.log(AllUsers)
 
 
     useEffect(() => {
@@ -113,6 +114,7 @@ function MapsComponentPartner() {
       //     map.flyTo(currentLocation, map.getZoom());
       //   }
       // }, [ map]);
+
       return position1 === null ? null : (
         <Marker position={position1}
         // icon={}
@@ -121,6 +123,60 @@ function MapsComponentPartner() {
         </Marker>
       );
     };
+    const [onlineUsers, setOnlineUsers] = useState(new Map());
+
+    useEffect(() => {
+      socket.on('connect', () => {
+        console.log('Connected to server');
+      });
+      socket.on('offline', (userid) => {
+        console.log('Connected to server, id', userid);
+        handleOffline(userid)
+
+      });
+
+      socket.on('error', (error) => {
+        console.error('Socket error:', error);
+      });
+
+      socket.on('newLocation', (location) => {
+        console.log('Received new location:', location);
+        handleLocationUpdate(location);
+
+        setOnlineUsers((prevOnlineUsers) => {
+          const newOnlineUsers = new Map(prevOnlineUsers);
+          newOnlineUsers.set(location.userId, { location });
+          console.log(newOnlineUsers)
+          return newOnlineUsers;
+        });
+      });
+
+    }, [socket]);
+    const [userArray, setUserArray] = useState([]);
+
+    const handleLocationUpdate = (newUserObject) => {
+      setUserArray(prevArray => {
+        const existingUserIndex = prevArray.findIndex(user => user.userId === newUserObject.userId);
+
+        if (existingUserIndex !== -1) {
+          // Update the location of the existing user
+          const updatedArray = [...prevArray];
+          updatedArray[existingUserIndex] = { ...prevArray[existingUserIndex], location: newUserObject.location };
+          return updatedArray;
+        } else {
+          // Add a new user object to the array
+          return [...prevArray, newUserObject];
+        }
+      });
+    };
+    console.log("*********************************",userArray)
+    const handleOffline = (offlineUserId) => {
+      setUserArray(prevArray => prevArray.filter(user => user.userId !== offlineUserId));
+    };
+
+    useEffect(() => {
+      // console.log('Updated onlineUsers:', onlineUsers);
+    }, [onlineUsers]);
 
 
   return (
@@ -146,7 +202,7 @@ function MapsComponentPartner() {
                     md="2"
                   >
                      <Link
-                          to={`/partner/AddRequest`}
+                          to={`/admin/AddRequest`}
                           >
                             <Button
                             className="float-right"
@@ -154,7 +210,7 @@ function MapsComponentPartner() {
                             >
 
 
-create a mission
+Créer une mission
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>
@@ -168,13 +224,14 @@ create a mission
 
               <Tooltip target=".export-buttons>button" position="bottom" />
               <MapContainer
-        style={{ height: "60vh" }}
-        center={
+         style={{ height: "60vh" }}
+               center={
                 { lat: currentLocation[0], lng: currentLocation[1] }
                }
                 zoom={defaultZoom}
                  scrollWheelZoom={true}
                bounds={bounds}
+
 
 
 
@@ -184,29 +241,31 @@ create a mission
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {AllUsers &&
-          AllUsers?.map(e => (
-            e?.address?.latitude && e?.address?.longitude &&
-
+        {userArray &&
+          userArray?.map(e => (
+            e?.location?.latitude && e?.location?.longitude &&
             <Marker
               key={e._id}
-              position={[e?.address?.latitude, e?.address?.longitude]} // Update property names
+              position={[e?.location?.latitude, e?.location?.longitude]} // Update property names
                 icon={myIcon}
                 eventHandlers={{
-              click: () => {
 
-                 navigate.push(`/partner/driver-details/${e._id}`);
+              click: () => {
+                // const navigate = useHistory();
+                  navigate.push(`/admin/driver-details/${e.userId}`);
+                // alert('A marker has been clicked!')
                 }
             }}
             >
 
             </Marker>
           ))}
+
         {currentLocation && (
           <Marker position={currentLocation}
             // icon={}
             eventHandlers={{
-              // click: () => alert('A marker has been clicked!')
+              click: () => alert('A marker has been clicked!')
             }}
 
           >
