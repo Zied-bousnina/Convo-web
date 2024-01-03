@@ -106,14 +106,20 @@ import Select from 'react-select'
     const [selectedVehicleType, setSelectedVehicleType] = useState(null);
 const [selectedMissionType, setSelectedMissionType] = useState(null);
     const vehicleTypeOptions = [
-      { value: 'car', label: 'Car' },
-      { value: 'bike', label: 'Bike' },
+      { value: 'citadine ', label: 'Citadine ' },
+      { value: 'berline ', label: 'Berline ' },
+      { value: 'monoespace -van ', label: 'monoespace -van' },
+      { value: 'sportive ~ luxe  ', label: 'Sportive ~ luxe  ' },
+      { value: 'véhicules utilitaires 3-6m3', label: 'véhicules utilitaires 3-6m3' },
+      { value: 'véhicules utilitaires 10~14m3', label: 'véhicules utilitaires 10~14m3' },
+      { value: ' camions -3T5 (Permis B )', label: ' camions -3T5 (Permis B )' },
+      { value: 'camions +3T5', label: 'camions +3T5' },
       // Add more options as needed
     ];
 
     const missionTypeOptions = [
-      { value: 'delivery', label: 'Delivery' },
-      { value: 'pickup', label: 'Pickup' },
+      { value: 'transport véhicule 0km par porte voiture', label: 'transport véhicule 0km par porte voiture' },
+      { value: 'transport véhicule par un convoyeur', label: 'transport véhicule par un convoyeur' },
       // Add more options as needed
     ];
     useEffect(() => {
