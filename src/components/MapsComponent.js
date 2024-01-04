@@ -73,6 +73,15 @@ function MapsComponent() {
         shadowAnchor: [4, 62],
         className: "my-custom-class"
         });
+        const EnRoute = L.icon({
+          iconUrl: require("../assets/img/brand/EnRoute.png"),
+          iconSize: [60, 60],
+          iconAnchor: [22, 94],
+          popupAnchor: [-3, -76],
+          shadowSize: [50, 64],
+          shadowAnchor: [4, 62],
+          className: "my-custom-class"
+          });
 
 
 
@@ -140,28 +149,41 @@ function MapsComponent() {
       });
 
       socket.on('newLocation', (location) => {
-        console.log('Received new location:', location);
+        // console.log('Received new location:', location);
         handleLocationUpdate(location);
 
         setOnlineUsers((prevOnlineUsers) => {
           const newOnlineUsers = new Map(prevOnlineUsers);
           newOnlineUsers.set(location.userId, { location });
-          console.log(newOnlineUsers)
+          // console.log(newOnlineUsers)
           return newOnlineUsers;
         });
       });
+      socket.on('userEnRoute', userOnroute=> {
+        console.log('*********************************Received new location:', userOnroute);
+        handleLocationUpdate(userOnroute);
+      })
 
     }, [socket]);
     const [userArray, setUserArray] = useState([]);
 
     const handleLocationUpdate = (newUserObject) => {
+      // console.log("###",newUserObject )
       setUserArray(prevArray => {
         const existingUserIndex = prevArray.findIndex(user => user.userId === newUserObject.userId);
 
         if (existingUserIndex !== -1) {
           // Update the location of the existing user
           const updatedArray = [...prevArray];
-          updatedArray[existingUserIndex] = { ...prevArray[existingUserIndex], location: newUserObject.location };
+          // console.log(newUserObject)
+          if (newUserObject.hasOwnProperty('enRoute')) {
+            // alert("gggg")
+            updatedArray[existingUserIndex] = { ...prevArray[existingUserIndex], enRoute:newUserObject.enRoute  };
+
+          }else {
+
+            updatedArray[existingUserIndex] = { ...prevArray[existingUserIndex], location: newUserObject.location };
+          }
           return updatedArray;
         } else {
           // Add a new user object to the array
@@ -169,7 +191,7 @@ function MapsComponent() {
         }
       });
     };
-    console.log("*********************************",userArray)
+    // console.log("*********************************",userArray)
     const handleOffline = (offlineUserId) => {
       setUserArray(prevArray => prevArray.filter(user => user.userId !== offlineUserId));
     };
@@ -177,6 +199,7 @@ function MapsComponent() {
     useEffect(() => {
       // console.log('Updated onlineUsers:', onlineUsers);
     }, [onlineUsers]);
+    // console.log(userArray)
 
 
   return (
@@ -243,11 +266,11 @@ Créer une mission
 
         {userArray &&
           userArray?.map(e => (
-            e?.location?.latitude && e?.location?.longitude &&
+            (e?.location?.latitude && e?.location?.longitude )&&
             <Marker
-              key={e._id}
+              key={e?._id}
               position={[e?.location?.latitude, e?.location?.longitude]} // Update property names
-                icon={myIcon}
+                icon={e?.enRoute  ? EnRoute:myIcon }
                 eventHandlers={{
 
               click: () => {
@@ -258,6 +281,7 @@ Créer une mission
             }}
             >
 
+
             </Marker>
           ))}
 
@@ -265,7 +289,7 @@ Créer une mission
           <Marker position={currentLocation}
             // icon={}
             eventHandlers={{
-              click: () => alert('A marker has been clicked!')
+              click: () => {}
             }}
 
           >

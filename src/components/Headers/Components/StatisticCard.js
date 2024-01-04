@@ -37,7 +37,9 @@ const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon, to }
         </Link>
       </Col>
     ) : (
-        <Col lg="4" xl="4">
+        <Col lg="4" xl="4"
+        
+        >
           <Skeleton
             width={`${(4 / 4) * 100}%`}
             height={100}
