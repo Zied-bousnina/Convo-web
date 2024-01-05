@@ -139,7 +139,7 @@ function MapsComponent() {
         console.log('Connected to server');
       });
       socket.on('offline', (userid) => {
-        console.log('Connected to server, id', userid);
+        // console.log('Connected to server, id', userid);
         handleOffline(userid)
 
       });
