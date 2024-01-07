@@ -899,6 +899,7 @@ height={30}
         onClick={()=>{
             // socket.emit("reject devis",devsList);
             click(2)
+            socket.emit("refuse devis",devsList);
             dispatch(rejectDevis(devsList?._id))
             }
         }

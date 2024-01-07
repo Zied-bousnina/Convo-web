@@ -98,7 +98,7 @@ function App() {
   //   dispatch(addUnseenmsg(currentUser?.Newsocket))
 
   // }, [dispatch,currentUser?.length])
-  console.log("current user ", currentUser)
+  // console.log("current user ", currentUser)
 
   useEffect(() => {
     const jwtToken = localStorage.getItem('jwtToken');

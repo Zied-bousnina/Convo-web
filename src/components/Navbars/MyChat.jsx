@@ -14,7 +14,7 @@ import { makeSearchApi } from "Redux/actions/searching.action";
 import { accessChat } from "Redux/actions/RecentChat.action";
 import { makeRecentChatApi } from "Redux/actions/RecentChat.action";
 import { selectChat } from "Redux/actions/chatting.action";
-import { Badge, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from "reactstrap";
+import { Badge, Button, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown } from "reactstrap";
 import { Avatar } from "@chakra-ui/react";
 import { socket } from "../../socket.js";
 import { addUnseenmsg } from "Redux/actions/Notification.action.js";
@@ -91,12 +91,13 @@ export default function Notificationcomp() {
     dispatch(addUnseenmsg(currentUser?.Newsocket))
 
   }, [dispatch,currentUser?.length])
+  console.log(currentUser)
     const [noti, setnoti] = useState(
       currentUser?
-      [...currentUser]
+      currentUser
       :[]
       )
-    console.log(currentUser)
+
     const click =  (id)=> {
         setLoadid(id)
         setisLoad(true)
@@ -138,6 +139,18 @@ if(newMessage?.partner?._id ==user?.id ){
 }
 
     });
+    socket.on("Admin notification", (doc)=> {
+      console.log("ADMIN")
+      if(user?.role =="ADMIN") {
+
+        console.log("Admin notification",doc)
+        console.log("User++++++", user)
+      }
+      setnoti(
+        [...noti, doc]
+      )
+      handleNotyfy(doc);
+    })
   }, [socket]);
   const handleNotyfy = (newMessage) => {
     dispatch(addUnseenmsg(newMessage));
@@ -145,6 +158,7 @@ if(newMessage?.partner?._id ==user?.id ){
   const { notification } = useSelector(
     (store) => store.notification
   );
+  console.log("notif", noti)
   const { unseenmsg } = useSelector((store) => store.notification);
   // const unseenmsg = [
   //   {
@@ -182,6 +196,10 @@ if(newMessage?.partner?._id ==user?.id ){
 
   return (
     <div>
+    {
+      user?.role=="PARTNER"?
+
+
         <UncontrolledDropdown nav>
   <DropdownToggle
 
@@ -208,7 +226,7 @@ if(newMessage?.partner?._id ==user?.id ){
 
 
   >
-   {!noti?.length || user?.role=="ADMIN"  ? (
+   {!noti?.length   ? (
           <DropdownItem sx={{ p: 2, width: 50 }}>No new messages.</DropdownItem>
         ) : (
           noti?.map((el, index) => (
@@ -256,7 +274,9 @@ setnoti(updatedNoti);
 
 
 
-            <DropdownItem>
+            <DropdownItem
+
+            >
                 <hr className="my-0" />
                 <Row>
                   <Col
@@ -293,6 +313,7 @@ setnoti(updatedNoti);
                         // socket.emit("reject devis",devsList);
                         click(2);
                         dispatch(rejectDevis(el?._id));
+                        socket.emit("reject devis",el);
 
                         dispatch(
                   ByIdRemoveNotification(el._id )
@@ -320,6 +341,135 @@ setnoti(updatedNoti);
         )}
   </DropdownMenu>
 </UncontrolledDropdown>
+:
+<UncontrolledDropdown nav>
+  <DropdownToggle
+
+  onClick={()=> {
+    if (noti?.length !== 0){
+      //  dispatch(removeSeenMsg([]))
+      // dispatch(RemoveNotification())
+       };
+
+  }}
+  nav className="nav-link-icon">
+    <i className="ni ni-bell-55" />
+    <Badge color="danger" className="ml-1">{noti?.length}</Badge> {/* Add a Badge with the notification count */}
+  </DropdownToggle>
+  <DropdownMenu
+    aria-labelledby="navbar-default_dropdown_1"
+    className="dropdown-menu-arrow"
+    right
+    style={{ maxHeight: '160px',
+    maxWidth:"500px",
+
+     overflowY: 'auto', zIndex: 9999 }}
+
+
+
+  >
+   {!noti?.length   ? (
+          <DropdownItem sx={{ p: 2, width: 50 }}>No new messages.</DropdownItem>
+        ) : (
+          noti?.map((el, index) => (
+            <>
+            <DropdownItem
+  onClick={() => {
+    console.log("clicked")
+  }}
+            >
+                <hr className="my-0" />
+
+  <Col md="2">
+    {el?.PartnerAccepted === "Accepted" ? (
+      <>
+        <div style={{ marginBottom: '2px' }}>
+          <strong></strong> <Button
+    color="info"
+    outline
+    disabled
+  >
+    confirmée
+  </Button>
+        </div>
+
+      </>
+    ) : (
+      <>
+        <div style={{ marginBottom: '2px' }}>
+          <strong></strong>
+
+          <Button
+    color="danger"
+    outline
+    disabled
+  >
+    non
+          confirmée
+  </Button>
+        </div>
+
+      </>
+    )}
+  </Col>
+
+
+              </DropdownItem>
+            <DropdownItem
+  onClick={() => {
+    const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
+    dispatch(ByIdRemoveNotification(el._id));
+    const url = `/admin/request-details/${el?.mission?._id}`;
+    history.push(url);
+console.log("clicked 1")
+  }}
+  key={index}
+  sx={{
+    p: 2,
+    maxWidth: 300,
+    backgroundColor: '#f0f0f0',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#e0e0e0',
+    },
+    maxHeight: '100px', // Set a max height for scrolling
+    overflowY: 'auto', // Enable vertical scrolling
+  }}
+>
+  <div style={{ marginBottom: '8px' }}>
+    <strong>Partner Name:</strong>{' '}
+    {el?.partner?.contactName}
+  </div>
+  <div style={{ marginBottom: '8px' }}>
+    <strong>Depart:</strong> {el?.mission?.postalAddress}
+  </div>
+  <div>
+    <strong>Destination:</strong> {el?.mission?.postalDestination}
+  </div>
+</DropdownItem>
+
+
+
+            <DropdownItem>
+                <hr className="my-0" />
+
+
+
+
+              </DropdownItem>
+              </>
+          ))
+        )}
+  </DropdownMenu>
+</UncontrolledDropdown>
+
+    }
     </div>
   );
 }

@@ -13,7 +13,7 @@ import {
   CardFooter,
   Button,
 } from "reactstrap";
-import Header from '../Headers/Header';
+import Header from './Headers/Header';
 import {Link} from "react-router-dom"
 import { socket } from "../../socket.js";
 import 'react-toastify/dist/ReactToastify.css';
