@@ -324,6 +324,7 @@ const onGlobalFilterChange = (e) => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [confirme, setconfirme] = useState(false)
   const [Rectification, setRectification] = useState(0)
+  const [remunerationAmount, setremunerationAmount] = useState(0)
   const dialogFooterTemplate = () => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
@@ -386,7 +387,13 @@ const data = {
   rectification: Rectification ?
   Rectification.toString()
   :
-  "0"
+  "0",
+  remunerationAmount:
+  remunerationAmount ?
+  remunerationAmount.toString()
+  :
+  "0",
+  status:"Devis"
 }
 dispatch(AddDevis(data, navigate, user2))
   e.target.reset();
@@ -1035,6 +1042,38 @@ onChange={handleSelectChange}
       </Col>
     </Row>
 }
+<hr/>
+{selectedValues?.unitPrice && (
+
+
+<Row>
+    <Col
+      md="6"
+      >
+         <div className=" mb-">
+        <label className="form-label">Montant de la rémunération :<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+          <input type="number" required  placeholder="Saisissez le montant de la rémunération"  name={"remunerationAmount"} className={classNames("form-control")} onChange={
+                (e)=>{
+                    setremunerationAmount(e.target.value)
+                }
+
+
+
+          }
+            value={remunerationAmount}
+          />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+    </Row>
+    )}
 
     <hr/>
     <Row>

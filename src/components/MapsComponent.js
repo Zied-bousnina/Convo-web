@@ -24,7 +24,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "Redux/actions/userAction";
 import { useHistory } from 'react-router-dom';
 import { SET_PARTNER_DETAILS } from "Redux/types";
+import { GetCurrentUser } from "Redux/actions/userAction";
 function MapsComponent() {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
+  useEffect(() => {
+    dispatch(GetCurrentUser())
+
+
+  }, [dispatch,currentUser?.length])
   // const [currentLocation, setCurrentLocation] = useState(null);
   const [currentLocation, setCurrentLocation] = useState([48.709438,2.503570]);
     const position = [51.505, -0.09];
@@ -87,7 +95,6 @@ function MapsComponent() {
 
     // console.log(AllUsers)
 
-    const dispatch = useDispatch();
 
     useEffect(() => {
       dispatch(GetAllUsers())

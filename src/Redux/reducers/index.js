@@ -47,6 +47,8 @@ import { serachReducer } from './searching.reducer';
 import CurrentUserReducer from './CurrentUser.reducer';
 import DevisByCurrenPartnerReducer from './DevisByCurrenPartner.reducer';
 import devisDetailReducer from './devisDetail.reducer';
+import notiReducer from './noti.reducer';
+import specifiqueMissionByPartnerReducer from './specifiqueMissionByPartner.reducer';
 // import MissionByPartnerReducer from './MissionByPartner.reducer';
 export default combineReducers({
     currentUser:CurrentUserReducer,
@@ -96,5 +98,7 @@ export default combineReducers({
     search :  serachReducer,
     DevisByCurrenPartner :  DevisByCurrenPartnerReducer,
     devisDetails :  devisDetailReducer,
+    noti :  notiReducer,
+    specifiqueDevis :  specifiqueMissionByPartnerReducer,
 
 })

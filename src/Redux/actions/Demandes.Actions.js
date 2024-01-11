@@ -14,6 +14,7 @@ import { SET_DEVIS_BY_PARTNER } from "Redux/types";
 import { socket}  from "../../socket.js"
 import { SET_DEVIS_BY_CURRENT_PARTNER } from "Redux/types";
 import { SET_devis_DETAIL } from "Redux/types";
+import { SET_SPECIFIQUE_DEVIS_BY_PARTNER } from "Redux/types";
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
     // console.log(userData)
@@ -29,6 +30,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
 
 
+          socket.emit("new mission", res.data);
 
 
           dispatch({
@@ -827,4 +829,47 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
     )
 
   }
+
+  export const FindDevisByPartnerId = (partner,data ) => async (dispatch) => {
+    // dispatch({
+    //   type: SET_ERRORS,
+    //   payload: {},
+    // });
+    // dispatch({
+    //   type: SET_SINGLE_DEMANDE,
+    //   payload: {},
+    // });
+    dispatch({
+      type: SET_IS_LOADING_TABLE_MISSION,
+      payload: true,
+    });
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisByPartnerId/${partner}`,
+      data
+      );
+
+      console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+      dispatch({
+        type: SET_SPECIFIQUE_DEVIS_BY_PARTNER,
+        payload: res.data?.devis,
+      });
+      dispatch({
+        type: SET_IS_LOADING_TABLE_MISSION,
+        payload: false,
+      });
+    } catch (err) {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err?.response?.data,
+      });
+      // dispatch({
+      //   type: SET_DEMANDES,
+      //   payload: [],
+      // });
+      dispatch({
+        type: SET_IS_LOADING_TABLE_MISSION,
+        payload: false,
+      });
+    }
+  };
 

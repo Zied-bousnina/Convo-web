@@ -82,19 +82,24 @@ export const MyChat = () => {
 };
 
 export default function Notificationcomp() {
-  const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
   const [isLoad, setisLoad] = useState(false)
   const [loadid, setLoadid] = useState(1)
+  const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
+  const noti2 = useSelector(state=>state?.noti?.Noti)
+  const unseen = useSelector(state=>state?.notification)
   useEffect(() => {
-    dispatch(GetCurrentUser())
-    dispatch(removeSeenMsg([]))
-    dispatch(addUnseenmsg(currentUser?.Newsocket))
+  const fetchData = async () => {
+    await dispatch(GetCurrentUser());
+    dispatch(removeSeenMsg([]));
+    dispatch(addUnseenmsg(currentUser?.Newsocket));
+  };
 
-  }, [dispatch,currentUser?.length])
-  console.log(currentUser)
+  fetchData();
+}, [dispatch, currentUser?.length]);
+  console.log("currentUser",noti2)
     const [noti, setnoti] = useState(
-      currentUser?
-      currentUser
+      noti2?
+      noti2
       :[]
       )
 
@@ -259,7 +264,7 @@ setnoti(updatedNoti);
 >
   <div style={{ marginBottom: '8px' }}>
     <strong>Montant Proposé:</strong>{' '}
-    {el?.montant.toLocaleString('fr-FR', {
+    {el?.montant?.toLocaleString('fr-FR', {
       style: 'currency',
       currency: 'EUR',
     })}
@@ -373,7 +378,55 @@ setnoti(updatedNoti);
         ) : (
           noti?.map((el, index) => (
             <>
+            {
+              el?.newMissionPartner ?
+              <>
+
             <DropdownItem
+  onClick={() => {
+    const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
+    dispatch(ByIdRemoveNotification(el._id));
+    const url = `/admin/request-details/${el?._id}`;
+    history.push(url);
+console.log("clicked 1")
+  }}
+  key={index}
+  sx={{
+    p: 2,
+    maxWidth: 300,
+    backgroundColor: '#f0f0f0',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#e0e0e0',
+    },
+    maxHeight: '100px', // Set a max height for scrolling
+    overflowY: 'auto', // Enable vertical scrolling
+  }}
+>
+{/* <hr/> */}
+<strong>New mission</strong>
+
+  <div style={{ marginBottom: '8px' }}>
+    <strong>Partner Name:</strong>{' '}
+    {el?.user?.contactName}
+  </div>
+  <div style={{ marginBottom: '8px' }}>
+    <strong>Depart:</strong> {el?.postalAddress}
+  </div>
+  <div>
+    <strong>Destination:</strong> {el?.postalDestination}
+  </div>
+</DropdownItem>
+          </>
+          :
+          <>
+          <DropdownItem
   onClick={() => {
     console.log("clicked")
   }}
@@ -453,6 +506,9 @@ console.log("clicked 1")
     <strong>Destination:</strong> {el?.mission?.postalDestination}
   </div>
 </DropdownItem>
+          </>
+            }
+
 
 
 

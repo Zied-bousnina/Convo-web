@@ -53,6 +53,8 @@ const navigate = useHistory()
   const isSuccess = useSelector(state=>state?.success?.success)
   const devisByPartner = useSelector(state=>state?.DevisByCurrenPartner?.devis?.devis)
 
+  console.log("devisByPartner", devisByPartner)
+
   const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
   const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
 
@@ -139,6 +141,19 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
         case 'rejected':
             return 'danger';
+        case 'Devis':
+            return 'warning';
+
+        case 'En attente':
+            return 'warning';
+        case 'Confirmée':
+            return 'success';
+        case 'refusée':
+            return 'danger';
+        case "Affectée":
+            return 'info';
+        case "En retard":
+          return 'danger'
 
 
     }
@@ -150,7 +165,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [statuses] = useState(['in progress', 'Accepted', 'Completed', 'rejected']);
 
   const statusBodyTemplate = (rowData) => {
-    return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
+    return <Tag value={rowData?.mission.status} severity={getSeverity(rowData.status)} />;
   };
 
   const statusRowFilterTemplate = (options) => {
@@ -423,7 +438,7 @@ const actionBodyTemplate2 = (rowData) => {
                   })
                 }
                 <Column field={"distance"}
-                body={(rowData) => `~${Math.floor(rowData.distance )}km`}
+                body={(rowData) => `~${Number(Math.floor(rowData.distance )).toFixed(2)}km`}
                 header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
                  <Column field={"distance"}
                 body={(rowData) => `${Number(rowData.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
@@ -431,7 +446,13 @@ const actionBodyTemplate2 = (rowData) => {
                   <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}
+
                 header={"Created At"} sortable style={{ width: '25%' }}></Column>
+                <Column field={"Convoyeur"}
+                body={(rowData) => rowData?.mission?.driver?.name ?
+                  rowData?.mission?.driver?.name : '∅'
+                }
+                header={"Convoyeur"} sortable style={{ width: '25%' }}></Column>
                 {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
                 <Column field="status" header="Status" showFilterMenu={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusRowFilterTemplate} />
 

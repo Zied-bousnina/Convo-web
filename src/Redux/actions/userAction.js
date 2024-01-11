@@ -8,35 +8,43 @@ import { SET_USERS } from "Redux/types"
 
 import axios from "axios"
 import { removeSeenMsg } from "./Notification.action"
+import { ADD_UNSEEN_MSG } from "Redux/types"
+import { SET_NEW_NOTI } from "Redux/types"
 
 
-export const GetCurrentUser = (navigation)=>dispatch=>{
+export const GetCurrentUser = (navigation) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/users/currentUser`);
+    dispatch({
+      type: SET_CURRENT_USER,
+      payload: res?.data
+    });
+    dispatch({
+      type: ADD_UNSEEN_MSG,
+      payload: res?.data?.user?.Newsocket || [], // Adjust payload as needed
+    });
+    console.log(res.data)
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/users/users/currentUser`)
-  .then(res => {
-      // console.log(res)
-      dispatch({
-          type: SET_CURRENT_USER,
-          payload: res?.data
-      })
+    dispatch({
+      type: SET_NEW_NOTI,
+      payload: res?.data?.user?.Newsocket , // Adjust payload as needed
+    })
+    // If you have additional actions to dispatch after successfully fetching data, you can do it here using await.
 
-
-      // dispatch(registerGoogleUser(data))
-
-      // dispatch(loginUser(data))
-  })
-  .catch(err =>
-     {
-      // console.log("err in authAction.js line 366",err)
-      dispatch({
-          type: SET_ERRORS,
-          payload: err?.response?.data
-      })
-      // dispatch(registerGoogleUser(data))
-      throw err
+    // await dispatch(registerGoogleUser(data));
+    // await dispatch(loginUser(data));
+  } catch (err) {
+    // Handle errors
+    // console.log("err in authAction.js line 366", err);
+    dispatch({
+      type: SET_ERRORS,
+      payload: err?.response?.data
+    });
+    // If you want to rethrow the error after handling it, you can use throw err.
+    // throw err;
   }
-  )
-}
+};
+
 
 export const RemoveNotification = (navigation)=>dispatch=>{
 
@@ -49,6 +57,7 @@ export const RemoveNotification = (navigation)=>dispatch=>{
       // dispatch(registerGoogleUser(data))
 
       // dispatch(loginUser(data))
+
       dispatch(GetCurrentUser())
   })
   .catch(err =>

@@ -107,6 +107,7 @@ function Login () {
     dispatch({type: SET_CURRENT_USER,payload: {},})
     dispatch({type: ADD_UNSEEN_MSG,payload: [],})
     dispatch(removeSeenMsg([]))
+    dispatch({type: SET_CURRENT_USER, payload: {}})
 
   }, [])
 

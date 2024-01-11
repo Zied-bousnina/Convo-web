@@ -89,7 +89,7 @@ const vehicleTypeOptions = [
   { value: 'sportive ~ luxe  ', label: 'Sportive ~ luxe  ' },
   { value: 'véhicules utilitaires 3-6m3', label: 'véhicules utilitaires 3-6m3' },
   { value: 'véhicules utilitaires 10~14m3', label: 'véhicules utilitaires 10~14m3' },
-  { value: ' camions -3T5 (Permis B )', label: ' camions -3T5 (Permis B )' },
+  { value: 'camions -3T5 (Permis B )', label: ' camions -3T5 (Permis B )' },
   { value: 'camions +3T5', label: 'camions +3T5' },
   // Add more options as needed
 ];
@@ -312,6 +312,7 @@ const missionTypeOptions = [
     driver:selectedValues?.value,
     vehicleType: selectedVehicleType?.value,
     missionType: selectedMissionType?.value,
+    status:"En attente"
 
 
 

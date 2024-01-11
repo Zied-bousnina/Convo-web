@@ -63,6 +63,7 @@ export const loginUser = (userData) => dispatch => {
                 type:SET_IS_LOADING,
                 payload:false
             })
+            dispatch(GetCurrentUser())
         })
         .catch(err =>
            {

@@ -286,7 +286,7 @@ const rowExpansionTemplate = (data) => {
               onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
                emptyMessage="No Missions found."
-               loading={TableIsLOad}
+              //  loading={TableIsLOad}
                >
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>
@@ -535,7 +535,7 @@ const actionBodyTemplate2 = (rowData) => {
               onRowClick={(e) => {const url = `/admin/request-details/${e.data._id}`; history.push(url); }}
                sortMode="multiple"className="thead-light" tableStyle={{ minWidth: '50rem' }}
                emptyMessage="No Missions found."
-               loading={TableIsLOad}
+              //  loading={TableIsLOad}
                >
                 {/* <Column field="_id" header="ID" sortable className="thead-light" ></Column>
                 <Column field="name" header="Name" sortable className="thead-light" ></Column>

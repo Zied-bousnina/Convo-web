@@ -197,7 +197,7 @@ const handleChange = (event) => {
   // console.log(checked)
 };
 
-console.log(requests)
+// console.log(requests)
 const exportPdf = () => {
   import('jspdf').then((jsPDF) => {
     import('jspdf-autotable').then(() => {

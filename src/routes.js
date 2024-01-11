@@ -51,6 +51,7 @@ import CategorieDetails from "components/Factures/CategorieDetails";
 import UpdateCategorie from "components/Factures/UpdateCategorie";
 import HistoriqueFactures from "components/PartnerDashboard/factures/HistoriqueFacture";
 import devisDetail from "components/PartnerDashboard/factures/devisDetails";
+import GenererFacture from "components/Factures/GenererFacturePar";
 // import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
@@ -216,6 +217,14 @@ var routes = [
     layout: "/admin",
     invisible:true
   },
+  {
+    path: "/genererFacture",
+    name: "Générer Facture",
+    icon: "ni ni-single-02 text-yellow",
+    component: GenererFacture,
+    layout: "/admin",
+    invisible:true
+  },
 
   {
     path: "/factures",
@@ -240,6 +249,16 @@ var routes = [
         name: "Liste Categorie",
         // miniName: "P",
         component: ListCategorie,
+        icon: "ni ni-money-coins text-info",
+        layout: "/admin",
+        collapse: true,
+      },
+      {
+
+        path: "/genererFacture",
+        name: "Générer Facture",
+        // miniName: "P",
+        component: GenererFacture,
         icon: "ni ni-money-coins text-info",
         layout: "/admin",
         collapse: true,
