@@ -50,8 +50,10 @@ import ListCategorie from "components/Factures/ListCategorie";
 import CategorieDetails from "components/Factures/CategorieDetails";
 import UpdateCategorie from "components/Factures/UpdateCategorie";
 import HistoriqueFactures from "components/PartnerDashboard/factures/HistoriqueFacture";
+import ListOfFacturesPartner from "components/PartnerDashboard/factures/ListOfFacturesPartner";
 import devisDetail from "components/PartnerDashboard/factures/devisDetails";
 import GenererFacture from "components/Factures/GenererFacturePar";
+import FactureDetails from "components/PartnerDashboard/factures/FactureDetails";
 // import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
@@ -304,6 +306,26 @@ var routes = [
     layout: "/partner"
   },
   {
+    path: "/historique-facture",
+    name: "Historique factures",
+    // miniName: "P",
+    // collapse: true,
+    component: ListOfFacturesPartner,
+    icon: "ni ni-ui-04 text-info",
+    layout: "/partner",
+    invisible:true
+  },
+  {
+    path: "/facture-details/:id",
+    name: "facture",
+    // miniName: "P",
+    // collapse: true,
+    component: FactureDetails,
+    icon: "ni ni-ui-04 text-info",
+    layout: "/partner",
+    invisible:true
+  },
+  {
     path: "/factures",
     name: "Facturation",
     icon: "ni ni-folder-17 text-red",
@@ -313,10 +335,19 @@ var routes = [
     views: [
       {
         path: "/factures",
-        name: "Historique",
+        name: "Historique devis",
         // miniName: "P",
         collapse: true,
         component: HistoriqueFactures,
+        icon: "ni ni-ui-04 text-info",
+        layout: "/partner",
+      },
+      {
+        path: "/historique-facture",
+        name: "Historique factures",
+        // miniName: "P",
+        collapse: true,
+        component: ListOfFacturesPartner,
         icon: "ni ni-ui-04 text-info",
         layout: "/partner",
       },

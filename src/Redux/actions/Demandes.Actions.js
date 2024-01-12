@@ -15,6 +15,8 @@ import { socket}  from "../../socket.js"
 import { SET_DEVIS_BY_CURRENT_PARTNER } from "Redux/types";
 import { SET_devis_DETAIL } from "Redux/types";
 import { SET_SPECIFIQUE_DEVIS_BY_PARTNER } from "Redux/types";
+import { SET_FACTURES_BY_PARTNER } from "Redux/types";
+import { SET_SINGLE_FACTURE } from "Redux/types";
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
     // console.log(userData)
@@ -830,11 +832,63 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
 
   }
 
-  export const FindDevisByPartnerId = (partner,data ) => async (dispatch) => {
+  export const FindFactureById = (factureId,data ) => async (dispatch) => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: {},
+    });
     // dispatch({
-    //   type: SET_ERRORS,
+    //   type: SET_SPECIFIQUE_DEVIS_BY_PARTNER,
+    //   payload: [],
+    // });
+    // dispatch({
+    //   type: SET_SINGLE_DEMANDE,
     //   payload: {},
     // });
+    dispatch({
+      type: SET_IS_LOADING_TABLE_MISSION,
+      payload: true,
+    });
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/facture/findFactureById/${factureId}`
+      );
+      dispatch({
+        type: SET_ERRORS,
+        payload: {},
+      });
+      console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+      dispatch({
+        type: SET_SINGLE_FACTURE,
+        payload: res.data,
+      });
+      dispatch({
+        type: SET_IS_LOADING_TABLE_MISSION,
+        payload: false,
+      });
+    } catch (err) {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err?.response?.data,
+      });
+      // dispatch({
+      //   type: SET_DEMANDES,
+      //   payload: [],
+      // });
+      dispatch({
+        type: SET_IS_LOADING_TABLE_MISSION,
+        payload: false,
+      });
+    }
+  };
+  export const FindDevisByPartnerId = (partner,data ) => async (dispatch) => {
+    dispatch({
+      type: SET_ERRORS,
+      payload: {},
+    });
+    dispatch({
+      type: SET_SPECIFIQUE_DEVIS_BY_PARTNER,
+      payload: [],
+    });
     // dispatch({
     //   type: SET_SINGLE_DEMANDE,
     //   payload: {},
@@ -847,7 +901,10 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisByPartnerId/${partner}`,
       data
       );
-
+      dispatch({
+        type: SET_ERRORS,
+        payload: {},
+      });
       console.log(">>>>>>>>>>>>>>>>>>>", res.data);
       dispatch({
         type: SET_SPECIFIQUE_DEVIS_BY_PARTNER,
@@ -873,3 +930,120 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
     }
   };
 
+
+
+
+  export const createFacture = (userData, navigate,user2) => async (dispatch) => {
+    try {
+        dispatch({
+            type: SET_IS_LOADING,
+            payload: true
+        });
+
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/facture/create`, userData);
+
+        // Log the entire response
+        console.log("Response", res);
+
+        console.log("done!");
+        // if(user2) {
+
+        //   socket.emit("add-user", user2.id);
+        // }
+        // socket.emit("new message", res.data);
+
+        dispatch({
+            type: SET_IS_LOADING,
+            payload: false
+        });
+
+        setTimeout(() => {
+            dispatch(setLoading(false));
+        }, 3000);
+
+        navigate.push("/home");
+
+        dispatch({
+            type: SET_IS_SECCESS,
+            payload: true
+        });
+
+        setTimeout(() => {
+            dispatch({
+                type: SET_IS_SECCESS,
+                payload: false
+            });
+        }, 3000);
+
+    } catch (err) {
+        console.error("Error", err);
+
+        dispatch({
+            type: SET_ERRORS,
+            payload: err?.response?.data
+        });
+
+        dispatch({
+            type: SET_IS_LOADING,
+            payload: false
+        });
+
+        dispatch({
+            type: SET_IS_SECCESS,
+            payload: false
+        });
+
+        setTimeout(() => {
+            dispatch(setLoading(false));
+        }, 3000);
+    }
+};
+
+export const FindFacturesByPartner = ( ) => async (dispatch) => {
+  dispatch({
+    type: SET_ERRORS,
+    payload: {},
+  });
+  // dispatch({
+  //   type: SET_FACTURES_BY_PARTNER,
+  //   payload: [],
+  // });
+  // dispatch({
+  //   type: SET_SINGLE_DEMANDE,
+  //   payload: {},
+  // });
+  dispatch({
+    type: SET_IS_LOADING_TABLE_MISSION,
+    payload: true,
+  });
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/facture/fetchFactureByPartner`
+    );
+    dispatch({
+      type: SET_ERRORS,
+      payload: {},
+    });
+    console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+    dispatch({
+      type: SET_FACTURES_BY_PARTNER,
+      payload: res.data,
+    });
+    dispatch({
+      type: SET_IS_LOADING_TABLE_MISSION,
+      payload: false,
+    });
+  } catch (err) {
+    dispatch({
+      type: SET_ERRORS,
+      payload: err?.response?.data,
+    });
+    // dispatch({
+    //   type: SET_DEMANDES,
+    //   payload: [],
+    // });
+    dispatch({
+      type: SET_IS_LOADING_TABLE_MISSION,
+      payload: false,
+    });
+  }
+};

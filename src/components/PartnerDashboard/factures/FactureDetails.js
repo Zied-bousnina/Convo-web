@@ -1,12 +1,12 @@
 
-import { Card, CardHeader, CardBody, Container, Row, Col, Button } from "reactstrap";
-  import UserHeader from "../../components/Headers/UserHeader.js";
+import { Card, CardHeader, CardBody, Container, Row, Col, Button, Input } from "reactstrap";
+  import UserHeader from "../../../components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
   import React, { useEffect, useRef, useState } from "react";
   import classNames from "classnames";
-  import { SET_ERRORS, SET_IS_SECCESS, SET_SINGLE_DEMANDE } from "../../Redux/types";
+  import { SET_ERRORS, SET_IS_SECCESS, SET_SINGLE_DEMANDE, SET_SINGLE_FACTURE } from "../../../Redux/types";
 import { CreatePartner } from "Redux/actions/authActions.js";
 import { createCategorie } from "Redux/actions/authActions.js";
 import { Alert, AlertIcon } from "@chakra-ui/react";
@@ -26,8 +26,10 @@ import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { Tag } from "primereact/tag";
 import { Dropdown } from "primereact/dropdown";
 import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { createFacture } from "Redux/actions/Demandes.Actions.js";
-  const GenererFacture = () => {
+import { FindFactureById } from "Redux/actions/Demandes.Actions.js";
+  const FactureDetails = () => {
     const navigate = useHistory();
     const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
     const error = useSelector(state=>state.error?.errors)
@@ -36,6 +38,8 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
     const [form, setForm] = useState({})
     const [selectedValues, setSelectedValues] = useState();
     const [globalFilterValue, setGlobalFilterValue] = useState('');
+    const { id } = useParams();
+    const singleFacture = useSelector(state=>state?. singleFacture?.facture)
     const  getCurrentDateISOString=()=> {
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0];
@@ -63,16 +67,16 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
     const colourOptions = []
     useEffect(() => {
         dispatch({
-          type: SET_SINGLE_DEMANDE,
-          payload: {},
-        });
+            type: SET_SINGLE_FACTURE,
+            payload: {},
+          });
 
 
-        // dispatch(FindRequestDemande())
-        dispatch(FindRequestDemandeByPartner())
-        dispatch(FindRequestDemandeByPartnerV2())
+        dispatch(FindFactureById(id))
+        // dispatch(FindRequestDemandeByPartner())
+        // dispatch(FindRequestDemandeByPartnerV2())
 
-      }, [ ,requestsByPartnerV2?.length])
+      }, [ ,requestsByPartnerV2?.length, singleFacture?.length])
       console.log("requestsByPartner", requestsByPartnerV2)
       requestsByPartnerV2?.map(e=>{
         colourOptions.push({value:e?.partner._id, label:`${e?.partner?.contactName}|[${e?.partner?.email}]`
@@ -297,7 +301,22 @@ const onChangeHandler = (e) => {
 
 
     }
+    console.log("Missions", singleFacture?.devis)
+    const missions = [];
+    if (singleFacture?.devis) {
+        // Extract missions from 'devis' array
+      singleFacture?.devis.map((e) => missions.push({...e.mission,
+        montant:e.montant,
+        createdAt:e.createdAt,
+        status:e.status,
+        _id:e._id,
+        partner:e.partner,
+        mission:e.mission,
+        user:e.user,
 
+    }));
+      }
+        console.log("missions", missions)
     console.log(error)
 
     const handleSelectChange = (selectedOptions) => {
@@ -388,22 +407,22 @@ const onChangeHandler = (e) => {
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">Générer Facture</h3>
+                      <h3 className="mb-0"> Facture</h3>
                     </Col>
-                    {/* <Col className="text-right" xs="4">
+                    <Col className="text-right" xs="4">
                     <Link
-                            to={`/admin/ListCategorie`}
+                            to={`/partner/historique-facture`}
                             >
 
                       <Button
                         // color="primary"
 
                         size="md"
-                        >  Liste des Catégories
+                        >  List factures
                         <i className=" ml-2 fas fa-arrow-right" />
                       </Button>
                         </Link>
-                    </Col> */}
+                    </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -424,182 +443,100 @@ const onChangeHandler = (e) => {
 
     <ToastContainer />
     <hr/>
-<label className="form-label">Période :<span style={{color:"red"}}>*</span></label>
+    {
+        singleFacture?.facture?.from ?
 
-    <Row>
+
+<>
+<label className="form-label">Période :</label>
+
+<Row>
 
 <Col>
 <label className="form-label">De<span style={{color:"red"}}>*</span></label>
-<Datetime
-
-
+<Input
+type="date"
 onChange={(e)=>setValueDe(e)}
-value={valueDe}
+value={singleFacture?.facture?.from}
 // timeFormat={false}
+readOnly
 inputProps={{
-  placeholder: "Date Picker Here",
-  name: "dateDepart"
+placeholder: "Date Picker Here",
+name: "dateDepart"
 }}
-
-
-
- />
+/>
 </Col>
 <Col>
 <label className="form-label">à<span style={{color:"red"}}>*</span></label>
-<Datetime
-
-onChange={(e)=>setValueA(e)}
-value={valueA}
+<Input
+type="date"
+onChange={(e)=>setValueDe(e)}
+value={singleFacture?.facture?.to}
 // timeFormat={false}
+readOnly
 inputProps={{
-  placeholder: "Date Picker Here",
-  name: "dateDepart"
-}}
-
-
-
- />
+    placeholder: "Date Picker Here",
+    name: "dateDepart"
+    }}
+/>
 </Col>
 </Row>
+</>
+:
+<Row>
+    <Skeleton
+    style={{margin:10}}
+    width={200}
+    height={30}
+    />
+
+</Row>
+    }
 <hr/>
-    <Row>
-    <Col
-      md={
-         "12"
-      }
-      >
-         <div className=" mb-3">
-        <label className="form-label">Partner: <span style={{color:"red"}}>*</span></label>
-        {/* <div className="input-group"> */}
-
-        <Select required
-
-className="react-select primary"
-onChange={handleSelectChange}
-   isLoading={colourOptions.length==0 ?  true: false}
-//    isDisabled={selectedValues.length >3 ?true: false}
-
- options={colourOptions} />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        {/* </div> */}
-      </div>
-      </Col>
 
 
-    </Row>
-    <hr/>
-    <Row>
+
+<hr/>
     {
-      partnerdetails &&
-      <>
-
-    <Col
-      md="6"
-      >
-         <div className=" mb-3">
-        <label className="form-label">Raison social: </label>
-        <div className="input-group">
-
-          <input type="text" disabled required placeholder="Raison social" defaultValue={partnerdetails[0]?.partner?.raisonSocial}  name={"name"} className={classNames("form-control")}  />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-      </>
+        singleFacture?.facture?.from ?
 
 
+<>
+<label className="form-label">Montant total :</label>
+
+<Row>
+
+<Col>
+{/* <label className="form-label">De<span style={{color:"red"}}>*</span></label> */}
+<Input
+// type="date"
+onChange={(e)=>setValueDe(e)}
+// value={singleFacture?.facture?.totalAmmount}
+value={Number(singleFacture?.facture?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }
+// timeFormat={false}
+readOnly
+inputProps={{
+placeholder: "Date Picker Here",
+name: "dateDepart"
+}}
+/>
+</Col>
+
+</Row>
+</>
+:
+<Row>
+    <Skeleton
+    style={{margin:10}}
+    width={200}
+    height={30}
+    />
+
+</Row>
     }
-    {
-      partnerdetails &&
-
-      <Col
-      md="6"
-      >
-         <div className=" mb-3">
-        <label className="form-label">Adresse: </label>
-        <div className="input-group">
-
-          <input type="text" disabled required value={partnerdetails[0]?.partner?.addressPartner} placeholder="Enter the contact person's name" name={"contactName"} className={classNames("form-control")} onChange={onChangeHandler} />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-
-
-    }
-
-    </Row>
-    <Row>
-    {
-      partnerdetails &&
-
-    <Col
-      md="6"
-      >
-         <div className=" mb-3">
-        <label className="form-label">N° SIRET: </label>
-        <div className="input-group">
-
-          <input type="text" readOnly  onChange={onChangeHandler}  placeholder="Raison social" value={partnerdetails[0]?.partner?.siret}  name={"name"} className={classNames("form-control")}  />
-
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-
-
-    }
-    {
-      partnerdetails &&
-
-      <Col
-      md="6"
-      >
-         <div className=" mb-3">
-        <label className="form-label">N° kbis: </label>
-        <div className="input-group">
-
-          <input type="text"
-          readOnly
-          onClick={()=> {
-            if (partnerdetails[0]?.partner?.kbis) {
-      window.open(partnerdetails[0]?.partner?.kbis, '_blank');
-    }
-          }}
-          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-
-
-    }
-
-    </Row>
     <hr/>
     <fieldset>
-<legend>Historique Partenaire</legend>
+<legend>Historique Mission</legend>
 <Btn label="Show"
 type="button"
 icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
@@ -611,7 +548,10 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
               size={"small"}
               rowsPerPageOptions={[5, 10, 25]}
                ref={dt}
-              value={devisByPartnerId}
+              value={singleFacture?.devis ? missions :
+                [
+                ]
+              }
               header={header}
               selection={selectedProduct}
               selectionMode={true}
@@ -707,68 +647,14 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
 
 
 
-    <Row>
-      <Col
-      md="12"
-      >
-         <div className=" mb-3">
-
-        {/* <span style={{color:"red"}}> */}
-  { error?.description?
-            <Alert status='error'>
-    <AlertIcon />
-  {error?.description}
-    </Alert>
-  : null
-  }
-
-  { error?.unitPrice?
-    <Alert status='error'>
-
-    <AlertIcon />
-  {error?.unitPrice}
-    </Alert>
-  : null
-  }
-  { error?.message?
-    <Alert status='error'>
-
-    <AlertIcon />
-  {error?.message}
-    </Alert>
-  : null
-  }
-
-            {/* </span> */}
-
-
-          <div   >
-            {/* {errors}dfds */}
-          </div>
-      </div>
-      </Col>
-
-    </Row>
 
 
 
 
 
 
-    <Row>
-      <Col>
-      <button type="submit" className="btn btn-outline-primary">
-      {isLoad ? (
-          <div className="spinner-border text-light" role="status">
-            <span className="visually-hidden"></span>
-          </div>
-        ) : (
-          'Valider'
-        )}
 
-                    <i className="fa-solid fa-floppy-disk"></i>
-                  </button></Col>
-    </Row>
+
   </form>
 
 
@@ -781,4 +667,4 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
     );
   };
 
-  export default GenererFacture;
+  export default FactureDetails;

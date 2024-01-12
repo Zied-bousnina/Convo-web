@@ -202,7 +202,7 @@ function MapsComponentPartner() {
                     md="2"
                   >
                      <Link
-                          to={`/admin/AddRequest`}
+                          to={`/partner/AddRequest`}
                           >
                             <Button
                             className="float-right"
