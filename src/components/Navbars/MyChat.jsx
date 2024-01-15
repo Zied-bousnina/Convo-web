@@ -104,11 +104,7 @@ useEffect(() => {
 
 
 console.log("currentUser",noti2)
-const [noti, setnoti] = useState(
-  currentUser?
-  currentUser
-  :[]
-  )
+const [noti, setnoti] = useState([])
   useEffect(() => {
   setnoti(currentUser ? currentUser : []);
 }, [currentUser]);
