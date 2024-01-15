@@ -90,18 +90,30 @@ export default function Notificationcomp() {
   useEffect(() => {
   const fetchData = async () => {
     await dispatch(GetCurrentUser());
+
     dispatch(removeSeenMsg([]));
     dispatch(addUnseenmsg(currentUser?.Newsocket));
   };
 
   fetchData();
 }, [dispatch, currentUser?.length]);
-  console.log("currentUser",noti2)
-    const [noti, setnoti] = useState(
-      noti2?
-      noti2
-      :[]
-      )
+
+useEffect(() => {
+  dispatch(GetCurrentUser())
+}, [noti2?.length])
+
+
+console.log("currentUser",noti2)
+const [noti, setnoti] = useState(
+  currentUser?
+  currentUser
+  :[]
+  )
+  useEffect(() => {
+  setnoti(currentUser ? currentUser : []);
+}, [currentUser]);
+
+
 
     const click =  (id)=> {
         setLoadid(id)

@@ -50,6 +50,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { SET_SPECIFIQUE_DEVIS_BY_PARTNER } from "Redux/types";
+import { SET_NEW_NOTI } from "Redux/types";
 
 
 const initialValues = {
@@ -110,6 +111,7 @@ function Login () {
     dispatch(removeSeenMsg([]))
     dispatch({type: SET_CURRENT_USER, payload: {}})
     dispatch({type: SET_SPECIFIQUE_DEVIS_BY_PARTNER,payload: []});
+    dispatch({type: SET_NEW_NOTI,payload: []});
 
   }, [])
 
