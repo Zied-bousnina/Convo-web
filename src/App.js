@@ -72,7 +72,8 @@ import { SET_USERS_DETAILS } from "Redux/types.js";
 import { SET_STATISTIQUES } from "Redux/types.js";
 import { GetCurrentUser } from "Redux/actions/userAction.js";
 import { removeSeenMsg } from "Redux/actions/Notification.action.js";
-import Form from "components/reset-password/Form.js";
+import ResetPassword from "components/reset-password/ResetPassword.js";
+// import Form from "components/reset-password/Form.js";
 
 function App() {
   // const userId = useSelector(state=>state?.auth?.user?._id)
@@ -239,7 +240,7 @@ function App() {
            {/* <Route path="/profile-page" exact render={(props) => <Profile {...props} />}/>
            <Route path="/register-page" exact render={(props) => <Register {...props} />}/> */}
            <Route path="/forgotpassword-page" exact render={(props) => <ForgotPassword {...props} />}/>
-           <Route path="/reset-password" exact render={(props) => <Form {...props} />}/>
+           <Route path="/reset-password" exact render={(props) => <ResetPassword {...props} />}/>
 
            <ForceRedirect user={user}>
            {/* <Login /> */}
