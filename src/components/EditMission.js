@@ -106,7 +106,7 @@ const EditMission = () => {
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
     const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
     const [checked, setChecked] = useState( SingleDemande?.driverIsAuto ? SingleDemande?.driverIsAuto : false);
-    const [value, setValue]= useState(new Date().toISOString())
+    const [value, setValue]= useState(SingleDemande?.dateDepart)
     const [fmtValue, setFmtValue]= useState(undefined)
     const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
     const [selectedValues, setSelectedValues] = useState([]);
