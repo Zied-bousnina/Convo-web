@@ -101,45 +101,9 @@ function App() {
 
   // }, [dispatch,currentUser?.length])
   // console.log("current user ", currentUser)
+  // axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`) // Replace with your backend endpoint
 
-  useEffect(() => {
-    const jwtToken = localStorage.getItem('jwtToken');
 
-    if (jwtToken) {
-      try {
-        const decodedToken = jwt_decode(jwtToken);
-        const activeExpires = new Date(decodedToken.exp * 1000); // Convert seconds to milliseconds
-        const currentDate = new Date();
-
-        if (currentDate > activeExpires) {
-          // Token has expired
-          localStorage.removeItem('jwtToken');
-          dispatch(LogOut());
-          dispatch(setCurrentUser({}));
-        } else {
-          // Token is still valid, check with the server
-          axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`) // Replace with your backend endpoint
-            .then(response => {
-              // Request was successful, token is valid
-              // console.log('Token is valid');
-            })
-            .catch(error => {
-              // Request failed, likely due to invalid token
-              // console.error('Token validation failed:', error);
-              localStorage.removeItem('jwtToken');
-              dispatch(setCurrentUser({}));
-              dispatch(LogOut());
-            });
-        }
-      } catch (error) {
-        // Token decoding failed
-        // console.error('Token decoding failed:', error);
-        localStorage.removeItem('jwtToken');
-        dispatch(setCurrentUser({}));
-        dispatch(LogOut());
-      }
-    }
-  }, [dispatch,user]);
   useEffect(() => {
     const value = localStorage.getItem('jwtToken')
 
@@ -159,12 +123,42 @@ function App() {
     const currentDate = new Date();
     // console.log(`activeExpires-----------------------------------------------------------------------------------`,
     //  activeExpires < currentDate);
-    if (currentDate > activeExpires) {
-      localStorage.removeItem('jwtToken');
-      dispatch(LogOut())
-      // dispatch(setCurrentUser({}));
-    }
+    // if (currentDate > activeExpires) {
+    //   localStorage.removeItem('jwtToken');
+    //   dispatch(LogOut())
+    //   // dispatch(setCurrentUser({}));
+    // }
   }, []);
+  const fetchUser = async ()=>  {
+    const user = await localStorage.getItem('jwtToken');
+    console.log(user)
+    if (user) {
+      const decode = jwt_decode(user);
+      axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`)
+      .then(res => {
+        console.log(res)
+        console.log("//", decode)
+      dispatch(setCurrentUser(decode));
+      SetAuthToken(user);
+      })
+      .catch(err => {
+        dispatch(LogOut())
+        console.log(err)
+      })
+     // Corrected typo here
+    }else {
+      dispatch(LogOut())
+
+    }
+  }
+
+useEffect(() => {
+  console.log("fetched")
+  fetchUser()
+
+
+}, [])
+
 
   useEffect(() => {
     dispatch(GetProfile())
