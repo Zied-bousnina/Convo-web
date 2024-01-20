@@ -177,6 +177,7 @@ function MapsComponentPartner() {
     useEffect(() => {
       // console.log('Updated onlineUsers:', onlineUsers);
     }, [onlineUsers]);
+    // console.log("drivers", userArray)
 
 
   return (
@@ -252,11 +253,12 @@ Créer une mission
 
               click: () => {
                 // const navigate = useHistory();
-                  navigate.push(`/admin/driver-details/${e.userId}`);
+                  navigate.push(`/partner/driver-details/${e.userId}`);
                 // alert('A marker has been clicked!')
                 }
             }}
             >
+             <Popup>{e.name}</Popup>
 
             </Marker>
           ))}
@@ -265,7 +267,7 @@ Créer une mission
           <Marker position={currentLocation}
             // icon={}
             eventHandlers={{
-              click: () => alert('A marker has been clicked!')
+              click: () => {}
             }}
 
           >

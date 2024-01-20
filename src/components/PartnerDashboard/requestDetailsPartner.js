@@ -722,12 +722,14 @@ height={30}
   }}
   />
 
-  <label className="form-label">Driver details <Link
+  <label className="form-label">Driver details
+  {/* <Link
   to={`/admin/driver-details/${SingleDemande?.driver?._id}`}
   // target="_blank"
 
 
-   style={{color:"#5e72e4"}}>( check more details)</Link></label>
+   style={{color:"#5e72e4"}}>( check more details)</Link> */}
+   </label>
 
 
 
@@ -856,7 +858,7 @@ height={30}
 }
 
 {
-  SingleDemande ?
+    SingleDemande?.status =='En attente'  || SingleDemande?.status== 'in progress' ?
 
   <Row>
 

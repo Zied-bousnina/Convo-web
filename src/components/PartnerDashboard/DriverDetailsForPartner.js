@@ -229,7 +229,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
       PartnerDetails ?
 
     <Col
-      md="6"
+      md="12"
       >
          <div className=" mb-">
         <label className="form-label">Name</label>
@@ -254,7 +254,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
       </Col>
       :
       <Col
-      md="6"
+      md="12"
       >
 
       <Skeleton
@@ -272,53 +272,7 @@ height={30}
 />
       </Col>
     }
-    {
-      PartnerDetails ?
-      <Col
-      md="6"
-      >
-         <div className=" mb-3">
-        <label className="form-label">Email: <span style={{color:"red"}}>*</span></label>
-        <div className="input-group">
 
-          <input
-          defaultValue={PartnerDetails?.email}
-          type="text"
-          disabled
-
-              placeholder="Enter the business email address"
-              name={"email"} className={classNames("form-control")}
-
-
-              />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        </div>
-      </div>
-      </Col>
-      :
-      <Col
-      md="6"
-      >
-
-      <Skeleton
-        style={
-    {
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
-    }
-  }
-width={300}
-height={30}
-
-/>
-      </Col>
-    }
 
       {/* <Col
       md="4"

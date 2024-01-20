@@ -489,8 +489,13 @@ const rowExpansionTemplate = (data) => {
 };
 // --------------------------------------------------------------------------------------------------
 const actionBodyTemplate = (rowData) => {
+
   return (
       <React.Fragment>
+      {
+        rowData?.status =='En attente' || rowData?.status== 'Devis' || rowData?.status== 'in progress' &&
+      <>
+
         <Link
                           to={`/admin/edit-mission/${rowData?._id}`}
                           onClick={(e) => {
@@ -515,6 +520,8 @@ setnotificationModal(true)
 setselectedItem(rowData?._id)
 } } />
 
+      </>
+      }
       </React.Fragment>
   );
 };

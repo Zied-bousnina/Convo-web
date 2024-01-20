@@ -59,7 +59,7 @@ import { rejectDevis } from "Redux/actions/Demandes.Actions.js";
       dispatch(FinddevisById(id))
 
     }, [ devsList?.length])
-    console.log(devsList)
+    console.log("555555555555555555",devsList)
     useEffect(() => {
       // socket = io(SERVER_POINT);
       socket.emit("setup", user);
@@ -869,6 +869,8 @@ height={30}
 
 
 
+{
+  devsList?.status =="Devis" &&
 
 
     <Row>
@@ -915,6 +917,7 @@ height={30}
                     <i className="fa-solid fa-floppy-disk"></i>
                   </button></Col>
     </Row>
+}
   </form>
 
 

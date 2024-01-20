@@ -12,6 +12,10 @@ import {
     Row,
     Col,
     Label,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
   } from "reactstrap";
   // core components
   import UserHeader from "components/Headers/UserHeader.js";
@@ -107,6 +111,15 @@ import { SET_SINGLE_DEMANDE } from "Redux/types.js";
     const isStartingPointRef = useRef(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
+    const [modal, setModal] = useState(false);
+
+    const [loading, setLoading] = useState(true);
+   // Replace '...' with the actual image URL
+
+    const handleImageLoad = () => {
+      setLoading(false);
+    };
+    const toggle = () => setModal(!modal);
     const { id } = useParams();
 
     // console.log(id)
@@ -167,7 +180,7 @@ import { SET_SINGLE_DEMANDE } from "Redux/types.js";
 
       }, [])
 
-// console.log(SingleDemande)
+console.log("SingleDemande",SingleDemande)
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -280,6 +293,7 @@ import { SET_SINGLE_DEMANDE } from "Redux/types.js";
       // console.error("Error fetching coordinates for the destination from the geocoding service", error);
     }
   }
+
   const getDistanceFromLatLonInKm=()=>{
     const lat1 = startingPoint?.latitude;
   const lon1 = startingPoint?.longitude;
@@ -449,6 +463,10 @@ dispatch(AddDemande(data, navigate))
                     </h6>
                     <h2 className="mb-0">Directions</h2>
                   </Col>
+                  {
+                    SingleDemande?.status =='En attente' || SingleDemande?.status== 'Devis' || SingleDemande?.status== 'in progress' &&
+
+
                   <Col className="text-right" xs="4">
                     <Link
                             to={`/admin/edit-mission/${id}`}
@@ -463,6 +481,7 @@ dispatch(AddDemande(data, navigate))
                       </Button>
                         </Link>
                     </Col>
+                  }
 
                 </Row>
               </CardHeader>
@@ -490,6 +509,110 @@ style={
 
 }
 >
+{
+  SingleDemande?.demareeMissionImages.length> 0 || SingleDemande?.termineemissionImages?.length>0 ?
+
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
+      {/* <label className="form-label"> Image Demarre :</label> */}
+      <div className="input-group">
+      <Button color="danger" onClick={toggle}>
+      Images de la voiture
+      </Button>
+      <Modal isOpen={modal} toggle={toggle} fullscreen={
+        true
+      }
+      >
+        <ModalHeader toggle={toggle}>Début de la mission</ModalHeader>
+
+        <ModalBody>
+        {
+          SingleDemande?.demareeMissionImages.map(e=> {
+            return(
+              <div>
+      {loading && (
+        <div className="loading-image-placeholder">
+          Chargement...
+        </div>
+      )}
+              <img
+              style={{
+          width: "150px",
+          height: "150px",
+          filter: loading ? 'blur(8px)' : 'none', // Apply blur when loading
+        }}
+        alt="Your Image"
+        onLoad={handleImageLoad}
+              src={e}
+              />
+               </div>
+            )
+          })
+        }
+        </ModalBody>
+        {
+          SingleDemande?.termineemissionImages?.length>0 &&
+          (
+            <>
+
+        <ModalHeader >Fin de la mission</ModalHeader>
+
+        <ModalBody>
+        {
+          SingleDemande?.termineemissionImages.map(e=> {
+            return(
+              <div>
+      {loading && (
+        <div className="loading-image-placeholder">
+          Chargement...
+        </div>
+      )}
+              <img
+              style={{
+          width: "150px",
+          height: "150px",
+          filter: loading ? 'blur(8px)' : 'none', // Apply blur when loading
+        }}
+        alt="Your Image"
+        onLoad={handleImageLoad}
+              src={e}
+              />
+               </div>
+            )
+          })
+        }
+        </ModalBody>
+        </>
+          )
+
+        }
+        <ModalFooter>
+
+          <Button color="secondary" onClick={toggle}>
+          Annuler
+          </Button>
+        </ModalFooter>
+      </Modal>
+      </div>
+    </div>
+  </Col>
+</Row>
+:
+<Skeleton
+  style={
+    {
+      marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"20px",
+        marginBottom:"20px"
+    }
+  }
+width={300}
+height={30}
+
+/>
+}
 {
   SingleDemande ?
 
@@ -939,6 +1062,10 @@ height={30}
     </Button>
     </Link>
     :
+
+    SingleDemande?.status =='En attente'  || SingleDemande?.status== 'in progress' &&
+      (
+
     <Link
     to={`/admin/editdevis/${SingleDemande?._id}`}
     // target="_blank"
@@ -956,7 +1083,9 @@ height={30}
     <span className="btn-inner--text">Edit devis </span>
     </Button>
     </Link>
+      )
     }
+
   </Col>
   </Row>
   :
