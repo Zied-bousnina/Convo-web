@@ -51,10 +51,11 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
     const dispatch = useDispatch()
 
     const PartnerDetails = useSelector(state=>state?.partnerDetails?.partnerDetails?.partner)
+    const Ducuments = useSelector(state=>state?.partnerDetails?.partnerDetails?.documents)
   const { id } = useParams();
   useEffect(() => {
     dispatch(GetPartnerDetailsById(id))
-  }, [dispatch,PartnerDetails?._id])
+  }, [dispatch,PartnerDetails?._id, Ducuments?._id])
 //   console.log(PartnerDetails)
     dispatch({
       type:SET_IS_SECCESS,
@@ -181,7 +182,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
       </Col>
     }
                     </h6>
-                    <h2 className="mb-0">Driver Details</h2>
+                    <h2 className="mb-0">Détails du conducteur</h2>
                   </div>
                     </Col>
                     <Col className="text-right" xs="4">
@@ -193,7 +194,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
                         // color="primary"
 
                         size="md"
-                        >  Edit
+                        >  Modifier
                         <i className=" ml-2 fas fa-arrow-right" />
                       </Button>
                         </Link>
@@ -220,7 +221,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
     <ToastContainer />
 
 <fieldset>
-    <legend>Driver Information</legend>
+    <legend>Informations sur le conducteur</legend>
 
 
     <Row>
@@ -231,7 +232,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Name</label>
+        <label className="form-label">Nom</label>
         <div className="input-group">
 
           <input type="text"
@@ -277,7 +278,7 @@ height={30}
       md="6"
       >
          <div className=" mb-3">
-        <label className="form-label">Email: <span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Email: </label>
         <div className="input-group">
 
           <input
@@ -334,26 +335,28 @@ height={30}
     </Row>
     </fieldset>
     <hr/>
-    <Alert status='info'>
+    {/* <Alert status='info'>
     <AlertIcon />
-    This is a warning alert — This feature is still in development. Some functionalities may not be available yet</Alert>
+    This is a warning alert — This feature is still in development. Some functionalities may not be available yet</Alert> */}
     <fieldset>
-    <legend>Driving Documents</legend>
+    <legend>Documents du conducteur</legend>
 
     <Row>
     <Col
       md="12"
       >
          <div className=" mb-3">
-        <label className="form-label"> K-Bis <span style={{color:"red"}}>*</span></label>
+        <label className="form-label"> K-Bis </label>
         <div className="input-group">
-        <FileInput
-                  id="kbis"
-                  name="kbis"
-                  // onChange={onChangeHandlerFile}
-                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-                />
+        <input type="text"
+          readOnly
+          onClick={()=> {
+            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+            if (Ducuments[0]?.kbis) {
+      window.open(Ducuments[0]?.kbis, '_blank');
+    }
+          }}
+          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -368,16 +371,18 @@ height={30}
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Driver's license (Front card)<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Permis de conduire (Carte avant)</label>
         <div className="input-group">
 
-        <FileInput
-                  id="permisConduirefrontCard"
-                  name="permisConduirefrontCard"
-                  // onChange={onChangeHandlerFile}
-                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-                />
+        <input type="text"
+          readOnly
+          onClick={()=> {
+            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+            if (Ducuments[0]?.permisConduirefrontCard) {
+      window.open(Ducuments[0]?.permisConduirefrontCard, '_blank');
+    }
+          }}
+          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -390,16 +395,18 @@ height={30}
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Driver's license (Back card)<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Permis de conduire (Carte arrière)</label>
         <div className="input-group">
 
-        <FileInput
-                  id="permisConduirebackCard"
-                  name="permisConduirebackCard"
-                  // onChange={onChangeHandlerFile}
-                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-                />
+        <input type="text"
+          readOnly
+          onClick={()=> {
+            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+            if (Ducuments[0]?.permisConduirebackCard) {
+      window.open(Ducuments[0]?.permisConduirebackCard, '_blank');
+    }
+          }}
+          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -427,16 +434,18 @@ height={30}
       md="12"
       >
          <div className=" mb-">
-        <label className="form-label">Insurance certificate<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Certificat d'assurance</label>
         <div className="input-group">
 
-        <FileInput
-                  id="assurance"
-                  name="assurance"
-                  // onChange={onChangeHandlerFile}
-                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-                />
+        <input type="text"
+          readOnly
+          onClick={()=> {
+            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+            if (Ducuments[0]?.assurance) {
+      window.open(Ducuments[0]?.assurance, '_blank');
+    }
+          }}
+          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -465,16 +474,18 @@ height={30}
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Identity document (Front card)<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Document d'identité (Carte avant)</label>
         <div className="input-group">
 
-        <FileInput
-                  id="CinfrontCard"
-                  name="CinfrontCard"
-                  // onChange={onChangeHandlerFile}
-                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-                />
+        <input type="text"
+          readOnly
+          onClick={()=> {
+            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+            if (Ducuments[0]?.CinfrontCard) {
+      window.open(Ducuments[0]?.CinfrontCard, '_blank');
+    }
+          }}
+          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -487,16 +498,18 @@ height={30}
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Identity document (Back card)<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Document d'identité (Carte arrière)</label>
         <div className="input-group">
 
-        <FileInput
-                  id="CinbackCard"
-                  name="CinbackCard"
-                  // onChange={onChangeHandlerFile}
-                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-                />
+        <input type="text"
+          readOnly
+          onClick={()=> {
+            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+            if (Ducuments[0]?.CinbackCard) {
+      window.open(Ducuments[0]?.CinbackCard, '_blank');
+    }
+          }}
+          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -524,16 +537,18 @@ height={30}
       md="12"
       >
          <div className=" mb-">
-        <label className="form-label">Proof of address<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Justificatif de domicile</label>
         <div className="input-group">
 
-        <FileInput
-                  id="proofOfAddress"
-                  name="proofOfAddress"
-                  // onChange={onChangeHandlerFile}
-                  accept="image/png, image/jpeg, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-                />
+        <input type="text"
+          readOnly
+          onClick={()=> {
+            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+            if (Ducuments[0]?.proofOfAddress) {
+      window.open(Ducuments[0]?.proofOfAddress, '_blank');
+    }
+          }}
+          placeholder="Cliquez pour ouvrir le fichier"  className={classNames("form-control")}  />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -586,7 +601,7 @@ height={30}
     <span className="btn-inner--icon">
     <i className="ni ni-bold-right"></i>
     </span>
-    <span className="btn-inner--text">Go Mission</span>
+    <span className="btn-inner--text">Mission en cours</span>
     </Button>
     </Link>
 

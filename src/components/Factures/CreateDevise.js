@@ -907,7 +907,7 @@ height={50}
   >
 
     <ToastContainer />
-    <Row>
+    {/* <Row>
     <Col
       md={
         selectedValues?.unitPrice ? "6" : "12"
@@ -915,22 +915,17 @@ height={50}
       >
          <div className=" mb-3">
         <label className="form-label">Categorie: <span style={{color:"red"}}>*</span></label>
-        {/* <div className="input-group"> */}
+
 
         <Select required
 
 className="react-select primary"
 onChange={handleSelectChange}
    isLoading={colourOptions.length==0 ?  true: false}
-//    isDisabled={selectedValues.length >3 ?true: false}
+
 
  options={colourOptions} />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        {/* </div> */}
+
       </div>
       </Col>
   {selectedValues?.unitPrice && (
@@ -949,22 +944,17 @@ onChange={handleSelectChange}
           value={selectedValues?.unitPrice}
           disabled
         />
-        {/* Displaying errors - uncomment if needed */}
-        {/* {errors && (
-          <div className="invalid-feedback">
-            {/* Display your error messages here */}
-          {/* </div>
-        )} */}
+
       </div>
     </div>
 </Col>
   )}
 
 
-    </Row>
+    </Row> */}
     <Row>
     <Col md="12">
-  {selectedValues?.unitPrice && (
+  {/* {selectedValues?.unitPrice && ( */}
     <Alert
   status='info'
   variant='subtle'
@@ -987,7 +977,7 @@ onChange={handleSelectChange}
    }
   </AlertDescription>
 </Alert>
-  )}
+  {/* )} */}
 </Col>
 
 
@@ -995,8 +985,8 @@ onChange={handleSelectChange}
 
     </Row>
     <hr/>
-    {
-        selectedValues?.unitPrice &&
+    {/* {
+        selectedValues?.unitPrice && */}
 
     <Row>
       <Col
@@ -1032,9 +1022,9 @@ onChange={handleSelectChange}
       </div>
       </Col> */}
     </Row>
-    }
+    {/* } */}
     {
-        (!confirme&&selectedValues?.unitPrice)  &&
+        (!confirme)  &&
 
     <Row>
     <Col
@@ -1065,7 +1055,7 @@ onChange={handleSelectChange}
     </Row>
 }
 <hr/>
-{selectedValues?.unitPrice && (
+{/* {selectedValues?.unitPrice && ( */}
 
 
 <Row>
@@ -1095,7 +1085,7 @@ onChange={handleSelectChange}
       </div>
       </Col>
     </Row>
-    )}
+    {/* )} */}
 
     <hr/>
     <Row>
@@ -1103,7 +1093,7 @@ onChange={handleSelectChange}
       <Col
       md="12"
       >
-     {selectedValues?.unitPrice && (
+     {/* {selectedValues?.unitPrice && ( */}
     <Alert
   status='success'
   variant='subtle'
@@ -1132,7 +1122,7 @@ onChange={handleSelectChange}
    }
   </AlertDescription>
 </Alert>
-  )}
+  {/* )} */}
       </Col>
 
     </Row>
