@@ -65,6 +65,7 @@ const navigate = useHistory()
   const [tab, settab] = useState("admin")
   // console.log(requests1)
   const requestsByPartnerV2 = useSelector(state=>state?.MissionByPartnerV2?.demandes)
+  console.log("Ressssssssssssssssss", requestsByPartnerV2)
   useEffect(() => {
     dispatch({
       type: SET_SINGLE_DEMANDE,
@@ -107,7 +108,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
       { field: 'destination.display_name', header: 'Destination' },
       // { field: 'distance', header: 'Distance (km)' },
       // { field: 'createdAt', header: 'Created At' },
-      { field: 'driverIsAuto', header: 'Conducteur automatique' }
+      // { field: 'driverIsAuto', header: 'Conducteur automatique' }
       // tab === "partner" ? { field: 'partnerName', header: 'Partner' } : null
   ];
 
@@ -372,22 +373,30 @@ const header2 =(data, name)=> {
 
 // "in progress"
 //             ? 35
-//             : status === "Accepted"
+//             : status === "Devis"
 //             ? 75
-//             : status === "Completed"
+//             : status === "Terminée"
 const getSeverity = (status) => {
   switch (status) {
-      case 'in progress':
+      case 'En attente ':
           return 'warning';
 
-      case 'Accepted':
+      case 'Devis':
           return 'success';
 
-      case 'Completed':
-          return 'info';
+          case 'Confirmée':
+            return 'success';
 
+      case 'Terminée':
+          return 'info';
+      case 'Démarrée':
+          return 'info';
+          case 'En retard':
+            return 'danger';
       case 'rejected':
           return 'danger';
+          case 'refusée':
+            return 'danger';
 
 
   }
@@ -396,7 +405,7 @@ const getSeverity = (status) => {
 const statusItemTemplate = (option) => {
   return <Tag value={option} severity={getSeverity(option)} />;
 };
-const [statuses] = useState(['in progress', 'Accepted', 'Completed', 'rejected']);
+const [statuses] = useState(['En attente ', 'Devis', 'Terminée', 'rejected',"refusée", 'Démarrée', 'En retard', 'Confirmée']);
 
 const statusBodyTemplate = (rowData) => {
   return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
@@ -470,6 +479,9 @@ const rowExpansionTemplate = (data) => {
                     return <Column field={e.field} header={e.header} sortable style={{ width: '25%' }}></Column>
                   })
                 }
+                <Column field={"_id"}
+                body={(rowData) =>rowData?.driver?.name}
+                header={"Conducteur"} sortable style={{ width: '25%' }}></Column>
                 <Column field={"distance"}
                 body={(rowData) => `~${Math.floor(rowData.distance )}km`}
                 header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
@@ -724,6 +736,9 @@ Créer une mission
                 <Column field={"_id"}
                 body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
                 header={"ID"} sortable style={{ width: '25%' }}></Column>
+                  <Column field={"_id"}
+                body={(rowData) =>rowData?.driver?.name}
+                header={"Conducteur"} sortable style={{ width: '25%' }}></Column>
                 {tab === "partner" ?
                 <Column field={"user.contactName"}
                 body={(rowData) => rowData.user.contactName.toUpperCase()}

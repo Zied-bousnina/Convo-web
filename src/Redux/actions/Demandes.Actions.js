@@ -602,7 +602,11 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         });
 
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/create`, userData);
+// console.log("res6666666666", res.data?.data?.status)
+if(res.data?.data?.status =="Confirmée") {
 
+  socket.emit("accept devis",res.data);
+}
 
         if(user2) {
 

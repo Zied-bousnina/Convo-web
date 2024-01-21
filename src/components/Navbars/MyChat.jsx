@@ -293,6 +293,7 @@ setnoti(updatedNoti);
                   >
                     <button type="button" className="btn btn-outline-success"
                       onClick={() => {
+                        console.log("Accept devis", el)
                         socket.emit("accept devis",el);
                         click(1)
                         dispatch(
