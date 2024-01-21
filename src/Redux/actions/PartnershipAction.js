@@ -24,7 +24,7 @@ dispatch({
 
   axios.post(`${process.env.REACT_APP_API_URL}/api/site/Addpartnership`,data )
   .then(res => {
-      // console.log(res)
+
       dispatch({
         type: SET_ERRORS,
         payload: []
@@ -54,7 +54,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -83,7 +83,7 @@ dispatch({
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/users/partnerShip/fetchAll` )
   .then(res => {
-      // console.log(res)
+
 
       dispatch({
         type: SET_PARTNERSHIP_LIST,
@@ -111,7 +111,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -136,7 +136,7 @@ export const GetPartnerDetailsById = (id)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/users/partnerShip/fetchByID/${id}`)
   .then(res => {
-      // console.log(res)
+
       dispatch({
           type: SET_PARTNER_DETAILS,
           payload: res?.data
@@ -149,7 +149,7 @@ export const GetPartnerDetailsById = (id)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -195,7 +195,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
         type:SET_IS_LOADING,
         payload:false
@@ -244,7 +244,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
         type:SET_IS_LOADING,
         payload:false

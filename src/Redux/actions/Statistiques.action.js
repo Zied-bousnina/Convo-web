@@ -9,7 +9,7 @@ export const getUsersCounts = () => (dispatch) => {
     try {
       axios.get(`${process.env.REACT_APP_API_URL}/api/users/getUserCounts`)
         .then((res) => {
-          // console.log(res)
+
           dispatch({
             type: SET_STATISTIQUES,
             payload: res?.data,
@@ -17,7 +17,7 @@ export const getUsersCounts = () => (dispatch) => {
         })
         .catch((err) => {
           // Handle other errors if needed
-          // console.error("Error in getUsersCounts:", err);
+
 
           // You can dispatch an action to handle the error if necessary
           // dispatch({
@@ -30,7 +30,7 @@ export const getUsersCounts = () => (dispatch) => {
         });
     } catch (error) {
       // Handle synchronous errors if any (e.g., if axios.get throws an exception before the promise is settled)
-      // console.error("Synchronous error in getUsersCounts:", error);
+
 
       // You can dispatch an action to handle the error if necessary
       // dispatch({
@@ -47,7 +47,7 @@ export const getUsersCounts = () => (dispatch) => {
     try {
       axios.get(`${process.env.REACT_APP_API_URL}/api/users/getPartnerCounts`)
         .then((res) => {
-          // console.log(res)
+
           dispatch({
             type: SET_PARTNER_STATISTIQUES,
             payload: res?.data,
@@ -55,7 +55,7 @@ export const getUsersCounts = () => (dispatch) => {
         })
         .catch((err) => {
           // Handle other errors if needed
-          // console.error("Error in getUsersCounts:", err);
+
 
           // You can dispatch an action to handle the error if necessary
           // dispatch({
@@ -68,7 +68,7 @@ export const getUsersCounts = () => (dispatch) => {
         });
     } catch (error) {
       // Handle synchronous errors if any (e.g., if axios.get throws an exception before the promise is settled)
-      // console.error("Synchronous error in getUsersCounts:", error);
+
 
       // You can dispatch an action to handle the error if necessary
       // dispatch({
@@ -84,7 +84,7 @@ export const getUsersCounts = () => (dispatch) => {
     try {
       axios.get(`${process.env.REACT_APP_API_URL}/api/users/getMissionsCountByUser`)
         .then((res) => {
-          // console.log(res)
+
           dispatch({
             type: SET_MISSION_BY_PARTNER_STATISTIQUES,
             payload: res?.data,
@@ -92,7 +92,8 @@ export const getUsersCounts = () => (dispatch) => {
         })
         .catch((err) => {
           // Handle other errors if needed
-          // console.error("Error in getUsersCounts:", err);
+
+
 
           // You can dispatch an action to handle the error if necessary
           // dispatch({
@@ -105,7 +106,7 @@ export const getUsersCounts = () => (dispatch) => {
         });
     } catch (error) {
       // Handle synchronous errors if any (e.g., if axios.get throws an exception before the promise is settled)
-      // console.error("Synchronous error in getUsersCounts:", error);
+
 
       // You can dispatch an action to handle the error if necessary
       // dispatch({
@@ -125,7 +126,7 @@ export const getUsersCounts = () => (dispatch) => {
     try {
       axios.get(`${process.env.REACT_APP_API_URL}/api/bin/getBinsCount`)
         .then((res) => {
-          // console.log(res)
+
           dispatch({
             type: SET_BIN_STATISTIQUES,
             payload: res?.data,
@@ -133,7 +134,7 @@ export const getUsersCounts = () => (dispatch) => {
         })
         .catch((err) => {
           // Handle other errors if needed
-          // console.error("Error in getBinsCount:", err);
+
 
           // You can dispatch an action to handle the error if necessary
           // dispatch({
@@ -146,7 +147,7 @@ export const getUsersCounts = () => (dispatch) => {
         });
     } catch (error) {
       // Handle synchronous errors if any (e.g., if axios.get throws an exception before the promise is settled)
-      // console.error("Synchronous error in getBinsCount:", error);
+
 
       // You can dispatch an action to handle the error if necessary
       // dispatch({
@@ -164,7 +165,7 @@ export const getUsersCounts = () => (dispatch) => {
     try {
       axios.get(`${process.env.REACT_APP_API_URL}/api/users/getDemandeCounts`)
         .then((res) => {
-          // console.log(res)
+
           dispatch({
             type: SET_DEMANDE_STATISTIQUES,
             payload: res?.data,
@@ -172,7 +173,7 @@ export const getUsersCounts = () => (dispatch) => {
         })
         .catch((err) => {
           // Handle other errors if needed
-          // console.error("Error in getDemandesCount:", err);
+
 
           // You can dispatch an action to handle the error if necessary
           // dispatch({
@@ -185,7 +186,7 @@ export const getUsersCounts = () => (dispatch) => {
         });
     } catch (error) {
       // Handle synchronous errors if any (e.g., if axios.get throws an exception before the promise is settled)
-      // console.error("Synchronous error in getDemandesCount:", error);
+
 
       // You can dispatch an action to handle the error if necessary
       // dispatch({

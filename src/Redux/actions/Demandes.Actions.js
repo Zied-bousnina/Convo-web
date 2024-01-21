@@ -19,7 +19,7 @@ import { SET_FACTURES_BY_PARTNER } from "Redux/types";
 import { SET_SINGLE_FACTURE } from "Redux/types";
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
-    // console.log(userData)
+
     // const [token, settoken] = useState('')
     dispatch({
       type:SET_IS_LOADING,
@@ -28,7 +28,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
     axios.post(`${process.env.REACT_APP_API_URL}/api/users/createDemande`, userData)
         .then(async(res) => {
-          //////////////////////////////////////////console.log(res)
+
 
 
 
@@ -57,12 +57,12 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
                 payload: false
             })
         }, 3000);
-          // console.log("res", res?.data?.demande?._id)
+
         //   navigation.navigate("FindDriverScreen",{...userData, demandeId:res?.data?.demande?._id} )
 
         })
         .catch( (err) =>{
-          // console.log("errrrrrrrrrrrrrrrrrr",err)
+
           dispatch({
             type: SET_ERRORS,
             payload: err?.response?.data
@@ -89,7 +89,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
   export const FinddevisByPartner = ( )=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisByPartner`)
     .then(async(res) => {
-      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+
       dispatch({
         type: SET_DEVIS_BY_CURRENT_PARTNER,
         payload: res.data,
@@ -121,7 +121,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
   export const FinddevisById = (id )=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisById/${id}`)
     .then(async(res) => {
-      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+
       dispatch({
         type: SET_devis_DETAIL,
         payload: res.data,
@@ -152,7 +152,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
 export const FindRequestDemande = ( )=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandsByUserId`)
     .then(async(res) => {
-      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+
       dispatch({
         type: SET_DEMANDES,
         payload: res.data,
@@ -183,7 +183,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   export const FindRequestDemandeByPartner = ( )=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandsCreatedByPartner`)
     .then(async(res) => {
-      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+
       dispatch({
         type: SET_DEMANDES_BY_PARTNERS,
         payload: res.data,
@@ -214,7 +214,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   export const FindRequestDemandeByPartnerV2 = ( )=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllPartnersAndTheirDemands`)
     .then(async(res) => {
-      console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+
       dispatch({
         type: SET_DEMANDES_BY_PARTNERS_V2,
         payload: res?.data,
@@ -230,12 +230,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
               type: SET_ERRORS,
               payload: err?.response?.data
             })
-            // dispatch({
-            //   type: SET_DEMANDES,
-            //   payload: [],
 
-            // })
-            console.log("error")
         }
 
 
@@ -305,7 +300,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         });
 
         // You can handle the error further if needed
-        // console.log("err in authAction.js line 366", err);
+
 
         // Re-throw the error to propagate it to the next catch block
         throw err;
@@ -373,7 +368,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         });
 
         // You can handle the error further if needed
-        // console.log("err in authAction.js line 366", err);
+
 
         // Re-throw the error to propagate it to the next catch block
         throw err;
@@ -397,7 +392,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandById/${demandeid}`);
 
-      // console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+
       dispatch({
         type: SET_SINGLE_DEMANDE,
         payload: res.data,
@@ -438,7 +433,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/getAllDevisByPartner/${demandeid}`);
 
-      // console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+
       dispatch({
         type: SET_DEVIS_BY_PARTNER,
         payload: res.data,
@@ -498,7 +493,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     })
     .catch(err =>
        {
-        // console.log("err in authAction.js line 366",err)
+
         dispatch({
           type:SET_IS_LOADING,
           payload:false
@@ -549,7 +544,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     })
     .catch(err =>
        {
-        // console.log("err in authAction.js line 366",err)
+
         dispatch({
           type:SET_IS_LOADING,
           payload:false
@@ -570,7 +565,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   export const FindAllCategories = ( )=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/categorie/getAllCategorie`)
     .then(async(res) => {
-      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+
       dispatch({
         type: SET_ALL_CATEGORIES,
         payload: res.data,
@@ -608,10 +603,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/create`, userData);
 
-        // Log the entire response
-        console.log("Response", res);
 
-        console.log("done!");
         if(user2) {
 
           socket.emit("add-user", user2.id);
@@ -642,7 +634,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         }, 3000);
 
     } catch (err) {
-        console.error("Error", err);
+
 
         dispatch({
             type: SET_ERRORS,
@@ -666,7 +658,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 };
 export const rejectDevis =  ( id, navigate ) => (dispatch) => {
 
-  // console.log(userData)
+
   // const [token, settoken] = useState('')
   dispatch({
     type:SET_IS_LOADING,
@@ -675,7 +667,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
 
   axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/rejectDevis/${id}`)
       .then(async(res) => {
-        //////////////////////////////////////////console.log(res)
+
 
 
 
@@ -703,12 +695,11 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
               payload: false
           })
       }, 3000);
-        // console.log("res", res?.data?.demande?._id)
-      //   navigation.navigate("FindDriverScreen",{...userData, demandeId:res?.data?.demande?._id} )
+
 
       })
       .catch( (err) =>{
-        // console.log("errrrrrrrrrrrrrrrrrr",err)
+
         dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -734,7 +725,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
 
   export const UpdateDevis =  (userData, id, navigate ) => (dispatch) => {
 
-    // console.log(userData)
+
     // const [token, settoken] = useState('')
     dispatch({
       type:SET_IS_LOADING,
@@ -743,7 +734,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
 
     axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/UpdateDevis/${id}`, userData)
         .then(async(res) => {
-          //////////////////////////////////////////console.log(res)
+
 
 
 
@@ -771,12 +762,11 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
                 payload: false
             })
         }, 3000);
-          // console.log("res", res?.data?.demande?._id)
-        //   navigation.navigate("FindDriverScreen",{...userData, demandeId:res?.data?.demande?._id} )
+
 
         })
         .catch( (err) =>{
-          // console.log("errrrrrrrrrrrrrrrrrr",err)
+
           dispatch({
             type: SET_ERRORS,
             payload: err?.response?.data
@@ -803,7 +793,8 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
   export const FindCategorieById = ( id)=> (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/categorie/${id}`)
     .then(async(res) => {
-      // console.log(">>>>>>>>>>>>>>>>>>>",res.data)
+
+
       dispatch({
         type: SET_CATEGORIE_DETAILS,
         payload: res.data,
@@ -856,7 +847,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
         type: SET_ERRORS,
         payload: {},
       });
-      console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+
       dispatch({
         type: SET_SINGLE_FACTURE,
         payload: res.data,
@@ -905,7 +896,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
         type: SET_ERRORS,
         payload: {},
       });
-      console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+
       dispatch({
         type: SET_SPECIFIQUE_DEVIS_BY_PARTNER,
         payload: res.data?.devis,
@@ -943,9 +934,9 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/facture/create`, userData);
 
         // Log the entire response
-        console.log("Response", res);
 
-        console.log("done!");
+
+
         // if(user2) {
 
         //   socket.emit("add-user", user2.id);
@@ -974,9 +965,10 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
                 payload: false
             });
         }, 3000);
+        return res.data;
 
     } catch (err) {
-        console.error("Error", err);
+
 
         dispatch({
             type: SET_ERRORS,
@@ -996,6 +988,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
         setTimeout(() => {
             dispatch(setLoading(false));
         }, 3000);
+        throw err;
     }
 };
 
@@ -1023,7 +1016,7 @@ export const FindFacturesByPartner = ( ) => async (dispatch) => {
       type: SET_ERRORS,
       payload: {},
     });
-    console.log(">>>>>>>>>>>>>>>>>>>", res.data);
+
     dispatch({
       type: SET_FACTURES_BY_PARTNER,
       payload: res.data,

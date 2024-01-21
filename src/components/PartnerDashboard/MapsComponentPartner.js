@@ -61,7 +61,7 @@ function MapsComponentPartner() {
     L.Marker.prototype.options.icon = DefaultIcon;
     // const mapRef = useMapEvents({
     //   click(){
-    //       console.log('clicked')
+    //
     //   }
     // })
     const myIcon = L.icon({
@@ -76,7 +76,7 @@ function MapsComponentPartner() {
 
 
 
-    // console.log(AllUsers)
+    //
 
     const dispatch = useDispatch();
 
@@ -88,7 +88,7 @@ function MapsComponentPartner() {
     })
 
     }, [dispatch,AllUsers?.address?.latitude])
-    // console.log(AllUsers)
+
 
 
     useEffect(() => {
@@ -127,10 +127,10 @@ function MapsComponentPartner() {
 
     useEffect(() => {
       socket.on('connect', () => {
-        console.log('Connected to server');
+
       });
       socket.on('offline', (userid) => {
-        console.log('Connected to server, id', userid);
+
         handleOffline(userid)
 
       });
@@ -140,13 +140,13 @@ function MapsComponentPartner() {
       });
 
       socket.on('newLocation', (location) => {
-        console.log('Received new location:', location);
+
         handleLocationUpdate(location);
 
         setOnlineUsers((prevOnlineUsers) => {
           const newOnlineUsers = new Map(prevOnlineUsers);
           newOnlineUsers.set(location.userId, { location });
-          console.log(newOnlineUsers)
+
           return newOnlineUsers;
         });
       });
@@ -169,15 +169,15 @@ function MapsComponentPartner() {
         }
       });
     };
-    console.log("*********************************",userArray)
+
     const handleOffline = (offlineUserId) => {
       setUserArray(prevArray => prevArray.filter(user => user.userId !== offlineUserId));
     };
 
     useEffect(() => {
-      // console.log('Updated onlineUsers:', onlineUsers);
+
     }, [onlineUsers]);
-    // console.log("drivers", userArray)
+
 
 
   return (

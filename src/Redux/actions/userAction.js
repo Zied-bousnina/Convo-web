@@ -23,7 +23,8 @@ export const GetCurrentUser = (navigation) => async (dispatch) => {
       type: ADD_UNSEEN_MSG,
       payload: res?.data?.user?.Newsocket || [], // Adjust payload as needed
     });
-    console.log(res.data)
+
+
 
     dispatch({
       type: SET_NEW_NOTI,
@@ -35,7 +36,7 @@ export const GetCurrentUser = (navigation) => async (dispatch) => {
     // await dispatch(loginUser(data));
   } catch (err) {
     // Handle errors
-    // console.log("err in authAction.js line 366", err);
+
     dispatch({
       type: SET_ERRORS,
       payload: err?.response?.data
@@ -50,7 +51,7 @@ export const RemoveNotification = (navigation)=>dispatch=>{
 
   axios.post(`${process.env.REACT_APP_API_URL}/api/users/users/EmptySocket`)
   .then(res => {
-      // console.log(res)
+
       dispatch(removeSeenMsg([]))
 
 
@@ -62,7 +63,7 @@ export const RemoveNotification = (navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -76,7 +77,7 @@ export const ByIdRemoveNotification = (id,navigation)=>dispatch=>{
 
   axios.post(`${process.env.REACT_APP_API_URL}/api/users/users/RemoveSocketById/${id}`)
   .then(res => {
-      // console.log(res)
+
       dispatch(removeSeenMsg([]))
 
 
@@ -87,7 +88,7 @@ export const ByIdRemoveNotification = (id,navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -103,7 +104,7 @@ export const GetAllUsers = (navigation)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/users/getUsers`)
   .then(res => {
-      // console.log(res)
+
       dispatch({
           type: SET_USERS,
           payload: res?.data
@@ -116,7 +117,7 @@ export const GetAllUsers = (navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -131,7 +132,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
 
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${id}`)
     .then(res => {
-        // console.log(res)
+
         dispatch({
             type: SET_USERS_DETAILS,
             payload: res?.data
@@ -144,7 +145,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
     })
     .catch(err =>
        {
-        // console.log("err in authAction.js line 366",err)
+
         dispatch({
             type: SET_ERRORS,
             payload: err?.response?.data
@@ -166,7 +167,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
     })
     axios.put(`${process.env.REACT_APP_API_URL}/api/users/block/${id}`)
     .then(res => {
-        // console.log(res)
+
 
         dispatch({
             type: SET_ERRORS,
@@ -196,7 +197,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
     })
     .catch(err =>
        {
-        // console.log("err in authAction.js line 366",err)
+
         dispatch({
             type: SET_ERRORS,
             payload: err?.response?.data
@@ -228,7 +229,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
     })
     axios.put(`${process.env.REACT_APP_API_URL}/api/users/deblock/${id}`)
     .then(res => {
-        // console.log(res)
+
 
 
         dispatch({
@@ -258,7 +259,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
     })
     .catch(err =>
        {
-        // console.log("err in authAction.js line 366",err)
+
         dispatch({
             type: SET_ERRORS,
             payload: err?.response?.data

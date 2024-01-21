@@ -69,7 +69,7 @@ function MapsComponent() {
     L.Marker.prototype.options.icon = DefaultIcon;
     // const mapRef = useMapEvents({
     //   click(){
-    //       console.log('clicked')
+    //
     //   }
     // })
     const myIcon = L.icon({
@@ -93,7 +93,7 @@ function MapsComponent() {
 
 
 
-    // console.log(AllUsers)
+
 
 
     useEffect(() => {
@@ -104,7 +104,8 @@ function MapsComponent() {
     })
 
     }, [dispatch,AllUsers?.address?.latitude])
-    // console.log(AllUsers)
+
+
 
 
     useEffect(() => {
@@ -143,10 +144,10 @@ function MapsComponent() {
 
     useEffect(() => {
       socket.on('connect', () => {
-        console.log('Connected to server');
+
       });
       socket.on('offline', (userid) => {
-        // console.log('Connected to server, id', userid);
+
         handleOffline(userid)
 
       });
@@ -156,18 +157,18 @@ function MapsComponent() {
       });
 
       socket.on('newLocation', (location) => {
-        // console.log('Received new location:', location);
+
         handleLocationUpdate(location);
 
         setOnlineUsers((prevOnlineUsers) => {
           const newOnlineUsers = new Map(prevOnlineUsers);
           newOnlineUsers.set(location.userId, { location });
-          // console.log(newOnlineUsers)
+
           return newOnlineUsers;
         });
       });
       socket.on('userEnRoute', userOnroute=> {
-        console.log('*********************************Received new location:', userOnroute);
+
         handleLocationUpdate(userOnroute);
       })
 
@@ -175,14 +176,14 @@ function MapsComponent() {
     const [userArray, setUserArray] = useState([]);
 
     const handleLocationUpdate = (newUserObject) => {
-      // console.log("###",newUserObject )
+
       setUserArray(prevArray => {
         const existingUserIndex = prevArray.findIndex(user => user.userId === newUserObject.userId);
 
         if (existingUserIndex !== -1) {
           // Update the location of the existing user
           const updatedArray = [...prevArray];
-          // console.log(newUserObject)
+
           if (newUserObject.hasOwnProperty('enRoute')) {
             // alert("gggg")
             updatedArray[existingUserIndex] = { ...prevArray[existingUserIndex], enRoute:newUserObject.enRoute  };
@@ -198,15 +199,15 @@ function MapsComponent() {
         }
       });
     };
-    // console.log("*********************************",userArray)
+
     const handleOffline = (offlineUserId) => {
       setUserArray(prevArray => prevArray.filter(user => user.userId !== offlineUserId));
     };
 
     useEffect(() => {
-      // console.log('Updated onlineUsers:', onlineUsers);
+
     }, [onlineUsers]);
-    // console.log(userArray)
+
 
 
   return (
@@ -252,7 +253,10 @@ Créer une mission
 
             <div className="card ">
 
-              <Tooltip target=".export-buttons>button" position="bottom" />
+              <Tooltip target=".export-buttons>button" position="bottom"
+
+
+              />
               <MapContainer
          style={{ height: "60vh" }}
                center={

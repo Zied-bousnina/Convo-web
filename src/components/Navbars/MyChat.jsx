@@ -103,7 +103,7 @@ useEffect(() => {
 }, [noti2?.length])
 
 
-console.log("currentUser",noti2)
+
 const [noti, setnoti] = useState([])
   useEffect(() => {
   setnoti(currentUser ? currentUser : []);
@@ -126,7 +126,7 @@ const [noti, setnoti] = useState([])
   const user = useSelector(state=>state?.auth?.user)
   useEffect(() => {
     socket.on('connect', () => {
-    console.log('Connected to server');
+
     if (user) {
       // socket.current = io(host);
       // socket.emit("add-user", user.id);
@@ -139,10 +139,7 @@ socket.on('error', (error) => {
 
 
     socket.on("message recieved", (newMessage) => {
-      console.log("New message received",newMessage);
-      // alert("gggg")
-      console.log(user)
-      console.log("test",newMessage?.partner ==user?.id, newMessage?.partner, user?.id)
+
 if(newMessage?.partner?._id ==user?.id ){
   setnoti(
     [...noti, newMessage]
@@ -153,11 +150,10 @@ if(newMessage?.partner?._id ==user?.id ){
 
     });
     socket.on("Admin notification", (doc)=> {
-      console.log("ADMIN")
+
       if(user?.role =="ADMIN") {
 
-        console.log("Admin notification",doc)
-        console.log("User++++++", user)
+
       }
       setnoti(
         [...noti, doc]
@@ -171,7 +167,7 @@ if(newMessage?.partner?._id ==user?.id ){
   const { notification } = useSelector(
     (store) => store.notification
   );
-  console.log("notif", noti)
+
   const { unseenmsg } = useSelector((store) => store.notification);
   // const unseenmsg = [
   //   {
@@ -400,7 +396,7 @@ setnoti(updatedNoti);
     dispatch(ByIdRemoveNotification(el._id));
     const url = `/admin/request-details/${el?._id}`;
     history.push(url);
-console.log("clicked 1")
+
   }}
   key={index}
   sx={{
@@ -436,7 +432,7 @@ console.log("clicked 1")
           <>
           <DropdownItem
   onClick={() => {
-    console.log("clicked")
+
   }}
             >
                 <hr className="my-0" />
@@ -486,7 +482,7 @@ setnoti(updatedNoti);
     dispatch(ByIdRemoveNotification(el._id));
     const url = `/admin/request-details/${el?.mission?._id}`;
     history.push(url);
-console.log("clicked 1")
+
   }}
   key={index}
   sx={{

@@ -56,6 +56,7 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
     const [valueDe, setValueDe]= useState(getCurrentDateISOString)
     const [valueA, setValueA]= useState(getCurrentDateISOString)
     const dispatch = useDispatch()
+    const [resData, setresData] = useState()
     const requestsByPartnerV2 = useSelector(state=>state?.MissionByPartnerV2?.demandes)
     const devisByPartnerId = useSelector(state=>state?.specifiqueDevis?.demande)
     const [partnerdetails, setpartnerdetails] = useState()
@@ -107,17 +108,21 @@ useEffect(() => {
         setFilters(_filters);
         setGlobalFilterValue(value);
       };
-      const exportPdf = () => {
+      const exportPdf = (res) => {
         import('jspdf').then((jsPDF) => {
           import('jspdf-autotable').then(() => {
             const doc = new jsPDF.default(0, 0);
             const cols = [
               // { field: '_id', header: 'ID' },
-              { field: 'montant', header: 'Montant' },
+              { field: 'montant', header: 'Montant HT' },
 
 
-              { field: 'distance', header: 'Distance (km)' },
+              // { field: 'distance', header: 'Distance (km)' },
               { field: 'createdAt', header: 'Créé le' },
+              { field: 'TVA', header: 'TVA' },
+              { field: 'MontantTTC', header: 'Montant TTC' },
+              { field: 'postalAddress', header: 'Starting point' },
+              { field: 'postalDestination', header: 'Destination' },
               // { field: 'status', header: 'Statut' }, // New status column
               // Add other columns as needed
             ];
@@ -129,31 +134,81 @@ useEffect(() => {
                 fillColor: col.field === 'status' ? [211, 211, 211] : null, // Set background color for the status column
               },
               columnWidth: col.field === '_id' ? 30 : 'auto', // Adjust column width for _id field
-              cell: (cell) => col.field === '_id' ? { content: cell.raw.toString().slice(-5) } : cell.raw, // Apply .toString().slice(-5) for _id field // Apply .toString().slice(-5) for _id field
+              cell: (cell) => col.field == 'montant' ? { content: Number(cell.raw).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) } : cell.raw, // Apply .toString().slice(-5) for _id field // Apply .toString().slice(-5) for _id field
             }));
+console.log("Partner", requestsByPartnerV2)
+            const title = 'Liste des missions';
+            const exportDate = new Date().toLocaleString('fr-FR');
 
-            // Add title and date variables
-            const title =
+            // Add Info carvoy (info.categorie) in the top left
+            console.log("************", {...devisByPartnerId[0],...devisByPartnerId[0].mission} )
+            const allMissions = devisByPartnerId.map(e=> {
+              return {...e, ...e.mission,
+                montant:Number(e?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
+                createdAt:new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                ).format(new Date(e?.createdAt)),
+                distance:
+                `~${Math.floor(e?.mission?.distance )}km`,
+                TVA:`${tvaRate}%`,
+                MontantTTC:
+                `${calculateTVA(Number(e?.montant), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`,
 
-              'Liste des missions  ';
 
-            const exportDate = new Date().toLocaleString('fr-FR'); // Format the date as needed
+
+              }
+
+            })
+
+            var textToAdd = `Infos Carvoy\n${devisByPartnerId
+              .map((item) => {
+                return `Mission: ${item?.mission?.postalAddress} \n Montant: ${Number(item?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})} \n Distance: ${Math.floor(item?.mission?.distance)} km \n Créé le: ${new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                ).format(new Date(item?.createdAt))} \n\n`;
+              })
+              .join('')}`;
+            // doc.text(textToAdd, 14, 100);
+
+            // doc.text(`Info carvoy: ${devisByPartnerId?.categorie?.description}`, 14, 20);
+
+            // Add _id in the top right
+            console.log("Res data", res)
+            doc.text(`ID: #${res?._id.toString().slice(-5)}`, doc.internal.pageSize.width - 40, 18);
+
+            // Add partenaire information below
+            doc.line(4,
+              20,
+              doc.internal.pageSize.width - 4,
+              20
+
+              )
+            doc.text(`Partenaire: ${partnerdetails[0].partner?.contactName}`, 14, 30) ;
+            doc.text(`Adresse: ${partnerdetails[0].partner?.addressPartner}`, 14, 40) ;
+            doc.text(`N° SIRET: ${partnerdetails[0].partner?.siret}`, 14, 50) ;
+            doc.text(`Période : `, 14, 60) ;
+            doc.text(`De : ${res?.from} à ${res?.to} `, 30, 70) ;
+            doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+            // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
+            // doc.extractImageFromDataUrl(partnerdetails[0].partner?.kbis)
+            // doc.line("------ -----------------------------------------------------------------")
 
             // Add title and date to the header
-            doc.text(`${title} - ${selectedStatus? selectedStatus: ''}`, 14, 10);
-            doc.text(` ${exportDate}`, 140, 10,
-            { lineHeightFactor: 10 }
-            );
+            doc.text(`${title} - ${devisByPartnerId.status ? devisByPartnerId.status : ''}`, 14, 100);
+            doc.text(` ${exportDate}`, 140, 30, { lineHeightFactor: 10 });
+
 
             // Filter the data based on the selected status
-            const filteredData = (selectedStatus ? devisByPartnerId?.devisList.filter(item => item.status === selectedStatus) : devisByPartnerId?.devisList) ;
+            // const filteredData = (selectedStatus ? devisByPartnerId?.devisList.filter(item => item.status === selectedStatus) : devisByPartnerId?.devisList) ;
 
-
+console.log("Table", allMissions)
             // Add the table with the modified header and filtered data
-            doc.autoTable(exportColumns1, filteredData);
+            doc.autoTable(exportColumns1, allMissions,
+              {
+                startY: 110,
+
+              }
+              );
 
             // Save the document
-            doc.save(`missions_list_${
+            doc.save(`Facture_${
              'partner'
             }_${exportDate}.pdf`,
             {
@@ -161,6 +216,7 @@ useEffect(() => {
               columnStyles: { _id: { cellWidth: 30 } }, // Adjust the _id column width
               addPageContent: () => {
                 // Add footer
+                doc.text("Info carfoy :");
                 doc.text('Liste des missions', 14, doc.internal.pageSize.height - 15);
                 doc.text(`${exportDate}`, doc.internal.pageSize.width - 35, doc.internal.pageSize.height - 15);
               },
@@ -292,7 +348,17 @@ const onChangeHandler = (e) => {
 
 
 
-    dispatch(createFacture(data,navigate ))
+
+    dispatch(createFacture(data,navigate )).
+    then((res) => {
+      // navigate.push("/admin/ListCategorie")
+      console.log("77777777777777777",res )
+      setresData(res)
+      exportPdf(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    });
 
 
 
@@ -345,6 +411,7 @@ const onChangeHandler = (e) => {
         const tvaRate = 20; // Change this to your actual TVA rate
 
         const calculateTVA = (montantHT, tvaRate) => {
+          console.log("TVA:::::::",montantHT )
           const TVA = montantHT * (tvaRate / 100);
           const montantTTC = montantHT + TVA;
           return {

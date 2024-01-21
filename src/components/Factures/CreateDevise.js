@@ -329,6 +329,23 @@ const onGlobalFilterChange = (e) => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
 
+const calculateDriverAmmount = (distance)=> {
+  const baseAmount = 20; // Montant par def : 20 ht
+
+  if (distance <= 50) {
+      return baseAmount + distance * 2; // 2/km
+  } else if (distance <= 99) {
+      return baseAmount + (50 * 2) + ((distance - 50) * 4); // 2/km up to 50 km, then 4/km
+  } else if (distance <= 200) {
+      return baseAmount + (50 * 2) + (49 * 4) + ((distance - 99) * 5); // 2/km up to 50 km, 4/km up to 99 km, then 5/km
+  } else {
+      // Handling distances beyond 200 km
+      const additionalKm = distance - 200;
+      const additionalAmount = additionalKm * 5; // Example: assuming 5/km beyond 200 km
+      return baseAmount + (50 * 2) + (49 * 4) + (101 * 5) + additionalAmount;
+  }
+}
+
 useEffect(() => {
   dispatch({
     type: SET_ERRORS,
@@ -378,9 +395,13 @@ const data = {
   mission: SingleDemande?._id,
   montant:
   confirme ?
-  (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) ).toString()
+  (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
+  ).toString()
   :
-  (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toString(),
+  ((Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
+  )  +Number (Rectification)).toString(),
   partner:   SingleDemande?.user?.contactName && SingleDemande?.user?._id,
   distance :
   SingleDemande?.distance,
@@ -392,7 +413,7 @@ const data = {
   remunerationAmount ?
   remunerationAmount.toString()
   :
-  "0",
+  Number(calculateDriverAmmount(SingleDemande?.distance)).toString(),
   status:"Devis"
 }
 dispatch(AddDevis(data, navigate, user2))
@@ -958,8 +979,8 @@ onChange={handleSelectChange}
   </AlertTitle>
   <AlertDescription maxWidth='sm'>
    {
-        (selectedValues?.unitPrice *
-        SingleDemande?.distance
+        (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
         ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 
    }
@@ -1062,7 +1083,7 @@ onChange={handleSelectChange}
 
 
           }
-            value={remunerationAmount}
+            value={Number(calculateDriverAmmount(SingleDemande?.distance)) }
           />
           {/* {
             errors && (<div  className="invalid-feedback">
@@ -1100,9 +1121,13 @@ onChange={handleSelectChange}
    {
 !confirme ?
 
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+    (  (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
+)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 :
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+    (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
+).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
    }
   </AlertDescription>
 </Alert>

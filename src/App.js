@@ -79,12 +79,12 @@ function App() {
   // const userId = useSelector(state=>state?.auth?.user?._id)
 
   const  sendMessage=()=> {
-    console.log("Button clicked");
+
     socket.emit("send_message", { message: "Hello from client" });
   }
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      alert(data.message);
+
     });
   }, [socket]);
 
@@ -100,7 +100,7 @@ function App() {
   //   dispatch(addUnseenmsg(currentUser?.Newsocket))
 
   // }, [dispatch,currentUser?.length])
-  // console.log("current user ", currentUser)
+
   // axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`) // Replace with your backend endpoint
 
 
@@ -109,8 +109,7 @@ function App() {
 
         if (value) {
           const decode = jwt_decode(value);
-          // console.log("ligne 107:******************************************",value)
-          // console.log(decode);
+
           dispatch(setCurrentUser(decode));
           dispatch(GetProfile());
           dispatch(GetProfile());
@@ -121,29 +120,22 @@ function App() {
 
     const activeExpires = new Date(user?.user?.iat);
     const currentDate = new Date();
-    // console.log(`activeExpires-----------------------------------------------------------------------------------`,
-    //  activeExpires < currentDate);
-    // if (currentDate > activeExpires) {
-    //   localStorage.removeItem('jwtToken');
-    //   dispatch(LogOut())
-    //   // dispatch(setCurrentUser({}));
-    // }
+
   }, []);
   const fetchUser = async ()=>  {
     const user = await localStorage.getItem('jwtToken');
-    console.log(user)
+
     if (user) {
       const decode = jwt_decode(user);
       axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`)
       .then(res => {
-        console.log(res)
-        console.log("//", decode)
+
       dispatch(setCurrentUser(decode));
       SetAuthToken(user);
       })
       .catch(err => {
         dispatch(LogOut())
-        console.log(err)
+
       })
      // Corrected typo here
     }else {
@@ -153,7 +145,7 @@ function App() {
   }
 
 useEffect(() => {
-  console.log("fetched")
+
   fetchUser()
 
 
@@ -176,14 +168,10 @@ useEffect(() => {
   useEffect(() => {
 
     socket.on("add-user", (newMessage) => {
-      console.log("------------------------------------------------------------------------------")
-      console.log("New message received",newMessage);
+
       // alert("partner",newMessage?.partner)
       // alert("userId",user?._id)
-      // console.log("test",newMessage?.partner ==user?._id, newMessage?.partner, user?.user?._id)
-      // console.log("test", newMessage?.partner, user?.user?._id)
-      // console.log("user",user)
-      // console.log("test",newMessage?.partner ==userId, newMessage?.partner, userId)
+
       // alert(newMessage?.partner ==user?.user?._id )
 
       // if(newMessage?.partner ==user2?.id ){
