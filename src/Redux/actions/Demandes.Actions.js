@@ -605,7 +605,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 // console.log("res6666666666", res.data?.data?.status)
 if(res.data?.data?.status =="Confirmée") {
 
-  socket.emit("accept devis",res.data);
+  socket.emit("accept devis",res?.data?.data);
 }
 
         if(user2) {
