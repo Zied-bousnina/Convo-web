@@ -321,6 +321,7 @@ const onGlobalFilterChange = (e) => {
   const dialogFooterTemplate = () => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
+const [remunerationAmount, setremunerationAmount] = useState(0)
 console.log("Unist price", selectedValues?.unitPrice)
 console.log("Rectification",Rectification)
 console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}))
@@ -351,6 +352,22 @@ console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?
 
     </>
 );
+const calculateDriverAmmount = (distance)=> {
+  const baseAmount = 20; // Montant par def : 20 ht
+
+  if (distance <= 50) {
+      return baseAmount + distance * 2; // 2/km
+  } else if (distance <= 99) {
+      return baseAmount + (50 * 2) + ((distance - 50) * 4); // 2/km up to 50 km, then 4/km
+  } else if (distance <= 200) {
+      return baseAmount + (50 * 2) + (49 * 4) + ((distance - 99) * 5); // 2/km up to 50 km, 4/km up to 99 km, then 5/km
+  } else {
+      // Handling distances beyond 200 km
+      const additionalKm = distance - 200;
+      const additionalAmount = additionalKm * 5; // Example: assuming 5/km beyond 200 km
+      return baseAmount + (50 * 2) + (49 * 4) + (101 * 5) + additionalAmount;
+  }
+}
 const onSubmit = async (e) => {
   e.preventDefault();
 const data = {
@@ -358,19 +375,26 @@ const data = {
   mission: SingleDemande?._id,
   montant:
   confirme ?
-  (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) ).toString()
+  (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
+  ).toString()
   :
-  (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toString(),
+  ((Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
+  )  +Number (Rectification)).toString(),
   partner:   SingleDemande?.user?.contactName && SingleDemande?.user?._id,
   distance :
   SingleDemande?.distance,
-    rectification:Rectification ?
-    Rectification.toString()
-    :
-    devis?.[0]?.rectification.toString()
-
-
-    ,
+  rectification: Rectification ?
+  Rectification.toString()
+  :
+  devis?.[0]?.rectification.toString(),
+  remunerationAmount:
+  remunerationAmount ?
+  remunerationAmount.toString()
+  :
+  Number(calculateDriverAmmount(SingleDemande?.distance)).toString(),
+  status:"Devis"
 }
 
 console.log("--------------------------data",data)
@@ -868,7 +892,7 @@ height={50}
   >
 
     <ToastContainer />
-    <Row>
+    {/* <Row>
     <Col
       md={
         selectedValues?.unitPrice ? "6" : "12"
@@ -876,14 +900,14 @@ height={50}
       >
          <div className=" mb-3">
         <label className="form-label">Categorie: <span style={{color:"red"}}>*</span></label>
-        {/* <div className="input-group"> */}
+
 
         <Select required
 
 className="react-select primary"
 onChange={handleSelectChange}
    isLoading={colourOptions.length==0 ?  true: false}
-//    isDisabled={selectedValues.length >3 ?true: false}
+
 
  options={colourOptions}
  value={
@@ -892,12 +916,7 @@ onChange={handleSelectChange}
 
 
  />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        {/* </div> */}
+
       </div>
       </Col>
   {selectedValues?.unitPrice && (
@@ -916,22 +935,17 @@ onChange={handleSelectChange}
           value={selectedValues?.unitPrice}
           disabled
         />
-        {/* Displaying errors - uncomment if needed */}
-        {/* {errors && (
-          <div className="invalid-feedback">
-            {/* Display your error messages here */}
-          {/* </div>
-        )} */}
+
       </div>
     </div>
 </Col>
   )}
 
 
-    </Row>
+    </Row> */}
     <Row>
     <Col md="12">
-  {selectedValues?.unitPrice && (
+  {/* {selectedValues?.unitPrice && ( */}
     <Alert
   status='info'
   variant='subtle'
@@ -947,14 +961,14 @@ onChange={handleSelectChange}
   </AlertTitle>
   <AlertDescription maxWidth='sm'>
    {
-        (selectedValues?.unitPrice *
-        SingleDemande?.distance
+        (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
         ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 
    }
   </AlertDescription>
 </Alert>
-  )}
+  {/* )} */}
 </Col>
 
 
@@ -962,8 +976,8 @@ onChange={handleSelectChange}
 
     </Row>
     <hr/>
-    {
-        selectedValues?.unitPrice &&
+    <hr/>
+
 
     <Row>
       <Col
@@ -999,9 +1013,9 @@ onChange={handleSelectChange}
       </div>
       </Col> */}
     </Row>
-    }
+
     {
-        (!confirme&&selectedValues?.unitPrice)  &&
+        (!confirme)  &&
 
     <Row>
     <Col
@@ -1035,41 +1049,72 @@ onChange={handleSelectChange}
     </Row>
 }
 
+<Row>
+    <Col
+      md="6"
+      >
+         <div className=" mb-">
+        <label className="form-label">Montant de la rémunération :<span style={{color:"red"}}>*</span></label>
+        <div className="input-group">
+
+          <input type="number" required  placeholder="Saisissez le montant de la rémunération"  name={"remunerationAmount"} className={classNames("form-control")} onChange={
+                (e)=>{
+                    setremunerationAmount(e.target.value)
+                }
+
+
+
+          }
+            value={Number(calculateDriverAmmount(SingleDemande?.distance)) }
+          />
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+    </Row>
     <hr/>
     <Row>
 
-      <Col
-      md="12"
-      >
-     {selectedValues?.unitPrice && (
-    <Alert
-  status='success'
-  variant='subtle'
-  flexDirection='column'
-  alignItems='center'
-  justifyContent='center'
-  textAlign='center'
-  height='200px'
+<Col
+md="12"
 >
-  <AlertIcon boxSize='40px' mr={0} />
-  <AlertTitle mt={4} mb={1} fontSize='lg'>
-    Montant Final!
-  </AlertTitle>
-  <AlertDescription maxWidth='sm'>
+{/* {selectedValues?.unitPrice && ( */}
+<Alert
+status='success'
+variant='subtle'
+flexDirection='column'
+alignItems='center'
+justifyContent='center'
+textAlign='center'
+height='200px'
+>
+<AlertIcon boxSize='40px' mr={0} />
+<AlertTitle mt={4} mb={1} fontSize='lg'>
+Montant Final!
+</AlertTitle>
+<AlertDescription maxWidth='sm'>
 
-   {
+{
 !confirme ?
 
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
-:
-    (Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance) ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
-   }
-  </AlertDescription>
-</Alert>
-  )}
-      </Col>
+(  (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
 
-    </Row>
+)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+:
+(Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+
+).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+}
+</AlertDescription>
+</Alert>
+{/* )} */}
+</Col>
+
+</Row>
 
 
 

@@ -747,7 +747,7 @@ height={50}
   >
 
     <ToastContainer />
-    {
+    {/* {
     devsList ?
 <Row>
 <Col>
@@ -777,7 +777,7 @@ height={50}
 width={300}
 height={30}
 />
-}
+} */}
 <hr/>
     <Row>
     <Col md="12">
