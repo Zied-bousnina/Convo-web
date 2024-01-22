@@ -51,6 +51,9 @@ import notiReducer from './noti.reducer';
 import specifiqueMissionByPartnerReducer from './specifiqueMissionByPartner.reducer';
 import facturesReducer from './factures.reducer';
 import SingleFactureReducer from './SingleFacture.reducer';
+import ListFacturesPartnerReducer from './ListFacturesPartner.reducer';
+import FactureDetailsReducer from './FactureDetails.reducer';
+import FacturesByDriverReducer from './FacturesByDriver.reducer';
 // import MissionByPartnerReducer from './MissionByPartner.reducer';
 export default combineReducers({
     currentUser:CurrentUserReducer,
@@ -103,6 +106,9 @@ export default combineReducers({
     noti :  notiReducer,
     specifiqueDevis :  specifiqueMissionByPartnerReducer,
     factures: facturesReducer,
-    singleFacture: SingleFactureReducer
+    singleFacture: SingleFactureReducer,
+    facturesByPartner: ListFacturesPartnerReducer,
+    factureDetailsAdmin: FactureDetailsReducer,
+    factureDriver: FacturesByDriverReducer,
 
 })

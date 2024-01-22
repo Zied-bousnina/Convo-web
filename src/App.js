@@ -121,7 +121,8 @@ function App() {
     const activeExpires = new Date(user?.user?.iat);
     const currentDate = new Date();
 
-  }, []);
+  }, [profile?._id]);
+  console.log("prrrrr", profile)
   const fetchUser = async ()=>  {
     const user = await localStorage.getItem('jwtToken');
 
@@ -155,7 +156,7 @@ useEffect(() => {
   useEffect(() => {
     dispatch(GetProfile())
 
-  }, [profile])
+  }, [profile?._id])
   useEffect(() => {
     dispatch({
       type: SET_SINGLE_DEMANDE,

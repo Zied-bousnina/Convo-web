@@ -27,15 +27,39 @@ import { Tag } from "primereact/tag";
 import { Dropdown } from "primereact/dropdown";
 import { useHistory } from 'react-router-dom';
 import { createFacture } from "Redux/actions/Demandes.Actions.js";
-  const GenererFacture = () => {
+import { useParams } from "react-router-dom";
+import { FindFacturesDetailsById } from "Redux/actions/Demandes.Actions.js";
+import { PayeeFacture } from "Redux/actions/Demandes.Actions.js";
+import { FindFacturesDriverDetailsById } from "Redux/actions/Demandes.Actions.js";
+import { PayeeFactureDriver } from "Redux/actions/Demandes.Actions.js";
+  const FactureDriverDEtails = () => {
     const navigate = useHistory();
     const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
+    const factureDEtails = useSelector(state=>state?.factureDetailsAdmin?.FactureDetails)
     const error = useSelector(state=>state.error?.errors)
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     const [form, setForm] = useState({})
     const [selectedValues, setSelectedValues] = useState();
     const [globalFilterValue, setGlobalFilterValue] = useState('');
+
+    const {id}= useParams()
+
+    useEffect(() => {
+        dispatch(FindFacturesDriverDetailsById(id))
+
+
+    }, [factureDEtails?._id])
+    // console.log(factureDEtails)
+function formatDateToYYYYMMDD2(inputDate) {
+  const date = new Date(inputDate);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
     const  getCurrentDateISOString=()=> {
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0];
@@ -62,6 +86,8 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
     const [partnerdetails, setpartnerdetails] = useState()
     const dt = useRef(null);
     const colourOptions = []
+
+
     useEffect(() => {
         dispatch({
           type: SET_SINGLE_DEMANDE,
@@ -72,8 +98,14 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
         // dispatch(FindRequestDemande())
         dispatch(FindRequestDemandeByPartner())
         dispatch(FindRequestDemandeByPartnerV2())
+        dispatch(FindDevisByPartnerId(factureDEtails?.driver?._id,
+            {
+                fromDate:formatDateToYYYYMMDD2(factureDEtails?.from),
+                toDate:formatDateToYYYYMMDD2(factureDEtails?.to)
+            }
+            ))
 
-      }, [ ,requestsByPartnerV2?.length])
+      }, [ ,requestsByPartnerV2?.length,factureDEtails?.from,factureDEtails?.to,factureDEtails?.partner?._id])
       console.log("requestsByPartner", requestsByPartnerV2)
       requestsByPartnerV2?.map(e=>{
         colourOptions.push({value:e?.partner._id, label:`${e?.partner?.contactName}|[${e?.partner?.email}]`
@@ -141,17 +173,19 @@ console.log("Partner", requestsByPartnerV2)
             const exportDate = new Date().toLocaleString('fr-FR');
 
             // Add Info carvoy (info.categorie) in the top left
-            console.log("************", {...devisByPartnerId[0],...devisByPartnerId[0].mission} )
-            const allMissions = devisByPartnerId.map(e=> {
+            // console.log("************", {...devisByPartnerId[0],...devisByPartnerId[0].mission} )
+
+            const allMissions = factureDEtails?.factures?.map(e=> {
+                console.log(e?.mission)
               return {...e, ...e.mission,
-                montant:Number(e?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
+                montant:Number(e?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
                 createdAt:new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(e?.createdAt)),
                 distance:
                 `~${Math.floor(e?.mission?.distance )}km`,
                 TVA:`${tvaRate}%`,
                 MontantTTC:
-                `${calculateTVA(Number(e?.montant), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`,
+                `${calculateTVA(Number(e?.totalAmmount), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`,
 
 
 
@@ -180,12 +214,18 @@ console.log("Partner", requestsByPartnerV2)
               20
 
               )
-            doc.text(`Partenaire: ${partnerdetails[0].partner?.contactName}`, 14, 30) ;
-            doc.text(`Adresse: ${partnerdetails[0].partner?.addressPartner}`, 14, 40) ;
-            doc.text(`N° SIRET: ${partnerdetails[0].partner?.siret}`, 14, 50) ;
+              console.log("partnerdetails", partnerdetails)
+            doc.text(`Conducteur: ${factureDEtails.driver?.name}`, 14, 30) ;
+            doc.text(`Email: ${factureDEtails.driver?.email}`, 14, 40) ;
+            // doc.text(`N° SIRET: ${factureDEtails.partner?.siret}`, 14, 50) ;
             doc.text(`Période : `, 14, 60) ;
-            doc.text(`De : ${res?.from} à ${res?.to} `, 30, 70) ;
+            doc.text(`De : ${formatDateToYYYYMMDD2(res?.from)} à ${formatDateToYYYYMMDD2(res?.to)} `, 30, 70) ;
             doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+            doc.text(`${
+                factureDEtails?.payed ?
+                "Facture Payée":"Facture non Payée"
+                }`, 14, 80) ;
+
             // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
             // doc.extractImageFromDataUrl(partnerdetails[0].partner?.kbis)
             // doc.line("------ -----------------------------------------------------------------")
@@ -198,7 +238,7 @@ console.log("Partner", requestsByPartnerV2)
             // Filter the data based on the selected status
             // const filteredData = (selectedStatus ? devisByPartnerId?.devisList.filter(item => item.status === selectedStatus) : devisByPartnerId?.devisList) ;
 
-console.log("Table", allMissions)
+console.log("Table", factureDEtails?.factures)
             // Add the table with the modified header and filtered data
             doc.autoTable(exportColumns1, allMissions,
               {
@@ -280,7 +320,7 @@ console.log("Table", allMissions)
       const [statuses] = useState(['in progress', 'Accepted', 'Completed', 'rejected']);
 
       const statusBodyTemplate = (rowData) => {
-        return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
+        return <Tag value={rowData?.mission?.status} severity={getSeverity(rowData?.mission?.status)} />;
       };
       const statusRowFilterTemplate = (options) => {
         return (
@@ -318,26 +358,26 @@ const onChangeHandler = (e) => {
       // fromDate:formatDateToYYYYMMDD(valueDe?._d),
       //           toDate:formatDateToYYYYMMDD( valueA?._d)
 
-      if(
-        !selectedValues?.value ||
-        !formatDateToYYYYMMDD(valueDe?._d)
-        || !formatDateToYYYYMMDD( valueA?._d)
-        || formatDateToYYYYMMDD( valueA?._d) =='undefined-NaN-undefined'
-        || formatDateToYYYYMMDD( valueDe?._d) =='undefined-NaN-undefined'
-      ){
-        showToastMessage()
-        return
-        }
-        const totalMontant = devisByPartnerId.reduce(
-          (total, devis) => total + parseFloat(devis.montant),
-          0
-        );
+    //   if(
+    //     !selectedValues?.value ||
+    //     !formatDateToYYYYMMDD(valueDe?._d)
+    //     || !formatDateToYYYYMMDD( valueA?._d)
+    //     || formatDateToYYYYMMDD( valueA?._d) =='undefined-NaN-undefined'
+    //     || formatDateToYYYYMMDD( valueDe?._d) =='undefined-NaN-undefined'
+    //   ){
+    //     showToastMessage()
+    //     return
+    //     }
+    //     const totalMontant = devisByPartnerId.reduce(
+    //       (total, devis) => total + parseFloat(devis.montant),
+    //       0
+    //     );
 
       const data = {
-        partner:selectedValues?.value,
-        from:formatDateToYYYYMMDD(valueDe?._d),
-        to:formatDateToYYYYMMDD( valueA?._d),
-        totalAmount:totalMontant,
+        partner:factureDEtails?.partner?._id,
+        from:factureDEtails?.from,
+        to: factureDEtails?.to,
+        totalAmount:factureDEtails?.totalAmmount,
 
       }
       console.log(data)
@@ -349,16 +389,16 @@ const onChangeHandler = (e) => {
 
 
 
-    dispatch(createFacture(data,navigate )).
-    then((res) => {
-      // navigate.push("/admin/ListCategorie")
-      console.log("77777777777777777",res )
-      setresData(res)
-      exportPdf(res)
-    })
-    .catch((err) => {
-      console.log(err)
-    });
+      exportPdf(factureDEtails)
+    // dispatch(createFacture(data,navigate )).
+    // then((res) => {
+    //   // navigate.push("/admin/ListCategorie")
+    //   console.log("77777777777777777",res )
+    //   setresData(res)
+    // })
+    // .catch((err) => {
+    //   console.log(err)
+    // });
 
 
 
@@ -455,22 +495,30 @@ const onChangeHandler = (e) => {
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">Générer Facture</h3>
+                      <h3 className="mb-0">facture #{id.toString().slice(-5)}</h3>
                     </Col>
-                    {/* <Col className="text-right" xs="4">
+                    <Col className="text-right" xs="4">
                     <Link
-                            to={`/admin/ListCategorie`}
+                            // to={`/admin/ListCategorie`}
                             >
 
-                      <Button
-                        // color="primary"
+<Button
+                      color={`${factureDEtails?.payed ? "success" : "danger"}`}
+                      // href="#pablo"
+                      onClick={(e) => dispatch(PayeeFactureDriver(id, navigate)) }
+                      size="sm"
+                    >
+                      {isLoad ? (
+        <div className="spinner-border text-light" role="status">
+          <span className="visually-hidden"></span>
+        </div>
+      ) : (
 
-                        size="md"
-                        >  Liste des Catégories
-                        <i className=" ml-2 fas fa-arrow-right" />
-                      </Button>
+        factureDEtails?.payed ?   "impeyee":"Payé"
+      )}
+                    </Button>
                         </Link>
-                    </Col> */}
+                    </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -490,6 +538,31 @@ const onChangeHandler = (e) => {
   >
 
     <ToastContainer />
+    <Alert
+    status="info"
+    variant="subtle"
+    flexDirection="column"
+    alignItems="center"
+    justifyContent="center"
+    textAlign="center"
+    // height="200px"
+    >
+    {/* <AlertIcon boxSize="40px" mr={0} /> */}
+    {
+        factureDEtails?.payed ?
+        <div>
+        {/* <AlertIcon boxSize="40px" mr={0} /> */}
+        <h1>Facture Payée : { Number(factureDEtails?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
+        </div>
+        :
+        <div>
+        {/* <AlertIcon boxSize="40px" mr={0} /> */}
+        <h1>Facture non Payée : { Number(factureDEtails?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
+        </div>
+
+    }
+
+   </Alert>
     <hr/>
 <label className="form-label">Période :<span style={{color:"red"}}>*</span></label>
 
@@ -497,16 +570,17 @@ const onChangeHandler = (e) => {
 
 <Col>
 <label className="form-label">De<span style={{color:"red"}}>*</span></label>
-<Datetime
+<InputText
 
 
-onChange={(e)=>setValueDe(e)}
-value={valueDe}
+// onChange={(e)=>setValueDe(e)}
+value={factureDEtails?.from}
 // timeFormat={false}
 inputProps={{
   placeholder: "Date Picker Here",
   name: "dateDepart"
 }}
+disabled
 
 
 
@@ -514,11 +588,12 @@ inputProps={{
 </Col>
 <Col>
 <label className="form-label">à<span style={{color:"red"}}>*</span></label>
-<Datetime
+<InputText
 
-onChange={(e)=>setValueA(e)}
-value={valueA}
+// onChange={(e)=>setValueA(e)}
+value={factureDEtails?.to}
 // timeFormat={false}
+disabled
 inputProps={{
   placeholder: "Date Picker Here",
   name: "dateDepart"
@@ -540,14 +615,16 @@ inputProps={{
         <label className="form-label">Partner: <span style={{color:"red"}}>*</span></label>
         {/* <div className="input-group"> */}
 
-        <Select required
+       <InputText
+         disabled
+            value={factureDEtails?.driver?.name}
+            // onChange={onChangeHandler}
+            // required
+            // defaultValue={
+            //   Categorie?.description
+            // }
+            />
 
-className="react-select primary"
-onChange={handleSelectChange}
-   isLoading={colourOptions.length==0 ?  true: false}
-//    isDisabled={selectedValues.length >3 ?true: false}
-
- options={colourOptions} />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -678,7 +755,7 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
               size={"small"}
               rowsPerPageOptions={[5, 10, 25]}
                ref={dt}
-              value={devisByPartnerId}
+              value={factureDEtails?.factures}
               header={header}
               selection={selectedProduct}
               selectionMode={true}
@@ -695,11 +772,11 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
                >
 
                 <Column field={"_id"}
-                body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
+                body={(rowData) => `#${rowData?.mission?._id.toString().slice(-5)}`}
                 header={"ID"} sortable style={{ width: '25%' }}></Column>
                 {/* {tab === "partner" ?
                 <Column field={"user.contactName"}
-                body={(rowData) => rowData.user.contactName.toUpperCase()}
+                body={(rowData) => rowData?.mission?.user.contactName.toUpperCase()}
                 header={"Partner Name"} sortable style={{ width: '25%' }}></Column>
                 : null} */}
                 {/* {
@@ -708,20 +785,20 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
                   })
                 } */}
                 <Column field={"distance"}
-                body={(rowData) => `${Number(rowData.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
+                body={(rowData) => `${Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
                 header={"Montant"} sortable style={{ width: '25%' }}></Column>
                 <Column field={"distance"}
-                body={(rowData) => `~${Math.floor(rowData.mission?.distance )}km`}
+                body={(rowData) => `~${Math.floor(rowData?.mission?.distance )}km`}
                 header={"Distance (km)"} sortable style={{ width: '25%' }}></Column>
-                  <Column field={"createdAt"}
+                  {/* <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
-                ).format(new Date(rowData.createdAt))}
-                header={"Créé le "} sortable style={{ width: '25%' }}></Column>
+                ).format(new Date(rowData?.mission?.createdAt))}
+                header={"Créé le "} sortable style={{ width: '25%' }}></Column> */}
                 {/* <Column body={actionBodyTemplate2} header={"Driver"} exportable={false} style={{ minWidth: '12rem' }}></Column> */}
                  {/* Montant HT Column */}
       <Column
         field={"montant"}
-        body={(rowData) => `${Number(rowData.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
+        body={(rowData) => `${Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
         header={"Montant HT"}
         sortable
         style={{ width: '25%' }}
@@ -731,7 +808,7 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
       <Column
         field={"montant"}
         body={(rowData) => {
-          const montantHT = Number(rowData.montant);
+          const montantHT = Number(rowData?.totalAmmount);
           const { montantTTC } = calculateTVA(montantHT, tvaRate);
           const TVA = montantTTC - montantHT;
           return `${TVA.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
@@ -745,7 +822,7 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
       <Column
         field={"montant"}
         body={(rowData) => {
-          const montantHT = Number(rowData.montant);
+          const montantHT = Number(rowData?.totalAmmount);
           const { montantTTC } = calculateTVA(montantHT, tvaRate);
           return `${montantTTC.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
         }}
@@ -774,53 +851,15 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
 
 
 
-    <Row>
-      <Col
-      md="12"
-      >
-         <div className=" mb-3">
-
-        {/* <span style={{color:"red"}}> */}
-  { error?.description?
-            <Alert status='error'>
-    <AlertIcon />
-  {error?.description}
-    </Alert>
-  : null
-  }
-
-  { error?.unitPrice?
-    <Alert status='error'>
-
-    <AlertIcon />
-  {error?.unitPrice}
-    </Alert>
-  : null
-  }
-  { error?.message?
-    <Alert status='error'>
-
-    <AlertIcon />
-  {error?.message}
-    </Alert>
-  : null
-  }
-
-            {/* </span> */}
-
-
-          <div   >
-            {/* {errors}dfds */}
-          </div>
-      </div>
-      </Col>
-
-    </Row>
 
 
 
 
 
+
+
+{
+    factureDEtails?.from &&
 
     <Row>
       <Col>
@@ -830,12 +869,13 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
             <span className="visually-hidden"></span>
           </div>
         ) : (
-          'Valider'
+          'PDF'
         )}
 
                     <i className="fa-solid fa-floppy-disk"></i>
                   </button></Col>
     </Row>
+}
   </form>
 
 
@@ -848,4 +888,4 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
     );
   };
 
-  export default GenererFacture;
+  export default FactureDriverDEtails;

@@ -57,6 +57,10 @@ import FactureDetails from "components/PartnerDashboard/factures/FactureDetails"
 import EditProfile from "components/profile/EditProfile";
 import ProfilePartner from "components/PartnerDashboard/profilePartner";
 import EditProfilePartner from "components/PartnerDashboard/EditProfile";
+import ListFactures from "components/Factures/ListFactures";
+import FactureDEtails from "components/Factures/FactureDEtails";
+import ListFacturesDriver from "components/Factures/ListFacturesDriver";
+import FactureDriverDEtails from "components/Factures/FactureDriverDetails";
 // import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
@@ -230,6 +234,27 @@ var routes = [
     layout: "/admin",
     invisible:true
   },
+  {
+
+    path: "/ListFacture",
+    name: "Factures",
+    // miniName: "P",
+    component: ListFactures,
+    icon: "ni ni-money-coins text-info",
+    layout: "/admin",
+    invisible:true
+  },
+  {
+
+    path: "/ListFactureDrivers",
+    name: "Facture conducteurs",
+    // miniName: "P",
+    component: ListFacturesDriver ,
+    icon: "ni ni-money-coins text-info",
+    layout: "/admin",
+    // collapse: true,
+    invisible:true
+  },
 
   {
     path: "/genererFacture",
@@ -239,25 +264,25 @@ var routes = [
     layout: "/admin",
     collapse: true,
     views: [
-      // {
-      //   path: "/factures",
-      //   name: "Gérer les paramètres",
-      //   // miniName: "P",
-      //   collapse: true,
-      //   component: AddCategorie,
-      //   icon: "ni ni-ui-04 text-info",
-      //   layout: "/admin",
-      // },
-      // {
+      {
+        path: "/factures",
+        name: "Gérer les paramètres",
+        // miniName: "P",
+        // collapse: true,
+        component: AddCategorie,
+        icon: "ni ni-ui-04 text-info",
+        layout: "/admin",
+      },
+      {
 
-      //   path: "/ListCategorie",
-      //   name: "Liste Categorie",
-      //   // miniName: "P",
-      //   component: ListCategorie,
-      //   icon: "ni ni-money-coins text-info",
-      //   layout: "/admin",
-      //   collapse: true,
-      // },
+        path: "/ListCategorie",
+        name: "Liste Categorie",
+        // miniName: "P",
+        component: ListCategorie,
+        icon: "ni ni-money-coins text-info",
+        layout: "/admin",
+        // collapse: true,
+      },
       {
 
         path: "/genererFacture",
@@ -266,7 +291,27 @@ var routes = [
         component: GenererFacture,
         icon: "ni ni-money-coins text-info",
         layout: "/admin",
-        collapse: true,
+        // collapse: true,
+      },
+      {
+
+        path: "/ListFacture",
+        name: "Facture partenaires",
+        // miniName: "P",
+        component: ListFactures,
+        icon: "ni ni-money-coins text-info",
+        layout: "/admin",
+        // collapse: true,
+      },
+      {
+
+        path: "/ListFactureDrivers",
+        name: "Facture conducteurs",
+        // miniName: "P",
+        component: ListFacturesDriver ,
+        icon: "ni ni-money-coins text-info",
+        layout: "/admin",
+        // collapse: true,
       },
       // {
 
@@ -326,6 +371,26 @@ var routes = [
     component: FactureDetails,
     icon: "ni ni-ui-04 text-info",
     layout: "/partner",
+    invisible:true
+  },
+  {
+    path: "/facture-detailsPar/:id",
+    name: "facture",
+    // miniName: "P",
+    // collapse: true,
+    component: FactureDEtails,
+    icon: "ni ni-ui-04 text-info",
+    layout: "/admin",
+    invisible:true
+  },
+  {
+    path: "/facture-DriverdetailsPar/:id",
+    name: "facture",
+    // miniName: "P",
+    // collapse: true,
+    component: FactureDriverDEtails,
+    icon: "ni ni-ui-04 text-info",
+    layout: "/admin",
     invisible:true
   },
   {

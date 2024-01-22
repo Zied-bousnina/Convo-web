@@ -17,6 +17,9 @@ import { SET_devis_DETAIL } from "Redux/types";
 import { SET_SPECIFIQUE_DEVIS_BY_PARTNER } from "Redux/types";
 import { SET_FACTURES_BY_PARTNER } from "Redux/types";
 import { SET_SINGLE_FACTURE } from "Redux/types";
+import { SET_FACTURES_BY_PARTNERS } from "Redux/types";
+import { SET_FACTURE_DETAIL_ADMIN } from "Redux/types";
+import { SET_FACTURES_BY_DRIVERS } from "Redux/types";
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
 
@@ -238,6 +241,226 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     )
 
   }
+  export const FindFacturesByPartners = ( )=> (dispatch) => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllPartnersAndTheirFactures`)
+    .then(async(res) => {
+      console.log("factuerséééééééééééé", res.data)
+
+      dispatch({
+        type: SET_FACTURES_BY_PARTNERS,
+        payload: res?.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+
+        }
+
+
+
+    )
+
+  }
+  export const FindFacturesDriver = ( )=> (dispatch) => {
+    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllDriversAndTheirFactures`)
+    .then(async(res) => {
+      console.log("factuerséééééééééééé", res.data)
+
+      dispatch({
+        type: SET_FACTURES_BY_DRIVERS,
+        payload: res?.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+
+        }
+
+
+
+    )
+
+  }
+
+  export const FindFacturesDetailsById = ( id)=> (dispatch) => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/factureById/${id}`)
+    .then(async(res) => {
+      // console.log("factuerséééééééééééé", res.data)
+
+      dispatch({
+        type: SET_FACTURE_DETAIL_ADMIN,
+        payload: res?.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+
+        }
+
+
+
+    )
+
+  }
+  export const FindFacturesDriverDetailsById = ( id)=> (dispatch) => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/factureDriverById/${id}`)
+    .then(async(res) => {
+      // console.log("factuerséééééééééééé", res.data)
+
+      dispatch({
+        type: SET_FACTURE_DETAIL_ADMIN,
+        payload: res?.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+
+        }
+
+
+
+    )
+
+  }
+  export const PayeeFacture = ( id, navigation)=> (dispatch) => {
+    dispatch({
+      type:SET_IS_LOADING,
+      payload:true
+  })
+
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/PayeeFacture/${id}`)
+    .then(async(res) => {
+      // console.log("factuerséééééééééééé", res.data)
+
+      dispatch({
+        type:SET_IS_LOADING,
+        payload:false
+    })
+    dispatch({
+      type: SET_DEMANDES_BY_PARTNERS,
+      payload: {},
+
+    })
+
+    dispatch({
+      type: SET_DEMANDES_BY_PARTNERS_V2,
+      payload: [],
+
+    })
+    dispatch(FindRequestDemandeByPartner())
+    dispatch(FindRequestDemandeByPartnerV2())
+    navigation.push("/admin/ListFacture")
+
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            dispatch({
+              type:SET_IS_LOADING,
+              payload:false
+          })
+
+        }
+
+
+
+    )
+
+  }
+  export const PayeeFactureDriver = ( id, navigation)=> (dispatch) => {
+    dispatch({
+      type:SET_IS_LOADING,
+      payload:true
+  })
+
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/payeeFactureDriver/${id}`)
+    .then(async(res) => {
+      // console.log("factuerséééééééééééé", res.data)
+
+      dispatch({
+        type:SET_IS_LOADING,
+        payload:false
+    })
+    dispatch({
+      type: SET_DEMANDES_BY_PARTNERS,
+      payload: {},
+
+    })
+
+    dispatch({
+      type: SET_DEMANDES_BY_PARTNERS_V2,
+      payload: [],
+
+    })
+    dispatch(FindRequestDemandeByPartner())
+    dispatch(FindRequestDemandeByPartnerV2())
+    navigation.push("/admin/ListFactureDrivers")
+
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            dispatch({
+              type:SET_IS_LOADING,
+              payload:false
+          })
+
+        }
+
+
+
+    )
+
+  }
+
   export const DeleteMission = (missionId) => (dispatch) => {
     dispatch({
       type: SET_ERRORS,

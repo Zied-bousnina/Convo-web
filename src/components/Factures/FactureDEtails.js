@@ -27,15 +27,29 @@ import { Tag } from "primereact/tag";
 import { Dropdown } from "primereact/dropdown";
 import { useHistory } from 'react-router-dom';
 import { createFacture } from "Redux/actions/Demandes.Actions.js";
-  const GenererFacture = () => {
+import { useParams } from "react-router-dom";
+import { FindFacturesDetailsById } from "Redux/actions/Demandes.Actions.js";
+import { PayeeFacture } from "Redux/actions/Demandes.Actions.js";
+  const FactureDEtails = () => {
     const navigate = useHistory();
     const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
+    const factureDEtails = useSelector(state=>state?.factureDetailsAdmin?.FactureDetails)
     const error = useSelector(state=>state.error?.errors)
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     const [form, setForm] = useState({})
     const [selectedValues, setSelectedValues] = useState();
     const [globalFilterValue, setGlobalFilterValue] = useState('');
+
+    const {id}= useParams()
+
+    useEffect(() => {
+        dispatch(FindFacturesDetailsById(id))
+
+
+    }, [factureDEtails?._id])
+    // console.log(factureDEtails)
+
     const  getCurrentDateISOString=()=> {
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0];
@@ -62,6 +76,8 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
     const [partnerdetails, setpartnerdetails] = useState()
     const dt = useRef(null);
     const colourOptions = []
+
+
     useEffect(() => {
         dispatch({
           type: SET_SINGLE_DEMANDE,
@@ -72,8 +88,14 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
         // dispatch(FindRequestDemande())
         dispatch(FindRequestDemandeByPartner())
         dispatch(FindRequestDemandeByPartnerV2())
+        dispatch(FindDevisByPartnerId(factureDEtails?.partner?._id,
+            {
+                fromDate:factureDEtails?.from,
+                toDate:factureDEtails?.to
+            }
+            ))
 
-      }, [ ,requestsByPartnerV2?.length])
+      }, [ ,requestsByPartnerV2?.length,factureDEtails?.from,factureDEtails?.to,factureDEtails?.partner?._id])
       console.log("requestsByPartner", requestsByPartnerV2)
       requestsByPartnerV2?.map(e=>{
         colourOptions.push({value:e?.partner._id, label:`${e?.partner?.contactName}|[${e?.partner?.email}]`
@@ -142,6 +164,7 @@ console.log("Partner", requestsByPartnerV2)
 
             // Add Info carvoy (info.categorie) in the top left
             console.log("************", {...devisByPartnerId[0],...devisByPartnerId[0].mission} )
+
             const allMissions = devisByPartnerId.map(e=> {
               return {...e, ...e.mission,
                 montant:Number(e?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
@@ -180,12 +203,18 @@ console.log("Partner", requestsByPartnerV2)
               20
 
               )
-            doc.text(`Partenaire: ${partnerdetails[0].partner?.contactName}`, 14, 30) ;
-            doc.text(`Adresse: ${partnerdetails[0].partner?.addressPartner}`, 14, 40) ;
-            doc.text(`N° SIRET: ${partnerdetails[0].partner?.siret}`, 14, 50) ;
+              console.log("partnerdetails", partnerdetails)
+            doc.text(`Partenaire: ${factureDEtails.partner?.contactName}`, 14, 30) ;
+            doc.text(`Adresse: ${factureDEtails.partner?.addressPartner}`, 14, 40) ;
+            doc.text(`N° SIRET: ${factureDEtails.partner?.siret}`, 14, 50) ;
             doc.text(`Période : `, 14, 60) ;
             doc.text(`De : ${res?.from} à ${res?.to} `, 30, 70) ;
             doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+            doc.text(`${
+                factureDEtails?.payed ?
+                "Facture Payée":"Facture non Payée"
+                }`, 14, 80) ;
+
             // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
             // doc.extractImageFromDataUrl(partnerdetails[0].partner?.kbis)
             // doc.line("------ -----------------------------------------------------------------")
@@ -318,26 +347,26 @@ const onChangeHandler = (e) => {
       // fromDate:formatDateToYYYYMMDD(valueDe?._d),
       //           toDate:formatDateToYYYYMMDD( valueA?._d)
 
-      if(
-        !selectedValues?.value ||
-        !formatDateToYYYYMMDD(valueDe?._d)
-        || !formatDateToYYYYMMDD( valueA?._d)
-        || formatDateToYYYYMMDD( valueA?._d) =='undefined-NaN-undefined'
-        || formatDateToYYYYMMDD( valueDe?._d) =='undefined-NaN-undefined'
-      ){
-        showToastMessage()
-        return
-        }
-        const totalMontant = devisByPartnerId.reduce(
-          (total, devis) => total + parseFloat(devis.montant),
-          0
-        );
+    //   if(
+    //     !selectedValues?.value ||
+    //     !formatDateToYYYYMMDD(valueDe?._d)
+    //     || !formatDateToYYYYMMDD( valueA?._d)
+    //     || formatDateToYYYYMMDD( valueA?._d) =='undefined-NaN-undefined'
+    //     || formatDateToYYYYMMDD( valueDe?._d) =='undefined-NaN-undefined'
+    //   ){
+    //     showToastMessage()
+    //     return
+    //     }
+    //     const totalMontant = devisByPartnerId.reduce(
+    //       (total, devis) => total + parseFloat(devis.montant),
+    //       0
+    //     );
 
       const data = {
-        partner:selectedValues?.value,
-        from:formatDateToYYYYMMDD(valueDe?._d),
-        to:formatDateToYYYYMMDD( valueA?._d),
-        totalAmount:totalMontant,
+        partner:factureDEtails?.partner?._id,
+        from:factureDEtails?.from,
+        to: factureDEtails?.to,
+        totalAmount:factureDEtails?.totalAmmount,
 
       }
       console.log(data)
@@ -349,16 +378,16 @@ const onChangeHandler = (e) => {
 
 
 
-    dispatch(createFacture(data,navigate )).
-    then((res) => {
-      // navigate.push("/admin/ListCategorie")
-      console.log("77777777777777777",res )
-      setresData(res)
-      exportPdf(res)
-    })
-    .catch((err) => {
-      console.log(err)
-    });
+      exportPdf(factureDEtails)
+    // dispatch(createFacture(data,navigate )).
+    // then((res) => {
+    //   // navigate.push("/admin/ListCategorie")
+    //   console.log("77777777777777777",res )
+    //   setresData(res)
+    // })
+    // .catch((err) => {
+    //   console.log(err)
+    // });
 
 
 
@@ -455,22 +484,30 @@ const onChangeHandler = (e) => {
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">Générer Facture</h3>
+                      <h3 className="mb-0">facture #{id.toString().slice(-5)}</h3>
                     </Col>
-                    {/* <Col className="text-right" xs="4">
+                    <Col className="text-right" xs="4">
                     <Link
-                            to={`/admin/ListCategorie`}
+                            // to={`/admin/ListCategorie`}
                             >
 
-                      <Button
-                        // color="primary"
+<Button
+                      color={`${factureDEtails?.payed ? "success" : "danger"}`}
+                      // href="#pablo"
+                      onClick={(e) => dispatch(PayeeFacture(id, navigate)) }
+                      size="sm"
+                    >
+                      {isLoad ? (
+        <div className="spinner-border text-light" role="status">
+          <span className="visually-hidden"></span>
+        </div>
+      ) : (
 
-                        size="md"
-                        >  Liste des Catégories
-                        <i className=" ml-2 fas fa-arrow-right" />
-                      </Button>
+        factureDEtails?.payed ?   "impeyee":"Payé"
+      )}
+                    </Button>
                         </Link>
-                    </Col> */}
+                    </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -490,6 +527,31 @@ const onChangeHandler = (e) => {
   >
 
     <ToastContainer />
+    <Alert
+    status="info"
+    variant="subtle"
+    flexDirection="column"
+    alignItems="center"
+    justifyContent="center"
+    textAlign="center"
+    // height="200px"
+    >
+    {/* <AlertIcon boxSize="40px" mr={0} /> */}
+    {
+        factureDEtails?.payed ?
+        <div>
+        {/* <AlertIcon boxSize="40px" mr={0} /> */}
+        <h1>Facture Payée :  { Number(factureDEtails?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
+        </div>
+        :
+        <div>
+        {/* <AlertIcon boxSize="40px" mr={0} /> */}
+        <h1>Facture non Payée  { Number(factureDEtails?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
+        </div>
+
+    }
+
+   </Alert>
     <hr/>
 <label className="form-label">Période :<span style={{color:"red"}}>*</span></label>
 
@@ -497,16 +559,17 @@ const onChangeHandler = (e) => {
 
 <Col>
 <label className="form-label">De<span style={{color:"red"}}>*</span></label>
-<Datetime
+<InputText
 
 
-onChange={(e)=>setValueDe(e)}
-value={valueDe}
+// onChange={(e)=>setValueDe(e)}
+value={factureDEtails?.from}
 // timeFormat={false}
 inputProps={{
   placeholder: "Date Picker Here",
   name: "dateDepart"
 }}
+disabled
 
 
 
@@ -514,11 +577,12 @@ inputProps={{
 </Col>
 <Col>
 <label className="form-label">à<span style={{color:"red"}}>*</span></label>
-<Datetime
+<InputText
 
-onChange={(e)=>setValueA(e)}
-value={valueA}
+// onChange={(e)=>setValueA(e)}
+value={factureDEtails?.to}
 // timeFormat={false}
+disabled
 inputProps={{
   placeholder: "Date Picker Here",
   name: "dateDepart"
@@ -540,14 +604,16 @@ inputProps={{
         <label className="form-label">Partner: <span style={{color:"red"}}>*</span></label>
         {/* <div className="input-group"> */}
 
-        <Select required
+       <InputText
+         disabled
+            value={factureDEtails?.partner?.contactName}
+            // onChange={onChangeHandler}
+            // required
+            // defaultValue={
+            //   Categorie?.description
+            // }
+            />
 
-className="react-select primary"
-onChange={handleSelectChange}
-   isLoading={colourOptions.length==0 ?  true: false}
-//    isDisabled={selectedValues.length >3 ?true: false}
-
- options={colourOptions} />
           {/* {
             errors && (<div  className="invalid-feedback">
             {errors}
@@ -822,6 +888,9 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
 
 
 
+{
+    factureDEtails?.from &&
+
     <Row>
       <Col>
       <button type="submit" className="btn btn-outline-primary">
@@ -830,12 +899,13 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
             <span className="visually-hidden"></span>
           </div>
         ) : (
-          'Valider'
+          'PDF'
         )}
 
                     <i className="fa-solid fa-floppy-disk"></i>
                   </button></Col>
     </Row>
+}
   </form>
 
 
@@ -848,4 +918,4 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
     );
   };
 
-  export default GenererFacture;
+  export default FactureDEtails;
