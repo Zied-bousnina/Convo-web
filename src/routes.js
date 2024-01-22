@@ -255,9 +255,30 @@ var routes = [
     // collapse: true,
     invisible:true
   },
+  {
+    path: "/factures",
+    name: "Gérer les paramètres",
+    // miniName: "P",
+    // collapse: true,
+    component: AddCategorie,
+    icon: "ni ni-ui-04 text-info",
+    layout: "/admin",
+    invisible:true
+  },
+  {
+
+    path: "/ListCategorie",
+    name: "Liste Categorie",
+    // miniName: "P",
+    component: ListCategorie,
+    icon: "ni ni-money-coins text-info",
+    layout: "/admin",
+    // collapse: true,
+    invisible:true
+  },
 
   {
-    path: "/genererFacture",
+    path: "/factures",
     name: "Facturation",
     icon: "ni ni-folder-17 text-red",
     component: AddCategorie,
