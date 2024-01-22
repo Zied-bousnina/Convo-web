@@ -54,6 +54,9 @@ import ListOfFacturesPartner from "components/PartnerDashboard/factures/ListOfFa
 import devisDetail from "components/PartnerDashboard/factures/devisDetails";
 import GenererFacture from "components/Factures/GenererFacturePar";
 import FactureDetails from "components/PartnerDashboard/factures/FactureDetails";
+import EditProfile from "components/profile/EditProfile";
+import ProfilePartner from "components/PartnerDashboard/profilePartner";
+import EditProfilePartner from "components/PartnerDashboard/EditProfile";
 // import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
@@ -388,13 +391,34 @@ var routes = [
   //   layout: "/partner"
   // },
 
-  // {
-  //   path: "/user-profile",
-  //   name: "User Profile",
-  //   icon: "ni ni-single-02 text-yellow",
-  //   component: Profile,
-  //   layout: "/admin"
-  // },
+  {
+    path: "/user-profile",
+    name: "Profil utilisateur",
+    icon: "ni ni-single-02 text-yellow",
+    component: Profile,
+    layout: "/admin"
+  },
+  {
+    path: "/Edit-profile",
+    name: "Profil utilisateur",
+    icon: "ni ni-single-02 text-yellow",
+    component: EditProfile,
+    layout: "/admin"
+  },
+  {
+    path: "/user-profile",
+    name: "Profil utilisateur",
+    icon: "ni ni-single-02 text-yellow",
+    component: ProfilePartner,
+    layout: "/partner"
+  },
+  {
+    path: "/Edit-profile",
+    name: "Profil utilisateur",
+    icon: "ni ni-single-02 text-yellow",
+    component: EditProfilePartner,
+    layout: "/partner"
+  },
   // {
   //   path: "/tables",
   //   name: "Tables",

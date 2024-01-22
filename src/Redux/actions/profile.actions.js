@@ -68,6 +68,127 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
       )
 }
 
+export const EditProfile_Web =  (userData, navigation ) => (dispatch) => {
+  // console.log(userData)
+  // const [token, settoken] = useState('')
+  dispatch({
+    type:SET_IS_LOADING,
+    payload:true
+})
+
+  axios.post(`${process.env.REACT_APP_API_URL}/api/profile/Edit_profile_web`, userData, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data'
+      // 'Authorization': 'Bearer ' + token
+    }
+
+  })
+      .then(async(res) => {
+        //////////////////////////////////////////console.log(res)
+
+
+        dispatch({
+          type: SET_PROFILES,
+          payload: res.data
+
+        })
+        dispatch(
+          setLoading(true)
+        )
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+        setTimeout(() => {
+          dispatch(
+            setLoading(false)
+          )
+
+        }, 3000);
+        navigation.push('/admin')
+      })
+      .catch( (err) =>{
+        console.log("errrrrrrrrrrrrrrrrrr",err)
+        dispatch({
+          type: SET_ERRORS,
+          payload: err
+      })
+      dispatch({
+        type:SET_IS_LOADING,
+        payload:false
+    })
+        setTimeout(() => {
+          dispatch(
+            setLoading(false)
+          )
+
+        }, 3000);
+      }
+
+      )
+}
+export const EditProfile_WebPartner =  (userData, navigation ) => (dispatch) => {
+  // console.log(userData)
+  // const [token, settoken] = useState('')
+  dispatch({
+    type:SET_IS_LOADING,
+    payload:true
+})
+
+  axios.post(`${process.env.REACT_APP_API_URL}/api/profile/Edit_profile_web`, userData, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data'
+      // 'Authorization': 'Bearer ' + token
+    }
+
+  })
+      .then(async(res) => {
+        //////////////////////////////////////////console.log(res)
+
+
+        dispatch({
+          type: SET_PROFILES,
+          payload: res.data
+
+        })
+        dispatch(
+          setLoading(true)
+        )
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+        setTimeout(() => {
+          dispatch(
+            setLoading(false)
+          )
+
+        }, 3000);
+        navigation.push('/partner')
+      })
+      .catch( (err) =>{
+        console.log("errrrrrrrrrrrrrrrrrr",err)
+        dispatch({
+          type: SET_ERRORS,
+          payload: err
+      })
+      dispatch({
+        type:SET_IS_LOADING,
+        payload:false
+    })
+        setTimeout(() => {
+          dispatch(
+            setLoading(false)
+          )
+
+        }, 3000);
+      }
+
+      )
+}
+
 export const GetProfile =  () => (dispatch) => {
   axios.get(`${process.env.REACT_APP_API_URL}/api/profile`)
       .then(async(res) => {

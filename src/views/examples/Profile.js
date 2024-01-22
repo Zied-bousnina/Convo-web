@@ -14,10 +14,12 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
 import { useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
   const profile = useSelector(state=>state?.profile?.profile)
   const user = useSelector(state=>state.auth?.user)
+  const navigate = useHistory();
   return (
     <>
       <UserHeader />
@@ -33,7 +35,9 @@ const Profile = () => {
                       <img
                         alt="..."
                         className="rounded-circle"
-                        src={profile?.avatar}
+                        src={profile?.avatar ?
+                        profile?.avatar :
+                       'https://www.gravatar.com/avatar/05b6d7cc7c662bf81e01b39254f88a49?d=identicon'}
                       />
                     </a>
                   </div>
@@ -86,9 +90,9 @@ const Profile = () => {
                   <p>
                     {profile?.Bio}
                   </p>
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                  {/* <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     Show more
-                  </a>
+                  </a> */}
                 </div>
 
               </CardBody>
@@ -99,16 +103,19 @@ const Profile = () => {
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
                   <Col xs="8">
-                    <h3 className="mb-0">My account</h3>
+                    <h3 className="mb-0">Mon compte</h3>
                   </Col>
                   <Col className="text-right" xs="4">
                     <Button
                       color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+
+                      onClick={(e) => {
+                        // e.preventDefault();
+                        navigate.push('/admin/edit-profile')
+                      }}
                       size="sm"
                     >
-                      Settings
+                      modifier
                     </Button>
                   </Col>
                 </Row>
@@ -116,9 +123,10 @@ const Profile = () => {
               <CardBody>
                 <Form>
                   <h6 className="heading-small text-muted mb-4">
-                    User information
+                  INFORMATIONS SUR L'UTILISATEUR
                   </h6>
                   <div className="pl-lg-4">
+
                     <Row>
                       <Col lg="6">
                         <FormGroup>
@@ -126,7 +134,7 @@ const Profile = () => {
                             className="form-control-label"
                             htmlFor="input-username"
                           >
-                            Username
+                            Nom d'utilisateur
                           </label>
                           <Input
                             className="form-control-alternative"
@@ -134,6 +142,8 @@ const Profile = () => {
                             id="input-username"
                             placeholder="Username"
                             type="text"
+                            disabled
+
                           />
                         </FormGroup>
                       </Col>
@@ -143,9 +153,10 @@ const Profile = () => {
                             className="form-control-label"
                             htmlFor="input-email"
                           >
-                            Email address
+                            Adresse e-mail
                           </label>
                           <Input
+                          disabled
                             className="form-control-alternative"
                             id="input-email"
                             placeholder="jesse@example.com"
@@ -155,6 +166,32 @@ const Profile = () => {
                         </FormGroup>
                       </Col>
                     </Row>
+                    <Row>
+                        <Col lg="12">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-tel"
+                            >
+                              Tel
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              defaultValue={profile?.tel}
+                              id="input-tel"
+                              placeholder="tel"
+                              type="tel"
+                              // onChange={onChangeHandler}
+                              name="tel"
+                              disabled
+                            />
+
+                          </FormGroup>
+                        </Col>
+                            {/* {error.error} */}
+
+
+                      </Row>
                     {/* <Row>
                       <Col lg="6">
                         <FormGroup>
@@ -195,7 +232,7 @@ const Profile = () => {
                   <hr className="my-4" />
                   {/* Address */}
                   <h6 className="heading-small text-muted mb-4">
-                    Contact information
+                  Coordonnées
                   </h6>
                   <div className="pl-lg-4">
                     <Row>
@@ -213,6 +250,7 @@ const Profile = () => {
                             id="input-address"
                             placeholder="Home Address"
                             type="text"
+                            disabled
                           />
                         </FormGroup>
                       </Col>
@@ -224,7 +262,7 @@ const Profile = () => {
                             className="form-control-label"
                             htmlFor="input-city"
                           >
-                            City
+                            Ville
                           </label>
                           <Input
                             className="form-control-alternative"
@@ -232,6 +270,7 @@ const Profile = () => {
                             id="input-city"
                             placeholder="City"
                             type="text"
+                            disabled
                           />
                         </FormGroup>
                       </Col>
@@ -241,7 +280,7 @@ const Profile = () => {
                             className="form-control-label"
                             htmlFor="input-country"
                           >
-                            Country
+                            Pays
                           </label>
                           <Input
                             className="form-control-alternative"
@@ -249,6 +288,7 @@ const Profile = () => {
                             id="input-country"
                             placeholder="Country"
                             type="text"
+                            disabled
                           />
                         </FormGroup>
                       </Col>
@@ -258,7 +298,7 @@ const Profile = () => {
                             className="form-control-label"
                             htmlFor="input-country"
                           >
-                            Postal code
+                            Code postal
                           </label>
                           <Input
                             className="form-control-alternative"
@@ -266,6 +306,7 @@ const Profile = () => {
                             placeholder="Postal code"
                             defaultValue={profile?.postalCode}
                             type="number"
+                            disabled
                           />
                         </FormGroup>
                       </Col>

@@ -51,13 +51,33 @@ const Partnersidebar = (props) => {
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
     return routes?.map((prop, key) => {
-      if (prop.layout === "/partner" && prop.path !== "/user-details/:id" && prop.path !== "/partner-details/:id" && prop.path !== "/AddPartner" && prop.path !== "/edit-Partner/:id" && prop.path !=='/partner-details/:id' && prop.path !=='/quote-details/:id'  && prop.path !=='/tech-assist-detail/:id' && prop.path !=='/contact-detail/:id' && prop.path !=='/AddRequest' && prop.path !=='/Add-Point-Bin' && prop.path !=='/bin-details/:id' && prop.path !=='/quote-details/:id'  && prop.path !=='/tech-assist-detail/:id' && prop.path !=='/contact-detail/:id' && prop.path !=='/AddRequest' && prop.path !=='/Add-Point-Bin' && prop.path !=='/edit-bin/:id' && prop.path !=='/point-bin-details/:id' && prop.path !=='/edit-Point-bin/:id' && prop.path !=='/user-profile' && prop.path !=='/municipal-details/:id'&& prop.path !=='/Add-Point-Bin/:idQuote'&& prop.path !=='/Mapcomponent'&&
+      if (prop.layout === "/partner"
+      && prop.path !== "/user-details/:id"
+      && prop.path !== "/partner-details/:id"
+      && prop.path !== "/AddPartner"
+      && prop.path !== "/edit-Partner/:id"
+      && prop.path !=='/partner-details/:id'
+      && prop.path !=='/quote-details/:id'
+      && prop.path !=='/tech-assist-detail/:id'
+      && prop.path !=='/contact-detail/:id'
+      && prop.path !=='/AddRequest'
+      && prop.path !=='/Add-Point-Bin'
+      && prop.path !=='/bin-details/:id'
+      && prop.path !=='/quote-details/:id'
+      && prop.path !=='/tech-assist-detail/:id'
+      && prop.path !=='/contact-detail/:id'
+      && prop.path !=='/AddRequest'
+      && prop.path !=='/Add-Point-Bin' && prop.path !=='/edit-bin/:id'
+      && prop.path !=='/point-bin-details/:id' && prop.path !=='/edit-Point-bin/:id'
+      // && prop.path !=='/user-profile'
+      && prop.path !=='/municipal-details/:id'&& prop.path !=='/Add-Point-Bin/:idQuote'&& prop.path !=='/Mapcomponent'&&
       prop.path !=='/request-details/:id'&&
       prop.path !=='/AddDriver' &&
       prop.path !=='/edit-Driver/:id'&&
       prop.path !=='/driver-details/:id'&&
       prop.path !=='/edit-mission/:id'&&
-      prop.path !=='/devisDetail/:id'
+      prop.path !=='/devisDetail/:id'&&
+      prop.path !=='/Edit-profile'
       &&
       !prop?.invisible
       ) {
