@@ -42,6 +42,7 @@ import { Tag } from 'primereact/tag';
 import { Dropdown } from 'primereact/dropdown';
 import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
 import { FinddevisByPartner } from 'Redux/actions/Demandes.Actions';
+import { SET_SINGLE_FACTURE } from 'Redux/types';
 
 function HistoriqueFactures() {
 const navigate = useHistory()
@@ -80,6 +81,13 @@ const navigate = useHistory()
 
   }, [ requests?.length,requestsByPartner?.length, devisByPartner?.length])
 
+  useEffect(() => {
+    dispatch({
+      type: SET_SINGLE_FACTURE,
+      payload:[],
+    });
+
+  }, [])
   // console.log(requestsByPartnerV2)
 
 const [filters, setFilters] = useState({
