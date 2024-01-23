@@ -300,6 +300,14 @@ setnoti(updatedNoti);
                   ByIdRemoveNotification(el._id )
                 )
                 const updatedNoti = noti.filter(item => item._id !== el._id);
+                // const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
+    dispatch(ByIdRemoveNotification(el._id));
+    const url = `/partner/devisDetail/${el._id}`;
+    history.push(url);
 
 // Update the state with the new array
 setnoti(updatedNoti);
@@ -324,6 +332,14 @@ setnoti(updatedNoti);
                         click(2);
                         dispatch(rejectDevis(el?._id));
                         socket.emit("reject devis",el);
+                        // const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
+    dispatch(ByIdRemoveNotification(el._id));
+    const url = `/partner/devisDetail/${el._id}`;
+    history.push(url);
 
                         dispatch(
                   ByIdRemoveNotification(el._id )
