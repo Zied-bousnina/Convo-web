@@ -37,7 +37,7 @@ const Header = () => {
   const DemandesStatistiques = useSelector((state) => state?.demandestatistiques?.statistiques?.total);
   const PartnerStatistiques = useSelector((state) => state?.partnerStats?.statistiques?.total);
   const requestsByPartner = useSelector(state=>state?.MissionsStatistiqueByPartner?.statistiques?.missionCount)
-console.log(PartnerStatistiques)
+
   useEffect(() => {
     dispatch(getUsersCounts());
     // dispatch(getBinsCount())
@@ -46,10 +46,10 @@ console.log(PartnerStatistiques)
     dispatch(getPartnerCounts());
   }, [userStatistiques?.totalCount, DemandesStatistiques?.totalCount,PartnerStatistiques?.totalCount,requestsByPartner?.length, dispatch]);
 
- console.log(requestsByPartner)
 
 
-// console.log(userStatistiques)
+
+
   const allUser = userStatistiques?.total;
 
   return (

@@ -31,7 +31,7 @@ export const makeRecentChatApi = (token) => async (dispatch) => {
     dispatch(recentChatResult(data));
   } catch (err) {
     dispatch(recentError(true));
-    console.log(err.message);
+
   }
 };
 
@@ -51,7 +51,7 @@ export const makeNewGroup = (group_data, token) => async (dispatch) => {
     dispatch(newCreatedChat(data));
   } catch (err) {
     dispatch(recentError(true));
-    console.log(err.message);
+
   }
 };
 
@@ -68,7 +68,7 @@ export const accessChat = (userId, token, recentchat) => async (dispatch) => {
       },
     });
     let data = await res.json();
-    console.log(data);
+
     if (!recentchat.find((el) => el._id === data._id)) {
       dispatch(newCreatedChat(data));
       dispatch(
@@ -94,6 +94,6 @@ export const accessChat = (userId, token, recentchat) => async (dispatch) => {
     );
   } catch (err) {
     dispatch(recentError(true));
-    console.log(err.message);
+
   }
 };

@@ -23,9 +23,7 @@ export const setCurrentUser = (decoded) => {
 }
 
 export const loginUser = (userData) => dispatch => {
-    // console.log("--------------userData-----------------------------")
-    // console.log("--------------------------------------",userData)
-    // console.log("---------------userData----------------------------")
+
     dispatch({
         type: SET_ERRORS,
         payload: []
@@ -67,7 +65,7 @@ export const loginUser = (userData) => dispatch => {
         })
         .catch(err =>
            {
-            // console.log(err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err?.response?.data
@@ -111,15 +109,13 @@ export const LogOut = (navigation)=>dispatch=>{
 export const getUserByEmail = (info,navigation)=>dispatch=>{
     const {idToken,user } = info
     const {email, familyName, givenName, id, photo } = info.user
-    // console.log(photo)
+
 
 const data = {email, name:familyName+' '+givenName,avatar:photo, googleId:id, tokenId:idToken}
-    // console.log(data.email )
-    // email, name, googleId, tokenId
-    // console.log("email", info.user.email)
+
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/getUserByEmail/${info.user.email}`)
     .then(res => {
-        // console.log(res)
+
         dispatch({
             type: SET_USER,
             payload: res?.data
@@ -132,12 +128,7 @@ const data = {email, name:familyName+' '+givenName,avatar:photo, googleId:id, to
     })
     .catch(err =>
        {
-        // console.log("err in authAction.js line 366",err)
-        // dispatch({
-        //     type: SET_ERRORS,
-        //     payload: err?.response?.data
-        // })
-        // dispatch(registerGoogleUser(data))
+
     }
     )
 }
@@ -180,7 +171,7 @@ export const CreatePartner = (userData) => dispatch => {
         })
         .catch(err =>
            {
-            // console.log(err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err?.response?.data
@@ -242,7 +233,7 @@ export const createCategorie = (userData) => dispatch => {
         })
         .catch(err =>
            {
-            // console.log(err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err?.response?.data
@@ -376,7 +367,7 @@ export const updatePassword = (userData) => dispatch => {
         })
         .catch(err =>
            {
-            // console.log(err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err?.response?.data

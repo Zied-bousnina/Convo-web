@@ -11,7 +11,7 @@ import axios from "axios"
 
 export const createQuote = (data)=>dispatch=>{
 
-  // console.log(data)
+
   dispatch({
     type: SET_ERRORS,
     payload: []
@@ -29,7 +29,7 @@ dispatch({
 } )
 
   .then(res => {
-      // console.log(res)
+
       dispatch({
         type: SET_ERRORS,
         payload: []
@@ -59,7 +59,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -77,7 +77,7 @@ dispatch({
 export const FetchAllQuote = (data)=>dispatch=>{
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/quote/fetchAll`,data )
   .then(res => {
-      // console.log(res)
+
 
       dispatch({
         type: SET_QUOTE,
@@ -96,7 +96,7 @@ export const FetchAllQuote = (data)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -115,7 +115,7 @@ export const GetQuoteById = (id,navigation)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/quote/fetchByID/${id}`)
   .then(res => {
-      // console.log(res)
+
       dispatch({
           type: SET_QUOTE_DETAILS,
           payload: res?.data
@@ -128,7 +128,7 @@ export const GetQuoteById = (id,navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -173,7 +173,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
         type:SET_IS_LOADING,
         payload:false
@@ -225,7 +225,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
         type:SET_IS_LOADING,
         payload:false

@@ -75,8 +75,7 @@ const onChangeHandler = (e) => {
           formdata.append(key, form[key]);
         }
       });
-      console.log(form)
-      console.log("Form Data", formdata)
+
 
     dispatch(createCategorie(formdata))
 
@@ -84,7 +83,7 @@ const onChangeHandler = (e) => {
 
     }
 
-    console.log(error)
+
     useEffect(() => {
         dispatch({
           type: SET_ERRORS,

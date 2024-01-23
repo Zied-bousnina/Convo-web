@@ -11,7 +11,7 @@ import axios from "axios"
 
 export const createTechAssist = (data)=>dispatch=>{
 
-  // console.log(data)
+
   dispatch({
     type: SET_ERRORS,
     payload: []
@@ -29,7 +29,7 @@ dispatch({
 } )
 
   .then(res => {
-      // console.log(res)
+
       dispatch({
         type: SET_ERRORS,
         payload: []
@@ -53,7 +53,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -71,7 +71,6 @@ dispatch({
 export const FetchAllTechAssist = (data)=>dispatch=>{
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/TechAssist/fetchAll`,data )
   .then(res => {
-      // console.log(res)
 
       dispatch({
         type: SET_TECH_ASSIST,
@@ -90,7 +89,7 @@ export const FetchAllTechAssist = (data)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -109,7 +108,7 @@ export const GetTechAssistDetailsById = (id,navigation)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/site/techAssist/fetchByID/${id}`)
   .then(res => {
-      // console.log(res)
+
       dispatch({
           type: SET_TECH_ASSIST_DETAILS,
           payload: res?.data
@@ -122,7 +121,7 @@ export const GetTechAssistDetailsById = (id,navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -167,7 +166,7 @@ dispatch({
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
         type:SET_IS_LOADING,
         payload:false

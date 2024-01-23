@@ -59,7 +59,7 @@ import { rejectDevis } from "Redux/actions/Demandes.Actions.js";
       dispatch(FinddevisById(id))
 
     }, [ devsList?.length])
-    console.log("555555555555555555",devsList)
+
     useEffect(() => {
       // socket = io(SERVER_POINT);
       socket.emit("setup", user);

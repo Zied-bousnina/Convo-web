@@ -71,7 +71,7 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
     dispatch(FindDevisByPartner(id))
 
   }, [ devsList?.length])
-  console.log(devsList)
+
   useEffect(() => {
 
       dispatch(FindAllCategories())
@@ -81,7 +81,7 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
   useEffect(() => {
     dispatch(GetPartnerDetailsById(id))
   }, [dispatch,PartnerDetails?._id])
-//   console.log(PartnerDetails)
+
     dispatch({
       type:SET_IS_SECCESS,
       payload:false
@@ -120,7 +120,7 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
         });
 
 
-      console.log(form);
+
     };
 
 
@@ -132,13 +132,10 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
 
 
 
-    // console.log("Params:", useParams())
+
     const onSubmit = (e)=>{
 
       e.preventDefault();
-      // console.log("bins", selectedValues.value)
-
-      console.log(form)
 
     dispatch(UpdatePartnerShip(id,form))
 
@@ -226,8 +223,7 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
           { lineHeightFactor: 10 }
           );
 
-          // Filter the data based on the selected status
-          console.log(selectedStatus);
+
           const filteredData = (selectedStatus ? devsList.filter(item => item.status === selectedStatus) : devsList) ;
 
 
@@ -312,7 +308,7 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
       return (
           <Dropdown value={options.value} options={statuses}
           onChange={(e) => {
-            console.log('Selected value:', e.value);
+
             options.filterApplyCallback(e.value);
             setselectedStatus(
               e.value
@@ -350,9 +346,7 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
 
 
 
-    // Handle onChange event
 
-    // console.log("SelectedValues", selectedValues)
     return (
       <>
         <UserHeader />

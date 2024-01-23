@@ -65,7 +65,8 @@ const navigate = useHistory()
   const history = useHistory();
   const dt = useRef(null);
   const [tab, settab] = useState("admin")
-  // console.log(requests1)
+
+
   const requestsByPartnerV2 = useSelector(state=>state?.MissionByPartnerV2?.demandes)
   useEffect(() => {
     dispatch({
@@ -116,9 +117,9 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-//   console.log(ListOfUsers)
+
     const [notificationModal, setnotificationModal] = useState(false)
-  // console.log(requestsMunicipal)
+
 
 
 
@@ -132,7 +133,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
   const deleteMission = (id)=> {
-    // console.log("delete")
+
 
     dispatch(DeleteCategorie(id))
     .then(() => {
@@ -173,7 +174,7 @@ const onGlobalFilterChange = (e) => {
 const [checked, setChecked] = useState(false);
 const handleChange = (event) => {
   setChecked(event.target.checked);
-  // console.log(checked)
+
 };
 
   const header = (
@@ -231,7 +232,7 @@ const statusRowFilterTemplate = (options) => {
   return (
       <Dropdown value={options.value} options={statuses}
       onChange={(e) => {
-        console.log('Selected value:', e.value);
+
         options.filterApplyCallback(e.value);
       }}
       itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />

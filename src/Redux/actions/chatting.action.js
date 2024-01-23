@@ -25,7 +25,8 @@ export const fetchCurrentMessages = (id, token, socket) => async (dispatch) => {
     socket.emit("join chat", id);
     dispatch(addMessage(data));
   } catch (err) {
-    console.log(err);
+
+
     dispatch(messageError(true));
   }
 };
@@ -45,6 +46,6 @@ export const sendMessageApi = (msg, token, socket) => async (dispatch) => {
     socket.emit("new message", data);
     dispatch(sendMessage(data));
   } catch (err) {
-    console.log(err.message);
+
   }
 };

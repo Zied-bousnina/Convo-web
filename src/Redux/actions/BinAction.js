@@ -25,7 +25,7 @@ export const AddBin = (data) => dispatch => {
 
     axios.post(`${process.env.REACT_APP_API_URL}/api/bin/createBin`, data)
         .then(res => {
-            // console.log(res)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: []
@@ -54,7 +54,7 @@ export const AddBin = (data) => dispatch => {
             // dispatch(loginUser(data))
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err ?.response ?.data
@@ -75,7 +75,7 @@ export const AddBin = (data) => dispatch => {
 export const FetchAllBins = (data) => dispatch => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/bin/FetchAllBins`, data)
         .then(res => {
-            // console.log(res)
+
 
             dispatch({
                 type: SET_BINS_LIST,
@@ -93,7 +93,7 @@ export const FetchAllBins = (data) => dispatch => {
             // dispatch(loginUser(data))
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err ?.response ?.data
@@ -141,7 +141,7 @@ export const UpdateBinStatus = (id, navigation) => dispatch => {
             }, 1000);
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_IS_LOADING,
                 payload: false
@@ -158,7 +158,7 @@ export const UpdateBinStatus = (id, navigation) => dispatch => {
 export const FetchAllBinsNotInUse = (data) => dispatch => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/bin/FetchAllBinsNotInPointBin`, data)
         .then(res => {
-            // console.log(res)
+
 
             dispatch({
                 type: SET_BINS_LIST_NOT_IN_POINT_BIN,
@@ -176,7 +176,7 @@ export const FetchAllBinsNotInUse = (data) => dispatch => {
             // dispatch(loginUser(data))
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err ?.response ?.data
@@ -206,7 +206,7 @@ export const AddPointBin = (data) => dispatch => {
 
     axios.post(`${process.env.REACT_APP_API_URL}/api/Pointbin/CreatePointBin`, data)
         .then(res => {
-            console.log(res)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: []
@@ -235,7 +235,7 @@ export const AddPointBin = (data) => dispatch => {
             // dispatch(loginUser(data))
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err ?.response ?.data
@@ -256,7 +256,7 @@ export const AddPointBin = (data) => dispatch => {
 export const FetchAllPointBins = (data) => dispatch => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/bin/fetchAllPointBins`, data)
         .then(res => {
-            // console.log(res)
+
 
             dispatch({
                 type: SET_POINT_BINS,
@@ -274,7 +274,7 @@ export const FetchAllPointBins = (data) => dispatch => {
             // dispatch(loginUser(data))
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err ?.response ?.data
@@ -291,7 +291,7 @@ export const FetchAllPointBins = (data) => dispatch => {
 export const FetchBinByID = (data) => dispatch => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/bin/fetchBinByID/${data}`)
         .then(res => {
-            // console.log(res)
+
 
             dispatch({
                 type: SET_BIN_DETAILS,
@@ -309,7 +309,7 @@ export const FetchBinByID = (data) => dispatch => {
             // dispatch(loginUser(data))
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err ?.response ?.data
@@ -432,8 +432,7 @@ export const DeletePointBinByID = (id) => dispatch => {
             type: SET_IS_LOADING,
             payload: true
         })
-        // console.log(id)
-        // alert(id)
+
 
     axios.delete(`${process.env.REACT_APP_API_URL}/api/Pointbin/deletePointBinById/${id}`)
         .then(res => {
@@ -475,7 +474,7 @@ export const DeletePointBinByID = (id) => dispatch => {
 export const FetchPointBinByID = (data) => dispatch => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/Pointbin/fetchPointBinByID/${data}`)
         .then(res => {
-            // console.log(res)
+
 
             dispatch({
                 type: SET_POINTBIN_DETAILS,
@@ -493,7 +492,7 @@ export const FetchPointBinByID = (data) => dispatch => {
             // dispatch(loginUser(data))
         })
         .catch(err => {
-            // console.log("err in authAction.js line 366",err)
+
             dispatch({
                 type: SET_ERRORS,
                 payload: err ?.response ?.data
@@ -516,8 +515,6 @@ export const DeletePointBinByIDFromPointBin = (binId, pointBinId) => dispatch =>
             type: SET_IS_LOADING,
             payload: true
         })
-        // console.log(id)
-        // alert(id)
 
     axios.put(`${process.env.REACT_APP_API_URL}/api/Pointbin/deleteBinFromPointBin/${pointBinId}/${binId}`)
         .then(res => {
@@ -615,7 +612,7 @@ export const fetchBin = (municipal) => (dispatch) => {
 
     axios.get(`${process.env.REACT_APP_API_URL}/api/bin/FetchBinsNotInPointBins`)
         .then(async(res) => {
-            // console.log(res.data)
+
 
             dispatch({
                 type: SET_ALL_BINS_,
@@ -650,7 +647,7 @@ export const fetchPointBin = (municipal) => (dispatch) => {
 
     axios.get(`${process.env.REACT_APP_API_URL}/api/Pointbin/fetchAllPointBin`)
         .then(async(res) => {
-            // console.log(res.data)
+
 
             dispatch({
                 type: SET_ALL_POINT_BINS,

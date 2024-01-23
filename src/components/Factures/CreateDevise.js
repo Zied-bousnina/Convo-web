@@ -421,7 +421,7 @@ const data = {
   Number(calculateDriverAmmount(SingleDemande?.distance)).toString(),
   status:"Devis"
 }
-console.log("User+++++++++++++++++++++", user2)
+
 dispatch(AddDevis(data, navigate, user2))
   e.target.reset();
 };

@@ -48,7 +48,7 @@ import { EditProfile_WebPartner } from "Redux/actions/profile.actions";
           [name]: files[0],
           // kbis: e.target.files[0]
         });
-        // console.log(URL.createObjectURL(files[0]))
+
       };
       const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -61,7 +61,7 @@ import { EditProfile_WebPartner } from "Redux/actions/profile.actions";
           });
 
 
-        console.log(form);
+
       };
       const showToastMessage1 = () => {
         toast.error('Please add all Document', {
@@ -72,31 +72,7 @@ import { EditProfile_WebPartner } from "Redux/actions/profile.actions";
       const onSubmit = (e)=>{
 
         e.preventDefault();
-        // console.log("bins", selectedValues.value)
-        console.log(form)
-        // console.log(form.kbis)
-        // if(
 
-        //   form.permisConduirefrontCard=== undefined ||
-        //   form.permisConduirebackCard=== undefined ||
-        //   form.assurance=== undefined ||
-        //   form.CinfrontCard=== undefined ||
-        //   form.CinbackCard === undefined||
-        //   form.proofOfAddress=== undefined||
-        //   form.kbis === undefined
-        // ){
-        //   showToastMessage1()
-        //   return
-        // }
-
-
-        // if (
-        //   form.kbis === undefined
-
-        // ){
-        //   showToastMessage1()
-        //   return
-        // }
 
         const data = {
            "email":
@@ -120,7 +96,7 @@ import { EditProfile_WebPartner } from "Redux/actions/profile.actions";
 
 
         }
-        console.log(data)
+
         const formdata = new FormData();
         Object.keys(data).forEach((key) => {
             if (Array.isArray(data[key])) {
@@ -132,20 +108,7 @@ import { EditProfile_WebPartner } from "Redux/actions/profile.actions";
 
             }
         });
-        console.log("Errrrrrrrrrrrrrrr", error)
 
-
-
-        // Object.keys(form).forEach((key) => {
-        //   if (Array.isArray(form[key])) {
-        //     form[key].forEach((value) => {
-        //       formdata.append(key, value);
-        //     });
-        //   } else {
-        //     formdata.append(key, form[key]);
-        //   }
-        // });
-        console.log("Form Data", formdata)
 
       dispatch(EditProfile_WebPartner(formdata,navigation))
 
@@ -160,7 +123,7 @@ import { EditProfile_WebPartner } from "Redux/actions/profile.actions";
 
 
       }
-    //   console.log(profile)
+
 
     return (
       <>

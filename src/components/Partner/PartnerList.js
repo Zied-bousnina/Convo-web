@@ -64,7 +64,6 @@ const navigate = useHistory()
   })
 
   }, [ partnerList?.length])
-  console.log(partnerList)
 
 const [filters, setFilters] = useState({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -100,10 +99,8 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-
-//   console.log(ListOfUsers)
     const [notificationModal, setnotificationModal] = useState(false)
-  // console.log(requestsMunicipal)
+
 
 
 
@@ -135,13 +132,11 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
   const deletePartner = (id) => {
-    console.log("delete");
+
 
     dispatch(DeleteUserByAdmin(id))
       .then((data) => {
-        // Handle success
-        // console.log(data);
-        // alert("hhhhhhh");
+
         setnotificationModal(false);
         dispatch({
           type: SET_PARTNERSHIP_LIST,

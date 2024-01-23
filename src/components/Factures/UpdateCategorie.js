@@ -23,7 +23,7 @@ import { UpdateCategorie1 } from "Redux/actions/Demandes.Actions.js";
     const [form, setForm] = useState({})
     const dispatch = useDispatch()
     const { id } = useParams();
-    // console.log(error2)
+
     useEffect(() => {
 
       dispatch(FindCategorieById(id))
@@ -51,7 +51,7 @@ const onChangeHandler = (e) => {
     };
 
     const onSubmit = (e)=>{
-      console.log("hkjhkhlhlikhjkbhkjbl")
+
 
       e.preventDefault();
 
@@ -69,8 +69,7 @@ const onChangeHandler = (e) => {
           formdata.append(key, form[key]);
         }
       });
-      console.log(form)
-      console.log("Form Data", formdata)
+
 
     dispatch(UpdateCategorie1(id,formdata))
 
@@ -78,7 +77,7 @@ const onChangeHandler = (e) => {
 
     }
 
-    console.log(error)
+
     useEffect(() => {
       dispatch({
         type: SET_ERRORS,

@@ -9,8 +9,8 @@ import { setLoading } from "./authActions";
 
 
 export const AddProfile =  (userData, navigation ) => (dispatch) => {
-  // console.log(userData)
-  // const [token, settoken] = useState('')
+
+
   dispatch({
     type:SET_IS_LOADING,
     payload:true
@@ -25,7 +25,7 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
 
   })
       .then(async(res) => {
-        //////////////////////////////////////////console.log(res)
+
 
 
         dispatch({
@@ -48,7 +48,7 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
         }, 3000);
       })
       .catch( (err) =>{
-        // console.log("errrrrrrrrrrrrrrrrrr",err)
+
         dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -69,8 +69,7 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
 }
 
 export const EditProfile_Web =  (userData, navigation ) => (dispatch) => {
-  // console.log(userData)
-  // const [token, settoken] = useState('')
+
   dispatch({
     type:SET_IS_LOADING,
     payload:true
@@ -85,7 +84,7 @@ export const EditProfile_Web =  (userData, navigation ) => (dispatch) => {
 
   })
       .then(async(res) => {
-        //////////////////////////////////////////console.log(res)
+
 
 
         dispatch({
@@ -109,7 +108,7 @@ export const EditProfile_Web =  (userData, navigation ) => (dispatch) => {
         navigation.push('/admin')
       })
       .catch( (err) =>{
-        console.log("errrrrrrrrrrrrrrrrrr",err)
+
         dispatch({
           type: SET_ERRORS,
           payload: err
@@ -129,8 +128,7 @@ export const EditProfile_Web =  (userData, navigation ) => (dispatch) => {
       )
 }
 export const EditProfile_WebPartner =  (userData, navigation ) => (dispatch) => {
-  // console.log(userData)
-  // const [token, settoken] = useState('')
+
   dispatch({
     type:SET_IS_LOADING,
     payload:true
@@ -145,7 +143,7 @@ export const EditProfile_WebPartner =  (userData, navigation ) => (dispatch) => 
 
   })
       .then(async(res) => {
-        //////////////////////////////////////////console.log(res)
+
 
 
         dispatch({
@@ -169,7 +167,7 @@ export const EditProfile_WebPartner =  (userData, navigation ) => (dispatch) => 
         navigation.push('/partner')
       })
       .catch( (err) =>{
-        console.log("errrrrrrrrrrrrrrrrrr",err)
+
         dispatch({
           type: SET_ERRORS,
           payload: err
@@ -192,7 +190,7 @@ export const EditProfile_WebPartner =  (userData, navigation ) => (dispatch) => 
 export const GetProfile =  () => (dispatch) => {
   axios.get(`${process.env.REACT_APP_API_URL}/api/profile`)
       .then(async(res) => {
-        // console.log(res.data)
+
         dispatch({
           type: SET_PROFILES,
           payload: res.data
@@ -200,12 +198,7 @@ export const GetProfile =  () => (dispatch) => {
         })
       })
       .catch( (err) =>{
-        // console.log(err)
-      // dispatch({
-      //   type: SET_PROFILES,
-      //   payload: res.data
 
-      // })
     }
 
       )

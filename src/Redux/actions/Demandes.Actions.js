@@ -242,10 +242,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   }
   export const FindFacturesByPartners = ( )=> (dispatch) => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllPartnersAndTheirFactures`)
     .then(async(res) => {
-      console.log("factuerséééééééééééé", res.data)
+
 
       dispatch({
         type: SET_FACTURES_BY_PARTNERS,
@@ -271,10 +271,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   }
   export const FindFacturesDriver = ( )=> (dispatch) => {
-    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllDriversAndTheirFactures`)
     .then(async(res) => {
-      console.log("factuerséééééééééééé", res.data)
+
 
       dispatch({
         type: SET_FACTURES_BY_DRIVERS,
@@ -301,10 +301,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   }
 
   export const FindFacturesDetailsById = ( id)=> (dispatch) => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/factureById/${id}`)
     .then(async(res) => {
-      // console.log("factuerséééééééééééé", res.data)
+
 
       dispatch({
         type: SET_FACTURE_DETAIL_ADMIN,
@@ -330,10 +330,10 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   }
   export const FindFacturesDriverDetailsById = ( id)=> (dispatch) => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/factureDriverById/${id}`)
     .then(async(res) => {
-      // console.log("factuerséééééééééééé", res.data)
+
 
       dispatch({
         type: SET_FACTURE_DETAIL_ADMIN,
@@ -366,7 +366,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/PayeeFacture/${id}`)
     .then(async(res) => {
-      // console.log("factuerséééééééééééé", res.data)
+
 
       dispatch({
         type:SET_IS_LOADING,
@@ -417,7 +417,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/payeeFactureDriver/${id}`)
     .then(async(res) => {
-      // console.log("factuerséééééééééééé", res.data)
+
 
       dispatch({
         type:SET_IS_LOADING,
@@ -825,7 +825,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         });
 
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/create`, userData);
-// console.log("res6666666666", res.data?.data?.status)
+
 if(res.data?.data?.status =="Confirmée") {
 
   socket.emit("accept devis",res?.data?.data);

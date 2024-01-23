@@ -23,6 +23,6 @@ export const makeSearchApi = (search) => async (dispatch) => {
     dispatch(searchResult(data));
   } catch (err) {
     dispatch(searchError(true));
-    console.log(err.message);
+
   }
 };

@@ -77,7 +77,7 @@ import { FindFactureById } from "Redux/actions/Demandes.Actions.js";
         // dispatch(FindRequestDemandeByPartnerV2())
 
       }, [ ,requestsByPartnerV2?.length, singleFacture?.length])
-      console.log("requestsByPartner", requestsByPartnerV2)
+
       requestsByPartnerV2?.map(e=>{
         colourOptions.push({value:e?.partner._id, label:`${e?.partner?.contactName}|[${e?.partner?.email}]`
       })
@@ -287,12 +287,10 @@ const onChangeHandler = (e) => {
             columnWidth: col.field === '_id' ? 30 : 'auto', // Adjust column width for _id field
             cell: (cell) => col.field == 'montant' ? { content: Number(cell.raw).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) } : cell.raw, // Apply .toString().slice(-5) for _id field // Apply .toString().slice(-5) for _id field
           }));
-console.log("Partner", requestsByPartnerV2)
+
           const title = 'Liste des missions';
           const exportDate = new Date().toLocaleString('fr-FR');
 
-          // Add Info carvoy (info.categorie) in the top left
-          // console.log("************", {...devisByPartnerId[0],...devisByPartnerId[0].mission} )
 
           const allMissions = missions.map(e=> {
             return {...e, ...e.mission,
@@ -319,10 +317,7 @@ console.log("Partner", requestsByPartnerV2)
             .join('')}`;
           // doc.text(textToAdd, 14, 100);
 
-          // doc.text(`Info carvoy: ${devisByPartnerId?.categorie?.description}`, 14, 20);
 
-          // Add _id in the top right
-          console.log("Res data", res)
           doc.text(`ID: #${res?._id.toString().slice(-5)}`, doc.internal.pageSize.width - 40, 18);
 
           // Add partenaire information below
@@ -332,7 +327,7 @@ console.log("Partner", requestsByPartnerV2)
             20
 
             )
-            console.log("partnerdetails", partnerdetails)
+
           doc.text(`Partenaire: ${singleFacture?.facture.partner?.contactName}`, 14, 30) ;
           doc.text(`Adresse: ${singleFacture?.facture.partner?.addressPartner}`, 14, 40) ;
           doc.text(`N° SIRET: ${singleFacture?.facture.partner?.siret}`, 14, 50) ;
@@ -356,7 +351,6 @@ console.log("Partner", requestsByPartnerV2)
           // Filter the data based on the selected status
           // const filteredData = (selectedStatus ? devisByPartnerId?.devisList.filter(item => item.status === selectedStatus) : devisByPartnerId?.devisList) ;
 
-console.log("Table", allMissions)
           // Add the table with the modified header and filtered data
           doc.autoTable(exportColumns1, allMissions,
             {
@@ -413,7 +407,7 @@ console.log("Table", allMissions)
       //   totalAmount:totalMontant,
 
       // }
-      // console.log(data)
+
 
 
 
@@ -426,7 +420,7 @@ console.log("Table", allMissions)
 
 
     }
-    console.log("Missions", singleFacture?.devis)
+
     const missions = [];
     if (singleFacture?.devis) {
         // Extract missions from 'devis' array
@@ -441,9 +435,7 @@ console.log("Table", allMissions)
 
     }));
       }
-        console.log("missions", missions)
-    console.log(error)
-console.log("singleFacture",singleFacture)
+
     const handleSelectChange = (selectedOptions) => {
 
 
@@ -452,7 +444,7 @@ console.log("singleFacture",singleFacture)
             (e) => e?.partner?._id == selectedOptions?.value
             )
             setpartnerdetails(partner)
-            console.log(valueDe?._d)
+
 
 
         };
@@ -485,7 +477,7 @@ console.log("singleFacture",singleFacture)
         const dialogFooterTemplate = () => {
             return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
         };
-        console.log("selectedOptions",devisByPartnerId)
+
         const tvaRate = 20; // Change this to your actual TVA rate
 
         const calculateTVA = (montantHT, tvaRate) => {

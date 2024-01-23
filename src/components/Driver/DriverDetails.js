@@ -56,12 +56,13 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
   useEffect(() => {
     dispatch(GetPartnerDetailsById(id))
   }, [dispatch,PartnerDetails?._id, Ducuments?._id])
-//   console.log(PartnerDetails)
+
     dispatch({
       type:SET_IS_SECCESS,
       payload:false
   })
-  // console.log(PartnerDetails)
+
+
 
 
 
@@ -96,7 +97,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
         });
 
 
-      console.log(form);
+
     };
 
 
@@ -104,13 +105,11 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 
 
 
-    // console.log("Params:", useParams())
+
     const onSubmit = (e)=>{
 
       e.preventDefault();
-      // console.log("bins", selectedValues.value)
 
-      console.log(form)
 
     dispatch(UpdatePartnerShip(id,form))
 
@@ -134,7 +133,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 
     // Handle onChange event
 
-    // console.log("SelectedValues", selectedValues)
+
     return (
       <>
         <UserHeader />
@@ -351,7 +350,7 @@ height={30}
         <input type="text"
           readOnly
           onClick={()=> {
-            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+
             if (Ducuments[0]?.kbis) {
       window.open(Ducuments[0]?.kbis, '_blank');
     }
@@ -377,7 +376,7 @@ height={30}
         <input type="text"
           readOnly
           onClick={()=> {
-            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+
             if (Ducuments[0]?.permisConduirefrontCard) {
       window.open(Ducuments[0]?.permisConduirefrontCard, '_blank');
     }
@@ -401,7 +400,7 @@ height={30}
         <input type="text"
           readOnly
           onClick={()=> {
-            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+
             if (Ducuments[0]?.permisConduirebackCard) {
       window.open(Ducuments[0]?.permisConduirebackCard, '_blank');
     }
@@ -440,7 +439,7 @@ height={30}
         <input type="text"
           readOnly
           onClick={()=> {
-            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+
             if (Ducuments[0]?.assurance) {
       window.open(Ducuments[0]?.assurance, '_blank');
     }
@@ -480,7 +479,7 @@ height={30}
         <input type="text"
           readOnly
           onClick={()=> {
-            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+
             if (Ducuments[0]?.CinfrontCard) {
       window.open(Ducuments[0]?.CinfrontCard, '_blank');
     }
@@ -504,7 +503,7 @@ height={30}
         <input type="text"
           readOnly
           onClick={()=> {
-            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+
             if (Ducuments[0]?.CinbackCard) {
       window.open(Ducuments[0]?.CinbackCard, '_blank');
     }
@@ -543,7 +542,7 @@ height={30}
         <input type="text"
           readOnly
           onClick={()=> {
-            // console.log("PartnerDetails[0]?.documents?.kbis",Ducuments)
+
             if (Ducuments[0]?.proofOfAddress) {
       window.open(Ducuments[0]?.proofOfAddress, '_blank');
     }

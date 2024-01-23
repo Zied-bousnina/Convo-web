@@ -50,7 +50,7 @@ import { PayeeFactureDriver } from "Redux/actions/Demandes.Actions.js";
 
 
     }, [factureDEtails?._id])
-    // console.log(factureDEtails)
+
 function formatDateToYYYYMMDD2(inputDate) {
   const date = new Date(inputDate);
 
@@ -106,7 +106,7 @@ function formatDateToYYYYMMDD2(inputDate) {
             ))
 
       }, [ ,requestsByPartnerV2?.length,factureDEtails?.from,factureDEtails?.to,factureDEtails?.partner?._id])
-      console.log("requestsByPartner", requestsByPartnerV2)
+
       requestsByPartnerV2?.map(e=>{
         colourOptions.push({value:e?.partner._id, label:`${e?.partner?.contactName}|[${e?.partner?.email}]`
       })
@@ -168,15 +168,13 @@ useEffect(() => {
               columnWidth: col.field === '_id' ? 30 : 'auto', // Adjust column width for _id field
               cell: (cell) => col.field == 'montant' ? { content: Number(cell.raw).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) } : cell.raw, // Apply .toString().slice(-5) for _id field // Apply .toString().slice(-5) for _id field
             }));
-console.log("Partner", requestsByPartnerV2)
+
             const title = 'Liste des missions';
             const exportDate = new Date().toLocaleString('fr-FR');
 
-            // Add Info carvoy (info.categorie) in the top left
-            // console.log("************", {...devisByPartnerId[0],...devisByPartnerId[0].mission} )
 
             const allMissions = factureDEtails?.factures?.map(e=> {
-                console.log(e?.mission)
+
               return {...e, ...e.mission,
                 montant:Number(e?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
                 createdAt:new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
@@ -204,7 +202,7 @@ console.log("Partner", requestsByPartnerV2)
             // doc.text(`Info carvoy: ${devisByPartnerId?.categorie?.description}`, 14, 20);
 
             // Add _id in the top right
-            console.log("Res data", res)
+
             doc.text(`ID: #${res?._id.toString().slice(-5)}`, doc.internal.pageSize.width - 40, 18);
 
             // Add partenaire information below
@@ -214,7 +212,7 @@ console.log("Partner", requestsByPartnerV2)
               20
 
               )
-              console.log("partnerdetails", partnerdetails)
+
             doc.text(`Conducteur: ${factureDEtails.driver?.name}`, 14, 30) ;
             doc.text(`Email: ${factureDEtails.driver?.email}`, 14, 40) ;
             // doc.text(`N° SIRET: ${factureDEtails.partner?.siret}`, 14, 50) ;
@@ -238,7 +236,7 @@ console.log("Partner", requestsByPartnerV2)
             // Filter the data based on the selected status
             // const filteredData = (selectedStatus ? devisByPartnerId?.devisList.filter(item => item.status === selectedStatus) : devisByPartnerId?.devisList) ;
 
-console.log("Table", factureDEtails?.factures)
+
             // Add the table with the modified header and filtered data
             doc.autoTable(exportColumns1, allMissions,
               {
@@ -380,7 +378,7 @@ const onChangeHandler = (e) => {
         totalAmount:factureDEtails?.totalAmmount,
 
       }
-      console.log(data)
+
 
 
 
@@ -390,21 +388,12 @@ const onChangeHandler = (e) => {
 
 
       exportPdf(factureDEtails)
-    // dispatch(createFacture(data,navigate )).
-    // then((res) => {
-    //   // navigate.push("/admin/ListCategorie")
-    //   console.log("77777777777777777",res )
-    //   setresData(res)
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    // });
+
 
 
 
     }
 
-    console.log(error)
 
     const handleSelectChange = (selectedOptions) => {
 
@@ -414,7 +403,7 @@ const onChangeHandler = (e) => {
             (e) => e?.partner?._id == selectedOptions?.value
             )
             setpartnerdetails(partner)
-            console.log(valueDe?._d)
+
 
 
         };
@@ -447,11 +436,11 @@ const onChangeHandler = (e) => {
         const dialogFooterTemplate = () => {
             return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
         };
-        console.log("selectedOptions",devisByPartnerId)
+
         const tvaRate = 20; // Change this to your actual TVA rate
 
         const calculateTVA = (montantHT, tvaRate) => {
-          console.log("TVA:::::::",montantHT )
+
           const TVA = montantHT * (tvaRate / 100);
           const montantTTC = montantHT + TVA;
           return {

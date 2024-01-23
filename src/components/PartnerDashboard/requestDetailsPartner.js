@@ -108,7 +108,7 @@ import Skeleton from "react-loading-skeleton";
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
     const { id } = useParams();
 
-    // console.log(id)
+
     const dispatch = useDispatch()
     const onMapClick = async (e) => {
         const { lat, lng } = e.latlng;
@@ -157,10 +157,10 @@ import Skeleton from "react-loading-skeleton";
         dispatch(FindRequestDemandeById(id))
       }, [SingleDemande?._id])
 
-      // console.log(SingleDemande?._id)
 
 
-// console.log(SingleDemande)
+
+
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
 
@@ -188,7 +188,7 @@ import Skeleton from "react-loading-skeleton";
           setgovernorates(res.data[0]);
         })
         .catch(err => {
-          // console.log(err)
+
         });
     }, []);
 
@@ -305,7 +305,7 @@ import Skeleton from "react-loading-skeleton";
 
   }
 
-  // console.log(data)
+
 dispatch(AddDemande(data, navigate))
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
@@ -343,7 +343,7 @@ dispatch(AddDemande(data, navigate))
 
 
     const AllUsers = useSelector(state => state?.users?.users?.users);
-    // console.log(AllUsers)
+
 
     // const dispatch = useDispatch();
 
@@ -352,7 +352,7 @@ dispatch(AddDemande(data, navigate))
 
     }, [dispatch,AllUsers?.length])
 
-// console.log(AllUsers)
+
     useEffect(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;

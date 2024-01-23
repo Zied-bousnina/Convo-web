@@ -75,7 +75,7 @@ const navigate = useHistory()
 
   }, [ requests?.length,requestsByPartner?.length])
 
-  // console.log(requestsByPartnerV2)
+
 
 const [filters, setFilters] = useState({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -115,9 +115,9 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-//   console.log(ListOfUsers)
+
     const [notificationModal, setnotificationModal] = useState(false)
-  // console.log(requestsMunicipal)
+
 
 
 
@@ -154,7 +154,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
     return (
         <Dropdown value={options.value} options={statuses}
         onChange={(e) => {
-          console.log('Selected value:', e.value);
+
           options.filterApplyCallback(e.value);
         }}
         itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
@@ -177,7 +177,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
   const deleteMission = (id)=> {
-    // console.log("delete")
+
 
     dispatch(DeleteMission(id))
     .then(() => {
@@ -219,7 +219,7 @@ const onGlobalFilterChange = (e) => {
 const [checked, setChecked] = useState(false);
 const handleChange = (event) => {
   setChecked(event.target.checked);
-  // console.log(checked)
+
 };
 
   const header = (
@@ -243,7 +243,7 @@ const handleChange = (event) => {
     </>
 );
 const actionBodyTemplate = (rowData) => {
-  console.log("row data", rowData)
+
   return (
       <React.Fragment>
       {

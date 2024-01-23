@@ -63,9 +63,9 @@ const navigate = useHistory()
   const history = useHistory();
   const dt = useRef(null);
   const [tab, settab] = useState("admin")
-  // console.log(requests1)
+
   const requestsByPartnerV2 = useSelector(state=>state?.MissionByPartnerV2?.demandes)
-  console.log("Ressssssssssssssssss", requestsByPartnerV2)
+
   useEffect(() => {
     dispatch({
       type: SET_SINGLE_DEMANDE,
@@ -78,7 +78,7 @@ const navigate = useHistory()
     dispatch(FindRequestDemandeByPartnerV2())
 
   }, [ requests?.length,requestsByPartner?.length,requestsByPartnerV2?.length])
-  // console.log(requests?.length)
+
 
   useEffect(() => {
     dispatch({
@@ -127,9 +127,8 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-//   console.log(ListOfUsers)
+
     const [notificationModal, setnotificationModal] = useState(false)
-  // console.log(requestsMunicipal)
 
 
 
@@ -154,7 +153,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
   const deleteMission = (id)=> {
-    // console.log("delete")
+
 
     dispatch(DeleteMission(id))
     .then(() => {
@@ -195,10 +194,10 @@ const onGlobalFilterChange = (e) => {
 const [checked, setChecked] = useState(false);
 const handleChange = (event) => {
   setChecked(event.target.checked);
-  // console.log(checked)
+
 };
 
-// console.log(requests)
+
 const exportPdf = () => {
   import('jspdf').then((jsPDF) => {
     import('jspdf-autotable').then(() => {
@@ -238,7 +237,7 @@ const exportPdf = () => {
       );
 
       // Filter the data based on the selected status
-      console.log(selectedStatus);
+
       const filteredData = tab === 'partner' ?
         (selectedStatus ? requestsByPartner.filter(item => item.status === selectedStatus) : requestsByPartner) :
         (selectedStatus ? requests.filter(item => item.status === selectedStatus) : requests);
@@ -303,13 +302,13 @@ const exportPdf2 = (data,name) => {
       );
 
       // Filter the data based on the selected status
-      console.log(selectedStatus);
+
       const filteredData = tab === 'partner' ?
         (selectedStatus ? requestsByPartner.filter(item => item.status === selectedStatus) : requestsByPartner) :
         (selectedStatus ? requests.filter(item => item.status === selectedStatus) : requests);
 
       // Add the table with the modified header and filtered data
-      console.log(data)
+
       doc.autoTable(exportColumns1, data);
 
       // Save the document
@@ -414,7 +413,7 @@ const statusRowFilterTemplate = (options) => {
   return (
       <Dropdown value={options.value} options={statuses}
       onChange={(e) => {
-        console.log('Selected value:', e.value);
+
         options.filterApplyCallback(e.value);
         setselectedStatus(
           e.value
@@ -436,12 +435,12 @@ const onRowCollapse = (event) => {
   toast.current.show({ severity: 'success', summary: 'Product Collapsed', detail: event.data.name, life: 3000 });
 };
 const allowExpansion = (rowData) => {
-  console.log(rowData)
+
   return rowData.demands?.length > 0;
 };
 
 const rowExpansionTemplate = (data) => {
-  console.log('(((((((((((((((((((((((((((((((((((((', data)
+
   return (
       <div className="p-3">
           <h5>missions from {data.partner.name}</h5>

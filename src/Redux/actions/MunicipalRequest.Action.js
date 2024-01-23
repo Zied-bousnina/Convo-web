@@ -9,7 +9,7 @@ export const findDemandeInProgress = (navigation)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/demande-municipal/findDemandeInProgress`)
   .then(res => {
-      // console.log(res)
+
       dispatch({
           type: SET_DEMANDES_MUNICIPAL,
           payload: res?.data
@@ -22,7 +22,7 @@ export const findDemandeInProgress = (navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data
@@ -33,7 +33,7 @@ export const findDemandeInProgress = (navigation)=>dispatch=>{
 }
 
 export const UpadeteRequest = (data, navigation)=> (dispatch) => {
-  // console.log(data)
+
   dispatch({
     type: SET_ERRORS,
     payload: []
@@ -89,7 +89,7 @@ export const getBinsCount = (navigation)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/bin/getBinsCount`)
   .then(res => {
-      // console.log(res)
+
       dispatch({
           type: SET_BIN_STATISTIQUES,
           payload: res?.data
@@ -102,7 +102,7 @@ export const getBinsCount = (navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       // dispatch({
       //     type: SET_ERRORS,
       //     payload: err?.response?.data
@@ -116,7 +116,7 @@ export const GetPMunicipalDetailsById = (id,navigation)=>dispatch=>{
 
   axios.get(`${process.env.REACT_APP_API_URL}/api/demande-municipal/findDemandeById/${id}`)
   .then(res => {
-      // console.log(res)
+
       dispatch({
           type: SET_DETAILS_MUNICIPAL,
           payload: res?.data
@@ -129,7 +129,7 @@ export const GetPMunicipalDetailsById = (id,navigation)=>dispatch=>{
   })
   .catch(err =>
      {
-      // console.log("err in authAction.js line 366",err)
+
       dispatch({
           type: SET_ERRORS,
           payload: err?.response?.data

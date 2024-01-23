@@ -180,7 +180,7 @@ import { SET_SINGLE_DEMANDE } from "Redux/types.js";
 
       }, [])
 
-console.log("SingleDemande",SingleDemande)
+// console.log("SingleDemande",SingleDemande)
     const [activeNav, setActiveNav] = useState(1);
     const [chartExample1Data, setChartExample1Data] = useState("data1");
 

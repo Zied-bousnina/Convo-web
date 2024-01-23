@@ -68,7 +68,7 @@ const navigate = useHistory()
   })
 
   }, [ driverList?.length])
-  // console.log(driverList)
+
 
 const [filters, setFilters] = useState({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -108,9 +108,9 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-//   console.log(ListOfUsers)
+
     const [notificationModal, setnotificationModal] = useState(false)
-  // console.log(requestsMunicipal)
+
 
 
 
@@ -149,7 +149,7 @@ const verifiedRowFilterTemplate = (options) => {
 
 
   const deleteBin = (id)=> {
-    console.log("delete")
+
 
     dispatch(DeleteUserByAdmin(id))
     setnotificationModal(false)

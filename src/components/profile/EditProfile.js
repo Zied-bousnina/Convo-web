@@ -47,7 +47,7 @@ import { SET_ERRORS } from "Redux/types";
           [name]: files[0],
           // kbis: e.target.files[0]
         });
-        // console.log(URL.createObjectURL(files[0]))
+
       };
       const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -60,7 +60,7 @@ import { SET_ERRORS } from "Redux/types";
           });
 
 
-        console.log(form);
+
       };
       const showToastMessage1 = () => {
         toast.error('Please add all Document', {
@@ -71,31 +71,7 @@ import { SET_ERRORS } from "Redux/types";
       const onSubmit = (e)=>{
 
         e.preventDefault();
-        // console.log("bins", selectedValues.value)
-        console.log(form)
-        // console.log(form.kbis)
-        // if(
 
-        //   form.permisConduirefrontCard=== undefined ||
-        //   form.permisConduirebackCard=== undefined ||
-        //   form.assurance=== undefined ||
-        //   form.CinfrontCard=== undefined ||
-        //   form.CinbackCard === undefined||
-        //   form.proofOfAddress=== undefined||
-        //   form.kbis === undefined
-        // ){
-        //   showToastMessage1()
-        //   return
-        // }
-
-
-        // if (
-        //   form.kbis === undefined
-
-        // ){
-        //   showToastMessage1()
-        //   return
-        // }
 
         const data = {
            "email":
@@ -119,7 +95,7 @@ import { SET_ERRORS } from "Redux/types";
 
 
         }
-        console.log(data)
+
         const formdata = new FormData();
         Object.keys(data).forEach((key) => {
             if (Array.isArray(data[key])) {
@@ -131,7 +107,7 @@ import { SET_ERRORS } from "Redux/types";
 
             }
         });
-        console.log("Errrrrrrrrrrrrrrr", error)
+
 
 
 
@@ -144,7 +120,7 @@ import { SET_ERRORS } from "Redux/types";
         //     formdata.append(key, form[key]);
         //   }
         // });
-        console.log("Form Data", formdata)
+
 
       dispatch(EditProfile_Web(formdata,navigation))
 
@@ -159,7 +135,7 @@ import { SET_ERRORS } from "Redux/types";
 
 
       }
-    //   console.log(profile)
+
 
     return (
       <>

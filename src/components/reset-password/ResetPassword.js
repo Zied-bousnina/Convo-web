@@ -54,7 +54,7 @@ function ResetPassword () {
   const errors1 = useSelector(state=>state?.error?.errors)
   const [passwordVisible, setPasswordVisible] = useState(false);
   const Location = useLocation()
-  console.log(Location.search)
+
   const [invalidUser, setinvalidUser] = useState('')
   const [busy, setBusy] = useState(true)
   const [error, setError] = useState('')
@@ -80,7 +80,7 @@ function ResetPassword () {
       return console.log(error.response.data)
       setBusy(false)
     }
-    console.log(error)
+
 
   }
 
@@ -96,7 +96,8 @@ function ResetPassword () {
       ...Newpassword,
       [target.name]: target.value
     })
-    console.log(target)
+
+
 
   }
 
@@ -120,7 +121,8 @@ function ResetPassword () {
       setBusy(true)
     const {data} = await axios.post(`${API_BASE_URL}/api/users/reset-password?token=${token}&id=${id}`, {password})
     setBusy(false)
-    console.log(data)
+
+
 
     if(data.success) {
 
@@ -137,7 +139,7 @@ function ResetPassword () {
         if(!data.success) return setError(data.error)
         return console.log(error.response.data)
         }
-        console.log(error)
+
 
 
 

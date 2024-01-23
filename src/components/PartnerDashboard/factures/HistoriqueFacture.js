@@ -54,7 +54,6 @@ const navigate = useHistory()
   const isSuccess = useSelector(state=>state?.success?.success)
   const devisByPartner = useSelector(state=>state?.DevisByCurrenPartner?.devis?.devis)
 
-  console.log("devisByPartner", devisByPartner)
 
   const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
   const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
@@ -88,7 +87,7 @@ const navigate = useHistory()
     });
 
   }, [])
-  // console.log(requestsByPartnerV2)
+
 
 const [filters, setFilters] = useState({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -128,9 +127,9 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
 
-//   console.log(ListOfUsers)
+
     const [notificationModal, setnotificationModal] = useState(false)
-  // console.log(requestsMunicipal)
+
 
 
 
@@ -180,7 +179,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
     return (
         <Dropdown value={options.value} options={statuses}
         onChange={(e) => {
-          console.log('Selected value:', e.value);
+
           options.filterApplyCallback(e.value);
         }}
         itemTemplate={statusItemTemplate} placeholder="Select One" className="p-column-filter" showClear style={{ minWidth: '12rem' }} />
@@ -203,7 +202,7 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 
   const deleteMission = (id)=> {
-    // console.log("delete")
+
 
     dispatch(DeleteMission(id))
     .then(() => {
@@ -245,7 +244,7 @@ const onGlobalFilterChange = (e) => {
 const [checked, setChecked] = useState(false);
 const handleChange = (event) => {
   setChecked(event.target.checked);
-  // console.log(checked)
+
 };
 
   const header = (

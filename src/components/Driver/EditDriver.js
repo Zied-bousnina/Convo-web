@@ -51,7 +51,7 @@ import Skeleton from "react-loading-skeleton";
   useEffect(() => {
     dispatch(GetPartnerDetailsById(id))
   }, [dispatch,PartnerDetails?._id])
-//   console.log(PartnerDetails)
+
     dispatch({
       type:SET_IS_SECCESS,
       payload:false
@@ -90,7 +90,7 @@ import Skeleton from "react-loading-skeleton";
         });
 
 
-      console.log(form);
+
     };
 
 
@@ -99,13 +99,13 @@ import Skeleton from "react-loading-skeleton";
 
 
 
-    // console.log("Params:", useParams())
+
     const onSubmit = (e)=>{
 
       e.preventDefault();
-      // console.log("bins", selectedValues.value)
 
-      console.log(form)
+
+
 
     dispatch(UpdateDriver(id,form))
 
@@ -127,9 +127,7 @@ import Skeleton from "react-loading-skeleton";
 
 
 
-    // Handle onChange event
 
-    // console.log("SelectedValues", selectedValues)
     return (
       <>
         <UserHeader />

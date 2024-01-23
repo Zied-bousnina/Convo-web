@@ -83,7 +83,7 @@ import FileInput from "components/FileInput.jsx";
         });
 
 
-      console.log(form);
+
     };
 
 
@@ -92,13 +92,11 @@ import FileInput from "components/FileInput.jsx";
 
 
     const { idQuote } = useParams();
-    // console.log("Params:", useParams())
+
     const onSubmit = (e)=>{
 
       e.preventDefault();
-      // console.log("bins", selectedValues.value)
-      console.log(form)
-      console.log(form.kbis)
+
       if(
 
         form.permisConduirefrontCard=== undefined ||
@@ -132,7 +130,7 @@ import FileInput from "components/FileInput.jsx";
           formdata.append(key, form[key]);
         }
       });
-      console.log("Form Data", formdata)
+
 
     dispatch(CreateDriver(formdata))
 
@@ -164,7 +162,8 @@ import FileInput from "components/FileInput.jsx";
 
     // Handle onChange event
 
-    // console.log("SelectedValues", selectedValues)
+
+
     return (
       <>
         <UserHeader />

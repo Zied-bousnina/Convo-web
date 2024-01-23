@@ -50,7 +50,7 @@ import FileInput from "components/FileInput.jsx";
     const mask = siretMask;
     const onChangeHandlerFile = (e) => {
       const { name, checked, value } = e.target;
-      console.log(e.target.files[0]);
+
 
       setForm({
         ...form,
@@ -103,7 +103,7 @@ import FileInput from "components/FileInput.jsx";
         });
 
 
-      console.log(form);
+
     };
 
 
@@ -115,13 +115,13 @@ import FileInput from "components/FileInput.jsx";
 
 
     const { idQuote } = useParams();
-    // console.log("Params:", useParams())
+
     const onSubmit = (e)=>{
 
       e.preventDefault();
-      // console.log("bins", selectedValues.value)
 
-      console.log(form.kbis)
+
+
       if(
         form.name === undefined ||
         form.contactName === undefined ||
@@ -147,8 +147,7 @@ import FileInput from "components/FileInput.jsx";
           formdata.append(key, form[key]);
         }
       });
-      console.log(form)
-      console.log("Form Data", formdata)
+
 
     dispatch(CreatePartner(formdata))
 
@@ -173,7 +172,7 @@ import FileInput from "components/FileInput.jsx";
         .then(res => {
           setgovernorates(res.data[0]);
         })
-        .catch(err => console.log(err));
+        .catch(err =>{});
     }, []);
 
 
@@ -186,9 +185,7 @@ import FileInput from "components/FileInput.jsx";
     })
 
 
-    // Handle onChange event
 
-    // console.log("SelectedValues", selectedValues)
     return (
       <>
         <UserHeader />

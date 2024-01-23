@@ -55,12 +55,11 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
   useEffect(() => {
     dispatch(GetPartnerDetailsById(id))
   }, [dispatch,PartnerDetails?._id])
-//   console.log(PartnerDetails)
+
     dispatch({
       type:SET_IS_SECCESS,
       payload:false
   })
-  // console.log(PartnerDetails)
 
 
 
@@ -95,7 +94,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
         });
 
 
-      console.log(form);
+
     };
 
 
@@ -104,13 +103,12 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 
 
 
-    // console.log("Params:", useParams())
+
     const onSubmit = (e)=>{
 
       e.preventDefault();
-      // console.log("bins", selectedValues.value)
 
-      console.log(form)
+
 
     dispatch(UpdatePartnerShip(id,form))
 
@@ -132,9 +130,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 
 
 
-    // Handle onChange event
 
-    // console.log("SelectedValues", selectedValues)
     return (
       <>
         <UserHeader />

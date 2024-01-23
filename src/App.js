@@ -122,7 +122,7 @@ function App() {
     const currentDate = new Date();
 
   }, [profile?._id]);
-  console.log("prrrrr", profile)
+
   const fetchUser = async ()=>  {
     const user = await localStorage.getItem('jwtToken');
 

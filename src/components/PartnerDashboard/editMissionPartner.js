@@ -133,7 +133,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
     ];
 
     const { id } = useParams();
-    // console.log("driver is auto ", SingleDemande?.driverIsAuto)
+
     useEffect(() => {
       dispatch(FetchAllDrivers())
 
@@ -151,11 +151,11 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
     })
 
     useEffect(( )=> {
-      // console.log(`Formatted value is ${fmtValue}`)
+
     }, [fmtValue])
     const handleChange = (event) => {
       setChecked(event.target.checked);
-      // console.log(checked)
+
     };
     const dispatch = useDispatch()
     const onMapClick = async (e) => {
@@ -229,7 +229,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
         dispatch(FindRequestDemandeById(id))
       }, [SingleDemande?._id])
       const [value1, setValue2] = useState();
-      console.log(value1)
+
 
 
 
@@ -264,7 +264,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
         });
 
 
-      // console.log(form);
+
     };
 
     useEffect(() => {
@@ -296,7 +296,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
               // console.error("Error fetching coordinates from the geocoding service", error);
             }
           }
-          // console.log(e)
+
 
         // If the destination search query is not empty, use a geocoding service to get the coordinates
        // If the destination search query is not empty, use a geocoding service to get the coordinates
@@ -367,11 +367,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
 
 
   }
-  // console.log(SingleDemande)
 
-  // console.log(data)
-  // console.log("value3", value3)
-// dispatch(AddDemande(data, navigate))
 dispatch(UpdateMission(id,data))
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
@@ -409,15 +405,12 @@ dispatch(UpdateMission(id,data))
 
 
     const AllUsers = useSelector(state => state?.users?.users?.users);
-    // console.log(AllUsers)
 
-    // const dispatch = useDispatch();
 
     useEffect(() => {
       dispatch(GetAllUsers())
 
     }, [dispatch,AllUsers?.length])
-    // console.log(SingleDemande)
 
 
     useEffect(() => {
@@ -690,8 +683,7 @@ className="mb-3"
 <Datetime
 
 onChange={(e)=>{setValue(e?._d)
-  console.log(e?._d)
-  console.log(value)
+
 }}
 value={value}
 // timeFormat={false}

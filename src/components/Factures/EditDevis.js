@@ -49,8 +49,7 @@ import { UpdateDevis } from "Redux/actions/Demandes.Actions.js";
         unitPrice:devis?.[0]?.categorie?.unitPrice,
     }
     )
-    console.log(selectedValues)
-    console.log("devis", devis)
+
     useEffect(() => {
       dispatch(FindRequestDemandeById(id))
 
@@ -63,7 +62,7 @@ import { UpdateDevis } from "Redux/actions/Demandes.Actions.js";
 
 
         setSelectedValues(selectedOptions);
-        // console.log(selectedValues)
+
     };
     Categories?.map(e=>{
       colourOptions.push({value:e._id, label:`${e.description}|[${e.unitPrice}]`,
@@ -104,7 +103,6 @@ useEffect(() => {
   const [selectedStatus, setselectedStatus] = useState()
   const [selectedProduct, setSelectedProduct] = useState(null);
     const error = useSelector(state=>state.error?.errors)
-    console.log(error?.errors)
 
 
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
@@ -121,11 +119,11 @@ useEffect(() => {
           });
 
 
-        console.log(form);
+
       };
     const onChangeHandlerFile = (e) => {
       const { name, checked, value } = e.target;
-      console.log(e.target.files[0]);
+
 
       setForm({
         ...form,
@@ -213,7 +211,7 @@ const onGlobalFilterChange = (e) => {
         );
 
         // Filter the data based on the selected status
-        console.log(selectedStatus);
+
         const filteredData = (selectedStatus ? devsList?.devisList.filter(item => item.status === selectedStatus) : devsList?.devisList) ;
 
 
@@ -298,7 +296,7 @@ const onGlobalFilterChange = (e) => {
     return (
         <Dropdown value={options.value} options={statuses}
         onChange={(e) => {
-          console.log('Selected value:', e.value);
+
           options.filterApplyCallback(e.value);
           setselectedStatus(
             e.value
@@ -322,9 +320,6 @@ const onGlobalFilterChange = (e) => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
 const [remunerationAmount, setremunerationAmount] = useState(0)
-console.log("Unist price", selectedValues?.unitPrice)
-console.log("Rectification",Rectification)
-console.log("total",(Number(selectedValues?.unitPrice  ) * Number(SingleDemande?.distance)  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}))
 
 // ((selectedValues?.unitPrice
 //   + Rectification)
@@ -397,11 +392,13 @@ const data = {
   status:"Devis"
 }
 
-console.log("--------------------------data",data)
+
+
 dispatch(UpdateDevis(data,
     devis?.[0]?._id,
      navigate))
-console.log(data)
+
+
   e.target.reset();
 };
     return (

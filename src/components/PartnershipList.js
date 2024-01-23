@@ -40,7 +40,7 @@ function PartnershipList() {
     dispatch(FetchAllPartnership())
 
   }, [partnerShipLists])
-  // console.log("partner:",partnerShipLists)
+
 
 
 

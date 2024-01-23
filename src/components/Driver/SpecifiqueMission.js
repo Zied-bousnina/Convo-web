@@ -122,11 +122,11 @@ import Skeleton from "react-loading-skeleton";
 
 
     useEffect(( )=> {
-      console.log(`Formatted value is ${fmtValue}`)
+
     }, [fmtValue])
     const handleChange = (event) => {
       setChecked(event.target.checked);
-      // console.log(checked)
+
     };
     const dispatch = useDispatch()
     const onMapClick = async (e) => {
@@ -231,7 +231,7 @@ import Skeleton from "react-loading-skeleton";
         });
 
 
-      // console.log(form);
+
     };
 
     useEffect(() => {
@@ -263,7 +263,7 @@ import Skeleton from "react-loading-skeleton";
               // console.error("Error fetching coordinates from the geocoding service", error);
             }
           }
-          console.log(e)
+
 
         // If the destination search query is not empty, use a geocoding service to get the coordinates
        // If the destination search query is not empty, use a geocoding service to get the coordinates
@@ -323,7 +323,7 @@ import Skeleton from "react-loading-skeleton";
 
   }
 
-  // console.log(data)
+
 dispatch(AddDemande(data, navigate))
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
@@ -361,7 +361,7 @@ dispatch(AddDemande(data, navigate))
 
 
     const AllUsers = useSelector(state => state?.users?.users?.users);
-    // console.log(AllUsers)
+
 
     // const dispatch = useDispatch();
 
