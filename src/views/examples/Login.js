@@ -135,7 +135,7 @@ function Login () {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-white pb-5">
+                    <CardHeader className="bg-white ">
                     <div className="text-muted text-center d-flex justify-content-center align-items-center">
   <img
     alt="Your Image Alt Text"
