@@ -35,6 +35,11 @@ import { AddDevis } from "Redux/actions/Demandes.Actions.js";
 import { SET_ERRORS } from "Redux/types.js";
 import { socket } from "socket.js";
   const CreateDevise = () => {
+    // const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
+    // useEffect(() => {
+
+    //   dispatch(FindAllCategories())
+    // }, [ Categories?.length])
     const navigate = useHistory();
     const isSuccess = useSelector(state=>state?.success?.success)
     const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
@@ -329,27 +334,70 @@ const onGlobalFilterChange = (e) => {
     return <Btn label="Ok" icon="pi pi-check" onClick={() => setDialogVisible(false)} />;
 };
 
-const calculateDriverAmmount = (distance)=> {
-  const baseAmount = selectedValues?.unitPrice ?
-  Number(selectedValues?.unitPrice)
-  :
-  20
-  ;
-   // Montant par def : 20 ht
+// const calculateDriverAmmount = (distance)=> {
+//   const baseAmount = selectedValues?.unitPrice ?
+//   Number(selectedValues?.unitPrice)
+//   :
+//   20
+//   ;
+//    // Montant par def : 20 ht
 
-  if (distance <= 50) {
-      return baseAmount + distance * 2; // 2/km
-  } else if (distance <= 99) {
-      return baseAmount + (50 * 2) + ((distance - 50) * 4); // 2/km up to 50 km, then 4/km
-  } else if (distance <= 200) {
-      return baseAmount + (50 * 2) + (49 * 4) + ((distance - 99) * 5); // 2/km up to 50 km, 4/km up to 99 km, then 5/km
-  } else {
-      // Handling distances beyond 200 km
-      const additionalKm = distance - 200;
-      const additionalAmount = additionalKm * 5; // Example: assuming 5/km beyond 200 km
-      return baseAmount + (50 * 2) + (49 * 4) + (101 * 5) + additionalAmount;
+//   if (distance <= 50) {
+//       return baseAmount + distance * 2; // 2/km
+//   } else if (distance <= 99) {
+//       return baseAmount + (50 * 2) + ((distance - 50) * 4); // 2/km up to 50 km, then 4/km
+//   } else if (distance <= 200) {
+//       return baseAmount + (50 * 2) + (49 * 4) + ((distance - 99) * 5); // 2/km up to 50 km, 4/km up to 99 km, then 5/km
+//   } else {
+//       // Handling distances beyond 200 km
+//       const additionalKm = distance - 200;
+//       const additionalAmount = additionalKm * 5; // Example: assuming 5/km beyond 200 km
+//       return baseAmount + (50 * 2) + (49 * 4) + (101 * 5) + additionalAmount;
+//   }
+// }
+// const calculateDriverAmmount = (distance) => {
+//   const baseAmount = 20; // Default base amount if no category matches
+
+//   // Find the category that matches the given distance
+//   const selectedCategory = Categories.find(category => distance <= Number(category.distance));
+
+//   if (selectedCategory) {
+//       const { unitPrice, distance: categoryDistance } = selectedCategory;
+
+//       // Calculate the amount based on the selected category
+//       const baseCategoryAmount = baseAmount + (distance <= categoryDistance ? distance : categoryDistance) * Number(unitPrice);
+//       const additionalKm = distance - categoryDistance;
+
+//       // If there are additional kilometers beyond the selected category, calculate the additional amount
+//       const additionalAmount = additionalKm > 0 ? additionalKm * Number(unitPrice) : 0;
+
+//       return baseCategoryAmount + additionalAmount;
+//   }
+
+//   // If no category matches, use the default base amount
+//   return baseAmount;
+// };
+const calculateDriverAmmount = (distance, categories) => {
+  let totalAmount = 0;
+
+  for (const category of Categories) {
+    if (distance >= category.distance) {
+      totalAmount += category.distance * category.unitPrice;
+      distance -= category.distance;
+    } else {
+      totalAmount += distance * category.unitPrice;
+      break;
+    }
   }
-}
+
+  // If there is remaining distance, apply a separate unit price (e.g., 10 euro/km)
+  if (distance > 0) {
+    const remainingAmount = distance * 10; // Adjust this based on your actual unit price for the remaining distance
+    totalAmount += remainingAmount;
+  }
+
+  return totalAmount;
+};
 
 useEffect(() => {
   dispatch({
@@ -912,64 +960,10 @@ height={50}
   >
 
     <ToastContainer />
-    <Row>
-    <Col
-      md={
-        selectedValues?.unitPrice ? "6" : "12"
-      }
-      >
-         <div className=" mb-3">
-        <label className="form-label">Categorie: <span style={{color:"red"}}>*</span></label>
-        {/* <div className="input-group"> */}
 
-        <Select required
-
-className="react-select primary"
-onChange={handleSelectChange}
-   isLoading={colourOptions.length==0 ?  true: false}
-//    isDisabled={selectedValues.length >3 ?true: false}
-
- options={colourOptions} />
-          {/* {
-            errors && (<div  className="invalid-feedback">
-            {errors}
-          </div>)
-          } */}
-        {/* </div> */}
-      </div>
-      </Col>
-  {selectedValues?.unitPrice && (
-      <Col md="6">
-    <div className="mb-3">
-      <label className="form-label">
-        Prix Unitaire: <span style={{ color: "red" }}>*</span>
-      </label>
-      <div className="input-group">
-        <input
-          type="text"
-          required
-          placeholder="Prix Unitaire"
-          name={"contactName"}
-          className={classNames("form-control")}
-          value={selectedValues?.unitPrice}
-          disabled
-        />
-        {/* Displaying errors - uncomment if needed */}
-        {/* {errors && (
-          <div className="invalid-feedback">
-            {/* Display your error messages here */}
-          {/* </div>
-        )} */}
-      </div>
-    </div>
-</Col>
-  )}
-
-
-    </Row>
     <Row>
     <Col md="12">
-  {selectedValues?.unitPrice && (
+
     <Alert
   status='info'
   variant='subtle'
@@ -992,7 +986,7 @@ onChange={handleSelectChange}
    }
   </AlertDescription>
 </Alert>
-  )}
+
 </Col>
 
 
@@ -1000,8 +994,7 @@ onChange={handleSelectChange}
 
     </Row>
     <hr/>
-    {
-        selectedValues?.unitPrice &&
+
 
     <Row>
       <Col
@@ -1037,9 +1030,9 @@ onChange={handleSelectChange}
       </div>
       </Col> */}
     </Row>
-    }
+
     {
-        (!confirme&&selectedValues?.unitPrice)  &&
+        (!confirme)  &&
 
     <Row>
     <Col
@@ -1070,7 +1063,7 @@ onChange={handleSelectChange}
     </Row>
 }
 <hr/>
-{selectedValues?.unitPrice && (
+
 
 
 <Row>
@@ -1092,7 +1085,7 @@ onChange={handleSelectChange}
             value={Number(calculateDriverAmmount(SingleDemande?.distance)) }
           />
           {/* {
-            errors && (<div  className="invalid-feedback">
+            errors && (<div  className="invalid-fee
             {errors}
           </div>)
           } */}
@@ -1100,7 +1093,7 @@ onChange={handleSelectChange}
       </div>
       </Col>
     </Row>
-    )}
+
 
     <hr/>
     <Row>
@@ -1108,7 +1101,7 @@ onChange={handleSelectChange}
       <Col
       md="12"
       >
-     {selectedValues?.unitPrice && (
+
     <Alert
   status='success'
   variant='subtle'
@@ -1137,7 +1130,7 @@ onChange={handleSelectChange}
    }
   </AlertDescription>
 </Alert>
-  )}
+
       </Col>
 
     </Row>

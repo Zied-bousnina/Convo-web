@@ -347,22 +347,27 @@ const [remunerationAmount, setremunerationAmount] = useState(0)
 
     </>
 );
-const calculateDriverAmmount = (distance)=> {
-  const baseAmount = 20; // Montant par def : 20 ht
+const calculateDriverAmmount = (distance, categories) => {
+  let totalAmount = 0;
 
-  if (distance <= 50) {
-      return baseAmount + distance * 2; // 2/km
-  } else if (distance <= 99) {
-      return baseAmount + (50 * 2) + ((distance - 50) * 4); // 2/km up to 50 km, then 4/km
-  } else if (distance <= 200) {
-      return baseAmount + (50 * 2) + (49 * 4) + ((distance - 99) * 5); // 2/km up to 50 km, 4/km up to 99 km, then 5/km
-  } else {
-      // Handling distances beyond 200 km
-      const additionalKm = distance - 200;
-      const additionalAmount = additionalKm * 5; // Example: assuming 5/km beyond 200 km
-      return baseAmount + (50 * 2) + (49 * 4) + (101 * 5) + additionalAmount;
+  for (const category of Categories) {
+    if (distance >= category.distance) {
+      totalAmount += category.distance * category.unitPrice;
+      distance -= category.distance;
+    } else {
+      totalAmount += distance * category.unitPrice;
+      break;
+    }
   }
-}
+
+  // If there is remaining distance, apply a separate unit price (e.g., 10 euro/km)
+  if (distance > 0) {
+    const remainingAmount = distance * 10; // Adjust this based on your actual unit price for the remaining distance
+    totalAmount += remainingAmount;
+  }
+
+  return totalAmount;
+};
 const onSubmit = async (e) => {
   e.preventDefault();
 const data = {

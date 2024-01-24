@@ -26,10 +26,7 @@ import { UpdateCategorie1 } from "Redux/actions/Demandes.Actions.js";
     const [form, setForm] = useState({})
     const dispatch = useDispatch()
     const { id } = useParams();
-    const [selectedDistance, setSelectedDistance] = useState({
-      value: Categorie?.distance,
-      label: `${Categorie?.distance} km`,
-    });
+
     const DistanceTypeOptions = [
       { value: '10', label: '10 km' },
       { value: '20', label: '20 km' },
@@ -39,10 +36,15 @@ import { UpdateCategorie1 } from "Redux/actions/Demandes.Actions.js";
 
       // Add more options as needed
     ];
+
     useEffect(() => {
 
       dispatch(FindCategorieById(id))
     }, [ Categorie?._id])
+      const [selectedDistance, setSelectedDistance] = useState({
+      value: Categorie?.distance,
+      label: `${Categorie?.distance} km`,
+    });
 dispatch({type:SET_IS_SECCESS, payload:false })
 
 const showToastMessage = () => {
@@ -177,7 +179,7 @@ console.log("data",data)
   <Row>
     <Col md="6">
     <div className="mb-3">
-      <label className="form-label">Distance (km)<span style={{color:"red"}}>*</span> :</label>
+      <label className="form-label">Distance:  actuel ({Categorie?.distance} km)<span style={{color:"red"}}>*</span> :</label>
       {/* <div className="input-group"> */}
       <Select
       className="react-select primary"

@@ -43,6 +43,7 @@ import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
 import { FindAllCategories } from 'Redux/actions/Demandes.Actions';
 import { DeleteCategorie } from 'Redux/actions/Demandes.Actions';
 import { SET_ERRORS } from 'Redux/types';
+import { SET_CATEGORIE_DETAILS } from 'Redux/types';
 
 function ListCategorie() {
 const navigate = useHistory()
@@ -93,6 +94,15 @@ const [filters, setFilters] = useState({
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
   activity: { value: null, matchMode: FilterMatchMode.BETWEEN }
 });
+useEffect(() => {
+  dispatch({
+    type: SET_CATEGORIE_DETAILS,
+    payload:{},
+
+  })
+
+}, [])
+
 const [globalFilterValue, setGlobalFilterValue] = useState('');
   const cols = [
 
