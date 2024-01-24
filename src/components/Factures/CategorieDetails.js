@@ -199,6 +199,38 @@ const onChangeHandler = (e) => {
     }
   </Col>
 </Row>
+   <Row>
+
+
+  <Col md="12">
+  {
+        Categorie?.unitPrice ?
+
+    <div className="mb-3">
+      <label className="form-label">Distance (km): </label>
+      <div className="input-group">
+        <input
+          type="number"
+          placeholder="Entrez le prix unitaire"
+          name={"unitPrice"}
+          className={classNames("form-control")}
+          onChange={onChangeHandler}
+
+          disabled
+            value={Categorie?.distance}
+        />
+      </div>
+    </div>
+    :
+    <Skeleton
+    height={40}
+    // count={1}
+    style={{marginBottom: 6}}
+    width={400}
+    />
+    }
+  </Col>
+</Row>
 
 
 

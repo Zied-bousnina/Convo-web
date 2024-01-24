@@ -13,17 +13,32 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 import {Link} from "react-router-dom"
 import { FindCategorieById } from "Redux/actions/Demandes.Actions.js";
 import { useParams } from "react-router-dom";
+import Select from 'react-select'
+import { useHistory } from 'react-router-dom';
 import { UpdateCategorie1 } from "Redux/actions/Demandes.Actions.js";
   const UpdateCategorie = () => {
     const Categorie = useSelector(state=>state?.categorie?.categorie?.categorie)
     const error = useSelector(state=>state.error?.errors)
     // const error2 = useSelector(state=>state.error)
+    const navigate = useHistory();
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     const [form, setForm] = useState({})
     const dispatch = useDispatch()
     const { id } = useParams();
+    const [selectedDistance, setSelectedDistance] = useState({
+      value: Categorie?.distance,
+      label: `${Categorie?.distance} km`,
+    });
+    const DistanceTypeOptions = [
+      { value: '10', label: '10 km' },
+      { value: '20', label: '20 km' },
+      { value: '30', label: '30 km' },
+      { value: '40', label: '40 km' },
+      { value: '50', label: '50 km' },
 
+      // Add more options as needed
+    ];
     useEffect(() => {
 
       dispatch(FindCategorieById(id))
@@ -59,19 +74,22 @@ const onChangeHandler = (e) => {
 
 
       const formdata = new FormData();
+      const data={
+        description:form?.description ?
+        form?.description : Categorie?.description
 
-      Object.keys(form).forEach((key) => {
-        if (Array.isArray(form[key])) {
-          form[key].forEach((value) => {
-            formdata.append(key, value);
-          });
-        } else {
-          formdata.append(key, form[key]);
-        }
-      });
+        ,
+        unitPrice:form?.unitPrice ?
+        form?.unitPrice : Categorie?.unitPrice
+        ,
+        distance:selectedDistance?.value ?
+        selectedDistance?.value : Categorie?.distance
+      }
 
 
-    dispatch(UpdateCategorie1(id,formdata))
+console.log("data",data)
+
+    dispatch(UpdateCategorie1(id,data, navigate))
 
 
 
@@ -135,7 +153,7 @@ const onChangeHandler = (e) => {
 
     <ToastContainer />
     <Row>
-    <Col md="6">
+    <Col md="12">
     <div className="mb-3">
       <label className="form-label">Description:</label>
       <div className="input-group">
@@ -151,6 +169,27 @@ const onChangeHandler = (e) => {
           }
         />
       </div>
+    </div>
+  </Col>
+
+
+</Row>
+  <Row>
+    <Col md="6">
+    <div className="mb-3">
+      <label className="form-label">Distance (km)<span style={{color:"red"}}>*</span> :</label>
+      {/* <div className="input-group"> */}
+      <Select
+      className="react-select primary"
+      onChange={(selectedOption) => setSelectedDistance(selectedOption)}
+      options={DistanceTypeOptions}
+      value={selectedDistance}
+      defaultValue={
+            Categorie?.distance
+          }
+      required
+    />
+      {/* </div> */}
     </div>
   </Col>
 
@@ -207,6 +246,15 @@ const onChangeHandler = (e) => {
     </Alert>
   : null
   }
+  { error?.distance?
+    <Alert status='error'>
+
+    <AlertIcon />
+  {error?.distance}
+    </Alert>
+  : null
+  }
+
   { error?.message?
     <Alert status='error'>
 

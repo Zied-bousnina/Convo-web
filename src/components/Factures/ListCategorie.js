@@ -98,7 +98,8 @@ const [globalFilterValue, setGlobalFilterValue] = useState('');
 
       // { field: 'distance', header: 'Distance (km)' },
       // { field: 'createdAt', header: 'Created At' },
-      { field: 'description', header: 'Description' }
+      { field: 'description', header: 'Description' },
+      // { field: 'distance', header: 'distance' }
       // tab === "partner" ? { field: 'partnerName', header: 'Partner' } : null
   ];
 
@@ -447,6 +448,11 @@ const actionBodyTemplate2 = (rowData) => {
                 <Column field={"_id"}
                 body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
                 header={"ID"} sortable style={{ width: '25%' }}></Column>
+                <Column field={"Prix unitaire"}
+                body={(rowData) => `${
+                  Number(rowData?.unitPrice).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+                }`}
+                header={"Prix unitaire"} sortable style={{ width: '25%' }}></Column>
 
                 {
                   cols.map(e=>{
@@ -454,6 +460,9 @@ const actionBodyTemplate2 = (rowData) => {
                   })
                 }
 
+                <Column field={"distance"}
+                body={(rowData) => `${rowData?.distance} km`}
+                header={"Distance"} sortable style={{ width: '25%' }}></Column>
                   <Column field={"createdAt"}
                 body={(rowData) => new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(rowData.createdAt))}

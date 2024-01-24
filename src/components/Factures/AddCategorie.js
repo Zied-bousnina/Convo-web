@@ -11,13 +11,25 @@ import { CreatePartner } from "Redux/actions/authActions.js";
 import { createCategorie } from "Redux/actions/authActions.js";
 import { Alert, AlertIcon } from "@chakra-ui/react";
 import {Link} from "react-router-dom"
+import Select from 'react-select'
+import { useHistory } from 'react-router-dom';
   const AddCategorie = () => {
-
+    const navigate = useHistory();
+    const [selectedDistance, setSelectedDistance] = useState(null);
     const error = useSelector(state=>state.error?.errors)
     const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     const [form, setForm] = useState({})
     const dispatch = useDispatch()
+    const DistanceTypeOptions = [
+      { value: '10', label: '10 km' },
+      { value: '20', label: '20 km' },
+      { value: '30', label: '30 km' },
+      { value: '40', label: '40 km' },
+      { value: '50', label: '50 km' },
+
+      // Add more options as needed
+    ];
     useEffect(() => {
       dispatch({
         type: SET_ERRORS,
@@ -52,26 +64,27 @@ const onChangeHandler = (e) => {
 
       if(
         !form?.description ||
-        !form?.unitPrice
+        !form?.unitPrice ||
+        !selectedDistance?.value
       ){
         showToastMessage()
         return
         }
 
       const formdata = new FormData();
+      const data= {
+        description:form?.description,
+        unitPrice:form?.unitPrice,
+        distance:selectedDistance?.value
+      }
 
-      Object.keys(form).forEach((key) => {
-        if (Array.isArray(form[key])) {
-          form[key].forEach((value) => {
-            formdata.append(key, value);
-          });
-        } else {
-          formdata.append(key, form[key]);
-        }
-      });
+      formdata.append("description", form?.description);
+      formdata.append("unitPrice", form?.unitPrice);
+      formdata.append("distance", selectedDistance?.value);
 
+console.log(data)
 
-    dispatch(createCategorie(formdata))
+    dispatch(createCategorie(data, navigate))
 
 
 
@@ -110,6 +123,7 @@ const onChangeHandler = (e) => {
                         </Link>
                     </Col>
                   </Row>
+
                 </CardHeader>
                 <CardBody>
                 <form onSubmit={onSubmit}
@@ -129,7 +143,7 @@ const onChangeHandler = (e) => {
 
     <ToastContainer />
     <Row>
-    <Col md="6">
+    <Col md="12">
     <div className="mb-3">
       <label className="form-label">Description<span style={{color:"red"}}>*</span> :</label>
       <div className="input-group">
@@ -142,6 +156,25 @@ const onChangeHandler = (e) => {
           required
         />
       </div>
+    </div>
+  </Col>
+
+
+</Row>
+
+<Row>
+    <Col md="6">
+    <div className="mb-3">
+      <label className="form-label">Distance (km)<span style={{color:"red"}}>*</span> :</label>
+      {/* <div className="input-group"> */}
+      <Select
+      className="react-select primary"
+      onChange={(selectedOption) => setSelectedDistance(selectedOption)}
+      options={DistanceTypeOptions}
+      value={selectedDistance}
+      required
+    />
+      {/* </div> */}
     </div>
   </Col>
 
@@ -241,6 +274,7 @@ const onChangeHandler = (e) => {
               </Card>
             </Col>
           </Row>
+
         </Container>
       </>
     );

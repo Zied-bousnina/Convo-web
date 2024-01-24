@@ -76,7 +76,7 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
       }, [ ,requestsByPartnerV2?.length])
 
       requestsByPartnerV2?.map(e=>{
-        colourOptions.push({value:e?.partner._id, label:`${e?.partner?.contactName}|[${e?.partner?.email}]`
+        colourOptions.push({value:e?.partner._id, label:`${e?.partner?.contactName} | [${e?.partner?.phoneNumber}]`
       })
     })
     const [selectedStatus, setselectedStatus] = useState()
@@ -142,14 +142,20 @@ useEffect(() => {
 
             const allMissions = devisByPartnerId.map(e=> {
               return {...e, ...e.mission,
-                montant:Number(e?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
+                montant: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                  e?.montant,
+                  ),
+
                 createdAt:new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(e?.createdAt)),
                 distance:
                 `~${Math.floor(e?.mission?.distance )}km`,
                 TVA:`${tvaRate}%`,
                 MontantTTC:
-                `${calculateTVA(Number(e?.montant), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`,
+                `${ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                  calculateTVA(Number(e?.montant), tvaRate).montantTTC,
+                  )
+}`,
 
 
 
@@ -168,7 +174,7 @@ useEffect(() => {
             // doc.text(`Info carvoy: ${devisByPartnerId?.categorie?.description}`, 14, 20);
 
 
-            doc.text(`ID: #${res?._id.toString().slice(-5)}`, doc.internal.pageSize.width - 40, 18);
+            doc.text(`N°: #${res?.numFacture}`, doc.internal.pageSize.width - 40, 18);
 
             // Add partenaire information below
             doc.line(4,
@@ -177,15 +183,63 @@ useEffect(() => {
               20
 
               )
-            doc.text(`Partenaire: ${partnerdetails[0].partner?.contactName}`, 14, 30) ;
-            doc.text(`Adresse: ${partnerdetails[0].partner?.addressPartner}`, 14, 40) ;
-            doc.text(`N° SIRET: ${partnerdetails[0].partner?.siret}`, 14, 50) ;
-            doc.text(`Période : `, 14, 60) ;
-            doc.text(`De : ${res?.from} à ${res?.to} `, 30, 70) ;
-            doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+            // doc.text(`Partenaire: ${partnerdetails[0].partner?.contactName}`, doc.internal.pageSize.width - 100, 50) ;
+            // doc.text(`Adresse: ${partnerdetails[0].partner?.addressPartner}`, doc.internal.pageSize.width - 100, 60) ;
+            // doc.text(`N° SIRET: ${partnerdetails[0].partner?.siret}`, doc.internal.pageSize.width - 100, 70) ;
+            // doc.text(`Période : `, 14, 25) ;
+            doc.text(`De ${res?.from} À ${res?.to} `, 14, 30) ;
+            doc.text(`MONTANT TOTAL : ${ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+              res?.totalAmmount,
+            )}  `, 14, 18) ;
+
             // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
             // doc.extractImageFromDataUrl(partnerdetails[0].partner?.kbis)
             // doc.line("------ -----------------------------------------------------------------")
+            let yCoordinate = 50; // Initial y-coordinate
+
+// Function to check if there's enough space on the page for the next line
+function hasEnoughSpaceForNextLine(yCoordinate, lineHeight, pageHeight) {
+    return yCoordinate + lineHeight < pageHeight;
+}
+
+// Example text with labels
+const partnerLabel = "Partn:";
+const adresseLabel = "Addr:";
+const siretLabel = "SIRET:";
+
+// Example partner details
+const partnerName = partnerdetails[0].partner?.contactName;
+const partnerAddress = partnerdetails[0].partner?.addressPartner;
+const partnerSiret = partnerdetails[0].partner?.siret;
+
+// Calculate the height of the text (adjust as needed based on font size)
+const lineHeight = 10;
+
+// Add the first line of text
+// Add the third line of text
+doc.text(`${siretLabel} ${partnerSiret}`, doc.internal.pageSize.width -(55+partnerSiret.length), yCoordinate);
+yCoordinate += lineHeight;
+if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.height)) {
+    doc.addPage();
+    yCoordinate = 10; // Reset y-coordinate for the new page
+}
+doc.text(`${partnerLabel} ${partnerName}`, doc.internal.pageSize.width - (50+partnerName.length), yCoordinate);
+yCoordinate += lineHeight;
+
+// Check if there's enough space for the next line, otherwise move to a new line or page
+
+// Add the second line of text
+doc.text(`${adresseLabel} ${partnerAddress}`, doc.internal.pageSize.width - (60+partnerAddress.length), yCoordinate);
+yCoordinate += lineHeight;
+
+// Check if there's enough space for the next line, otherwise move to a new line or page
+if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.height)) {
+    doc.addPage();
+    yCoordinate = 10; // Reset y-coordinate for the new page
+}
+
+
+
 
             // Add title and date to the header
             doc.text(`${title} - ${devisByPartnerId.status ? devisByPartnerId.status : ''}`, 14, 100);
@@ -211,7 +265,7 @@ useEffect(() => {
                 // Add footer
                 doc.text("Info carfoy :");
                 doc.text('Liste des missions', 14, doc.internal.pageSize.height - 15);
-                doc.text(`${exportDate}`, doc.internal.pageSize.width - 35, doc.internal.pageSize.height - 15);
+                doc.text(`${exportDate}`, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 15);
               },
             }
 
@@ -322,9 +376,12 @@ const onChangeHandler = (e) => {
         return
         }
         const totalMontant = devisByPartnerId.reduce(
-          (total, devis) => total + parseFloat(devis.montant),
+          // const montantHT = Number(rowData.montant);
+          // const { montantTTC } = calculateTVA(montantHT, tvaRate);
+          (total, devis) => total + parseFloat(calculateTVA(devis.montant, tvaRate).montantTTC ),
           0
         );
+        console.log(totalMontant)
 
       const data = {
         partner:selectedValues?.value,
@@ -713,7 +770,10 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
                  {/* Montant HT Column */}
       <Column
         field={"montant"}
-        body={(rowData) => `${Number(rowData.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
+        body={(rowData) => `${new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+          rowData.montant,
+            )}`}
+
         header={"Montant HT"}
         sortable
         style={{ width: '25%' }}
@@ -739,7 +799,10 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
         body={(rowData) => {
           const montantHT = Number(rowData.montant);
           const { montantTTC } = calculateTVA(montantHT, tvaRate);
-          return `${montantTTC.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
+          return `${ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+            montantTTC,
+            )}`;
+
         }}
         header={"Montant TTC"}
         sortable

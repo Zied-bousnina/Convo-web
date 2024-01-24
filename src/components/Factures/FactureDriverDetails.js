@@ -176,14 +176,31 @@ useEffect(() => {
             const allMissions = factureDEtails?.factures?.map(e=> {
 
               return {...e, ...e.mission,
-                montant:Number(e?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
+                montant:
+
+                  new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                    Number(e?.totalAmmount),
+                        )
+
+
+                // Number(e?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+                ,
                 createdAt:new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(e?.createdAt)),
                 distance:
                 `~${Math.floor(e?.mission?.distance )}km`,
                 TVA:`${tvaRate}%`,
                 MontantTTC:
-                `${calculateTVA(Number(e?.totalAmmount), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`,
+                `${
+
+                    new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                      calculateTVA(Number(e?.totalAmmount), tvaRate).montantPur,
+                          )
+
+
+                  // calculateTVA(Number(e?.totalAmmount), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+
+                }`,
 
 
 
@@ -193,7 +210,13 @@ useEffect(() => {
 
             var textToAdd = `Infos Carvoy\n${devisByPartnerId
               .map((item) => {
-                return `Mission: ${item?.mission?.postalAddress} \n Montant: ${Number(item?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})} \n Distance: ${Math.floor(item?.mission?.distance)} km \n Créé le: ${new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+                return `Mission: ${item?.mission?.postalAddress} \n Montant: ${
+                  new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                    item?.montant,
+                    )
+                  // Number(item?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+
+                } \n Distance: ${Math.floor(item?.mission?.distance)} km \n Créé le: ${new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(item?.createdAt))} \n\n`;
               })
               .join('')}`;
@@ -203,7 +226,7 @@ useEffect(() => {
 
             // Add _id in the top right
 
-            doc.text(`ID: #${res?._id.toString().slice(-5)}`, doc.internal.pageSize.width - 40, 18);
+            doc.text(`ID: #${res?.numFacture}`, doc.internal.pageSize.width - 40, 18);
 
             // Add partenaire information below
             doc.line(4,
@@ -213,16 +236,74 @@ useEffect(() => {
 
               )
 
-            doc.text(`Conducteur: ${factureDEtails.driver?.name}`, 14, 30) ;
-            doc.text(`Email: ${factureDEtails.driver?.email}`, 14, 40) ;
+            // doc.text(`Conducteur: ${factureDEtails.driver?.name}`, 14, 30) ;
+            // doc.text(`Email: ${factureDEtails.driver?.email}`, 14, 40) ;
             // doc.text(`N° SIRET: ${factureDEtails.partner?.siret}`, 14, 50) ;
-            doc.text(`Période : `, 14, 60) ;
-            doc.text(`De : ${formatDateToYYYYMMDD2(res?.from)} à ${formatDateToYYYYMMDD2(res?.to)} `, 30, 70) ;
-            doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+            // doc.text(`Période : `, 14, 60) ;
+            // doc.text(`De : ${formatDateToYYYYMMDD2(res?.from)} à ${formatDateToYYYYMMDD2(res?.to)} `, 30, 70) ;
+            doc.text(`De ${formatDateToYYYYMMDD2(res?.from)} À ${formatDateToYYYYMMDD2(res?.to)} `, 14, 30) ;
+            doc.text(`MONTANT TOTAL : ${
+              new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                calculateTVA(Number(res?.totalAmmount), tvaRate).montantPur,
+                )
+              // calculateTVA(Number(res?.totalAmmount), tvaRate).montantTTC
+              //   .toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+              }`, 14, 18) ;
+              // ---------------------------------------------------------------------------------------------------
+              let yCoordinate = 50; // Initial y-coordinate
+
+              // Function to check if there's enough space on the page for the next line
+              function hasEnoughSpaceForNextLine(yCoordinate, lineHeight, pageHeight) {
+                  return yCoordinate + lineHeight < pageHeight;
+              }
+
+              // Example text with labels
+              const partnerLabel = "Conducteur:";
+              const adresseLabel = "Email:";
+              // const siretLabel = "SIRET:";
+
+              // Example partner details
+              const partnerName = factureDEtails.driver?.name;
+              const partnerAddress = factureDEtails.driver?.email;
+              // const partnerSiret = partnerdetails[0].partner?.siret;
+
+              // Calculate the height of the text (adjust as needed based on font size)
+              const lineHeight = 10;
+
+              // Add the first line of text
+              // Add the third line of text
+              // doc.text(`${siretLabel} ${partnerSiret}`, doc.internal.pageSize.width -(55+partnerSiret.length), yCoordinate);
+              // yCoordinate += lineHeight;
+              // if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.height)) {
+              //     doc.addPage();
+              //     yCoordinate = 10; // Reset y-coordinate for the new page
+              // }
+              doc.text(`${partnerLabel} ${partnerName}`, doc.internal.pageSize.width - (70+partnerName.length), yCoordinate);
+              yCoordinate += lineHeight;
+
+              // Check if there's enough space for the next line, otherwise move to a new line or page
+
+              // Add the second line of text
+              doc.text(`${adresseLabel} ${partnerAddress}`, doc.internal.pageSize.width - (60+partnerAddress.length), yCoordinate);
+              yCoordinate += lineHeight;
+
+              // Check if there's enough space for the next line, otherwise move to a new line or page
+              if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.height)) {
+                  doc.addPage();
+                  yCoordinate = 10; // Reset y-coordinate for the new page
+              }
+
+              // ---------------------------------------------------------------------------------------------------
+
+              // Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+              // {
+              //   calculateTVA(Number(factureDEtails?.totalAmmount), tvaRate).montantTTC
+              //   .toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+              // }
             doc.text(`${
                 factureDEtails?.payed ?
                 "Facture Payée":"Facture non Payée"
-                }`, 14, 80) ;
+                }`, 14, 40) ;
 
             // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
             // doc.extractImageFromDataUrl(partnerdetails[0].partner?.kbis)
@@ -443,12 +524,25 @@ const onChangeHandler = (e) => {
 
           const TVA = montantHT * (tvaRate / 100);
           const montantTTC = montantHT + TVA;
+          const montantPur = montantHT - TVA;
+
           return {
             montantHT,
             TVA,
-            montantTTC
+            montantTTC,
+            montantPur
           };
         };
+        // const calculateTVA = (montantTTC, tvaRate) => {
+        //   const TVA = montantTTC * (tvaRate / (100 + tvaRate));
+        //   const montantHT = montantTTC - TVA;
+        //   return {
+        //     montantHT,
+        //     TVA,
+        //     montantTTC
+        //   };
+        // };
+
 
         const header = (
             <>
@@ -484,7 +578,7 @@ const onChangeHandler = (e) => {
                   <Row className="align-items-center">
                     <Col xs="8">
 
-                      <h3 className="mb-0">facture #{id.toString().slice(-5)}</h3>
+                      <h3 className="mb-0">facture #{factureDEtails?.numFacture}</h3>
                     </Col>
                     <Col className="text-right" xs="4">
                     <Link
@@ -541,12 +635,22 @@ const onChangeHandler = (e) => {
         factureDEtails?.payed ?
         <div>
         {/* <AlertIcon boxSize="40px" mr={0} /> */}
-        <h1>Facture Payée : { Number(factureDEtails?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
+        <h1>Facture Payée : {
+          new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+            calculateTVA(Number(factureDEtails?.totalAmmount), tvaRate).montantPur,
+                )
+
+          }</h1>
         </div>
         :
         <div>
         {/* <AlertIcon boxSize="40px" mr={0} /> */}
-        <h1>Facture non Payée : { Number(factureDEtails?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
+        <h1>Facture non Payée :  {
+          new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+            calculateTVA(Number(factureDEtails?.totalAmmount), tvaRate).montantPur,
+                )
+
+          }</h1>
         </div>
 
     }
@@ -774,7 +878,15 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
                   })
                 } */}
                 <Column field={"distance"}
-                body={(rowData) => `${Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
+                body={(rowData) => `${
+
+          new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+            rowData?.totalAmmount,
+                )
+
+
+                  // Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+                  }`}
                 header={"Montant"} sortable style={{ width: '25%' }}></Column>
                 <Column field={"distance"}
                 body={(rowData) => `~${Math.floor(rowData?.mission?.distance )}km`}
@@ -787,7 +899,16 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
                  {/* Montant HT Column */}
       <Column
         field={"montant"}
-        body={(rowData) => `${Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}) }`}
+        body={(rowData) => `${
+
+          new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+            Number(rowData?.totalAmmount),
+                )
+
+
+          // Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+
+          }`}
         header={"Montant HT"}
         sortable
         style={{ width: '25%' }}
@@ -812,8 +933,8 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
         field={"montant"}
         body={(rowData) => {
           const montantHT = Number(rowData?.totalAmmount);
-          const { montantTTC } = calculateTVA(montantHT, tvaRate);
-          return `${montantTTC.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
+          const { montantPur } = calculateTVA(montantHT, tvaRate);
+          return `${montantPur.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
         }}
         header={"Montant TTC"}
         sortable

@@ -195,7 +195,7 @@ export const CreatePartner = (userData) => dispatch => {
         )
 }
 
-export const createCategorie = (userData) => dispatch => {
+export const createCategorie = (userData,navigate) => dispatch => {
 
     dispatch({
         type: SET_ERRORS,
@@ -223,7 +223,8 @@ export const createCategorie = (userData) => dispatch => {
                 type: SET_IS_SECCESS,
                 payload: true
             })
-    //  navigate('/list-of-demandes');
+    //  navigate('/ListCategorie');
+    navigate.push("/admin/ListCategorie")
             setTimeout(() => {
                 dispatch({
                     type: SET_IS_SECCESS,

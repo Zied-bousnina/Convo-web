@@ -731,7 +731,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     )
   }
 
-  export const UpdateCategorie1 = (id,partnerData)=>dispatch=>{
+  export const UpdateCategorie1 = (id,partnerData, navigate)=>dispatch=>{
     dispatch({
       type: SET_ERRORS,
       payload: []
@@ -747,6 +747,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
         type: SET_ERRORS,
         payload: []
     })
+    navigate.push("/admin/ListCategorie")
     setTimeout(() => {
 
         dispatch({

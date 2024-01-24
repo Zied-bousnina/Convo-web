@@ -200,7 +200,21 @@ const handleChange = (event) => {
   setChecked(event.target.checked);
 
 };
+const tvaRate = 20; // Change this to your actual TVA rate
 
+const calculateTVA = (montantHT, tvaRate) => {
+
+  const TVA = montantHT * (tvaRate / 100);
+  const montantTTC = montantHT + TVA;
+  const montantPur = montantHT - TVA;
+
+  return {
+    montantHT,
+    TVA,
+    montantTTC,
+    montantPur
+  };
+};
 
 const exportPdf = () => {
   import('jspdf').then((jsPDF) => {
@@ -496,7 +510,11 @@ const rowExpansionTemplate = (data) => {
                 ).format(new Date(rowData?.to))}
                 header={"à"} sortable style={{ width: '25%' }}></Column> */}
                 <Column field={"_id"}
-                body={(rowData) =>Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+                body={(rowData) =>
+                  calculateTVA(Number(rowData?.totalAmmount), tvaRate).montantPur.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+
+
+                // Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 }
                 header={"Montant total"} sortable style={{ width: '25%' }}></Column>
 
