@@ -93,6 +93,7 @@ import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import { Divider } from "@chakra-ui/react";
 import Skeleton from "react-loading-skeleton";
 import { SET_SINGLE_DEMANDE } from "Redux/types.js";
+import { FindAllCategories } from "Redux/actions/Demandes.Actions.js";
 
   const RequestDetails = () => {
     const navigate = useHistory();
@@ -113,6 +114,11 @@ import { SET_SINGLE_DEMANDE } from "Redux/types.js";
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
     const [modal, setModal] = useState(false);
 
+    const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
+    useEffect(() => {
+
+      dispatch(FindAllCategories())
+    }, [ Categories?.length])
     const [loading, setLoading] = useState(true);
    // Replace '...' with the actual image URL
 

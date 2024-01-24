@@ -1,4 +1,4 @@
-import {Button,Card,CardHeader,CardBody,Container,Row,Col} from "reactstrap";
+import {Button,Card,CardHeader,CardBody,Container,Row,Col, Spinner} from "reactstrap";
   import UserHeader from "components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
@@ -379,7 +379,10 @@ const onGlobalFilterChange = (e) => {
 // };
 const calculateDriverAmmount = (distance, categories) => {
   let totalAmount = 0;
-
+// console.log(Categories)
+  if(Categories) {
+    // console.log("-------------------")
+  }
   for (const category of Categories) {
     if (distance >= category.distance) {
       totalAmount += category.distance * category.unitPrice;
@@ -942,6 +945,10 @@ height={50}
                     </Col>
                   </Row>
                 </CardHeader>
+                {
+                  Categories?.length > 0 ?
+
+
 
             <CardBody>
                 <form onSubmit={onSubmit}
@@ -1203,6 +1210,24 @@ height={50}
 
 
                 </CardBody>
+                :
+                <CardBody>
+                <div className="chart">
+                <div className="d-flex justify-content-center">
+                <Spinner
+                style={
+                  {
+                    width:"100px",
+                    height:"100px"
+                  }
+
+                }
+                animation="border" variant="primary" />
+                </div>
+                </div>
+                </CardBody>
+                }
+
             </Card>
           </Col>
         </Row>
