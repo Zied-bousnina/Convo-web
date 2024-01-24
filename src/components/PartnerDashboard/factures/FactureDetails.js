@@ -292,7 +292,7 @@ const onChangeHandler = (e) => {
           const exportDate = new Date().toLocaleString('fr-FR');
 
 
-          const allMissions = missions.map(e=> {
+          const allMissionsd = missions.map(e=> {
             return {...e, ...e.mission,
               montant:Number(e?.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'}),
               createdAt:new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
@@ -302,12 +302,32 @@ const onChangeHandler = (e) => {
               TVA:`${tvaRate}%`,
               MontantTTC:
               `${calculateTVA(Number(e?.montant), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`,
+            }
+
+          })
+          const allMissions = missions.map(e=> {
+            return {...e, ...e.mission,
+              montant: new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                e?.montant,
+                ),
+
+              createdAt:new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+              ).format(new Date(e?.createdAt)),
+              distance:
+              `~${Math.floor(e?.mission?.distance )}km`,
+              TVA:`${tvaRate}%`,
+              MontantTTC:
+              `${ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+                calculateTVA(Number(e?.montant), tvaRate).montantTTC,
+                )
+}`,
 
 
 
             }
 
           })
+
 
           var textToAdd = `Infos Carvoy\n${devisByPartnerId
             .map((item) => {
@@ -318,7 +338,7 @@ const onChangeHandler = (e) => {
           // doc.text(textToAdd, 14, 100);
 
 
-          doc.text(`ID: #${res?._id.toString().slice(-5)}`, doc.internal.pageSize.width - 40, 18);
+          doc.text(`N°: #${res?.numFacture}`, doc.internal.pageSize.width - 40, 18);
 
           // Add partenaire information below
           doc.line(4,
@@ -328,16 +348,65 @@ const onChangeHandler = (e) => {
 
             )
 
-          doc.text(`Partenaire: ${singleFacture?.facture.partner?.contactName}`, 14, 30) ;
-          doc.text(`Adresse: ${singleFacture?.facture.partner?.addressPartner}`, 14, 40) ;
-          doc.text(`N° SIRET: ${singleFacture?.facture.partner?.siret}`, 14, 50) ;
-          doc.text(`Période : `, 14, 60) ;
-          doc.text(`De : ${res?.from} à ${res?.to} `, 30, 70) ;
-          doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+          // doc.text(`Partenaire: ${singleFacture?.facture.partner?.contactName}`, 14, 30) ;
+          // doc.text(`Adresse: ${singleFacture?.facture.partner?.addressPartner}`, 14, 40) ;
+          // doc.text(`N° SIRET: ${singleFacture?.facture.partner?.siret}`, 14, 50) ;
+          // doc.text(`Période : `, 14, 60) ;
+          // doc.text(`De : ${res?.from} à ${res?.to} `, 30, 70) ;
+          // doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
+          doc.text(`De ${res?.from} À ${res?.to} `, 14, 30) ;
+          doc.text(`MONTANT TOTAL : ${ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+            res?.totalAmmount,
+          )}  `, 14, 18) ;
+            // doc.line("------ -----------------------------------------------------------------")
+            let yCoordinate = 50; // Initial y-coordinate
+
+// Function to check if there's enough space on the page for the next line
+function hasEnoughSpaceForNextLine(yCoordinate, lineHeight, pageHeight) {
+    return yCoordinate + lineHeight < pageHeight;
+}
+
+// Example text with labels
+const partnerLabel = "Partn:";
+const adresseLabel = "Addr:";
+const siretLabel = "SIRET:";
+
+// Example partner details
+const partnerName = singleFacture?.facture.partner?.contactName;
+const partnerAddress = singleFacture?.facture.partner?.addressPartner;
+const partnerSiret = singleFacture?.facture.partner?.siret;
+
+// Calculate the height of the text (adjust as needed based on font size)
+const lineHeight = 10;
+
+// Add the first line of text
+// Add the third line of text
+doc.text(`${siretLabel} ${partnerSiret}`, doc.internal.pageSize.width -(55+partnerSiret.length), yCoordinate);
+yCoordinate += lineHeight;
+if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.height)) {
+    doc.addPage();
+    yCoordinate = 10; // Reset y-coordinate for the new page
+}
+doc.text(`${partnerLabel} ${partnerName}`, doc.internal.pageSize.width - (50+partnerName.length), yCoordinate);
+yCoordinate += lineHeight;
+
+// Check if there's enough space for the next line, otherwise move to a new line or page
+
+// Add the second line of text
+doc.text(`${adresseLabel} ${partnerAddress}`, doc.internal.pageSize.width - (60+partnerAddress.length), yCoordinate);
+yCoordinate += lineHeight;
+
+// Check if there's enough space for the next line, otherwise move to a new line or page
+if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.height)) {
+    doc.addPage();
+    yCoordinate = 10; // Reset y-coordinate for the new page
+}
+
+
           doc.text(`${
               singleFacture?.facture?.payed ?
               "Facture Payée":"Facture non Payée"
-              }`, 14, 80) ;
+              }`, 14, 40) ;
 
           // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
           // doc.extractImageFromDataUrl(partnerdetails[0].partner?.kbis)
@@ -414,6 +483,7 @@ const onChangeHandler = (e) => {
 
 
       exportPdf2(singleFacture?.facture)
+      console.log("singleFacture?.facture",singleFacture?.facture)
 
     // dispatch(createFacture(data,navigate ))
 
