@@ -544,6 +544,7 @@ style={
         }}
         alt="Your Image"
         onLoad={handleImageLoad}
+        onClick={() => window.open(e, '_blank')}
               src={e}
               />
                </div>
@@ -574,6 +575,7 @@ style={
           height: "150px",
           filter: loading ? 'blur(8px)' : 'none', // Apply blur when loading
         }}
+        onClick={() => window.open(e, '_blank')}
         alt="Your Image"
         onLoad={handleImageLoad}
               src={e}
