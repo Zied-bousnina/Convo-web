@@ -14,7 +14,7 @@ const CARD_OPTIONS = {
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
 			fontSmoothing: "antialiased",
-			":-webkit-autofill": { color: "#fce883" },
+			":-webkit-autofill": { color: "#000000" },
 			"::placeholder": { color: "#87bbfd" }
 		},
 		invalid: {

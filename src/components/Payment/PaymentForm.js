@@ -14,7 +14,7 @@ const CARD_OPTIONS = {
 			fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
 			fontSize: "16px",
 			fontSmoothing: "antialiased",
-			":-webkit-autofill": { color: "#fce883" },
+			":-webkit-autofill": { color: "#000000" },
 			"::placeholder": { color: "#87bbfd" }
 		},
 		invalid: {
@@ -34,11 +34,11 @@ export default function PaymentForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setisLOad(true)
         const {error, paymentMethod} = await stripe.createPaymentMethod({
             type: "card",
             card: elements.getElement(CardElement)
         })
+        setisLOad(true)
 
     if(!error) {
         try {
@@ -62,6 +62,7 @@ export default function PaymentForm() {
         console.log(error.message)
         setisLOad(false)
     }
+    setisLOad(false)
 }
 
     return (
