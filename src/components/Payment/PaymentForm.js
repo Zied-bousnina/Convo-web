@@ -2,6 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
 import React, { useState } from 'react'
 import { useParams } from "react-router-dom";
+import { Button } from "reactstrap";
 
 const CARD_OPTIONS = {
 	iconStyle: "solid",
@@ -24,6 +25,7 @@ const CARD_OPTIONS = {
 }
 
 export default function PaymentForm() {
+    const [isLOad, setisLOad] = useState(false)
     const [success, setSuccess ] = useState(false)
     const stripe = useStripe()
     const elements = useElements()
@@ -32,11 +34,11 @@ export default function PaymentForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setisLOad(true)
         const {error, paymentMethod} = await stripe.createPaymentMethod({
             type: "card",
             card: elements.getElement(CardElement)
         })
-
 
     if(!error) {
         try {
@@ -49,13 +51,16 @@ export default function PaymentForm() {
             if(response.data.success) {
                 console.log("Successful payment")
                 setSuccess(true)
+                setisLOad(false)
             }
 
         } catch (error) {
             console.log("Error", error)
+            setisLOad(false)
         }
     } else {
         console.log(error.message)
+        setisLOad(false)
     }
 }
 
@@ -68,13 +73,27 @@ export default function PaymentForm() {
                     <CardElement options={CARD_OPTIONS}/>
                 </div>
             </fieldset>
-            <button
-            className="btn btn-primary"
-            >Payer</button>
+            <Button className="
+                btn btn-primary btn-block btn-lg shadow-lg mt-5
+            " color="default" type="submit"
+            disabled={!stripe || isLOad}
+
+                >
+                  {isLOad ? (
+    <div className="spinner-border text-light" role="status">
+      <span className="visually-hidden"></span>
+    </div>
+  )
+                  :
+                  "Payer"
+                  }
+
+                </Button>
         </form>
         :
+
        <div>
-           <h2>Done</h2>
+           <h2>Paiement réussi.</h2>
        </div>
         }
 

@@ -713,14 +713,20 @@ if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.he
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
-                  Your attention is required
+                Votre attention est requise
                 </h6>
                 <button
                   aria-label="Close"
                   className="close"
                   data-dismiss="modal"
                   type="button"
-                  onClick={() => setnotificationModal(false)}
+                  onClick={() => {
+                    dispatch({
+        type: SET_SINGLE_FACTURE,
+        payload: {},
+      });
+        dispatch(FindFactureById(id))
+                    setnotificationModal(false)}}
                 >
                   <span aria-hidden={true}>×</span>
                 </button>
@@ -741,9 +747,15 @@ if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.he
                   color="link"
                   data-dismiss="modal"
                   type="button"
-                  onClick={() => setnotificationModal(false)}
+                  onClick={() => {
+                    dispatch({
+        type: SET_SINGLE_FACTURE,
+        payload: {},
+      });
+        dispatch(FindFactureById(id))
+                    setnotificationModal(false)}}
                 >
-                  Close
+                  Fermer
                 </Button>
               </div>
             </Modal>

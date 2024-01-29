@@ -6,7 +6,7 @@ import { Card, CardHeader, CardBody, Container, Row, Col, Button, Modal } from "
   import 'react-toastify/dist/ReactToastify.css';
   import React, { useEffect, useRef, useState } from "react";
   import classNames from "classnames";
-  import { SET_ERRORS, SET_IS_SECCESS, SET_SINGLE_DEMANDE } from "../../Redux/types";
+  import { SET_ERRORS, SET_FACTURE_DETAIL_ADMIN, SET_IS_SECCESS, SET_SINGLE_DEMANDE } from "../../Redux/types";
 import { CreatePartner } from "Redux/actions/authActions.js";
 import { createCategorie } from "Redux/actions/authActions.js";
 import { Alert, AlertIcon } from "@chakra-ui/react";
@@ -582,6 +582,8 @@ const onChangeHandler = (e) => {
 
                       <h3 className="mb-0">facture #{factureDEtails?.numFacture}</h3>
                     </Col>
+                    {!factureDEtails?.payed &&
+
                     <Col className="text-right" xs="4">
                     <Link
                             // to={`/admin/ListCategorie`}
@@ -607,6 +609,7 @@ const onChangeHandler = (e) => {
                     </Button>
                         </Link>
                     </Col>
+                    }
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -637,14 +640,21 @@ const onChangeHandler = (e) => {
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
-                  Your attention is required
+                Votre attention est requise
                 </h6>
                 <button
                   aria-label="Close"
                   className="close"
                   data-dismiss="modal"
                   type="button"
-                  onClick={() => setnotificationModal(false)}
+                  onClick={() =>{
+                    dispatch({
+        type: SET_FACTURE_DETAIL_ADMIN,
+        payload: {},
+
+      })
+      dispatch(FindFacturesDriverDetailsById(id))
+                     setnotificationModal(false)}}
                 >
                   <span aria-hidden={true}>×</span>
                 </button>
@@ -665,9 +675,16 @@ const onChangeHandler = (e) => {
                   color="link"
                   data-dismiss="modal"
                   type="button"
-                  onClick={() => setnotificationModal(false)}
+                  onClick={() =>{
+                    dispatch({
+        type: SET_FACTURE_DETAIL_ADMIN,
+        payload: {},
+
+      })
+      dispatch(FindFacturesDriverDetailsById(id))
+                     setnotificationModal(false)}}
                 >
-                  Close
+                  Fermer
                 </Button>
               </div>
             </Modal>
