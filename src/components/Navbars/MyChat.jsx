@@ -149,6 +149,18 @@ if(newMessage?.partner?._id ==user?.id ){
 }
 
     });
+    socket.on("validate_me", (newMessage) => {
+      console.log("validate_me", newMessage)
+
+      if(newMessage?.partner?._id ==user?.id ){
+        setnoti(
+          [...noti, newMessage]
+        )
+
+        handleNotyfy(newMessage);
+      }
+
+          });
     socket.on("Admin notification", (doc)=> {
 
       if(user?.role =="ADMIN") {
@@ -431,10 +443,26 @@ setnoti(updatedNoti);
   }}
 >
 {/* <hr/> */}
-<strong>New mission</strong>
+<strong
+ style={{ marginBottom: '8px',
+    color: '#fff',
+    backgroundColor:'#5e72e4',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    fontWeight: '600',
+    fontSize: '14px',
+    lineHeight: '1.5',
+    display: 'inline-block',
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+     }}
+>Nouvelle mission
+</strong>
 
   <div style={{ marginBottom: '8px' }}>
-    <strong>Partner Name:</strong>{' '}
+    <strong>Nom du partenaire:</strong>{' '}
     {el?.user?.contactName}
   </div>
   <div style={{ marginBottom: '8px' }}>
@@ -445,7 +473,66 @@ setnoti(updatedNoti);
   </div>
 </DropdownItem>
           </>
-          :
+          : el?.validate_me ?
+          <>
+          <DropdownItem
+  onClick={() => {
+    const updatedNoti = noti.filter(item => item._id !== el._id);
+
+// Update the state with the new array
+setnoti(updatedNoti);
+
+    dispatch(ByIdRemoveNotification(el._id));
+    const url = `/admin/driver-details/${el?._id}`;
+    history.push(url);
+
+  }}
+  key={index}
+  sx={{
+    p: 2,
+    maxWidth: 300,
+    backgroundColor: '#f0f0f0',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      backgroundColor: '#e0e0e0',
+    },
+    maxHeight: '100px', // Set a max height for scrolling
+    overflowY: 'auto', // Enable vertical scrolling
+  }}
+>
+ <div style={{ marginBottom: '8px' }}>
+    <strong
+    style={{ marginBottom: '8px',
+    color: '#fff',
+    backgroundColor: '#5e72e4',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    fontWeight: '600',
+    fontSize: '14px',
+    lineHeight: '1.5',
+    display: 'inline-block',
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+     }}
+
+    >Demande de validation du document </strong>{' '}
+
+  </div>
+  <div style={{ marginBottom: '8px' }}>
+    <strong>conducteur: </strong>{' '}
+    {el?.driver?.name}
+  </div>
+  <div style={{ marginBottom: '8px' }}>
+    <strong>Email: </strong> {el?.driver?.email}
+  </div>
+
+</DropdownItem>
+
+          </>:
           <>
           <DropdownItem
   onClick={() => {
@@ -458,29 +545,56 @@ setnoti(updatedNoti);
     {el?.PartnerAccepted === "Accepted" ? (
       <>
         <div style={{ marginBottom: '2px' }}>
-          <strong></strong> <Button
+          <strong></strong> <strong
     color="info"
     outline
-    disabled
+    // disabled
+    style={{ marginBottom: '8px',
+    color: '#0B0F0F',
+    backgroundColor: '#5EE4D7',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    fontWeight: '600',
+    fontSize: '14px',
+    lineHeight: '1.5',
+    display: 'inline-block',
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    whiteSpace: 'nowrap',
+    cursor: 'none',
+     }}
   >
-    confirmée
-  </Button>
+    Devis confirmée par le partenaire
+  </strong>
         </div>
 
       </>
     ) : (
       <>
         <div style={{ marginBottom: '2px' }}>
-          <strong></strong>
 
-          <Button
-    color="danger"
-    outline
-    disabled
+
+          <strong
+           style={{ marginBottom: '8px',
+    color: '#fff',
+    backgroundColor: '#E4605E',
+
+    borderRadius: '4px',
+    padding: '4px 8px',
+    fontWeight: '600',
+    fontSize: '14px',
+    lineHeight: '1.5',
+    display: 'inline-block',
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    whiteSpace: 'nowrap',
+    // cursor: 'pointer',
+    cursor: 'none',
+
+     }}
   >
-    non
-          confirmée
-  </Button>
+   Devis non confirmée par le partenaire
+  </strong>
         </div>
 
       </>
@@ -517,7 +631,7 @@ setnoti(updatedNoti);
   }}
 >
   <div style={{ marginBottom: '8px' }}>
-    <strong>Partner Name:</strong>{' '}
+    <strong>Nom du partenaire:</strong>{' '}
     {el?.partner?.contactName}
   </div>
   <div style={{ marginBottom: '8px' }}>

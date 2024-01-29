@@ -378,11 +378,8 @@ const onGlobalFilterChange = (e) => {
 //   return baseAmount;
 // };
 const calculateDriverAmmount = (distance, categories) => {
-  let totalAmount = 0;
-// console.log(Categories)
-  if(Categories) {
-    // console.log("-------------------")
-  }
+  let totalAmount =20;
+
   for (const category of Categories) {
     if (distance >= category.distance) {
       totalAmount += category.distance * category.unitPrice;

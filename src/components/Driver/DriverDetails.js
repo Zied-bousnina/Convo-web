@@ -6,7 +6,8 @@ import {
     CardBody,
     Container,
     Row,
-    Col
+    Col,
+    Modal
   } from "reactstrap";
   // core components
   import UserHeader from "../../components/Headers/UserHeader.js";
@@ -17,7 +18,7 @@ import {
   import axios from "axios";
   import classNames from "classnames";
 
-  import { SET_IS_SECCESS } from "../../Redux/types";
+  import { SET_ERRORS, SET_IS_LOADING, SET_IS_SECCESS } from "../../Redux/types";
   import {Link} from "react-router-dom"
   import { FetchAllQuote } from "../../Redux/actions/QuoteAction";
   import { FetchAllBinsNotInUse } from "../../Redux/actions/BinAction";
@@ -32,10 +33,12 @@ import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 import FileInput from "components/FileInput.jsx";
 import Skeleton from "react-loading-skeleton";
 import { Alert, AlertIcon } from "@chakra-ui/react";
+import { activateDriverAccount } from "Redux/actions/Driver.actions.js";
+import { RefusAccount } from "Redux/actions/Driver.actions.js";
 
   const animatedComponents = makeAnimated();
   const DriverDetails = () => {
-
+    const [notificationModal, setnotificationModal] = useState(false)
     const error = useSelector(state=>state.error?.errors)
 
 
@@ -68,7 +71,7 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 
 
     const showToastMessage = () => {
-      toast.success('Partner Edit  successfully.', {
+      toast.success('Compte modifié avec succès', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
       });
@@ -111,9 +114,52 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
       e.preventDefault();
 
 
-    dispatch(UpdatePartnerShip(id,form))
+    dispatch(RefusAccount(id,form))
+    .then(res => {
+
+        dispatch({
+          type: SET_ERRORS,
+          payload: []
+      })
+      dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+
+      dispatch({
+        type:SET_IS_SECCESS,
+        payload:true
+    })
+    setnotificationModal(false)
+
+
+      dispatch({
+        type:SET_IS_SECCESS,
+        payload:false
+    })
+
+
+  })
+  .catch(err =>{
+    dispatch({
+      type: SET_ERRORS,
+      payload: err?.response?.data
+  })
+  dispatch({
+    type:SET_IS_LOADING,
+    payload:false
+})
+setnotificationModal(false)
+  dispatch({
+    type:SET_IS_SECCESS,
+    payload:false
+})
+  })
+
 
     // !error?.success ? showErrorToastMessage() : null
+
+    // console.log(form, id)
 
 
 
@@ -219,6 +265,176 @@ import { Alert, AlertIcon } from "@chakra-ui/react";
 
     <ToastContainer />
 
+    <Row>
+
+    <Col className="text-right" xs="6">
+    <Row>
+
+
+                    <Link
+                            // to={`/admin/ListCategorie`}
+                            >
+
+<Button
+                      color={`${ "success" }`}
+                      // href="#pablo"
+                      onClick={(e) => dispatch(activateDriverAccount(id)) }
+                      size="xl"
+                      style={{
+                        marginRight:"20px"
+                      }}
+                    >
+                      {isLoad ? (
+        <div className="spinner-border text-light" role="status">
+          <span className="visually-hidden"></span>
+        </div>
+      ) : (
+
+           "Activer le compte"
+      )}
+                    </Button>
+                        </Link>
+                        <Link
+                            // to={`/admin/ListCategorie`}
+                            >
+
+<Button
+                      color={`${"danger"}`}
+                      // href="#pablo"
+                      // onClick={(e) => dispatch(PayeeFactureDriver(id, navigate)) }
+                      size="xl"
+                      disabled={isLoad}
+                      onClick={()=>{
+                        console.log("clickced")
+                        setnotificationModal(true)}}
+                    >
+                      {isLoad ? (
+        <div className="spinner-border text-light" role="status">
+          <span className="visually-hidden"></span>
+        </div>
+      ) : (
+
+        "Refuser le document"
+      )}
+                    </Button>
+                        </Link>
+                        </Row>
+                    </Col>
+
+    </Row>
+    <Modal
+              className="modal-dialog-centered modal-danger"
+              contentClassName="bg-gradient-danger"
+              isOpen={notificationModal}
+
+            >
+              <div className="modal-header">
+                <h6 className="modal-title" id="modal-title-notification">
+                Votre attention est requise
+                </h6>
+                <button
+                  aria-label="Close"
+                  className="close"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={() => setnotificationModal(false)}
+                >
+                  <span aria-hidden={true}>×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="py-3 text-center">
+                  <i className="ni ni-bell-55 ni-3x" />
+                  <h4 className="heading mt-4">Tu devrais lire ceci !</h4>
+                  <p>
+                  Lorsque vous cliquez sur 'Ok', le compte du conducteur est désactivé
+                     {/* {selectedItem} */}
+                  </p>
+                </div>
+                <form onSubmit={onSubmit}
+  style={
+    {
+      padding:"20px",
+      // border:"1px solid #ccc",
+      borderRadius:"5px",
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin:20
+      // display: 'flex',
+    }
+
+  }
+  >
+        <Row>
+    <Col
+      md="12"
+      >
+         <div className=" mb-">
+        <label className="form-label">Raison :</label>
+        <div className="input-group">
+
+          <input type="text"   placeholder="Entrez la raison du refus du compte (optionnel)"  name={"raisonRefus"} className={classNames("form-control")} onChange={onChangeHandler}/>
+          {/* {
+            errors && (<div  className="invalid-feedback">
+            {errors}
+          </div>)
+          } */}
+        </div>
+      </div>
+      </Col>
+
+
+      {/* <Col
+      md="4"
+      >
+         <div className=" mb-3">
+        <label className="form-label">Job Title</label>
+        <div className="input-group">
+
+          <input type="text"  name={"jobTitle"} className={classNames("form-control")} onChange={onChangeHandler}/>
+
+        </div>
+      </div>
+      </Col> */}
+    </Row>
+    <Row
+    className="mt-4"
+    >
+      <Col
+      md="12"
+      >
+       <Button className="btn-white" color="default" type="submit"
+
+                >
+                  {isLoad ? (
+    <div className="spinner-border text-light" role="status">
+      <span className="visually-hidden"></span>
+    </div>
+  )
+                  :
+                  "Ok"
+                  }
+
+                </Button>
+      </Col>
+    </Row>
+  </form>
+              </div>
+
+
+              <div className="modal-footer">
+
+                <Button
+                  className="text-white ml-auto"
+                  color="link"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={() => setnotificationModal(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            </Modal>
 <fieldset>
     <legend>Informations sur le conducteur</legend>
 

@@ -178,3 +178,110 @@ export const CreateDriver = (data)=>dispatch=>{
     )
   }
 
+  export const activateDriverAccount = (id)=>dispatch=>{
+    dispatch({
+      type: SET_ERRORS,
+      payload: []
+  })
+  dispatch({
+      type:SET_IS_LOADING,
+      payload:true
+  })
+    axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/ValiderDriverAccount/${id}`)
+    .then(res => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: []
+    })
+    setTimeout(() => {
+
+        dispatch({
+            type:SET_IS_LOADING,
+            payload:false
+        })
+    }, 1000);
+    dispatch({
+        type:SET_IS_SECCESS,
+        payload:true
+    })
+    setTimeout(() => {
+        dispatch({
+          type:SET_IS_SECCESS,
+          payload:false
+      })
+      }, 3000);
+    })
+    .catch(err =>
+       {
+
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+
+  dispatch({
+
+      type:SET_IS_SECCESS,
+      payload:false
+  })
+        // dispatch(registerGoogleUser(data))
+    }
+    )
+  }
+
+  export const RefusAccount = (id, data)=>dispatch=>{
+    dispatch({
+      type: SET_ERRORS,
+      payload: []
+  })
+  dispatch({
+      type:SET_IS_LOADING,
+      payload:true
+  })
+  return axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/refusDriverAccount/${id}`,
+    data
+
+
+    )
+    .then(res => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: []
+    })
+    setTimeout(() => {
+
+        dispatch({
+            type:SET_IS_LOADING,
+            payload:false
+        })
+    }, 1000);
+    dispatch({
+        type:SET_IS_SECCESS,
+        payload:true
+    })
+    setTimeout(() => {
+        dispatch({
+          type:SET_IS_SECCESS,
+          payload:false
+      })
+      }, 3000);
+      return res.data;
+    })
+    .catch(err =>
+       {
+
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+
+  dispatch({
+
+      type:SET_IS_SECCESS,
+      payload:false
+  })
+  throw err;
+        // dispatch(registerGoogleUser(data))
+    }
+    )
+  }
