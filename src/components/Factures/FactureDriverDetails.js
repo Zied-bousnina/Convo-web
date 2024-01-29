@@ -1,5 +1,5 @@
 
-import { Card, CardHeader, CardBody, Container, Row, Col, Button } from "reactstrap";
+import { Card, CardHeader, CardBody, Container, Row, Col, Button, Modal } from "reactstrap";
   import UserHeader from "../../components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
@@ -32,7 +32,9 @@ import { FindFacturesDetailsById } from "Redux/actions/Demandes.Actions.js";
 import { PayeeFacture } from "Redux/actions/Demandes.Actions.js";
 import { FindFacturesDriverDetailsById } from "Redux/actions/Demandes.Actions.js";
 import { PayeeFactureDriver } from "Redux/actions/Demandes.Actions.js";
+import StripeContainer from "components/Driver/Payment/StripeContainer.js";
   const FactureDriverDEtails = () => {
+    const [notificationModal, setnotificationModal] = useState(false)
     const navigate = useHistory();
     const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
     const factureDEtails = useSelector(state=>state?.factureDetailsAdmin?.FactureDetails)
@@ -588,7 +590,10 @@ const onChangeHandler = (e) => {
 <Button
                       color={`${factureDEtails?.payed ? "success" : "danger"}`}
                       // href="#pablo"
-                      onClick={(e) => dispatch(PayeeFactureDriver(id, navigate)) }
+                      onClick={(e) =>{
+                        setnotificationModal(true)
+                      //  dispatch(PayeeFactureDriver(id, navigate))
+                       }}
                       size="sm"
                     >
                       {isLoad ? (
@@ -597,7 +602,7 @@ const onChangeHandler = (e) => {
         </div>
       ) : (
 
-        factureDEtails?.payed ?   "impeyee":"Payé"
+        factureDEtails?.payed ?   "impeyee":"Payer"
       )}
                     </Button>
                         </Link>
@@ -605,7 +610,8 @@ const onChangeHandler = (e) => {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                <form onSubmit={onSubmit}
+                <form
+                // onSubmit={onSubmit}
   style={
     {
       padding:"20px",
@@ -621,6 +627,50 @@ const onChangeHandler = (e) => {
   >
 
     <ToastContainer />
+    <Modal
+               className="modal-dialog-centered "
+              contentClassName="bg-gradient-white"
+              // contentClassName="bg-gradient-danger"
+              isOpen={notificationModal}
+
+
+            >
+              <div className="modal-header">
+                <h6 className="modal-title" id="modal-title-notification">
+                  Your attention is required
+                </h6>
+                <button
+                  aria-label="Close"
+                  className="close"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={() => setnotificationModal(false)}
+                >
+                  <span aria-hidden={true}>×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="py-3 text-center">
+
+                <p className="text-black">
+                    <StripeContainer/>
+                     {/* {selectedItem} */}
+                  </p>
+                </div>
+              </div>
+              <div className="modal-footer">
+
+                <Button
+                  className="text-black ml-auto"
+                  color="link"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={() => setnotificationModal(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            </Modal>
     <Alert
     status="info"
     variant="subtle"
@@ -973,7 +1023,9 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
 
     <Row>
       <Col>
-      <button type="submit" className="btn btn-outline-primary">
+      <button
+      onClick={()=>exportPdf(factureDEtails)}
+      type="button" className="btn btn-outline-primary">
       {isLoad ? (
           <div className="spinner-border text-light" role="status">
             <span className="visually-hidden"></span>

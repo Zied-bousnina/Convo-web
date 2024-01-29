@@ -277,6 +277,7 @@ var routes = [
     invisible:true
   },
 
+
   {
     path: "/factures",
     name: "Facturation",

@@ -266,8 +266,10 @@ useEffect(() => {
             // doc.text(`De : ${res?.from} à ${res?.to} `, 30, 70) ;
             // doc.text(`MONTANT TOTAL : ${Number(res?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}  `, 14, 18) ;
             doc.text(`${
-                factureDEtails?.payed ?
-                "Facture Payée":"Facture non Payée"
+              factureDEtails?.paymentMethod =="Paiement En cours – Hors Ligne" ?
+"Paiement En cours – Hors Ligne":
+"Facture non Payée"
+
                 }`, 14, 40) ;
 
             // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
@@ -594,7 +596,10 @@ const onChangeHandler = (e) => {
         :
         <div>
         {/* <AlertIcon boxSize="40px" mr={0} /> */}
-        <h1>Facture non Payée  {
+        <h1>{factureDEtails?.paymentMethod =="Paiement En cours – Hors Ligne" ?
+"Paiement En cours – Hors Ligne":
+"Facture non Payée"
+        } :{
 
           Number(factureDEtails?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
         </div>

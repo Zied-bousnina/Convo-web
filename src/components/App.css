@@ -3,3 +3,13 @@
     width: 100%;
     height: 100vh;
   }
+  /* Add these styles to your CSS file */
+
+.modal-payment {
+  /* Add styles for payment modal */
+}
+
+.bg-gradient-payment {
+  background: linear-gradient(to right, #ff8c00, #ffa500); /* Adjust colors as needed */
+  /* Add additional background styles for payment modal */
+}

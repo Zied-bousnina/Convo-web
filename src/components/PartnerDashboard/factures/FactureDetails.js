@@ -1,5 +1,5 @@
 
-import { Card, CardHeader, CardBody, Container, Row, Col, Button, Input } from "reactstrap";
+import { Card, CardHeader, CardBody, Container, Row, Col, Button, Input, ButtonGroup, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal } from "reactstrap";
   import UserHeader from "../../../components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
@@ -29,6 +29,8 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { createFacture } from "Redux/actions/Demandes.Actions.js";
 import { FindFactureById } from "Redux/actions/Demandes.Actions.js";
+import { PayeFactureByPartnerHorLigne } from "Redux/actions/userAction.js";
+import StripeContainer from "components/Payment/StripeContainer.js";
   const FactureDetails = () => {
     const navigate = useHistory();
     const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
@@ -38,8 +40,25 @@ import { FindFactureById } from "Redux/actions/Demandes.Actions.js";
     const [form, setForm] = useState({})
     const [selectedValues, setSelectedValues] = useState();
     const [globalFilterValue, setGlobalFilterValue] = useState('');
+    const [notificationModal, setnotificationModal] = useState(false)
     const { id } = useParams();
     const singleFacture = useSelector(state=>state?. singleFacture?.facture)
+    const payeeFactureHorLigne = ()=> {
+      dispatch(PayeFactureByPartnerHorLigne(id))
+      .then(res=> {
+        dispatch({
+        type: SET_SINGLE_FACTURE,
+        payload: {},
+      });
+        dispatch(FindFactureById(id))
+        showToastMessage()
+
+      })
+      .catch(error=> {
+
+      })
+    }
+
     const  getCurrentDateISOString=()=> {
         const currentDate = new Date();
         const formattedDate = currentDate.toISOString().split('T')[0];
@@ -63,6 +82,7 @@ import { FindFactureById } from "Redux/actions/Demandes.Actions.js";
     const requestsByPartnerV2 = useSelector(state=>state?.MissionByPartnerV2?.demandes)
     const devisByPartnerId = useSelector(state=>state?.specifiqueDevis?.demande)
     const [partnerdetails, setpartnerdetails] = useState()
+    const [openPay, setopenPay] = useState(false)
     const dt = useRef(null);
     const colourOptions = []
     useEffect(() => {
@@ -92,16 +112,12 @@ import { FindFactureById } from "Redux/actions/Demandes.Actions.js";
 dispatch({type:SET_IS_SECCESS, payload:false })
 
 const showToastMessage = () => {
-      toast.error('Invalid Date.', {
+      toast.success('Success', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 3000,
       });
     }
-useEffect(() => {
-        if (isSuccess) {
-          showToastMessage()
-        }
-      }, [isSuccess])
+
       const onGlobalFilterChange = (e) => {
         const value = e.target.value;
         let _filters = { ...filters };
@@ -404,8 +420,13 @@ if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.he
 
 
           doc.text(`${
-              singleFacture?.facture?.payed ?
-              "Facture Payée":"Facture non Payée"
+            singleFacture?.facture?.payed ?
+            `Facture Payée :  ${ Number(singleFacture?.facture?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`:
+            (
+
+            singleFacture?.facture?.paymentMethod =="Paiement En cours – Hors Ligne" ?
+"Paiement En cours – Hors Ligne":
+"Facture non Payée")
               }`, 14, 40) ;
 
           // doc.text(`K-bis: ${partnerdetails[0].partner?.kbis}`, 14, 60) ;
@@ -613,7 +634,7 @@ if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.he
                   </Row>
                 </CardHeader>
                 <CardBody>
-                <form onSubmit={onSubmit}
+                <form
   style={
     {
       padding:"20px",
@@ -627,8 +648,105 @@ if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.he
 
   }
   >
+  {
+    !singleFacture?.facture?.payed &&
+
+   <Row>
+
+<Col className="text-left" xs="6">
+<ButtonGroup className="my-2">
+
+  <ButtonGroup
+
+  >
+    <UncontrolledDropdown>
+      <DropdownToggle
+       color={`${"danger"}`}
+
+      caret>
+       {isLoad ? (
+          <div className="spinner-border text-light" role="status">
+            <span className="visually-hidden"></span>
+          </div>
+        ) : (
+          'Payer Facture'
+        )}
+
+      </DropdownToggle>
+      <DropdownMenu>
+
+
+        <DropdownItem
+        onClick={()=>{console.log("Paiement en ligne")
+        setnotificationModal(true)
+
+        }
+        }
+        >
+        Paiement en ligne
+        </DropdownItem>
+        <DropdownItem divider />
+        <DropdownItem
+        onClick={()=>payeeFactureHorLigne()}
+        >
+         Paiement hors-ligne
+        </DropdownItem>
+      </DropdownMenu>
+    </UncontrolledDropdown>
+  </ButtonGroup>
+</ButtonGroup>
+                </Col>
+
+</Row>
+  }
+
+
 
     <ToastContainer />
+    <Modal
+               className="modal-dialog-centered "
+              contentClassName="bg-gradient-white"
+              // contentClassName="bg-gradient-danger"
+              isOpen={notificationModal}
+
+
+            >
+              <div className="modal-header">
+                <h6 className="modal-title" id="modal-title-notification">
+                  Your attention is required
+                </h6>
+                <button
+                  aria-label="Close"
+                  className="close"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={() => setnotificationModal(false)}
+                >
+                  <span aria-hidden={true}>×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="py-3 text-center">
+
+                <p className="text-black">
+                    <StripeContainer/>
+                     {/* {selectedItem} */}
+                  </p>
+                </div>
+              </div>
+              <div className="modal-footer">
+
+                <Button
+                  className="text-black ml-auto"
+                  color="link"
+                  data-dismiss="modal"
+                  type="button"
+                  onClick={() => setnotificationModal(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            </Modal>
     <Alert
     status="info"
     variant="subtle"
@@ -648,7 +766,12 @@ if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.he
         :
         <div>
         {/* <AlertIcon boxSize="40px" mr={0} /> */}
-        <h1>Facture non Payée : { Number(singleFacture?.facture?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
+        <h1>
+        {singleFacture?.facture?.paymentMethod =="Paiement En cours – Hors Ligne" ?
+"Paiement En cours – Hors Ligne":
+"Facture non Payée"
+        }
+         : { Number(singleFacture?.facture?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}</h1>
         </div>
 
     }
@@ -868,7 +991,11 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
 
     <Row>
       <Col>
-      <button type="submit" className="btn btn-outline-primary">
+      <button
+      onClick={()=>{
+        exportPdf2(singleFacture?.facture)
+      }}
+      type="button" className="btn btn-outline-primary">
       {isLoad ? (
           <div className="spinner-border text-light" role="status">
             <span className="visually-hidden"></span>

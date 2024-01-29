@@ -333,6 +333,55 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
   };
 
 
+  export const PayeFactureByPartnerHorLigne =(id) => (dispatch) => {
+    dispatch({
+            type: SET_IS_LOADING,
+            payload: true,
+          });
+
+    return axios.post(`${process.env.REACT_APP_API_URL}/api/users/facture/PayeFactureByPartnerHorLigne/${id}`)
+    .then(res => {
+        dispatch({
+            type: SET_ERRORS,
+            payload: [],
+          });
+          dispatch({
+            type: SET_IS_LOADING,
+            payload: false,
+          });
+          dispatch({
+            type: SET_IS_SECCESS, // Assuming you have a SET_IS_SECCESS action type
+            payload: true,
+          });
+          // Assuming you want to reset success after a certain duration
+          setTimeout(() => {
+            dispatch({
+              type: SET_IS_SECCESS,
+              payload: false,
+            });
+          }, 3000);
+
+          return res.data; // Return data if needed
+    })
+    .catch(err => {
+        dispatch({
+            type: SET_ERRORS,
+            payload: err?.response?.data,
+          });
+          dispatch({
+            type: SET_IS_SECCESS, // Assuming you have a SET_IS_SECCESS action type
+            payload: false,
+          });
+          dispatch({
+            type: SET_IS_LOADING,
+            payload: false,
+          });
+          throw err; // Rethrow the error if needed
+    })
+  };
+
+
+
 
 
 
