@@ -135,12 +135,12 @@ const Sidebar = (props) => {
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {
-      to: logo.innerLink,
+      // to: logo.innerLink,
       tag: Link
     };
   } else if (logo && logo.outterLink) {
     navbarBrandProps = {
-      href: logo.outterLink,
+      // href: logo.outterLink,
       target: "_blank"
     };
   }
@@ -148,7 +148,7 @@ const Sidebar = (props) => {
   return (
     <Navbar
       className="navbar-vertical fixed-left navbar-light bg-white"
-      expand="md"
+      expand="lg"
       id="sidenav-main"
     >
       <Container fluid>

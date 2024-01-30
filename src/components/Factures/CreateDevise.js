@@ -377,26 +377,51 @@ const onGlobalFilterChange = (e) => {
 //   // If no category matches, use the default base amount
 //   return baseAmount;
 // };
+//  version1
+// const calculateDriverAmmount = (distance, categories) => {
+//   let totalAmount =0;
+//   let ok=false
+//   if(distance >=10){
+//   for (const category of Categories) {
+//     if(distance >10){
+//       ok=true
+//       totalAmount += category.unitPrice;
+//       distance -= 10;
+//     }else{
+//       break;
+
+//     }
+//   }}
+
+//   // If there is remaining distance, apply a separate unit price (e.g., 10 euro/km)
+//   if (distance > 0 & ok) {
+//     const remainingAmount = 10; // Adjust this based on your actual unit price for the remaining distance
+//     totalAmount += remainingAmount
+//   }
+// console.log("totalAmount", totalAmount)
+//   return totalAmount+20;
+// };
+
+//version 2
 const calculateDriverAmmount = (distance, categories) => {
-  let totalAmount =20;
-
+  let totalAmount =0;
+  console.log(Math.floor(distance))
+  let ok=false
   for (const category of Categories) {
-    if (distance >= category.distance) {
-      totalAmount += category.distance * category.unitPrice;
-      distance -= category.distance;
-    } else {
-      totalAmount += distance * category.unitPrice;
-      break;
+    if(Math.floor(distance) >0){
+
+  totalAmount += category.unitPrice;
+  distance -= 10;
     }
-  }
+}
 
-  // If there is remaining distance, apply a separate unit price (e.g., 10 euro/km)
-  if (distance > 0) {
-    const remainingAmount = distance * 10; // Adjust this based on your actual unit price for the remaining distance
-    totalAmount += remainingAmount;
-  }
-
-  return totalAmount;
+// If there is remaining Math.floor(distance), apply a separate unit price (e.g., 10 euro/km)
+if (Math.floor(distance) > 0) {
+  const remainingAmount = 10; // Adjust this based on your actual unit price for the remaining distance
+  totalAmount += remainingAmount // Adjust for the actual remaining distance
+}
+console.log("totalAmount", totalAmount)
+  return totalAmount+20;
 };
 
 useEffect(() => {
