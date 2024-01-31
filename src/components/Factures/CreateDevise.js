@@ -404,24 +404,29 @@ const onGlobalFilterChange = (e) => {
 
 //version 2
 const calculateDriverAmmount = (distance, categories) => {
-  let totalAmount =0;
+  let totalAmount = 20;
+    let ok=false
   console.log(Math.floor(distance))
-  let ok=false
-  for (const category of Categories) {
-    if(Math.floor(distance) >0){
 
-  totalAmount += category.unitPrice;
-  distance -= 10;
+  if(Math.floor(distance) >=10){
+    for (const category of Categories) {
+        if(Math.floor(distance) >0){
+        ok=true
+
+      totalAmount += category.unitPrice;
+      distance -= 10;
+        }
     }
-}
+  }
 
-// If there is remaining Math.floor(distance), apply a separate unit price (e.g., 10 euro/km)
-if (Math.floor(distance) > 0) {
-  const remainingAmount = 10; // Adjust this based on your actual unit price for the remaining distance
-  totalAmount += remainingAmount // Adjust for the actual remaining distance
-}
+    // If there is remaining distance, apply a separate unit price (e.g., 10 euro/km)
+    if (Math.floor(distance) > 0 & ok) {
+      const remainingAmount = 10; // Adjust this based on your actual unit price for the remaining distance
+      totalAmount += remainingAmount // Adjust for the actual remaining distance
+    }
+
 console.log("totalAmount", totalAmount)
-  return totalAmount+20;
+  return totalAmount;
 };
 
 useEffect(() => {
