@@ -196,7 +196,7 @@ useEffect(() => {
                 `${
 
                     new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
-                      calculateTVA(Number(e?.totalAmmount), tvaRate).montantPur,
+                      calculateTVA(Number(e?.totalAmmount), tvaRate).montantTTC,
                           )
 
 
@@ -246,7 +246,7 @@ useEffect(() => {
             doc.text(`De ${formatDateToYYYYMMDD2(res?.from)} À ${formatDateToYYYYMMDD2(res?.to)} `, 14, 30) ;
             doc.text(`MONTANT TOTAL : ${
               new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
-                calculateTVA(Number(res?.totalAmmount), tvaRate).montantPur,
+                calculateTVA(Number(res?.totalAmmount), tvaRate).montantTTC,
                 )
               // calculateTVA(Number(res?.totalAmmount), tvaRate).montantTTC
               //   .toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
@@ -704,7 +704,7 @@ const onChangeHandler = (e) => {
         {/* <AlertIcon boxSize="40px" mr={0} /> */}
         <h1>Facture Payée : {
           new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
-            calculateTVA(Number(factureDEtails?.totalAmmount), tvaRate).montantPur,
+            calculateTVA(Number(factureDEtails?.totalAmmount), tvaRate).montantTTC,
                 )
 
           }</h1>
@@ -714,7 +714,7 @@ const onChangeHandler = (e) => {
         {/* <AlertIcon boxSize="40px" mr={0} /> */}
         <h1>Facture non Payée :  {
           new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
-            calculateTVA(Number(factureDEtails?.totalAmmount), tvaRate).montantPur,
+            calculateTVA(Number(factureDEtails?.totalAmmount), tvaRate).montantTTC,
                 )
 
           }</h1>
@@ -1000,8 +1000,8 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
         field={"montant"}
         body={(rowData) => {
           const montantHT = Number(rowData?.totalAmmount);
-          const { montantPur } = calculateTVA(montantHT, tvaRate);
-          return `${montantPur.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
+          const { montantTTC } = calculateTVA(montantHT, tvaRate);
+          return `${montantTTC.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}`;
         }}
         header={"Montant TTC"}
         sortable

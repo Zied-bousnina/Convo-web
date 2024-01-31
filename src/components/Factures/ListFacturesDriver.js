@@ -511,7 +511,7 @@ const rowExpansionTemplate = (data) => {
                 header={"à"} sortable style={{ width: '25%' }}></Column> */}
                 <Column field={"_id"}
                 body={(rowData) =>
-                  calculateTVA(Number(rowData?.totalAmmount), tvaRate).montantPur.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+                  calculateTVA(Number(rowData?.totalAmmount), tvaRate).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 
 
                 // Number(rowData?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
