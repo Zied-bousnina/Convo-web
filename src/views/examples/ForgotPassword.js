@@ -98,7 +98,7 @@ function ForgotPassword () {
       {/* <AppLoader/> */}
 
         <main >
-        <section className="section section-shaped section-lg">
+        <section className="section section-shaped section-lg" style={{ height: '100vh' }}>
             <div className="shape shape-style-1 bg-gradient-default">
               <span />
               <span />
@@ -115,14 +115,14 @@ function ForgotPassword () {
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white pb-5">
                       <div className="text-muted text-center mb-3">
-                        <small>Forgot Password ?</small>
+                        <small>Mot de passe oublié</small>
                       </div>
 
 
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
                       <div className="text-center text-muted mb-4">
-                        <small>Don't worry! it happens, please enter the address associated with your account</small>
+                        <small>Ne vous inquiétez pas ! Cela arrive, veuillez saisir l'adresse associée à votre compte</small>
                       </div>
                       <Formik
   initialValues={initialValues}
@@ -205,7 +205,7 @@ function ForgotPassword () {
           <span className="visually-hidden"></span>
         </div>
       ) : (
-        'Send Link'
+        'Envoyer le lien'
       )}
     </Button>
       </div>
@@ -220,7 +220,7 @@ function ForgotPassword () {
                         className="text-light"
                         to="/login"
                       >
-                        <small>Login</small>
+                        <small>Connexion</small>
                       </Link>
                     </Col>
 

@@ -53,6 +53,7 @@ import {
 } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LogOut } from "Redux/actions/authActions";
+import Logo from "components/Logo/logo";
 
 var ps;
 
@@ -163,13 +164,10 @@ const Sidebar = (props) => {
         {/* Brand */}
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
-              style={{ width: '100%', maxHeight: '100%', objectFit: 'contain' }}
+          <Logo
+  width= '50px' maxHeight= '50px'  objectFit= 'contain'
 
-            />
+  />
           </NavbarBrand>
         ) : null}
         {/* User */}

@@ -25,7 +25,13 @@ import { GetAllUsers } from "Redux/actions/userAction";
 import { useHistory } from 'react-router-dom';
 import { SET_PARTNER_DETAILS } from "Redux/types";
 import { GetCurrentUser } from "Redux/actions/userAction";
+import { SET_ALL_DRIVER } from "Redux/types";
 function MapsComponent() {
+  useEffect(() => {
+    console.log("test")
+   socket.emit('getOnlineUserss',("test"))
+  }
+  , [])
   const dispatch = useDispatch();
   const currentUser = useSelector(state=>state?.currentUser?.users?.user?.Newsocket)
   useEffect(() => {
@@ -114,6 +120,13 @@ function MapsComponent() {
         setCurrentLocation([latitude, longitude]);
       });
     }, []);
+
+    useEffect(() => {
+      dispatch({
+        type: SET_ALL_DRIVER,
+        payload:{}
+    })
+    }, [])
 
     const MapsMarker = () => {
       const [position1, setPosition] = useState(null);

@@ -26,6 +26,11 @@ import { useHistory } from 'react-router-dom';
 import { SET_PARTNER_DETAILS } from "Redux/types";
 function MapsComponentPartner() {
   // const [currentLocation, setCurrentLocation] = useState(null);
+  useEffect(() => {
+    console.log("test")
+   socket.emit('getOnlineUserss',("test"))
+  }
+  , [])
   const [currentLocation, setCurrentLocation] = useState([48.709438,2.503570]);
     const position = [51.505, -0.09];
     const AllUsers = useSelector(state => state?.users?.users?.users);

@@ -51,6 +51,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { SET_SPECIFIQUE_DEVIS_BY_PARTNER } from "Redux/types";
 import { SET_NEW_NOTI } from "Redux/types";
+import Logo from "components/Logo/logo";
 
 
 const initialValues = {
@@ -131,23 +132,28 @@ function Login () {
 
             <Container
             fluid
-             className="pt-lg-7">
-              <Row className="justify-content-center">
+             className="pt-lg-5 ">
+              <Row className="justify-content-center " >
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white ">
                     <div className="text-muted text-center d-flex justify-content-center align-items-center">
-  <img
+  {/* <img
     alt="Your Image Alt Text"
-    style={{ width: "200px", height: "auto" }}
+    style={{ width: "150px", height: "auto" }}
     src={require("../../assets/img/brand/logo.png")}
+  /> */}
+  <Logo
+  width="150px"
+  height="auto"
+
   />
 </div>
 
                     </CardHeader>
                     <CardBody className="px-lg-2 py-lg-2">
-                      <div className="text-center text-muted mb-4">
-                        <big> Sign in </big>
+                      <div className="text-center text-muted mb-2">
+                        <big> Connexion </big>
                       </div>
                       <Formik
   initialValues={initialValues}
@@ -250,7 +256,7 @@ function Login () {
       </div>
       <div className="text-center">
       <Button
-      className="my-4"
+      className="mb-2"
       color="primary"
       type="submit"
       disabled={isLoad}
@@ -261,7 +267,7 @@ function Login () {
           <span className="visually-hidden"></span>
         </div>
       ) : (
-        'Sign in'
+        'Se connecter'
       )}
     </Button>
       </div>
@@ -277,7 +283,7 @@ function Login () {
                         className="text-light"
                         to="/forgotpassword-page"
                       >
-                        <small>Forgot password?</small>
+                        <small>Mot de passe oublié ??</small>
                       </Link>
                     </Col>
                     {/* <Col className="text-right" xs="6">
@@ -295,6 +301,7 @@ function Login () {
             </Container>
           </section>
             </div>
+
         </main>
 
     );

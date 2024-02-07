@@ -28,6 +28,7 @@ import {
 } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LogOut } from "Redux/actions/authActions";
+import Logo from "components/Logo/logo";
 
 const Partnersidebar = (props) => {
   const dispatch = useDispatch()
@@ -150,13 +151,17 @@ const Partnersidebar = (props) => {
         {/* Brand */}
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
+            {/* <img
               alt={logo.imgAlt}
               className="navbar-brand-img"
               src={logo.imgSrc}
               style={{ width: '100%', maxHeight: '100%', objectFit: 'contain' }}
 
-            />
+            /> */}
+            <Logo
+  width= '50px' maxHeight= '50px'  objectFit= 'contain'
+
+  />
           </NavbarBrand>
         ) : null}
         {/* User */}
@@ -226,11 +231,19 @@ const Partnersidebar = (props) => {
                 <Col className="collapse-brand" xs="6">
                   {logo.innerLink ? (
                     <Link to={logo.innerLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      <Logo
+  width="50px"
+  height="auto"
+
+  />
                     </Link>
                   ) : (
                     <a href={logo.outterLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      <Logo
+  width="50px"
+  height="auto"
+
+  />
                     </a>
                   )}
                 </Col>
