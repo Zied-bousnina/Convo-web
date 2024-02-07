@@ -20,8 +20,8 @@ import { SET_SINGLE_FACTURE } from "Redux/types";
 import { SET_FACTURES_BY_PARTNERS } from "Redux/types";
 import { SET_FACTURE_DETAIL_ADMIN } from "Redux/types";
 import { SET_FACTURES_BY_DRIVERS } from "Redux/types";
+const baseUrl = "https://convoyage.onrender.com"
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
-
 
     // const [token, settoken] = useState('')
     dispatch({
@@ -29,7 +29,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
       payload:true
   })
 
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/createDemande`, userData)
+    axios.post(`${baseUrl}/api/users/createDemande`, userData)
         .then(async(res) => {
 
 
@@ -90,7 +90,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
   }
 
   export const FinddevisByPartner = ( )=> (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisByPartner`)
+    axios.get(`${baseUrl}/api/users/devis/findDevisByPartner`)
     .then(async(res) => {
 
       dispatch({
@@ -122,7 +122,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
   }
 
   export const FinddevisById = (id )=> (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisById/${id}`)
+    axios.get(`${baseUrl}/api/users/devis/findDevisById/${id}`)
     .then(async(res) => {
 
       dispatch({
@@ -153,7 +153,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
   }
 export const FindRequestDemande = ( )=> (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandsByUserId`)
+    axios.get(`${baseUrl}/api/users/findDemandsByUserId`)
     .then(async(res) => {
 
       dispatch({
@@ -184,7 +184,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   }
   export const FindRequestDemandeByPartner = ( )=> (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandsCreatedByPartner`)
+    axios.get(`${baseUrl}/api/users/findDemandsCreatedByPartner`)
     .then(async(res) => {
 
       dispatch({
@@ -215,7 +215,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   }
   export const FindRequestDemandeByPartnerV2 = ( )=> (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllPartnersAndTheirDemands`)
+    axios.get(`${baseUrl}/api/users/findAllPartnersAndTheirDemands`)
     .then(async(res) => {
 
       dispatch({
@@ -243,7 +243,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   }
   export const FindFacturesByPartners = ( )=> (dispatch) => {
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllPartnersAndTheirFactures`)
+    axios.get(`${baseUrl}/api/users/findAllPartnersAndTheirFactures`)
     .then(async(res) => {
 
 
@@ -272,7 +272,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   }
   export const FindFacturesDriver = ( )=> (dispatch) => {
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/findAllDriversAndTheirFactures`)
+    axios.get(`${baseUrl}/api/users/findAllDriversAndTheirFactures`)
     .then(async(res) => {
 
 
@@ -302,7 +302,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
   export const FindFacturesDetailsById = ( id)=> (dispatch) => {
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/factureById/${id}`)
+    axios.get(`${baseUrl}/api/users/factureById/${id}`)
     .then(async(res) => {
 
 
@@ -331,7 +331,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   }
   export const FindFacturesDriverDetailsById = ( id)=> (dispatch) => {
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/factureDriverById/${id}`)
+    axios.get(`${baseUrl}/api/users/factureDriverById/${id}`)
     .then(async(res) => {
 
 
@@ -364,7 +364,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       payload:true
   })
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/PayeeFacture/${id}`)
+    axios.get(`${baseUrl}/api/users/PayeeFacture/${id}`)
     .then(async(res) => {
 
 
@@ -415,7 +415,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       payload:true
   })
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/payeeFactureDriver/${id}`)
+    axios.get(`${baseUrl}/api/users/payeeFactureDriver/${id}`)
     .then(async(res) => {
 
 
@@ -474,7 +474,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
     // Return the promise from axios.delete
     return axios
-      .delete(`${process.env.REACT_APP_API_URL}/api/users/mission/deleteMission/${missionId}`)
+      .delete(`${baseUrl}/api/users/mission/deleteMission/${missionId}`)
       .then((res) => {
         dispatch({
           type: SET_ERRORS,
@@ -542,7 +542,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
     // Return the promise from axios.delete
     return axios
-      .delete(`${process.env.REACT_APP_API_URL}/api/users/categorie/deleteCategorie/${missionId}`)
+      .delete(`${baseUrl}/api/users/categorie/deleteCategorie/${missionId}`)
       .then((res) => {
         dispatch({
           type: SET_ERRORS,
@@ -613,7 +613,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       payload: true,
     });
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/findDemandById/${demandeid}`);
+      const res = await axios.get(`${baseUrl}/api/users/findDemandById/${demandeid}`);
 
 
       dispatch({
@@ -654,7 +654,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       payload: true,
     });
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/devis/getAllDevisByPartner/${demandeid}`);
+      const res = await axios.get(`${baseUrl}/api/users/devis/getAllDevisByPartner/${demandeid}`);
 
 
       dispatch({
@@ -689,7 +689,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       type:SET_IS_LOADING,
       payload:true
   })
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/mission/updateMission/${id}`,partnerData)
+    axios.post(`${baseUrl}/api/users/mission/updateMission/${id}`,partnerData)
     // http://localhost:3600/api/users/mission/updateMission/6559cfb07be46100421ee64c
     .then(res => {
       dispatch({
@@ -740,7 +740,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
       type:SET_IS_LOADING,
       payload:true
   })
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/categorie/updateCategorie/${id}`,partnerData)
+    axios.post(`${baseUrl}/api/users/categorie/updateCategorie/${id}`,partnerData)
     // http://localhost:3600/api/users/mission/updateMission/6559cfb07be46100421ee64c
     .then(res => {
       dispatch({
@@ -787,7 +787,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
   }
 
   export const FindAllCategories = ( )=> (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/categorie/getAllCategorie`)
+    axios.get(`${baseUrl}/api/users/categorie/getAllCategorie`)
     .then(async(res) => {
 
       dispatch({
@@ -825,7 +825,7 @@ export const FindRequestDemande = ( )=> (dispatch) => {
             payload: true
         });
 
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/create`, userData);
+        const res = await axios.post(`${baseUrl}/api/users/devis/create`, userData);
 
 if(res.data?.data?.status =="Confirmée") {
 
@@ -893,7 +893,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
     payload:true
 })
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/rejectDevis/${id}`)
+  axios.post(`${baseUrl}/api/users/devis/rejectDevis/${id}`)
       .then(async(res) => {
 
 
@@ -960,7 +960,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
       payload:true
   })
 
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/UpdateDevis/${id}`, userData)
+    axios.post(`${baseUrl}/api/users/devis/UpdateDevis/${id}`, userData)
         .then(async(res) => {
 
 
@@ -1019,7 +1019,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
   }
 
   export const FindCategorieById = ( id)=> (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/categorie/${id}`)
+    axios.get(`${baseUrl}/api/users/categorie/${id}`)
     .then(async(res) => {
 
 
@@ -1069,7 +1069,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
       payload: true,
     });
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/facture/findFactureById/${factureId}`
+      const res = await axios.get(`${baseUrl}/api/users/facture/findFactureById/${factureId}`
       );
       dispatch({
         type: SET_ERRORS,
@@ -1117,7 +1117,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
       payload: true,
     });
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/devis/findDevisByPartnerId/${partner}`,
+      const res = await axios.post(`${baseUrl}/api/users/devis/findDevisByPartnerId/${partner}`,
       data
       );
       dispatch({
@@ -1159,7 +1159,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
             payload: true
         });
 
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/facture/create`, userData);
+        const res = await axios.post(`${baseUrl}/api/users/facture/create`, userData);
 
         // Log the entire response
 
@@ -1238,7 +1238,7 @@ export const FindFacturesByPartner = ( ) => async (dispatch) => {
     payload: true,
   });
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/facture/fetchFactureByPartner`
+    const res = await axios.get(`${baseUrl}/api/users/facture/fetchFactureByPartner`
     );
     dispatch({
       type: SET_ERRORS,

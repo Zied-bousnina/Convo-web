@@ -26,6 +26,7 @@ import { useHistory } from 'react-router-dom';
 import { SET_PARTNER_DETAILS } from "Redux/types";
 import { GetCurrentUser } from "Redux/actions/userAction";
 import { SET_ALL_DRIVER } from "Redux/types";
+import MarkerClusterGroup from "react-leaflet-cluster";
 function MapsComponent() {
   useEffect(() => {
     console.log("test")
@@ -271,22 +272,22 @@ Créer une mission
 
               />
               <MapContainer
-         style={{ height: "60vh" }}
-               center={
-                { lat: currentLocation[0], lng: currentLocation[1] }
-               }
+                style={{ height: "80vh", width: "100%" }}
+                center={{ lat: currentLocation[0], lng: currentLocation[1] }}
                 zoom={defaultZoom}
-                 scrollWheelZoom={true}
-               bounds={bounds}
-
-
-
-
+                scrollWheelZoom={true}
+                bounds={bounds}
                >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+         attribution={"Google Maps"}
+          url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" // regular
+          maxZoom={20}
+          subdomains={["mt0", "mt1", "mt2", "mt3"]}
         />
+         <MarkerClusterGroup chunkedLoading>
+
+
+
 
         {userArray &&
           userArray?.map(e => (
@@ -321,6 +322,7 @@ Créer une mission
           </Marker>
         )}
         <MapsMarker />
+        </MarkerClusterGroup>
       </MapContainer>
 
                 </div>

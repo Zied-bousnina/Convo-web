@@ -8,7 +8,7 @@ import { SET_IS_LOADING } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
 import { SET_STATISTIQUES } from "Redux/types"
 import axios from "axios"
-
+const baseUrl = "https://convoyage.onrender.com"
 export const CreatePartership = (data)=>dispatch=>{
   dispatch({
     type: SET_ERRORS,
@@ -22,7 +22,7 @@ dispatch({
 
 
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/site/Addpartnership`,data )
+  axios.post(`${baseUrl}/api/site/Addpartnership`,data )
   .then(res => {
 
       dispatch({
@@ -81,7 +81,7 @@ dispatch({
   payload:true
 })
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/users/partnerShip/fetchAll` )
+  axios.get(`${baseUrl}/api/users/partnerShip/fetchAll` )
   .then(res => {
 
 
@@ -134,7 +134,7 @@ dispatch({
 
 export const GetPartnerDetailsById = (id)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/users/partnerShip/fetchByID/${id}`)
+  axios.get(`${baseUrl}/api/users/partnerShip/fetchByID/${id}`)
   .then(res => {
 
       dispatch({
@@ -169,7 +169,7 @@ dispatch({
     type:SET_IS_LOADING,
     payload:true
 })
-  axios.put(`${process.env.REACT_APP_API_URL}/api/site/partnerShip/readed/${id}`)
+  axios.put(`${baseUrl}/api/site/partnerShip/readed/${id}`)
   .then(res => {
     dispatch({
       type: SET_ERRORS,
@@ -218,7 +218,7 @@ dispatch({
     type:SET_IS_LOADING,
     payload:true
 })
-  axios.post(`${process.env.REACT_APP_API_URL}/api/users/UpdatePartner/${id}`,partnerData)
+  axios.post(`${baseUrl}/api/users/UpdatePartner/${id}`,partnerData)
   .then(res => {
     dispatch({
       type: SET_ERRORS,

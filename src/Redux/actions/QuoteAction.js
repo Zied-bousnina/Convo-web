@@ -8,7 +8,7 @@ import { SET_IS_LOADING } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
 
 import axios from "axios"
-
+const baseUrl = "https://convoyage.onrender.com"
 export const createQuote = (data)=>dispatch=>{
 
 
@@ -24,7 +24,7 @@ dispatch({
 
 
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/site/createQuote`,data, {
+  axios.post(`${baseUrl}/api/site/createQuote`,data, {
     headers: { "Content-Type": "multipart/form-data" }
 } )
 
@@ -75,7 +75,7 @@ dispatch({
 }
 
 export const FetchAllQuote = (data)=>dispatch=>{
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/quote/fetchAll`,data )
+  axios.get(`${baseUrl}/api/site/quote/fetchAll`,data )
   .then(res => {
 
 
@@ -113,7 +113,7 @@ export const FetchAllQuote = (data)=>dispatch=>{
 
 export const GetQuoteById = (id,navigation)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/quote/fetchByID/${id}`)
+  axios.get(`${baseUrl}/api/site/quote/fetchByID/${id}`)
   .then(res => {
 
       dispatch({
@@ -147,7 +147,7 @@ dispatch({
     type:SET_IS_LOADING,
     payload:true
 })
-  axios.put(`${process.env.REACT_APP_API_URL}/api/site/Quote/readed/${id}`)
+  axios.put(`${baseUrl}/api/site/Quote/readed/${id}`)
   .then(res => {
     dispatch({
       type: SET_ERRORS,
@@ -197,7 +197,7 @@ dispatch({
     type:SET_IS_LOADING,
     payload:true
 })
-  axios.put(`${process.env.REACT_APP_API_URL}/api/site/quote/Update/${id}`,
+  axios.put(`${baseUrl}/api/site/quote/Update/${id}`,
   {status: status}
   )
   .then(res => {

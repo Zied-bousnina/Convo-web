@@ -240,7 +240,7 @@ const exportPdf = () => {
 
       const filteredData = tab === 'partner' ?
         (selectedStatus ? requestsByPartner.filter(item => item.status === selectedStatus) : requestsByPartner) :
-        (selectedStatus ? requests.filter(item => item.status === selectedStatus) : requests);
+        (selectedStatus ? requests.filter(item => item.status === selectedStatus ) : requests);
 
       // Add the table with the modified header and filtered data
       doc.autoTable(exportColumns1, filteredData);
@@ -305,7 +305,7 @@ const exportPdf2 = (data,name) => {
 
       const filteredData = tab === 'partner' ?
         (selectedStatus ? requestsByPartner.filter(item => item.status === selectedStatus) : requestsByPartner) :
-        (selectedStatus ? requests.filter(item => item.status === selectedStatus) : requests);
+        (selectedStatus ? requests.filter(item => item.status === selectedStatus && item.driver.onligne) : requests);
 
       // Add the table with the modified header and filtered data
 
@@ -413,6 +413,7 @@ const statusRowFilterTemplate = (options) => {
   return (
       <Dropdown value={options.value} options={statuses}
       onChange={(e) => {
+        console.log(options)
 
         options.filterApplyCallback(e.value);
         setselectedStatus(

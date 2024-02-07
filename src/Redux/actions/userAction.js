@@ -10,11 +10,11 @@ import axios from "axios"
 import { removeSeenMsg } from "./Notification.action"
 import { ADD_UNSEEN_MSG } from "Redux/types"
 import { SET_NEW_NOTI } from "Redux/types"
-
+const baseUrl = "https://convoyage.onrender.com"
 
 export const GetCurrentUser = (navigation) => async (dispatch) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/users/currentUser`);
+    const res = await axios.get(`${baseUrl}/api/users/users/currentUser`);
     dispatch({
       type: SET_CURRENT_USER,
       payload: res?.data
@@ -49,7 +49,7 @@ export const GetCurrentUser = (navigation) => async (dispatch) => {
 
 export const RemoveNotification = (navigation)=>dispatch=>{
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/users/users/EmptySocket`)
+  axios.post(`${baseUrl}/api/users/users/EmptySocket`)
   .then(res => {
 
       dispatch(removeSeenMsg([]))
@@ -75,7 +75,7 @@ export const RemoveNotification = (navigation)=>dispatch=>{
 }
 export const ByIdRemoveNotification = (id,navigation)=>dispatch=>{
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/users/users/RemoveSocketById/${id}`)
+  axios.post(`${baseUrl}/api/users/users/RemoveSocketById/${id}`)
   .then(res => {
 
       dispatch(removeSeenMsg([]))
@@ -102,7 +102,7 @@ export const ByIdRemoveNotification = (id,navigation)=>dispatch=>{
 
 export const GetAllUsers = (navigation)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/users/getUsers`)
+  axios.get(`${baseUrl}/api/users/getUsers`)
   .then(res => {
 
       dispatch({
@@ -130,7 +130,7 @@ export const GetAllUsers = (navigation)=>dispatch=>{
 
 export const GetAllUserDetails = (id,navigation)=>dispatch=>{
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/${id}`)
+    axios.get(`${baseUrl}/api/users/${id}`)
     .then(res => {
 
         dispatch({
@@ -165,7 +165,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
         type:SET_IS_LOADING,
         payload:true
     })
-    axios.put(`${process.env.REACT_APP_API_URL}/api/users/block/${id}`)
+    axios.put(`${baseUrl}/api/users/block/${id}`)
     .then(res => {
 
 
@@ -227,7 +227,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
         type:SET_IS_LOADING,
         payload:true
     })
-    axios.put(`${process.env.REACT_APP_API_URL}/api/users/deblock/${id}`)
+    axios.put(`${baseUrl}/api/users/deblock/${id}`)
     .then(res => {
 
 
@@ -291,7 +291,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
     });
 
     return axios
-      .delete(`${process.env.REACT_APP_API_URL}/api/users/deleteAccountByAdmin/${id}`)
+      .delete(`${baseUrl}/api/users/deleteAccountByAdmin/${id}`)
       .then((res) => {
         dispatch({
           type: SET_ERRORS,
@@ -339,7 +339,7 @@ export const GetAllUserDetails = (id,navigation)=>dispatch=>{
             payload: true,
           });
 
-    return axios.post(`${process.env.REACT_APP_API_URL}/api/users/facture/PayeFactureByPartnerHorLigne/${id}`)
+    return axios.post(`${baseUrl}/api/users/facture/PayeFactureByPartnerHorLigne/${id}`)
     .then(res => {
         dispatch({
             type: SET_ERRORS,

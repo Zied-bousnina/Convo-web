@@ -11,13 +11,13 @@ import { SET_STATISTIQUES } from "Redux/types"
 import axios from "axios"
 
 
-
+const baseUrl = "https://convoyage.onrender.com"
 export const FetchAllDrivers = ()=>dispatch=>{
   dispatch({
     type:SET_IS_LOADING_DRIVER_TABLE,
     payload:true
   })
-  axios.get(`${process.env.REACT_APP_API_URL}/api/users/driver/fetchAll` )
+  axios.get(`${baseUrl}/api/users/driver/fetchAll` )
   .then(res => {
 
 
@@ -75,7 +75,7 @@ export const CreateDriver = (data)=>dispatch=>{
 
 
 
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/AddDriver`,data, {
+    axios.post(`${baseUrl}/api/users/driver/AddDriver`,data, {
       headers: { "Content-Type": "multipart/form-data" }
     } )
     .then(res => {
@@ -137,7 +137,7 @@ export const CreateDriver = (data)=>dispatch=>{
       type:SET_IS_LOADING,
       payload:true
   })
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/updateDriver/${id}`,driverData)
+    axios.post(`${baseUrl}/api/users/driver/updateDriver/${id}`,driverData)
     .then(res => {
       dispatch({
         type: SET_ERRORS,
@@ -187,7 +187,7 @@ export const CreateDriver = (data)=>dispatch=>{
       type:SET_IS_LOADING,
       payload:true
   })
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/ValiderDriverAccount/${id}`)
+    axios.post(`${baseUrl}/api/users/driver/ValiderDriverAccount/${id}`)
     .then(res => {
       dispatch({
         type: SET_ERRORS,
@@ -238,7 +238,7 @@ export const CreateDriver = (data)=>dispatch=>{
       type:SET_IS_LOADING,
       payload:true
   })
-  return axios.post(`${process.env.REACT_APP_API_URL}/api/users/driver/refusDriverAccount/${id}`,
+  return axios.post(`${baseUrl}/api/users/driver/refusDriverAccount/${id}`,
     data
 
 

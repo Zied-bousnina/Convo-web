@@ -4,10 +4,10 @@ import { SET_IS_LOADING } from "Redux/types"
 import { SET_DETAILS_MUNICIPAL } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
 import axios from "axios"
-
+const baseUrl = "https://convoyage.onrender.com"
 export const findDemandeInProgress = (navigation)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/demande-municipal/findDemandeInProgress`)
+  axios.get(`${baseUrl}/api/demande-municipal/findDemandeInProgress`)
   .then(res => {
 
       dispatch({
@@ -42,7 +42,7 @@ dispatch({
     type:SET_IS_LOADING,
     payload:true
 })
-  axios.put(`${process.env.REACT_APP_API_URL}/api/demande-municipal/AcceptDemande/${data.id}`
+  axios.put(`${baseUrl}/api/demande-municipal/AcceptDemande/${data.id}`
   ,{status:data.status}
   )
   .then(async(res) => {
@@ -87,7 +87,7 @@ dispatch({
 
 export const getBinsCount = (navigation)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/bin/getBinsCount`)
+  axios.get(`${baseUrl}/api/bin/getBinsCount`)
   .then(res => {
 
       dispatch({
@@ -114,7 +114,7 @@ export const getBinsCount = (navigation)=>dispatch=>{
 
 export const GetPMunicipalDetailsById = (id,navigation)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/demande-municipal/findDemandeById/${id}`)
+  axios.get(`${baseUrl}/api/demande-municipal/findDemandeById/${id}`)
   .then(res => {
 
       dispatch({

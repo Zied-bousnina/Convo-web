@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "Redux/actions/userAction";
 import { useHistory } from 'react-router-dom';
 import { SET_PARTNER_DETAILS } from "Redux/types";
+import MarkerClusterGroup from "react-leaflet-cluster";
 function MapsComponentPartner() {
   // const [currentLocation, setCurrentLocation] = useState(null);
   useEffect(() => {
@@ -243,9 +244,13 @@ Créer une mission
 
                >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution={"Google Maps"}
+          url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" // regular
+          maxZoom={20}
+          subdomains={["mt0", "mt1", "mt2", "mt3"]}
         />
+ <MarkerClusterGroup chunkedLoading>
+
 
         {userArray &&
           userArray?.map(e => (
@@ -280,6 +285,7 @@ Créer une mission
           </Marker>
         )}
         <MapsMarker />
+        </MarkerClusterGroup>
       </MapContainer>
 
                 </div>

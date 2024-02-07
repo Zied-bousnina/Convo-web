@@ -5,7 +5,7 @@ import { SET_IS_LOADING } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
 
 import axios from "axios"
-
+const baseUrl = "https://convoyage.onrender.com"
 export const CreateContactUs = (data)=>dispatch=>{
   dispatch({
     type: SET_ERRORS,
@@ -19,7 +19,7 @@ dispatch({
 
 
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/site/AddContactUs`,data )
+  axios.post(`${baseUrl}/api/site/AddContactUs`,data )
   .then(res => {
 
       dispatch({
@@ -67,7 +67,7 @@ dispatch({
 }
 
 export const FetchAllContact = (data)=>dispatch=>{
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/contactUs/fetchAll`,data )
+  axios.get(`${baseUrl}/api/site/contactUs/fetchAll`,data )
   .then(res => {
 
 
@@ -105,7 +105,7 @@ export const FetchAllContact = (data)=>dispatch=>{
 
 export const GetContactUsById = (id,navigation)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/contactUs/fetchByID/${id}`)
+  axios.get(`${baseUrl}/api/site/contactUs/fetchByID/${id}`)
   .then(res => {
 
       dispatch({
@@ -139,7 +139,7 @@ dispatch({
     type:SET_IS_LOADING,
     payload:true
 })
-  axios.put(`${process.env.REACT_APP_API_URL}/api/site/contactUs/readed/${id}`)
+  axios.put(`${baseUrl}/api/site/contactUs/readed/${id}`)
   .then(res => {
     dispatch({
       type: SET_ERRORS,

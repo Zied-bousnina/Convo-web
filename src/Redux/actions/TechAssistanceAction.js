@@ -8,7 +8,7 @@ import { SET_IS_LOADING } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
 
 import axios from "axios"
-
+const baseUrl = "https://convoyage.onrender.com"
 export const createTechAssist = (data)=>dispatch=>{
 
 
@@ -24,7 +24,7 @@ dispatch({
 
 
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/site/createTechAssist`,data, {
+  axios.post(`${baseUrl}/api/site/createTechAssist`,data, {
     headers: { "Content-Type": "multipart/form-data" }
 } )
 
@@ -69,7 +69,7 @@ dispatch({
 }
 
 export const FetchAllTechAssist = (data)=>dispatch=>{
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/TechAssist/fetchAll`,data )
+  axios.get(`${baseUrl}/api/site/TechAssist/fetchAll`,data )
   .then(res => {
 
       dispatch({
@@ -106,7 +106,7 @@ export const FetchAllTechAssist = (data)=>dispatch=>{
 
 export const GetTechAssistDetailsById = (id,navigation)=>dispatch=>{
 
-  axios.get(`${process.env.REACT_APP_API_URL}/api/site/techAssist/fetchByID/${id}`)
+  axios.get(`${baseUrl}/api/site/techAssist/fetchByID/${id}`)
   .then(res => {
 
       dispatch({
@@ -140,7 +140,7 @@ dispatch({
     type:SET_IS_LOADING,
     payload:true
 })
-  axios.put(`${process.env.REACT_APP_API_URL}/api/site/TechAssist/readed/${id}`)
+  axios.put(`${baseUrl}/api/site/TechAssist/readed/${id}`)
   .then(res => {
     dispatch({
       type: SET_ERRORS,

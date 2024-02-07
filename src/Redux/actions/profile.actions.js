@@ -6,7 +6,7 @@ import { setLoading } from "./authActions";
 
 
 
-
+const baseUrl = "https://convoyage.onrender.com"
 
 export const AddProfile =  (userData, navigation ) => (dispatch) => {
 
@@ -16,7 +16,7 @@ export const AddProfile =  (userData, navigation ) => (dispatch) => {
     payload:true
 })
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/profile/upload-profile`, userData, {
+  axios.post(`${baseUrl}/api/profile/upload-profile`, userData, {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'multipart/form-data'
@@ -75,7 +75,7 @@ export const EditProfile_Web =  (userData, navigation ) => (dispatch) => {
     payload:true
 })
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/profile/Edit_profile_web`, userData, {
+  axios.post(`${baseUrl}/api/profile/Edit_profile_web`, userData, {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'multipart/form-data'
@@ -134,7 +134,7 @@ export const EditProfile_WebPartner =  (userData, navigation ) => (dispatch) => 
     payload:true
 })
 
-  axios.post(`${process.env.REACT_APP_API_URL}/api/profile/Edit_profile_web`, userData, {
+  axios.post(`${baseUrl}/api/profile/Edit_profile_web`, userData, {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'multipart/form-data'
@@ -188,7 +188,7 @@ export const EditProfile_WebPartner =  (userData, navigation ) => (dispatch) => 
 }
 
 export const GetProfile =  () => (dispatch) => {
-  axios.get(`${process.env.REACT_APP_API_URL}/api/profile`)
+  axios.get(`${baseUrl}/api/profile`)
       .then(async(res) => {
 
         dispatch({

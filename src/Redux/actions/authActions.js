@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode"
 import { GetProfile } from './profile.actions';
 import { GetCurrentUser } from './userAction';
 
-
+const baseUrl = "https://convoyage.onrender.com"
 export function setLoading(isLoading) {
     return {
       type: SET_LOADING,
@@ -34,7 +34,7 @@ export const loginUser = (userData) => dispatch => {
     })
     dispatch(LogOut())
     axios
-        .post(`${process.env.REACT_APP_API_URL}/api/users/login`, {email:userData.email, password:userData.password})
+        .post(`${baseUrl}/api/users/login`, {email:userData.email, password:userData.password})
         .then(res => {
 
             const { token } = res.data
@@ -113,7 +113,7 @@ export const getUserByEmail = (info,navigation)=>dispatch=>{
 
 const data = {email, name:familyName+' '+givenName,avatar:photo, googleId:id, tokenId:idToken}
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/getUserByEmail/${info.user.email}`)
+    axios.get(`${baseUrl}/api/users/getUserByEmail/${info.user.email}`)
     .then(res => {
 
         dispatch({
@@ -145,7 +145,7 @@ export const CreatePartner = (userData) => dispatch => {
     })
 
     axios
-        .post(`${process.env.REACT_APP_API_URL}/api/users/AddPartner`, userData,{
+        .post(`${baseUrl}/api/users/AddPartner`, userData,{
             headers: { "Content-Type": "multipart/form-data" }
         })
         .then(res => {
@@ -207,7 +207,7 @@ export const createCategorie = (userData,navigate) => dispatch => {
     })
 
     axios
-        .post(`${process.env.REACT_APP_API_URL}/api/users/categorie/create`, userData,{
+        .post(`${baseUrl}/api/users/categorie/create`, userData,{
             headers: { "Content-Type": "multipart/form-data" }
         })
         .then(res => {
@@ -275,7 +275,7 @@ export const forgotPassword = (email) => async (dispatch) => {
             payload: false
         });
 
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/forgot-password`, { email });
+        const res = await axios.post(`${baseUrl}/api/users/forgot-password`, { email });
 
         dispatch({
             type: SET_IS_LOADING,
@@ -340,7 +340,7 @@ export const updatePassword = (userData) => dispatch => {
     })
 
     axios
-        .post(`${process.env.REACT_APP_API_URL}/api/users/updatePassword`, userData)
+        .post(`${baseUrl}/api/users/updatePassword`, userData)
         .then(res => {
             dispatch({
                 type: SET_FIRST_LOGIN,

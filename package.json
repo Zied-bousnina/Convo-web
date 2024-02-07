@@ -106,6 +106,7 @@
     "react-file-viewer": "^1.2.1",
     "react-hook-form": "^7.43.9",
     "react-leaflet": "^4.2.1",
+    "react-leaflet-cluster": "^2.1.0",
     "react-loading-skeleton": "^3.3.1",
     "react-lottie": "^1.2.3",
     "react-mobile-app-button": "^1.0.13",

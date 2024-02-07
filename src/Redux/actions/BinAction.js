@@ -9,7 +9,7 @@ import { SET_BINS_LIST_NOT_IN_POINT_BIN } from "Redux/types"
 import { SET_IS_SECCESS } from "Redux/types"
 import { SET_ERRORS } from "Redux/types"
 import axios from "axios"
-
+const baseUrl = "https://convoyage.onrender.com"
 export const AddBin = (data) => dispatch => {
     dispatch({
         type: SET_ERRORS,
@@ -23,7 +23,7 @@ export const AddBin = (data) => dispatch => {
 
 
 
-    axios.post(`${process.env.REACT_APP_API_URL}/api/bin/createBin`, data)
+    axios.post(`${baseUrl}/api/bin/createBin`, data)
         .then(res => {
 
             dispatch({
@@ -73,7 +73,7 @@ export const AddBin = (data) => dispatch => {
 }
 
 export const FetchAllBins = (data) => dispatch => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/bin/FetchAllBins`, data)
+    axios.get(`${baseUrl}/api/bin/FetchAllBins`, data)
         .then(res => {
 
 
@@ -116,7 +116,7 @@ export const UpdateBinStatus = (id, navigation) => dispatch => {
         type: SET_IS_LOADING,
         payload: true
     })
-    axios.put(`${process.env.REACT_APP_API_URL}/api/bin/updateStatus/${id}`)
+    axios.put(`${baseUrl}/api/bin/updateStatus/${id}`)
         .then(res => {
             dispatch({
                 type: SET_ERRORS,
@@ -156,7 +156,7 @@ export const UpdateBinStatus = (id, navigation) => dispatch => {
 }
 
 export const FetchAllBinsNotInUse = (data) => dispatch => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/bin/FetchAllBinsNotInPointBin`, data)
+    axios.get(`${baseUrl}/api/bin/FetchAllBinsNotInPointBin`, data)
         .then(res => {
 
 
@@ -204,7 +204,7 @@ export const AddPointBin = (data) => dispatch => {
 
 
 
-    axios.post(`${process.env.REACT_APP_API_URL}/api/Pointbin/CreatePointBin`, data)
+    axios.post(`${baseUrl}/api/Pointbin/CreatePointBin`, data)
         .then(res => {
 
             dispatch({
@@ -254,7 +254,7 @@ export const AddPointBin = (data) => dispatch => {
 }
 
 export const FetchAllPointBins = (data) => dispatch => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/bin/fetchAllPointBins`, data)
+    axios.get(`${baseUrl}/api/bin/fetchAllPointBins`, data)
         .then(res => {
 
 
@@ -289,7 +289,7 @@ export const FetchAllPointBins = (data) => dispatch => {
 }
 
 export const FetchBinByID = (data) => dispatch => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/bin/fetchBinByID/${data}`)
+    axios.get(`${baseUrl}/api/bin/fetchBinByID/${data}`)
         .then(res => {
 
 
@@ -333,7 +333,7 @@ export const DeleteBinByID = (id) => dispatch => {
         payload: true
     })
 
-    axios.delete(`${process.env.REACT_APP_API_URL}/api/bin/deleteBinById/${id}`)
+    axios.delete(`${baseUrl}/api/bin/deleteBinById/${id}`)
         .then(res => {
             dispatch({
                 type: SET_ERRORS,
@@ -380,7 +380,7 @@ export const updateBin = (id, data) => dispatch => {
         type: SET_IS_LOADING,
         payload: true
     })
-    axios.put(`${process.env.REACT_APP_API_URL}/api/bin/updateBin/${id}`, data)
+    axios.put(`${baseUrl}/api/bin/updateBin/${id}`, data)
         .then(res => {
             dispatch({
                 type: SET_ERRORS,
@@ -434,7 +434,7 @@ export const DeletePointBinByID = (id) => dispatch => {
         })
 
 
-    axios.delete(`${process.env.REACT_APP_API_URL}/api/Pointbin/deletePointBinById/${id}`)
+    axios.delete(`${baseUrl}/api/Pointbin/deletePointBinById/${id}`)
         .then(res => {
             dispatch({
                 type: SET_ERRORS,
@@ -472,7 +472,7 @@ export const DeletePointBinByID = (id) => dispatch => {
 }
 
 export const FetchPointBinByID = (data) => dispatch => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/Pointbin/fetchPointBinByID/${data}`)
+    axios.get(`${baseUrl}/api/Pointbin/fetchPointBinByID/${data}`)
         .then(res => {
 
 
@@ -516,7 +516,7 @@ export const DeletePointBinByIDFromPointBin = (binId, pointBinId) => dispatch =>
             payload: true
         })
 
-    axios.put(`${process.env.REACT_APP_API_URL}/api/Pointbin/deleteBinFromPointBin/${pointBinId}/${binId}`)
+    axios.put(`${baseUrl}/api/Pointbin/deleteBinFromPointBin/${pointBinId}/${binId}`)
         .then(res => {
             dispatch({
                 type: SET_ERRORS,
@@ -562,7 +562,7 @@ export const updatePointBin = (id, data) => dispatch => {
         type: SET_IS_LOADING,
         payload: true
     })
-    axios.put(`${process.env.REACT_APP_API_URL}/api/Pointbin/UpdatePointBin/${id}`, data)
+    axios.put(`${baseUrl}/api/Pointbin/UpdatePointBin/${id}`, data)
         .then(res => {
             dispatch({
                 type: SET_ERRORS,
@@ -610,7 +610,7 @@ export const fetchBin = (municipal) => (dispatch) => {
         payload: []
     })
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/bin/FetchBinsNotInPointBins`)
+    axios.get(`${baseUrl}/api/bin/FetchBinsNotInPointBins`)
         .then(async(res) => {
 
 
@@ -645,7 +645,7 @@ export const fetchPointBin = (municipal) => (dispatch) => {
         payload: []
     })
 
-    axios.get(`${process.env.REACT_APP_API_URL}/api/Pointbin/fetchAllPointBin`)
+    axios.get(`${baseUrl}/api/Pointbin/fetchAllPointBin`)
         .then(async(res) => {
 
 

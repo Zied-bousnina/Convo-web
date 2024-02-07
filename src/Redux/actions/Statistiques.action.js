@@ -4,10 +4,10 @@ import { SET_MISSION_BY_PARTNER_STATISTIQUES } from "Redux/types";
 import { SET_DEMANDE_STATISTIQUES } from "Redux/types"
 import { SET_STATISTIQUES } from "Redux/types"
 import axios from "axios"
-
+const baseUrl = "https://convoyage.onrender.com"
 export const getUsersCounts = () => (dispatch) => {
     try {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/users/getUserCounts`)
+      axios.get(`${baseUrl}/api/users/getUserCounts`)
         .then((res) => {
 
           dispatch({
@@ -45,7 +45,7 @@ export const getUsersCounts = () => (dispatch) => {
 
   export const getPartnerCounts = () => (dispatch) => {
     try {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/users/getPartnerCounts`)
+      axios.get(`${baseUrl}/api/users/getPartnerCounts`)
         .then((res) => {
 
           dispatch({
@@ -82,7 +82,7 @@ export const getUsersCounts = () => (dispatch) => {
   };
   export const getMissionByPartnerCounts = () => (dispatch) => {
     try {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/users/getMissionsCountByUser`)
+      axios.get(`${baseUrl}/api/users/getMissionsCountByUser`)
         .then((res) => {
 
           dispatch({
@@ -124,7 +124,7 @@ export const getUsersCounts = () => (dispatch) => {
 
   export const getBinsCount = () => (dispatch) => {
     try {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/bin/getBinsCount`)
+      axios.get(`${baseUrl}/api/bin/getBinsCount`)
         .then((res) => {
 
           dispatch({
@@ -163,7 +163,7 @@ export const getUsersCounts = () => (dispatch) => {
 
   export const getDemandesCount = () => (dispatch) => {
     try {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/users/getDemandeCounts`)
+      axios.get(`${baseUrl}/api/users/getDemandeCounts`)
         .then((res) => {
 
           dispatch({

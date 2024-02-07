@@ -9,7 +9,7 @@ export const addMessage = (payload) => ({ type: ADD_MESSAGE, payload });
 export const messageLoading = (payload) => ({ type: MESSAGE_LOADING, payload });
 export const messageError = (payload) => ({ type: MESSAGE_ERROR, payload });
 export const sendMessage = (payload) => ({ type: SEND_MESSAGE, payload });
-
+const baseUrl = "https://convoyage.onrender.com"
 export const fetchCurrentMessages = (id, token, socket) => async (dispatch) => {
   dispatch(messageLoading(true));
   const url = `https://messanger-br6c.onrender.com/message/${id}`;
