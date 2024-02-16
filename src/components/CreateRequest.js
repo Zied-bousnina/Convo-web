@@ -104,6 +104,8 @@ import Select from 'react-select'
     const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
     const [selectedValues, setSelectedValues] = useState([]);
     const [selectedVehicleType, setSelectedVehicleType] = useState(null);
+    const [correctDistance, setcorrectDistance] = useState(0)
+    const [correctTime, setcorrectTime] = useState(0)
 const [selectedMissionType, setSelectedMissionType] = useState(null);
     const vehicleTypeOptions = [
       { value: 'citadine ', label: 'Citadine ' },
@@ -138,9 +140,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
 
     })
 
-    useEffect(( )=> {
-      console.log(`Formatted value is ${fmtValue}`)
-    }, [fmtValue])
+
     const handleChange = (event) => {
       setChecked(event.target.checked);
       // console.log(checked)
@@ -322,7 +322,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
   const deg2rad=(deg)=> {
     return deg * (Math.PI/180)
   }
-  const distance = getDistanceFromLatLonInKm()
+  const distance = correctDistance ? correctDistance : getDistanceFromLatLonInKm()
   const data = {
     ...form,
     address: startingPoint,
@@ -335,6 +335,7 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
     driver:selectedValues?.value,
     vehicleType: selectedVehicleType?.value,
     missionType: selectedMissionType?.value,
+    time: correctTime ? correctTime : Math.round(distance / 60)
 
 
 
@@ -343,7 +344,14 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
   }
 
   // console.log(data)
-dispatch(AddDemande(data, navigate))
+  setstartingPoint()
+  setdestination()
+  setTimeout(() => {
+
+    // navigate.push('/home')
+    dispatch(AddDemande(data, navigate))
+  }, 1000);
+
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
@@ -408,6 +416,23 @@ dispatch(AddDemande(data, navigate))
           map.flyTo(e.latlng, map.getZoom());
         },
       });
+      if( startingPoint?.latitude && destination?.latitude){
+
+      const routerControl = L.Routing.control({
+        waypoints: [
+          L.latLng(startingPoint.latitude, startingPoint.longitude),
+          L.latLng(destination.latitude, destination.longitude),
+        ],
+      }).addTo(map);
+      routerControl.on('routesfound', function(e) {
+   var routes = e.routes;
+   var summary = routes[0].summary;
+   // alert distance and time in km and minutes
+   setcorrectDistance(summary.totalDistance / 1000)
+   setcorrectTime(Math.round(summary.totalTime % 3600 / 60))
+  //  alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+});
+      }
       useEffect(() => {
         if (currentLocation) {
           map.flyTo(currentLocation, map.getZoom());
@@ -756,20 +781,23 @@ inputProps={{
                 <Tooltip target=".export-buttons>button" position="bottom" />
               <MapContainer
               style={{ height: "75vh" }}
-               center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
+               center={{lat: currentLocation ? currentLocation[0] : 36.8019592, lng: currentLocation ? currentLocation[1] : 10.9403163}}
+
+               zoom={13} scrollWheelZoom={true}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {
-            (startingPoint &&destination) &&
-<LeafletRoutingMachine
-            startingPoint={startingPoint}
-            destination={destination}
 
-/>
-        }
         <MapEvents />
+        {/* {startingPoint?.latitude && destination?.latitude && (
+                  <LeafletRoutingMachine
+                    startingPoint={startingPoint}
+                    destination={destination}
+                    setcorrectDistance={setcorrectDistance}
+                    setcorrectTime={setcorrectTime}
+                  />
+                )} */}
 
             <Marker
             //   key={pointBin._id}

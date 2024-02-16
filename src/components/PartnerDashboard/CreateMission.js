@@ -81,6 +81,8 @@ import { ProgressB } from "./Headers/Components/progressBar/ProgressB.js";
     const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
     const [selectedValues, setSelectedValues] = useState([]);
     const [selectedVehicleType, setSelectedVehicleType] = useState(null);
+    const [correctDistance, setcorrectDistance] = useState(0)
+    const [correctTime, setcorrectTime] = useState(0)
 const [selectedMissionType, setSelectedMissionType] = useState(null);
 const vehicleTypeOptions = [
   { value: 'citadine ', label: 'Citadine ' },
@@ -299,7 +301,7 @@ const missionTypeOptions = [
   const deg2rad=(deg)=> {
     return deg * (Math.PI/180)
   }
-  const distance = getDistanceFromLatLonInKm()
+  const distance = correctDistance ? correctDistance : getDistanceFromLatLonInKm()
   const data = {
     ...form,
     address: startingPoint,
@@ -312,7 +314,8 @@ const missionTypeOptions = [
     driver:selectedValues?.value,
     vehicleType: selectedVehicleType?.value,
     missionType: selectedMissionType?.value,
-    status:"En attente"
+    status:"En attente",
+    time: correctTime ? correctTime : Math.round(distance / 60)
 
 
 
@@ -320,9 +323,14 @@ const missionTypeOptions = [
 
 
   }
+  setstartingPoint()
+  setdestination()
+  setTimeout(() => {
 
 
-dispatch(AddDemande(data, navigate))
+    dispatch(AddDemande(data, navigate))
+  }, 1000);
+
         // Continue with the rest of your form submission logic
         // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
@@ -387,6 +395,23 @@ dispatch(AddDemande(data, navigate))
           map.flyTo(e.latlng, map.getZoom());
         },
       });
+      if( startingPoint?.latitude && destination?.latitude){
+
+        const routerControl = L.Routing.control({
+          waypoints: [
+            L.latLng(startingPoint.latitude, startingPoint.longitude),
+            L.latLng(destination.latitude, destination.longitude),
+          ],
+        }).addTo(map);
+        routerControl.on('routesfound', function(e) {
+     var routes = e.routes;
+     var summary = routes[0].summary;
+     // alert distance and time in km and minutes
+     setcorrectDistance(summary.totalDistance / 1000)
+     setcorrectTime(Math.round(summary.totalTime % 3600 / 60))
+    //  alert('Total distance is ' + summary.totalDistance / 1000 + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+  });
+        }
       useEffect(() => {
         if (currentLocation) {
           map.flyTo(currentLocation, map.getZoom());

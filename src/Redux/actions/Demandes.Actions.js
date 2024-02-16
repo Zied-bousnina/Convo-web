@@ -48,7 +48,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
             )
 
           }, 3000);
-          navigate.push("/home");
+          navigate.push("/admin/List-demandes");
           dispatch({
             type: SET_IS_SECCESS,
             payload: true
