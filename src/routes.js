@@ -424,22 +424,14 @@ var routes = [
     invisible:true
   },
   {
-    path: "/factures",
+    path: "/historique-facture",
     name: "Facturation",
     icon: "ni ni-folder-17 text-red",
-    component: HistoriqueFactures,
+    component: ListOfFacturesPartner,
     layout: "/partner",
     collapse: true,
     views: [
-      {
-        path: "/factures",
-        name: "Historique devis",
-        // miniName: "P",
-        collapse: true,
-        component: HistoriqueFactures,
-        icon: "ni ni-ui-04 text-info",
-        layout: "/partner",
-      },
+
       {
         path: "/historique-facture",
         name: "Historique factures",
