@@ -236,9 +236,9 @@ function MapsComponent() {
         dispatch(setCurrentUser(decode));
         SetAuthToken(user);
         if (decode?.role === "ADMIN") {
-          navigate.push("/admin"); // Use navigate function to redirect
+          navigate.push("/admin/index"); // Use navigate function to redirect
         } else if (decode?.role === "PARTNER") {
-          navigate.push("/partner");
+          navigate.push("/partner/index");
         }
 
         })
