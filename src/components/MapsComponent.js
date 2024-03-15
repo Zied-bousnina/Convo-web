@@ -246,7 +246,7 @@ function MapsComponent() {
           dispatch(LogOut())
 
         })
-       // Corrected typo here
+
       }else {
         dispatch(LogOut())
 
@@ -255,7 +255,7 @@ function MapsComponent() {
 
   useEffect(() => {
 
-    fetchUser()
+    // fetchUser()
 
 
   }, [])
