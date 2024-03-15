@@ -76,8 +76,9 @@ const Partnersidebar = (props) => {
       prop.path !=='/AddDriver' &&
       prop.path !=='/edit-Driver/:id'&&
       prop.path !=='/driver-details/:id'&&
-      prop.path !=='/edit-mission/:id'&&
       prop.path !=='/devisDetail/:id'&&
+      prop.path !=='/edit-mission/:id'&&
+      prop.path !=='/devis/:id'&&
       prop.path !=='/Edit-profile'
       &&
       !prop?.invisible

@@ -19,7 +19,7 @@ import { socket } from "../socket.js";
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Tooltip } from 'primereact/tooltip';
-
+import jwt_decode from 'jwt-decode';
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllUsers } from "Redux/actions/userAction";
 import { useHistory } from 'react-router-dom';
@@ -27,6 +27,10 @@ import { SET_PARTNER_DETAILS } from "Redux/types";
 import { GetCurrentUser } from "Redux/actions/userAction";
 import { SET_ALL_DRIVER } from "Redux/types";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import axios from "axios";
+import { setCurrentUser } from "Redux/actions/authActions";
+import { SetAuthToken } from "utils/SetAuthToken";
+import { LogOut } from "Redux/actions/authActions";
 function MapsComponent() {
   useEffect(() => {
     console.log("test")
@@ -222,7 +226,39 @@ function MapsComponent() {
 
     }, [onlineUsers]);
 
+    const fetchUser = async ()=>  {
+      const user = await localStorage.getItem('jwtToken');
+      if (user) {
+        const decode = jwt_decode(user);
+        axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`)
+        .then(res => {
 
+        dispatch(setCurrentUser(decode));
+        SetAuthToken(user);
+        if (decode?.role === "ADMIN") {
+          navigate.push("/admin"); // Use navigate function to redirect
+        } else if (decode?.role === "PARTNER") {
+          navigate.push("/partner");
+        }
+
+        })
+        .catch(err => {
+          dispatch(LogOut())
+
+        })
+       // Corrected typo here
+      }else {
+        dispatch(LogOut())
+
+      }
+    }
+
+  useEffect(() => {
+
+    fetchUser()
+
+
+  }, [])
 
   return (
     <>

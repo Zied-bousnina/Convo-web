@@ -580,7 +580,7 @@ if (!hasEnoughSpaceForNextLine(yCoordinate, lineHeight, doc.internal.pageSize.he
             montantTTC
           };
         };
-
+console.log("singleFacture?.facture",singleFacture)
         const header = (
             <>
             <Row>

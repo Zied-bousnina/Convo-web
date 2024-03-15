@@ -892,8 +892,28 @@ height={30}
     <span className="btn-inner--text">Edit Mission </span>
     </Button>
     </Link>
+    <Link
+    style={{marginLeft:"20px"}}
+    to={`/partner/devis/${SingleDemande?._id}`}
+    // target="_blank"
+    state={{ SingleDemmande : SingleDemande}}
+    >
+    <Button
+    className="btn-icon btn-3"
+    color="primary"
+    type="button"
+
+    >
+    <span className="btn-inner--icon">
+    <i className="ni ni-bold-right"></i>
+    </span>
+    <span className="btn-inner--text"> Devis </span>
+    </Button>
+    </Link>
+
 
   </Col>
+
   </Row>
   :
   <Skeleton

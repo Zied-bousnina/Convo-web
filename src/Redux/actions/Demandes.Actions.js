@@ -21,6 +21,7 @@ import { SET_FACTURES_BY_PARTNERS } from "Redux/types";
 import { SET_FACTURE_DETAIL_ADMIN } from "Redux/types";
 import { SET_FACTURES_BY_DRIVERS } from "Redux/types";
 const baseUrl = "https://convoyage.onrender.com"
+// const baseUrl = "http://localhost:3600"
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
     // const [token, settoken] = useState('')
@@ -49,6 +50,142 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
           }, 3000);
           navigate.push("/admin/List-demandes");
+          dispatch({
+            type: SET_IS_SECCESS,
+            payload: true
+        })
+//  navigate('/list-of-demandes');
+        setTimeout(() => {
+            dispatch({
+                type: SET_IS_SECCESS,
+                payload: false
+            })
+        }, 3000);
+
+        //   navigation.navigate("FindDriverScreen",{...userData, demandeId:res?.data?.demande?._id} )
+
+        })
+        .catch( (err) =>{
+
+          dispatch({
+            type: SET_ERRORS,
+            payload: err?.response?.data
+        })
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+      dispatch({
+        type: SET_IS_SECCESS,
+        payload: false
+    })
+          setTimeout(() => {
+            dispatch(
+              setLoading(false)
+            )
+
+          }, 3000);
+        }
+
+        )
+  }
+  export const AddDemandePartner =  (userData, navigate ) => (dispatch) => {
+
+    // const [token, settoken] = useState('')
+    dispatch({
+      type:SET_IS_LOADING,
+      payload:true
+  })
+
+    axios.post(`${baseUrl}/api/users/createDemande`, userData)
+        .then(async(res) => {
+
+
+
+
+          socket.emit("new mission", res.data);
+
+
+          dispatch({
+            type:SET_IS_LOADING,
+            payload:false
+        })
+          setTimeout(() => {
+            dispatch(
+              setLoading(false)
+            )
+
+          }, 3000);
+          navigate.push("/partner/List-demandes");
+          dispatch({
+            type: SET_IS_SECCESS,
+            payload: true
+        })
+//  navigate('/list-of-demandes');
+        setTimeout(() => {
+            dispatch({
+                type: SET_IS_SECCESS,
+                payload: false
+            })
+        }, 3000);
+
+        //   navigation.navigate("FindDriverScreen",{...userData, demandeId:res?.data?.demande?._id} )
+
+        })
+        .catch( (err) =>{
+
+          dispatch({
+            type: SET_ERRORS,
+            payload: err?.response?.data
+        })
+        dispatch({
+          type:SET_IS_LOADING,
+          payload:false
+      })
+      dispatch({
+        type: SET_IS_SECCESS,
+        payload: false
+    })
+          setTimeout(() => {
+            dispatch(
+              setLoading(false)
+            )
+
+          }, 3000);
+        }
+
+        )
+  }
+  export const createDemandeNewVersion =  (userData, navigate ) => (dispatch) => {
+
+    // const [token, settoken] = useState('')
+    dispatch({
+      type:SET_IS_LOADING,
+      payload:true
+  })
+
+    axios.post(`${baseUrl}/api/users/createDemandeNewVersion`, userData,{
+      headers: { "Content-Type": "multipart/form-data" }
+    })
+        .then(async(res) => {
+
+
+
+
+          socket.emit("new mission", res.data);
+
+
+          dispatch({
+            type:SET_IS_LOADING,
+            payload:false
+        })
+          setTimeout(() => {
+            dispatch(
+              setLoading(false)
+            )
+
+          }, 3000);
+          navigate.push(`/partner/devis/${res?.data?.demande?._id}`);
           dispatch({
             type: SET_IS_SECCESS,
             payload: true
@@ -121,7 +258,7 @@ export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
   }
 
-  export const FinddevisById = (id )=> (dispatch) => {
+export const FinddevisById = (id )=> (dispatch) => {
     axios.get(`${baseUrl}/api/users/devis/findDevisById/${id}`)
     .then(async(res) => {
 
@@ -640,6 +777,32 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     }
   };
 
+  export const getUserInformationById = (demandeId)=> (dispatch) => {
+    // Return the promise created by axios.get
+     return axios.get(`${baseUrl}/api/users/getMissionById/${demandeId}`)
+      .then(response => {
+        // You can process the response here if needed
+        return response.data; // Assuming the API response has the needed data here
+      })
+      .catch(error => {
+        // Handle error
+        throw error; // Rethrow the error so you can catch it with .then()
+      });
+  };
+  export const UpdateUserInformationById = (info)=> (dispatch) => {
+    // Return the promise created by axios.get
+     return axios.post(`${baseUrl}/api/users/updateFieldsForDevis`,
+      info
+     )
+      .then(response => {
+        // You can process the response here if needed
+        return response.data; // Assuming the API response has the needed data here
+      })
+      .catch(error => {
+        // Handle error
+        throw error; // Rethrow the error so you can catch it with .then()
+      });
+  };
   export const FindDevisByPartner = (demandeid) => async (dispatch) => {
     // dispatch({
     //   type: SET_ERRORS,
@@ -1069,7 +1232,7 @@ export const rejectDevis =  ( id, navigate ) => (dispatch) => {
       payload: true,
     });
     try {
-      const res = await axios.get(`${baseUrl}/api/users/facture/findFactureById/${factureId}`
+      const res = await axios.get(`${baseUrl}/api/users/facture/fetchFacturePartnerById/${factureId}`
       );
       dispatch({
         type: SET_ERRORS,

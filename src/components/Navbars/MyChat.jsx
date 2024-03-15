@@ -28,6 +28,7 @@ import { ByIdRemoveNotification } from "Redux/actions/userAction.js";
 // import { removeSeenMsg } from "./Redux/Notification/action";
 import { useHistory } from 'react-router-dom';
 import { rejectDevis } from "Redux/actions/Demandes.Actions.js";
+import './styles/Notifications.css'; // Path to your CSS file
 export const MyChat = () => {
 
   const history = useHistory();
@@ -102,8 +103,17 @@ useEffect(() => {
   dispatch(GetCurrentUser())
 }, [noti2?.length])
 
-
-
+const handleNotificationClick = (notificationId, url) => {
+    dispatch(ByIdRemoveNotification(notificationId));
+    history.push(url);
+  };
+const renderNotificationItem = (notification, index) => (
+    <DropdownItem key={index} className="dropdown-item" onClick={() => handleNotificationClick(notification._id, notification.url)}>
+      <div><strong>Montant Proposé:</strong> {notification?.montant?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
+      <div><strong>Depart:</strong> {notification?.mission?.postalAddress}</div>
+      <div><strong>Destination:</strong> {notification?.mission?.postalDestination}</div>
+    </DropdownItem>
+  );
 const [noti, setnoti] = useState([])
   useEffect(() => {
   setnoti(currentUser ? currentUser : []);

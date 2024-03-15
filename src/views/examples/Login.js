@@ -18,6 +18,7 @@ import {
   Col
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -52,7 +53,11 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { SET_SPECIFIQUE_DEVIS_BY_PARTNER } from "Redux/types";
 import { SET_NEW_NOTI } from "Redux/types";
 import Logo from "components/Logo/logo";
-
+import jwt_decode from 'jwt-decode';
+import axios from "axios";
+import { setCurrentUser } from "Redux/actions/authActions";
+import { SetAuthToken } from "utils/SetAuthToken";
+import { LogOut } from "Redux/actions/authActions";
 
 const initialValues = {
   email: '',
@@ -115,6 +120,40 @@ function Login () {
     dispatch({type: SET_NEW_NOTI,payload: []});
 
   }, [])
+  const navigate = useHistory();
+  const fetchUser = async ()=>  {
+    const user = await localStorage.getItem('jwtToken');
+    if (user) {
+      const decode = jwt_decode(user);
+      axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`)
+      .then(res => {
+
+      dispatch(setCurrentUser(decode));
+      SetAuthToken(user);
+      if (decode?.role === "ADMIN") {
+        navigate.push("/admin"); // Use navigate function to redirect
+      } else if (decode?.role === "PARTNER") {
+        navigate.push("/partner");
+      }
+
+      })
+      .catch(err => {
+        dispatch(LogOut())
+
+      })
+     // Corrected typo here
+    }else {
+      dispatch(LogOut())
+
+    }
+  }
+
+useEffect(() => {
+
+  fetchUser()
+
+
+}, [])
 
     return (
 

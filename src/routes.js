@@ -61,6 +61,7 @@ import ListFactures from "components/Factures/ListFactures";
 import FactureDEtails from "components/Factures/FactureDEtails";
 import ListFacturesDriver from "components/Factures/ListFacturesDriver";
 import FactureDriverDEtails from "components/Factures/FactureDriverDetails";
+import Devis from "components/PartnerDashboard/devis";
 // import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
@@ -114,6 +115,13 @@ var routes = [
     name: "Create request",
     icon: "ni ni-building text-red",
     component: editMissionPartner,
+    layout: "/partner"
+  },
+  {
+    path: "/devis/:id",
+    name: "Devis",
+    icon: "ni ni-building text-red",
+    component: Devis,
     layout: "/partner"
   },
   {

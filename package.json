@@ -112,6 +112,8 @@
     "react-mobile-app-button": "^1.0.13",
     "react-pdf": "^6.2.2",
     "react-perfect-scrollbar": "^1.5.8",
+    "react-phone-input-2": "^2.15.1",
+    "react-phone-number-input": "^3.3.9",
     "react-qr-code": "^2.0.11",
     "react-redux": "^8.0.5",
     "react-router-dom": "5.1.2",

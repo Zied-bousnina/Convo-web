@@ -72,6 +72,8 @@ import { SET_USERS_DETAILS } from "Redux/types.js";
 import { SET_STATISTIQUES } from "Redux/types.js";
 import { GetCurrentUser } from "Redux/actions/userAction.js";
 import { removeSeenMsg } from "Redux/actions/Notification.action.js";
+import { useNavigate } from "react-router-dom";
+
 import ResetPassword from "components/reset-password/ResetPassword.js";
 // import Form from "components/reset-password/Form.js";
 
@@ -123,9 +125,9 @@ function App() {
 
   }, [profile?._id]);
 
+
   const fetchUser = async ()=>  {
     const user = await localStorage.getItem('jwtToken');
-
     if (user) {
       const decode = jwt_decode(user);
       axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`)
@@ -133,6 +135,7 @@ function App() {
 
       dispatch(setCurrentUser(decode));
       SetAuthToken(user);
+
       })
       .catch(err => {
         dispatch(LogOut())

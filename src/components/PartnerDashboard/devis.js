@@ -15,6 +15,7 @@ import {
     FormGroup,
     Input,
   } from "reactstrap";
+  import { useParams } from "react-router-dom";
   // core components
   import UserHeader from "components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
@@ -65,9 +66,12 @@ import 'react-phone-input-2/lib/style.css'
 import Summary from "./validation-devis/Summary/Summary.js";
 import ServiceOptions from "./validation-devis/ServicesOptions/ServiceOptions.js";
 import Documents from "./validation-devis/Documents/Documents.js";
-import { createDemandeNewVersion } from "Redux/actions/Demandes.Actions.js";
+import TermsComponent from "./TermsComponent.js";
+import BillingForm from "./components/BillingForm.js";
+import StripeContainer from "components/Payment/partner/StripeContainer.js";
+import { getUserInformationById } from "Redux/actions/Demandes.Actions.js";
 
-  const CreateMission = () => {
+  const Devis = () => {
     const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
@@ -90,12 +94,10 @@ import { createDemandeNewVersion } from "Redux/actions/Demandes.Actions.js";
     const [selectedVehicleType, setSelectedVehicleType] = useState(null);
     const [correctDistance, setcorrectDistance] = useState(0)
     const [correctTime, setcorrectTime] = useState(0)
-    const [phone, setphone] = useState()
 const [selectedMissionType, setSelectedMissionType] = useState(null);
 const [screen, setscreen] = useState("create") // professionel //create
 const [selectedServices, setSelectedServices] = useState({});
 const [transType, setTransType] = useState('convoyeur professionnel');
-const [imaatChecked, setimaatChecked] = useState(false);
 const [data, setdata] = useState({});
 const [cost, setcost] = useState(0)
 const [price, setPrice] = useState(0);
@@ -396,9 +398,8 @@ function calculatePrice(distance, type) {
     missionType: selectedMissionType?.value,
     status:"En attente",
     time: correctTime ? correctTime : Math.round(distance / 60),
-    transport:transType,
-
-    phone:phone,
+    transporttype:transType,
+    price:cost,
 
 
 
@@ -430,7 +431,7 @@ function calculatePrice(distance, type) {
       address: startingPoint,
       destination:destination,
     });
-
+    // dispatch(AddDemandePartner(data, navigate))
   }, 1000);
 
         // Continue with the rest of your form submission logic
@@ -438,12 +439,6 @@ function calculatePrice(distance, type) {
 
         e.target.reset();
       };
-      const handleTotalUpdate = (total) => {
-        setcost(
-         price+ total
-
-        );
-      }
     const onSubmit2 = async (e) => {
 
 
@@ -451,28 +446,21 @@ function calculatePrice(distance, type) {
 
       await setdata({
         ...data,
-        price:cost,
         selectedServices:selectedServices,
         uploadedDocuments
       })
+  const formdata = new FormData();
 
-console.log("oihmoiugùo", {
-  ...data,
-  price:cost,
-  selectedServices:selectedServices,
-  uploadedDocuments
-},cost )
-setstartingPoint()
-  setdestination()
-  setTimeout(() => {
-
-    dispatch(createDemandeNewVersion({
-      ...data,
-      price:cost,
-      selectedServices:selectedServices,
-      uploadedDocuments
-    }, navigate))
-  }, 1000);
+  Object.keys(data).forEach((key) => {
+    if (Array.isArray(data[key])) {
+      data[key].forEach((value) => {
+        formdata.append(key, value);
+      });
+    } else {
+      formdata.append(key, data[key]);
+    }
+  });
+console.log("oihmoiugùo",formdata, data)
 
         // e.target.reset();
       };
@@ -581,7 +569,12 @@ setstartingPoint()
       };
 
 
+      const handleTotalUpdate = (total) => {
+        setcost(
+         price+ total
 
+        );
+      }
       const handleServicesUpdate = (services) => {
         setSelectedServices(
           {
@@ -600,23 +593,51 @@ setstartingPoint()
 
         })
       }, [selectedServices]);
+      const { id } = useParams();
+      const [userInformation, setuserInformation] = useState({})
+      const [isloadBillingInformation, setisloadBillingInformation] = useState(false)
+      const getUserInformation = () => {
+        setisloadBillingInformation(true)
+        dispatch(getUserInformationById(id))
+        .then(data => {
+          // Handle the successful response here
+          console.log("data",data);
+         setuserInformation(data
+         )
+         setisloadBillingInformation(false)
+
+        })
+        .catch(error => {
+          // Handle the error here
+          setisloadBillingInformation(false)
+        });
+      }
+      useEffect(() => {
+        getUserInformation()
+      }, [])
+
 
     return (
       <>
         <UserHeader />
-        {/* Page content */}
-        {screen === "create"  ?
         <Container className="mt--7 " fluid>
         <Row>
+        <Col className=" mb-xl-0" xl="6">
+            <Card className=" shadow ">
 
-          <Col xl="12"
+              <CardBody>
+              <TermsComponent/>
+
+
+              </CardBody>
+            </Card>
+          </Col>
+          <Col xl="6"
           style={{marginBottom:"20px"}}
 
            >
             <Card className="shadow "
-            style={{
-              height: "55vh",
-              marginBottom:10 }}
+            style={{ marginBottom:10 }}
             >
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
@@ -624,14 +645,15 @@ setstartingPoint()
 
                     <h2 className="mb-0">
 
-
+<BillingForm id={id}  />
+<StripeContainer />
                     </h2>
                   </div>
                 </Row>
               </CardHeader>
               <CardBody
 
-style={{ overflowY: 'auto' }}
+
 
 
 
@@ -639,489 +661,19 @@ style={{ overflowY: 'auto' }}
                 {/* Chart */}
                 <div className="chart">
 
-      <form onSubmit={onSubmit}
-style={
-  {
-    // padding:"20px",
-    // border:"1px solid #ccc",
-    borderRadius:"5px",
-    justifyContent: 'center',
-    alignItems: 'center',
-    // margin:20
-    // display: 'flex',
-  }
 
-}
->
-<Row>
-  <Col md="4">
-    <div className=" mb-3">
-      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
-      <div className="input-group">
-        <input
-          type="text"
-          required
-          placeholder="Choose starting point, or click on the map"
-          value={startingPoint ? startingPoint.display_name : searchQuery}
-          name={"start"}
-          className={classNames("form-control")}
-          onClick={() => {
-            isStartingPointRef.current = true;
-            setisStartingPoint(true);
-            setisDestination(false);
-          }}
-          onChange={(e) => {
-            setstartingPoint(null);
-            setSearchQuery(e.target.value);
-            // onChangeHandler(e)
-          }}
-        />
-      </div>
-    </div>
-  </Col>
-  <Col md="4">
-    <div className=" mb-3">
-      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
-      <div className="input-group">
-        <input
-          type="text"
-          required
-          placeholder="Choose destination, or click on the map"
-          value={destination ? destination.display_name : destinationSearchQuery}
-          name={"destination"}
-          className={classNames("form-control")}
-          onClick={() => {
-            isStartingPointRef.current = false;
-            setisStartingPoint(false);
-            setisDestination(true);
-          }}
-          onChange={(e) => {
-            setdestination(null);
-            setDestinationSearchQuery(e.target.value);
-            // onChangeHandler(e)
-          }}
-        />
-      </div>
-    </div>
-  </Col>
-  <Col md="4">
-<label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
-<Datetime
-
-onChange={(e)=>setValue(e)}
-value={value}
-// timeFormat={false}
-inputProps={{
-  placeholder: "Date Picker Here",
-  name: "dateDepart"
-}}
-
-
-
- />
-</Col>
-</Row>
-
-
-
-  {/* <ToastContainer /> */}
-
-
-
-
-
-<Row>
-    <Col md="4">
-    <button
-    type="button"
-  onClick={() => {
-    isStartingPointRef.current = true;
-    setisStartingPoint(true);
-    setisDestination(false);
-  }}
-  className={classnames("btn m-1 ", { "btn-primary": isStartingPoint },{"btn-outline-primary": !isStartingPoint})}
->
-  Set Starting Point
-</button>
-
-
-    </Col>
-    <Col md="4">
-    <button
-    type="button"
-  onClick={() => {
-    isStartingPointRef.current = false;
-    setisStartingPoint(false);
-    setisDestination(true);
-  }}
-  className={classnames("btn m-1  ", { "btn-primary": isDestination  }, {"btn-outline-primary": !isDestination})}
->
-  Set Destination
-</button>
-
-    </Col>
-</Row>
-
-
-
-
-
-<FormGroup tag="fieldset">
-      <Row>
-        <Col md="4">
-          <legend>Type de Transports</legend>
-        </Col>
-        <Col md="4">
-          <FormGroup check>
-            <Input
-              name="transportType"
-              type="radio"
-              value="convoyeur professionnel"
-              onChange={(e) => setTransType(e.target.value)}
-              checked={transType === 'convoyeur professionnel'}
-            />
-            {' '}
-            <Label check>
-              Convoyeur professionnel
-            </Label>
-          </FormGroup>
-        </Col>
-        <Col md="4">
-          <FormGroup check>
-            <Input
-              name="transportType"
-              type="radio"
-              value="plateau porteur"
-              onChange={(e) => setTransType(e.target.value)}
-              checked={transType === 'plateau porteur'}
-            />
-            {' '}
-            <Label check>
-              Plateau porteur
-            </Label>
-          </FormGroup>
-        </Col>
-      </Row>
-    </FormGroup>
-
-
-<Row>
-  <Col md="4">
-    <div className=" mb-3">
-      <label className="form-label">Plaque d'immatriculation :</label>
-      <div className="input-group">
-      {
-        !imaatChecked &&
-        <input
-          type="text"
-          // required
-          placeholder="immatriculation"
-
-          name={"immatriculation"}
-          className={classNames("form-control")}
-
-          onChange={(e) => {
-            onChangeHandler(e)
-
-          }}
-          required
-        />
-      }
-
-      </div>
-      <FormGroup check>
-            <Input
-              name="transportType"
-              type="checkbox"
-              value="convoyeur professionnel"
-              onChange={(e) => setimaatChecked(
-                e.target.checked
-              )}
-              checked={imaatChecked}
-            />
-            {' '}
-            <Label check>
-              je despose pas de plaque d'immat
-            </Label>
-          </FormGroup>
-    </div>
-  </Col>
-  <Col md="4">
-    <div className=" mb-3">
-      <label className="form-label"> Numero du contact: </label>
-
-
-        <PhoneInput
-  country={'fr'}
-  value={
-    phone
-  }
-  onChange={
-    (e)=>{
-      setphone(e)
-
-      }
-
-  }
-
-  enableSearch
-
-/>
-
-    </div>
-  </Col>
-  <Col md="4">
-    <div className=" mb-3">
-      <label className="form-label">Mail du contact:</label>
-      <div className="input-group">
-        <input
-          type="text"
-          // required
-          placeholder="Mail du contact"
-
-          name={"mail"}
-          className={classNames("form-control")}
-
-          onChange={(e) => {
-            onChangeHandler(e)
-
-          }}
-          required
-        />
-      </div>
-    </div>
-  </Col>
-</Row>
-
-
-  <Row>
-
-    <Col
-    className="col-12"
-    style={{
-      height: "60vh",
-      width: "85%",
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
-    }}
-
-
-    >
-    <button type="Mon Devis" className="btn m-1 ml-3 btn-outline-success">
-    {isLoad ? (
-        <div className="spinner-border text-light" role="status">
-          <span className="visually-hidden"></span>
-        </div>
-      ) : (
-        'Mon devis'
-      )}
-
-                  <i className="fa-solid fa-floppy-disk"></i>
-                </button></Col>
-  </Row>
-
-</form>
                 </div>
               </CardBody>
             </Card>
           </Col>
-          <Col className=" mb-xl-0" xl="12">
-            <Card className=" shadow ">
 
-              <CardBody
-               style={{ overflowY: 'auto' }}
-              >
-                {/* Chart */}
-                {/* <div className="chart"> */}
-                <Tooltip target=".export-buttons>button" position="bottom" />
-              <MapContainer
-              style={{ height: "75vh" }}
-               center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {/* {
-            (startingPoint &&destination) &&
-<LeafletRoutingMachine
-            startingPoint={startingPoint}
-            destination={destination}
-
-/>
-        } */}
-        <MapEvents />
-
-            <Marker
-            //   key={pointBin._id}
-            position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
-                icon={myIcon}
-            //     eventHandlers={{
-            //   click: () => alert('A marker has been clicked!')
-            // }}
-            >
-<Popup>{destination?.display_name}</Popup>
-            </Marker>
-
-        {startingPoint && (
-          <Marker
-           position={startingPoint?.latitude && startingPoint?.longitude ? [startingPoint.latitude, startingPoint.longitude] : [36.8019592, 10.9403163]}
-        //   position={
-        //     [startingPoint.latitude, startingPoint.longitude]
-
-        //   }
-            // icon={}
-            // icon={}
-            // eventHandlers={{
-            //   click: () => alert('A marker has been clicked!')
-            // }}
-
-          >
-            <Popup>{startingPoint?.display_name}</Popup>
-          </Marker>
-        )}
-        <MapsMarker />
-      </MapContainer>
-                {/* </div> */}
-              </CardBody>
-            </Card>
-          </Col>
         </Row>
         <ToastContainer />
       </Container>
-      :
-      <Container className="mt--7 " fluid>
-        <Row>
-
-          <Col xl="6"
-          style={{marginBottom:"20px"}}
-
-           >
-            <Card className="shadow "
-            style={{
-              height: "200vh",
-               marginBottom:10 }}
-            >
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-
-                    <h2 className="mb-0">
-                    {
-                      screen == "professionel" ?
-                      "Par un convoyeur professionel":"Par un transport plateau"
-                    }
-                  </h2>
-
-                  </div>
-                </Row>
-              </CardHeader>
-              <CardBody
-
-style={{ overflowY: 'auto' }}
-
-
-
-              >
-                {/* Chart */}
-                <div className="chart">
-
-                <Summary
-        vehicle={vehicleDetails.vehicle}
-        transport={vehicleDetails.transport}
-        journey={vehicleDetails.journey}
-        distance={vehicleDetails.distance}
-        totalCost={cost}
-        screen={screen}
-
-      />
-      {/* <MapView
-        origin={origin}
-        destination={destination}
-      /> */}
-      <ServiceOptions
-      onUpdateTotal={handleTotalUpdate}
-      onUpdateSelectedService={handleServicesUpdate}
-      screen={screen}
-
-      />
-      <Documents
-        onDocumentUpload={handleDocumentUpload}
-        // screen={screen}
-        validerCommande={onSubmit2}
-      />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col className=" mb-xl-0" xl="6">
-            <Card className=" shadow ">
-
-              <CardBody>
-                {/* Chart */}
-                {/* <div className="chart"> */}
-                <Tooltip target=".export-buttons>button" position="bottom" />
-              <MapContainer
-              style={{ height: "75vh" }}
-               center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {/* {
-            (startingPoint &&destination) &&
-<LeafletRoutingMachine
-            startingPoint={startingPoint}
-            destination={destination}
-
-/>
-        } */}
-        <MapEvents />
-
-            <Marker
-            //   key={pointBin._id}
-            position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
-                icon={myIcon}
-            //     eventHandlers={{
-            //   click: () => alert('A marker has been clicked!')
-            // }}
-            >
-<Popup>{destination?.display_name}</Popup>
-            </Marker>
-
-        {startingPoint && (
-          <Marker
-           position={startingPoint?.latitude && startingPoint?.longitude ? [startingPoint.latitude, startingPoint.longitude] : [36.8019592, 10.9403163]}
-        //   position={
-        //     [startingPoint.latitude, startingPoint.longitude]
-
-        //   }
-            // icon={}
-            // icon={}
-            // eventHandlers={{
-            //   click: () => alert('A marker has been clicked!')
-            // }}
-
-          >
-            <Popup>{startingPoint?.display_name}</Popup>
-          </Marker>
-        )}
-        <MapsMarker />
-      </MapContainer>
-                {/* </div> */}
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <ToastContainer />
-      </Container>
-
-        }
 
 
       </>
     );
   };
 
-  export default CreateMission;
+  export default Devis;
