@@ -98,6 +98,7 @@ const [transType, setTransType] = useState('convoyeur professionnel');
 const [imaatChecked, setimaatChecked] = useState(false);
 const [data, setdata] = useState({});
 const [cost, setcost] = useState(0)
+const [costdriver, setcostdriver] = useState(0)
 const [price, setPrice] = useState(0);
 function calculatePrice(distance, type) {
   // Base acceptance fee for a 'convoyeur'
@@ -147,6 +148,47 @@ function calculatePrice(distance, type) {
     throw new Error('Invalid driver type');
   }
 }
+function calculatePriceConvo(distance) {
+  // Base acceptance fee for a 'convoyeur'
+  const baseFeeConvoyeur = 20;
+
+  // Price per distance bracket for a 'convoyeur'
+  const pricesConvoyeur = [
+    { maxDist: 0.10, price: 1 },
+    { maxDist: 0.20, price: 0.97 },
+    { maxDist: 0.30, price: 0.95 },
+    { maxDist: 0.40, price: 0.93 },
+    { maxDist: 0.50, price: 0.90 },
+    { maxDist: 1.00, price: 0.875 },
+    { maxDist: 1.50, price: 0.85 },
+    { maxDist: 2.00, price: 0.825 },
+    { maxDist: 2.50, price: 0.80 },
+    { maxDist: 3.00, price: 0.775 },
+    { maxDist: 3.50, price: 0.75 },
+    { maxDist: 4.00, price: 0.725 },
+    { maxDist: 4.50, price: 0.70 },
+    { maxDist: 5.00, price: 0.65 }
+  ];
+
+  let price = 0;
+
+  // Find the price bracket based on the distance and calculate the price
+  for (const bracket of pricesConvoyeur) {
+    if (distance <= bracket.maxDist) {
+      price = bracket.price;
+      break;
+    }
+  }
+
+  // If no matching bracket was found, use the last bracket's price
+  if (price === 0) {
+    price = pricesConvoyeur[pricesConvoyeur.length - 1].price;
+  }
+
+  // Return the sum of the base fee and the price determined by the distance
+  return baseFeeConvoyeur + price;
+}
+
   const [uploadedDocuments, setUploadedDocuments] = useState({
 
   });
@@ -377,6 +419,7 @@ function calculatePrice(distance, type) {
       const calculatedPrice = calculatePrice(distance, transType);
       setPrice(calculatedPrice);
       setcost(calculatedPrice)
+      setcostdriver(calculatePriceConvo(distance))
     } catch (error) {
       console.error(error.message);
     }
@@ -453,14 +496,16 @@ function calculatePrice(distance, type) {
         ...data,
         price:cost,
         selectedServices:selectedServices,
-        uploadedDocuments
+        uploadedDocuments,
+        remunerationAmount: costdriver
       })
 
 console.log("oihmoiugùo", {
   ...data,
   price:cost,
   selectedServices:selectedServices,
-  uploadedDocuments
+  uploadedDocuments,
+  remunerationAmount: costdriver
 },cost )
 setstartingPoint()
   setdestination()
@@ -470,7 +515,8 @@ setstartingPoint()
       ...data,
       price:cost,
       selectedServices:selectedServices,
-      uploadedDocuments
+      uploadedDocuments,
+      remunerationAmount: costdriver
     }, navigate))
   }, 1000);
 
@@ -615,7 +661,8 @@ setstartingPoint()
            >
             <Card className="shadow "
             style={{
-              height: "55vh",
+              // height: "55vh",
+
               marginBottom:10 }}
             >
               <CardHeader className="bg-transparent">
@@ -631,7 +678,7 @@ setstartingPoint()
               </CardHeader>
               <CardBody
 
-style={{ overflowY: 'auto' }}
+style={{ overflowY: 'auto',   paddingBottom:40, }}
 
 
 
@@ -647,6 +694,7 @@ style={
     borderRadius:"5px",
     justifyContent: 'center',
     alignItems: 'center',
+
     // margin:20
     // display: 'flex',
   }
