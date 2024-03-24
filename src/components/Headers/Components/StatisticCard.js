@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDemandesCount, getBinsCount, getUsersCounts } from "Redux/actions/Statistiques.action";
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -38,7 +37,7 @@ const StatisticCard = ({ title, iconClass, value, percentageIncrease, icon, to }
       </Col>
     ) : (
         <Col lg="4" xl="4"
-        
+
         >
           <Skeleton
             width={`${(4 / 4) * 100}%`}

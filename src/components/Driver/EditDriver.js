@@ -19,9 +19,6 @@ import {
 
   import { SET_IS_SECCESS } from "../../Redux/types";
   import {Link} from "react-router-dom"
-  import { FetchAllQuote } from "../../Redux/actions/QuoteAction";
-  import { FetchAllBinsNotInUse } from "../../Redux/actions/BinAction";
-  import { AddPointBin } from "../../Redux/actions/BinAction";
   import { useParams } from "react-router-dom";
 
   import Select from 'react-select';
@@ -41,7 +38,6 @@ import Skeleton from "react-loading-skeleton";
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     // const ListOfQuote= useSelector(state=>state?.quote?.quote?.quotes)
-    const ListOfBinsNotInUse= useSelector(state=>state?.ListOfBinsNotInPointBin?.ListOfBinsNotInPointBin)
 
 
     const dispatch = useDispatch()
@@ -115,7 +111,6 @@ import Skeleton from "react-loading-skeleton";
 
 
         // showToastMessage()
-        // setSelectedBins([])
         e.target.reset();
 
 

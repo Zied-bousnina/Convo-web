@@ -1,26 +1,8 @@
 
 import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps";
-import RequestsMunicpal from "./components/RequestsMunicpal";
-// import ListOfUsers from "components/ListOfUsers";
-import UserDetails from "components/UserDetails";
-import PartnershipList from "components/PartnershipList";
-import QuoteList from "components/QuoteList";
-import TechnicalAssistanceList from "components/TechnicalAssistanceList";
-import ContactsList from "components/ContactsList";
+
 // import PartnerDetails from "components/DetailsPartnership";
-import QuoteDetail from "components/QuoteDetails";
-import TechAssistDetail from "components/TechAssistDetail";
-import ContactDetails from "components/ContactDetails";
-import CreateBin from "components/CreateBin";
-import ListOfBins from "components/ListOfBins";
-import ListOfPointBin from "components/ListOfPointBin";
-import CreateBinPoint from "components/CreatePointBin";
-import ShowBinDetails from "components/ShowBinDetails";
-import EditBin from "components/EditBin";
-import PointBinDetails from "components/PointBinDetails";
-import EditPointBin from "components/EditPointBins";
-import MunicipalDetails from "components/MunicipalDetails";
+
 import MapsComponent from "components/MapsComponent";
 
 import CreateRequest from "components/CreateRequest";
@@ -40,7 +22,7 @@ import SpecifiqueMission from "components/Driver/SpecifiqueMission";
 import CreateMission from "components/PartnerDashboard/CreateMission";
 import ListOfMissions from "components/PartnerDashboard/ListOfMissions";
 import DriverDetailsForPartner from "components/PartnerDashboard/DriverDetailsForPartner";
-import ListOfFactures from "components/Factures/ListOfFactures";
+
 import requestDetailsPartner from "components/PartnerDashboard/requestDetailsPartner";
 import editMissionPartner from "components/PartnerDashboard/editMissionPartner";
 import AddCategorie from "components/Factures/AddCategorie";
@@ -49,7 +31,7 @@ import EditDevis from "components/Factures/EditDevis";
 import ListCategorie from "components/Factures/ListCategorie";
 import CategorieDetails from "components/Factures/CategorieDetails";
 import UpdateCategorie from "components/Factures/UpdateCategorie";
-import HistoriqueFactures from "components/PartnerDashboard/factures/HistoriqueFacture";
+
 import ListOfFacturesPartner from "components/PartnerDashboard/factures/ListOfFacturesPartner";
 import devisDetail from "components/PartnerDashboard/factures/devisDetails";
 import GenererFacture from "components/Factures/GenererFacturePar";

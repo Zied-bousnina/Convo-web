@@ -18,7 +18,6 @@
 
 // reactstrap components
 import { getDemandesCount } from "Redux/actions/Statistiques.action";
-import { getBinsCount } from "Redux/actions/Statistiques.action";
 import { getUsersCounts } from "Redux/actions/Statistiques.action";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,14 +32,12 @@ import { getMissionByPartnerCounts } from "Redux/actions/Statistiques.action";
 const Header = () => {
   const dispatch = useDispatch();
   const userStatistiques = useSelector((state) => state?.userStatistiques?.statistiques);
-  const BinStatistiques = useSelector((state) => state?.binStatistiques?.statistiques);
   const DemandesStatistiques = useSelector((state) => state?.demandestatistiques?.statistiques?.total);
   const PartnerStatistiques = useSelector((state) => state?.partnerStats?.statistiques?.total);
   const requestsByPartner = useSelector(state=>state?.MissionsStatistiqueByPartner?.statistiques?.missionCount)
 
   useEffect(() => {
     dispatch(getUsersCounts());
-    // dispatch(getBinsCount())
     dispatch(getDemandesCount());
     dispatch(getMissionByPartnerCounts())
     dispatch(getPartnerCounts());
@@ -64,7 +61,6 @@ const Header = () => {
         <div className="header-body">
           <Row>
             {/* Uncomment the following lines when needed */}
-            {/* <StatisticCard title="Bins Count" iconClass="bg-green" value={BinStatistiques?.totalCount} percentageIncrease={BinStatistiques?.percentageIncrease} /> */}
             <StatisticCard key={1} to="/partner/DriverList" icon={"fas fa-users"} title="Nombre de vehicule transportes" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
             {/* <StatisticCard key={2} to="/partner/PartnerList" icon={"fas fa-handshake"} title="Partner Count" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} /> */}
             <StatisticCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Missions Déposés" iconClass="bg-info" value={requestsByPartner} percentageIncrease={DemandesStatistiques?.percentageIncrease} />

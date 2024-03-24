@@ -15,20 +15,15 @@ import {
 } from "reactstrap";
 import Header from '../Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link} from "react-router-dom"
-import { FetchAllBins } from 'Redux/actions/BinAction';
 import 'react-toastify/dist/ReactToastify.css';
-import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 // import { Tooltip } from 'primereact/tooltip';
-import { Tooltip  } from '@chakra-ui/react'
 import { useHistory } from 'react-router-dom';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { toast } from 'react-toastify';
-import { FindRequestDemande } from 'Redux/actions/Demandes.Actions';
 import { Switch } from '@chakra-ui/react';
 import { SET_DEMANDES } from 'Redux/types';
 import { SET_SINGLE_DEMANDE } from 'Redux/types';
@@ -48,7 +43,6 @@ import { SET_SINGLE_FACTURE } from 'Redux/types';
 function ListOfFacturesPartner() {
 const navigate = useHistory()
 
-  const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
 
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)

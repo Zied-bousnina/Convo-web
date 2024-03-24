@@ -63,7 +63,6 @@ const UserDetails = () => {
     // console.log("Unblock")
     dispatch(UnBlockUser(id))
   }
-  // console.log("userDetails :", userDetails?.users?.accessListBins?.length)
 
   return (
     <>

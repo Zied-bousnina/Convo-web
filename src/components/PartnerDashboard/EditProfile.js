@@ -118,7 +118,6 @@ import { EditProfile_WebPartner } from "Redux/actions/profile.actions";
 
 
           // showToastMessage()
-          // setSelectedBins([])
           e.target.reset();
 
 

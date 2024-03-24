@@ -230,7 +230,7 @@ function MapsComponent() {
       const user = await localStorage.getItem('jwtToken');
       if (user) {
         const decode = jwt_decode(user);
-        axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`)
+        axios.get(`https://convoyage.onrender.com/api/users/checkTokenValidity`)
         .then(res => {
 
         dispatch(setCurrentUser(decode));
@@ -255,7 +255,7 @@ function MapsComponent() {
 
   useEffect(() => {
 
-    // fetchUser()
+    fetchUser()
 
 
   }, [])

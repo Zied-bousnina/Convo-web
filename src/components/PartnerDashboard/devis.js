@@ -24,7 +24,6 @@ import {
   import { useEffect, useRef, useState } from "react";
   import axios from "axios";
   import classNames from "classnames";
-  import { AddBin } from "Redux/actions/BinAction";
   import { SET_IS_SECCESS } from "Redux/types";
   import {DatePicker} from 'reactstrap-date-picker'
 
@@ -435,7 +434,6 @@ function calculatePrice(distance, type) {
   }, 1000);
 
         // Continue with the rest of your form submission logic
-        // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
         e.target.reset();
       };

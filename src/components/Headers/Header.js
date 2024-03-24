@@ -18,7 +18,6 @@
 
 // reactstrap components
 import { getDemandesCount } from "Redux/actions/Statistiques.action";
-import { getBinsCount } from "Redux/actions/Statistiques.action";
 import { getUsersCounts } from "Redux/actions/Statistiques.action";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,14 +30,12 @@ import backgroundImage from "../../assets/514f2ec3798090c6df00dad1592c8166.svg";
 const Header = () => {
   const dispatch = useDispatch();
   const userStatistiques = useSelector((state) => state?.userStatistiques?.statistiques);
-  const BinStatistiques = useSelector((state) => state?.binStatistiques?.statistiques);
   const DemandesStatistiques = useSelector((state) => state?.demandestatistiques?.statistiques?.total);
   const PartnerStatistiques = useSelector((state) => state?.partnerStats?.statistiques?.total);
 
 // console.log(PartnerStatistiques)
   useEffect(() => {
     dispatch(getUsersCounts());
-    // dispatch(getBinsCount())
     dispatch(getDemandesCount());
     dispatch(getPartnerCounts());
   }, [userStatistiques?.totalCount, DemandesStatistiques?.totalCount,PartnerStatistiques?.totalCount    , dispatch]);
@@ -60,7 +57,6 @@ const Header = () => {
         <div className="header-body">
           <Row>
             {/* Uncomment the following lines when needed */}
-            {/* <StatisticCard title="Bins Count" iconClass="bg-green" value={BinStatistiques?.totalCount} percentageIncrease={BinStatistiques?.percentageIncrease} /> */}
             <StatisticCard  to="/admin/DriverList" key={1} icon={"fas fa-users"} title=" conducteurs" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
             <StatisticCard  to="/admin/PartnerList" key={2} icon={"fas fa-handshake"} title="Partenaires" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} />
             <StatisticCard  to="/admin/List-demandes" key={3} icon={"fas fa-truck"} title="missions" iconClass="bg-info" value={DemandesStatistiques?.totalCount} percentageIncrease={DemandesStatistiques?.percentageIncrease} />

@@ -310,9 +310,7 @@ const onGlobalFilterChange = (e) => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [confirme, setconfirme] = useState(false)
   const [Rectification, setRectification] = useState(
-    devis?.[0]?.rectification ?
-    devis?.[0]?.rectification
-    :
+
     0
 
   )
@@ -326,6 +324,7 @@ const [remunerationAmount, setremunerationAmount] = useState(0)
 //    *
 //   SingleDemande?.distance
 //   ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+console.log("selectedValues",SingleDemande)
   const header = (
     <>
     <Row>
@@ -374,14 +373,15 @@ const data = {
   categorie:selectedValues?.value,
   mission: SingleDemande?._id,
   montant:
-  confirme ?
-  (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+  !confirme ?
 
-  ).toString()
-  :
-  ((Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+(  (Number(SingleDemande?.price)
 
-  )  +Number (Rectification)).toString(),
+)  +Number (Rectification)).toString()
+:
+(Number((SingleDemande?.price)).toString()
+
+),
   partner:   SingleDemande?.user?.contactName && SingleDemande?.user?._id,
   distance :
   SingleDemande?.distance,
@@ -389,11 +389,7 @@ const data = {
   Rectification.toString()
   :
   devis?.[0]?.rectification.toString(),
-  remunerationAmount:
-  remunerationAmount ?
-  remunerationAmount.toString()
-  :
-  Number(calculateDriverAmmount(SingleDemande?.distance)).toString(),
+
   status:"Devis"
 }
 
@@ -963,7 +959,7 @@ onChange={handleSelectChange}
   </AlertTitle>
   <AlertDescription maxWidth='sm'>
    {
-        (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+        (Number(SingleDemande?.price)
 
         ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 
@@ -1056,7 +1052,7 @@ onChange={handleSelectChange}
       md="6"
       >
          <div className=" mb-">
-        <label className="form-label">Montant de la rémunération :<span style={{color:"red"}}>*</span></label>
+        <label className="form-label">Montant de la rémunération :<span style={{color:"red"}}></span></label>
         <div className="input-group">
 
           <input type="number" required  placeholder="Saisissez le montant de la rémunération"  name={"remunerationAmount"} className={classNames("form-control")} onChange={
@@ -1067,7 +1063,7 @@ onChange={handleSelectChange}
 
 
           }
-            value={Number(calculateDriverAmmount(SingleDemande?.distance)) }
+            value={Number((SingleDemande?.remunerationAmount)) }
           />
           {/* {
             errors && (<div  className="invalid-feedback">
@@ -1103,11 +1099,11 @@ Montant Final!
 {
 !confirme ?
 
-(  (Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+(  (Number(SingleDemande?.price)
 
 )  +Number (Rectification)).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 :
-(Number(calculateDriverAmmount(SingleDemande?.distance)) *2.3
+(Number((SingleDemande?.price))
 
 ).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
 }

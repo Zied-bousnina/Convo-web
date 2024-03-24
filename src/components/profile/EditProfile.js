@@ -130,7 +130,6 @@ import { SET_ERRORS } from "Redux/types";
 
 
           // showToastMessage()
-          // setSelectedBins([])
           e.target.reset();
 
 

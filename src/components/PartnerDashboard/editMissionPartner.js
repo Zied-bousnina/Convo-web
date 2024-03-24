@@ -22,7 +22,6 @@ import {
   import { useEffect, useRef, useState } from "react";
   import axios from "axios";
   import classNames from "classnames";
-  import { AddBin } from "Redux/actions/BinAction";
   import { SET_IS_SECCESS } from "Redux/types";
   import {DatePicker} from 'reactstrap-date-picker'
 
@@ -370,7 +369,6 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
 
 dispatch(UpdateMission(id,data))
         // Continue with the rest of your form submission logic
-        // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
         e.target.reset();
       };
@@ -839,7 +837,6 @@ inputProps={{
         <MapEvents />
 
             <Marker
-            //   key={pointBin._id}
             position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
                 icon={myIcon}
             //     eventHandlers={{

@@ -62,16 +62,12 @@ const Partnersidebar = (props) => {
       && prop.path !=='/tech-assist-detail/:id'
       && prop.path !=='/contact-detail/:id'
       && prop.path !=='/AddRequest'
-      && prop.path !=='/Add-Point-Bin'
-      && prop.path !=='/bin-details/:id'
       && prop.path !=='/quote-details/:id'
       && prop.path !=='/tech-assist-detail/:id'
       && prop.path !=='/contact-detail/:id'
       && prop.path !=='/AddRequest'
-      && prop.path !=='/Add-Point-Bin' && prop.path !=='/edit-bin/:id'
-      && prop.path !=='/point-bin-details/:id' && prop.path !=='/edit-Point-bin/:id'
       // && prop.path !=='/user-profile'
-      && prop.path !=='/municipal-details/:id'&& prop.path !=='/Add-Point-Bin/:idQuote'&& prop.path !=='/Mapcomponent'&&
+      && prop.path !=='/Mapcomponent'&&
       prop.path !=='/request-details/:id'&&
       prop.path !=='/AddDriver' &&
       prop.path !=='/edit-Driver/:id'&&

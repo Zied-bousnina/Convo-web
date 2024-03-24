@@ -16,9 +16,7 @@ import {
 import Header from '../Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
-import { FetchAllBins } from 'Redux/actions/BinAction';
 import 'react-toastify/dist/ReactToastify.css';
-import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -45,7 +43,6 @@ import { SET_ERRORS } from 'Redux/types';
 function ListOfFactures() {
 const navigate = useHistory()
 
-  const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
 
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
@@ -435,7 +432,6 @@ const actionBodyTemplate2 = (rowData) => {
 
     >
   <Tooltip label='By Partners' fontSize='md'>
-      {/* <Link to="/company/List-bins"> */}
         <i className="fas fa-users" />
   </Tooltip>
       {/* </Link> */}

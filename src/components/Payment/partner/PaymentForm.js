@@ -95,7 +95,7 @@ export default function PaymentForm({ data}) {
   console.log(data, "id", id, "data", userInformation)
   const subtotal =userInformation.price; // Replace with actual subtotal calculation
   const taxRate = 0.20; // 20% tax rate for this example
-  const totalTTC = subtotal * (1 + taxRate); // Calculate total including tax
+  const totalTTC = subtotal / (1 + taxRate); // Calculate total including tax
 
 
   return (
@@ -142,8 +142,8 @@ export default function PaymentForm({ data}) {
   </div>
 ) : (
   <div className="payment-summary">
-    <p className="subtotal">Total: {Number(subtotal)?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</p>
-    <p className="total-ttc">Total TTC (TVA France 20%): {totalTTC?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</p>
+    <p className="subtotal">Total: {Number(totalTTC)?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</p>
+    <p className="total-ttc">Total TTC (TVA France 20%): {subtotal?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</p>
   </div>
 )}
 

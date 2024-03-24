@@ -19,12 +19,8 @@ import {
 
   import { SET_IS_SECCESS } from "../../Redux/types";
   import {Link} from "react-router-dom"
-  import { FetchAllQuote } from "../../Redux/actions/QuoteAction";
-  import { FetchAllBinsNotInUse } from "../../Redux/actions/BinAction";
-  import { AddPointBin } from "../../Redux/actions/BinAction";
   import { useParams } from "react-router-dom";
 
-  import Select from 'react-select';
   import makeAnimated from 'react-select/animated';
 import { CreatePartner } from "Redux/actions/authActions.js";
 import { GetPartnerDetailsById } from "Redux/actions/PartnershipAction.js";
@@ -40,7 +36,6 @@ import Skeleton from "react-loading-skeleton";
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)
     const isSuccess = useSelector(state=>state?.success?.success)
     // const ListOfQuote= useSelector(state=>state?.quote?.quote?.quotes)
-    const ListOfBinsNotInUse= useSelector(state=>state?.ListOfBinsNotInPointBin?.ListOfBinsNotInPointBin)
 
     const [governorates, setgovernorates] = useState([]);
   const [selectedValue, setSelectedValue] = useState('Tunis');
@@ -96,10 +91,7 @@ import Skeleton from "react-loading-skeleton";
     };
 
 
-    useEffect(() => {
-      dispatch(FetchAllBinsNotInUse())
 
-    }, [ListOfBinsNotInUse])
 
 
 
@@ -118,7 +110,6 @@ import Skeleton from "react-loading-skeleton";
 
 
         // showToastMessage()
-        // setSelectedBins([])
         e.target.reset();
 
 

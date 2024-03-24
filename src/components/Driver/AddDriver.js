@@ -140,7 +140,6 @@ import FileInput from "components/FileInput.jsx";
 
 
         // showToastMessage()
-        // setSelectedBins([])
         e.target.reset();
 
 

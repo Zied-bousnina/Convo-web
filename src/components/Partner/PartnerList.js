@@ -15,9 +15,7 @@ import {
 import Header from '../Headers/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from "react-router-dom"
-import { FetchAllBins } from 'Redux/actions/BinAction';
 import 'react-toastify/dist/ReactToastify.css';
-import { DeleteBinByID } from 'Redux/actions/BinAction';
 import { Button as Btn} from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -36,7 +34,6 @@ import { Tooltip } from '@chakra-ui/react';
 function ListOfPartners() {
 const navigate = useHistory()
 
-  const listOfBins = useSelector(state=>state?.ListOfBins?.ListOfBins?.bins)
 
   const ListOfUsers = useSelector(state=>state?.users?.users)
   const isLoad = useSelector(state=>state?.isLoading?.isLoading)

@@ -1,21 +1,8 @@
 
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import Landing from "views/examples/Landing.js";
 import Login from "views/examples/Login.js";
-import Profile from "views/examples/Profile.js";
-import Register from "views/examples/Register.js";
 
-import SmartBox from "components/products/SmartBox";
-import FleetManagmentPlatform from "components/products/FleetManagmentPlatform";
-import QuoteRequest from "components/contact/QuoteRequest";
-import SmartCities from "components/market/SmartCities";
-import CommercialEstablishment from "components/market/CommercialEstablishment";
-import PrivateOrganization from "components/market/PrivateOrganization";
-import WasteCollector from "components/market/WasteCollectors";
-import AboutCompany from "components/Company/AoutCompany";
-import Partnership from "components/Company/Partnership";
-import ContactDetail from "components/contact/ContactDetail";
-import TechnicalAssistance from "components/contact/TechnicalAssistance";
+
 import AdminLayout from "./layouts/Admin.js";
 import PartnerLayout from "./layouts/Partner.js";
 import PrivateRouter from "components/PrivateRouter.js";

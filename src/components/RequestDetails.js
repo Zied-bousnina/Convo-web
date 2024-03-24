@@ -3,15 +3,9 @@ import {
     Card,
     CardHeader,
     CardBody,
-    NavItem,
-    NavLink,
-    Nav,
-    Progress,
-    Table,
     Container,
     Row,
     Col,
-    Label,
     Modal,
     ModalHeader,
     ModalBody,
@@ -25,34 +19,13 @@ import {
   import React, { useEffect, useRef, useState } from "react";
   import axios from "axios";
   import classNames from "classnames";
-  import { AddBin } from "Redux/actions/BinAction";
   import { SET_IS_SECCESS } from "Redux/types";
   // import OppositeContentTimeline from './TimeLine.js'
 
-  /*!
 
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-// import { useState } from "react";
-// node.js library that concatenates classes (strings)
-import classnames from "classnames";
 // javascipt plugin for creating charts
 import Chart from "chart.js";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
 
 import { useHistory } from 'react-router-dom';
@@ -60,8 +33,6 @@ import { useHistory } from 'react-router-dom';
 import {
   chartOptions,
   parseOptions,
-  chartExample1,
-  chartExample2,
 } from "../variables/charts.js";
 import { GetAllUsers } from "Redux/actions/userAction.js";
 // --------------------------Map
@@ -77,19 +48,9 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.js"
 import "./App.css"
 import LeafletRoutingMachine from "./LeafletRoutingMachine.js";
 import { AddDemande } from "Redux/actions/Demandes.Actions.js";
-import CustomizedTimeline from "./TimeLine.js";
 // import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
-import { idText } from "typescript";
 import { FindRequestDemandeById } from "Redux/actions/Demandes.Actions.js";
-import OppositeContentTimeline from "./TimeLine.js";
-import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineDot from '@mui/lab/TimelineDot';
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import { Divider } from "@chakra-ui/react";
 import Skeleton from "react-loading-skeleton";
 import { SET_SINGLE_DEMANDE } from "Redux/types.js";
@@ -97,7 +58,6 @@ import { FindAllCategories } from "Redux/actions/Demandes.Actions.js";
 
   const RequestDetails = () => {
     const navigate = useHistory();
-    const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
   const [selectedValue, setSelectedValue] = useState('Tunis');
     const [selectedMunicipal, setMunicipal] = useState('');
@@ -336,7 +296,6 @@ import { FindAllCategories } from "Redux/actions/Demandes.Actions.js";
   // console.log(data)
 dispatch(AddDemande(data, navigate))
         // Continue with the rest of your form submission logic
-        // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
         e.target.reset();
       };
@@ -1154,7 +1113,6 @@ height={50}
         {/* <MapEvents /> */}
 
             <Marker
-            //   key={pointBin._id}
             position={SingleDemande?.destination?.latitude && SingleDemande?.destination?.longitude ? [SingleDemande?.destination.latitude, SingleDemande?.destination.longitude] : [0, 0]} // Update property names
                 icon={myIcon}
             //     eventHandlers={{

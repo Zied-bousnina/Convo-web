@@ -19,7 +19,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
-
+import bgImage from "assets/images/bg-sign-in-cover.jpeg";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from "react-redux";
@@ -58,7 +58,7 @@ import axios from "axios";
 import { setCurrentUser } from "Redux/actions/authActions";
 import { SetAuthToken } from "utils/SetAuthToken";
 import { LogOut } from "Redux/actions/authActions";
-
+import "../../index.css"
 const initialValues = {
   email: '',
    password: ''
@@ -125,14 +125,14 @@ function Login () {
     const user = await localStorage.getItem('jwtToken');
     if (user) {
       const decode = jwt_decode(user);
-      axios.get(`${process.env.REACT_APP_API_URL}/api/users/checkTokenValidity`)
+      axios.get(`https://convoyage.onrender.com/api/users/checkTokenValidity`)
       .then(res => {
 
       dispatch(setCurrentUser(decode));
       SetAuthToken(user);
-      if (decode?.role === "ADMIN") {
+      if (decode?.role == "ADMIN") {
         navigate.push("/admin"); // Use navigate function to redirect
-      } else if (decode?.role === "PARTNER") {
+      } else if (decode?.role == "PARTNER") {
         navigate.push("/partner");
       }
 
@@ -157,41 +157,25 @@ useEffect(() => {
 
     return (
 
-        <main >
-            <div className="shape shape-style-1 bg-gradient-default" style={{ height: '100vh' }}>
-          <section className="section section-shaped section-lg">
-              {/* <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span /> */}
-
-            <Container
-            fluid
-             className="pt-lg-5 ">
-              <Row className="justify-content-center " >
-                <Col lg="5">
-                  <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-white ">
-                    <div className="text-muted text-center d-flex justify-content-center align-items-center">
-  {/* <img
-    alt="Your Image Alt Text"
-    style={{ width: "150px", height: "auto" }}
-    src={require("../../assets/img/brand/logo.png")}
-  /> */}
-  <Logo
-  width="150px"
-  height="auto"
-
-  />
-</div>
-
-                    </CardHeader>
-                    <CardBody className="px-lg-2 py-lg-2">
-                      <div className="text-center text-muted mb-2">
+      <main style={{
+        height: '100vh',
+        background: `url(
+          ${bgImage}
+        ) no-repeat center center`,
+        backgroundSize: 'cover',
+    }}>
+        <div className="section section-shaped section-lg">
+            <Container fluid className="pt-lg-5">
+                <Row className="justify-content-center">
+                    <Col lg="5">
+                        <Card className="bg-secondary shadow border-0">
+                            <CardHeader className="bg-white">
+                                <div className="text-muted text-center d-flex justify-content-center align-items-center">
+                                    <Logo width="150px" height="auto" />
+                                </div>
+                            </CardHeader>
+                            <CardBody className="px-lg-2 py-lg-2">
+                            <div className="text-center text-muted mb-2">
                         <big> Connexion </big>
                       </div>
                       <Formik
@@ -313,35 +297,20 @@ useEffect(() => {
     </Form>
   )}
 </Formik>
-
-                    </CardBody>
-                  </Card>
-                  <Row className="mt-3">
-                    <Col xs="6">
-                     <Link
-                        className="text-light"
-                        to="/forgotpassword-page"
-                      >
-                        <small>Mot de passe oublié ??</small>
-                      </Link>
+                            </CardBody>
+                        </Card>
+                        <Row className="mt-3">
+                            <Col xs="6">
+                                <Link className="text-light" to="/forgotpassword-page">
+                                    <small>Mot de passe oublié ??</small>
+                                </Link>
+                            </Col>
+                        </Row>
                     </Col>
-                    {/* <Col className="text-right" xs="6">
-                    <Link
-                        className="text-light"
-                        to="/signupChoice-page"
-                      >
-                        <small>Create new account</small>
-                      </Link>
-                    </Col> */}
-                  </Row>
-
-                </Col>
-              </Row>
+                </Row>
             </Container>
-          </section>
-            </div>
-
-        </main>
+        </div>
+    </main>
 
     );
 

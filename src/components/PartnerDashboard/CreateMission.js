@@ -16,6 +16,7 @@ import {
     Input,
   } from "reactstrap";
   // core components
+  import "./style.css"
   import UserHeader from "components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
@@ -23,7 +24,6 @@ import {
   import { useEffect, useRef, useState } from "react";
   import axios from "axios";
   import classNames from "classnames";
-  import { AddBin } from "Redux/actions/BinAction";
   import { SET_IS_SECCESS } from "Redux/types";
   import {DatePicker} from 'reactstrap-date-picker'
 
@@ -68,6 +68,37 @@ import Documents from "./validation-devis/Documents/Documents.js";
 import { createDemandeNewVersion } from "Redux/actions/Demandes.Actions.js";
 
   const CreateMission = () => {
+    // const [destination, setDestination] = useState(null);
+    const [startingPointSuggestions, setStartingPointSuggestions] = useState([]);
+const [destinationSuggestions, setDestinationSuggestions] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const fetchSuggestions = async (query, isStartingPoint) => {
+  if (!query) {
+    if (isStartingPoint) {
+      setStartingPointSuggestions([]);
+    } else {
+      setDestinationSuggestions([]);
+    }
+    return;
+  }
+
+  setIsLoading(true); // Start loading
+
+  try {
+    const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&countrycodes=fr`);
+
+    if (isStartingPoint) {
+      setStartingPointSuggestions(response.data);
+    } else {
+      setDestinationSuggestions(response.data);
+    }
+  } catch (error) {
+    console.error("Error fetching location suggestions:", error);
+  } finally {
+    setIsLoading(false); // End loading
+  }
+};
+
     const navigate = useHistory();
     const error = useSelector(state=>state.error?.errors)
     const [governorates, setgovernorates] = useState([]);
@@ -458,16 +489,17 @@ function calculatePriceConvo(distance) {
   // console.log("data",selectedServices);
   // console.log("data",uploadedDocuments);
   setTimeout(() => {
-    if(data.transporttype==="convoyeur professionnel"){
+    if(data.transport==="convoyeur professionnel"){
       setscreen("professionel")
     }else{
       setscreen("plateau")
     }
 
+    console.log()
     setVehicleDetails({
       ...vehicleDetails, // Keep existing vehicleDetails properties
       vehicle: 'LAND ROVER FREELAND', // Update with actual vehicle name if you have it in state
-      transport: data.transporttype==="convoyeur professionnel" ? "Convoyeur partenaires Daycar" : "Plateau porteur" , // Update with actual transport type if you have it in state
+      transport: data.transport=="convoyeur professionnel" ? "Convoyeur partenaires Daycar" : "Plateau porteur" , // Update with actual transport type if you have it in state
       journey: `${data.postalAddress} > ${data.postalDestination}`,
       distance: data.distance, // Update with actual distance if you have it calculated
       address: startingPoint,
@@ -477,7 +509,6 @@ function calculatePriceConvo(distance) {
   }, 1000);
 
         // Continue with the rest of your form submission logic
-        // dispatch(AddBin({ ...form, governorate: selectedValue, municipale: selectedMunicipal }));
 
         e.target.reset();
       };
@@ -494,7 +525,7 @@ function calculatePriceConvo(distance) {
 
       await setdata({
         ...data,
-        price:cost,
+        price:cost*1.2,
         selectedServices:selectedServices,
         uploadedDocuments,
         remunerationAmount: costdriver
@@ -502,14 +533,17 @@ function calculatePriceConvo(distance) {
 
 console.log("oihmoiugùo", {
   ...data,
-  price:cost,
+  price:cost*1.2,
   selectedServices:selectedServices,
   uploadedDocuments,
   remunerationAmount: costdriver
 },cost )
 setstartingPoint()
   setdestination()
+  setstartingPoint()
+  setdestination()
   setTimeout(() => {
+
 
     dispatch(createDemandeNewVersion({
       ...data,
@@ -518,7 +552,9 @@ setstartingPoint()
       uploadedDocuments,
       remunerationAmount: costdriver
     }, navigate))
-  }, 1000);
+    setstartingPoint()
+    setdestination()
+  }, 1500);
 
         // e.target.reset();
       };
@@ -706,52 +742,101 @@ style={
     <div className=" mb-3">
       <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-        <input
-          type="text"
-          required
-          placeholder="Choose starting point, or click on the map"
-          value={startingPoint ? startingPoint.display_name : searchQuery}
-          name={"start"}
-          className={classNames("form-control")}
+  <input
+    type="text"
+    placeholder="Choose starting point"
+    className="form-control"
+    value={startingPoint?.display_name || searchQuery}
+    onChange={(e) => {
+      setSearchQuery(e.target.value);
+      fetchSuggestions(e.target.value, true);
+    }}
+    onClick={() => {
+      isStartingPointRef.current = true;
+      setisStartingPoint(true);
+      setisDestination(false);
+    }}
+  />
+  {isLoading && (
+    <div className="loader">
+      <div className="spinner"></div>
+    </div>
+  )}
+  {startingPoint?.display_name && (
+    <button
+      type="button"
+      className="btn-clear"
+      onClick={() => setstartingPoint(null)}
+    >
+      &times;
+    </button>
+  )}
+  {startingPointSuggestions.length > 0 && (
+    <ul className="suggestions-list">
+      {startingPointSuggestions.map((suggestion, index) => (
+        <li
+          key={index}
           onClick={() => {
-            isStartingPointRef.current = true;
-            setisStartingPoint(true);
-            setisDestination(false);
+            setstartingPoint({
+              display_name: suggestion.display_name,
+              latitude: suggestion.lat,
+              longitude: suggestion.lon,
+            });
+            setStartingPointSuggestions([]);
           }}
-          onChange={(e) => {
-            setstartingPoint(null);
-            setSearchQuery(e.target.value);
-            // onChangeHandler(e)
-          }}
-        />
-      </div>
+        >
+          {suggestion.display_name}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
     </div>
   </Col>
   <Col md="4">
-    <div className=" mb-3">
-      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
-      <div className="input-group">
-        <input
-          type="text"
-          required
-          placeholder="Choose destination, or click on the map"
-          value={destination ? destination.display_name : destinationSearchQuery}
-          name={"destination"}
-          className={classNames("form-control")}
-          onClick={() => {
-            isStartingPointRef.current = false;
-            setisStartingPoint(false);
-            setisDestination(true);
-          }}
-          onChange={(e) => {
-            setdestination(null);
-            setDestinationSearchQuery(e.target.value);
-            // onChangeHandler(e)
-          }}
-        />
-      </div>
-    </div>
-  </Col>
+        <div className="mb-3">
+          <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
+          <div className="input-group">
+            <input
+              type="text"
+              required
+              placeholder="Choose destination, or click on the map"
+              value={destination ? destination.display_name : destinationSearchQuery}
+              className="form-control"
+              onClick={() => {
+                isStartingPointRef.current = false;
+                setdestination(null); // Clear current destination on input click
+              }}
+              onChange={(e) => {
+                setDestinationSearchQuery(e.target.value);
+                fetchSuggestions(e.target.value, false); // Fetch destination suggestions
+              }}
+            />
+            {/* Destination Suggestions */}
+            {destinationSuggestions.length > 0 && (
+              <ul className="suggestions-list">
+                {destinationSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setdestination({
+                        display_name: suggestion.display_name,
+                        latitude: suggestion.lat,
+                        longitude: suggestion.lon,
+                      });
+                      setDestinationSearchQuery(suggestion.display_name);
+                      setDestinationSuggestions([]);
+                    }}
+                  >
+                    {suggestion.display_name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </Col>
   <Col md="4">
 <label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
 <Datetime
@@ -879,9 +964,9 @@ inputProps={{
       </div>
       <FormGroup check>
             <Input
-              name="transportType"
+              name="imma"
               type="checkbox"
-              value="convoyeur professionnel"
+              // value="convoyeur professionnel"
               onChange={(e) => setimaatChecked(
                 e.target.checked
               )}
@@ -1002,7 +1087,6 @@ inputProps={{
         <MapEvents />
 
             <Marker
-            //   key={pointBin._id}
             position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
                 icon={myIcon}
             //     eventHandlers={{
@@ -1128,7 +1212,6 @@ style={{ overflowY: 'auto' }}
         <MapEvents />
 
             <Marker
-            //   key={pointBin._id}
             position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
                 icon={myIcon}
             //     eventHandlers={{

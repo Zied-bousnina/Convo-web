@@ -14,26 +14,18 @@ import {
   import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
   import React, { useEffect, useRef, useState } from "react";
-  import axios from "axios";
   import classNames from "classnames";
 
   import { SET_IS_SECCESS } from "../../Redux/types";
   import {Link} from "react-router-dom"
-  import { FetchAllQuote } from "../../Redux/actions/QuoteAction";
-  import { FetchAllBinsNotInUse } from "../../Redux/actions/BinAction";
-  import { AddPointBin } from "../../Redux/actions/BinAction";
   import { useParams } from "react-router-dom";
 
-  import Select from 'react-select';
-  import makeAnimated from 'react-select/animated';
-import { CreatePartner } from "Redux/actions/authActions.js";
 import { GetPartnerDetailsById } from "Redux/actions/PartnershipAction.js";
 import { UpdatePartnerShip } from "Redux/actions/PartnershipAction.js";
 import Skeleton from "react-loading-skeleton";
 import { Button as Btn} from 'primereact/button';
 import { Dialog } from "primereact/dialog";
 import { DataTable } from "primereact/datatable";
-import { FindRequestDemandeById } from "Redux/actions/Demandes.Actions.js";
 import { Tag } from "primereact/tag";
 import { Dropdown } from "primereact/dropdown";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
@@ -41,26 +33,22 @@ import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
 import { FindAllCategories } from "Redux/actions/Demandes.Actions.js";
 import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
-  const animatedComponents = makeAnimated();
+
   const PartnerDetails = () => {
 
     const error = useSelector(state=>state.error?.errors)
 
 
-  const isLoad = useSelector(state=>state?.isLoading?.isLoading)
-    const isSuccess = useSelector(state=>state?.success?.success)
-    // const ListOfQuote= useSelector(state=>state?.quote?.quote?.quotes)
-    const ListOfBinsNotInUse= useSelector(state=>state?.ListOfBinsNotInPointBin?.ListOfBinsNotInPointBin)
 
-    const [governorates, setgovernorates] = useState([]);
-  const [selectedValue, setSelectedValue] = useState('Tunis');
-    const [selectedMunicipal, setMunicipal] = useState('Tunis');
-    const [selectedValues, setSelectedValues] = useState([]);
+    const isSuccess = useSelector(state=>state?.success?.success)
+
+
+
     const dispatch = useDispatch()
     const [selectedStatus, setselectedStatus] = useState()
     const [dialogVisible, setDialogVisible] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const SingleDemande = useSelector(state=>state?.Demande?.demandes?.demande)
+
     const devsList = useSelector(state=>state?.DevisByPartner?.devis?.Devis)
     const Categories = useSelector(state=>state?.AllCategories?.categorie?.categorie)
     const dialogFooterTemplate = () => {
@@ -124,10 +112,7 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
     };
 
 
-    useEffect(() => {
-      dispatch(FetchAllBinsNotInUse())
 
-    }, [ListOfBinsNotInUse])
 
 
 
@@ -145,7 +130,6 @@ import { FindDevisByPartner } from "Redux/actions/Demandes.Actions.js";
 
 
         // showToastMessage()
-        // setSelectedBins([])
         e.target.reset();
 
 
