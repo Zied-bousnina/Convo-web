@@ -346,9 +346,16 @@ var routes = [
   },
   {
     path: "/index",
-    name: "Tableau de bord",
+    name: "Home",
     icon: "ni ni-tv-2 text-primary",
     component: MapsComponentPartner,
+    layout: "/partner"
+  },
+  {
+    path: "/AddRequest",
+    name: "j’obtiens mon devis",
+    icon: "ni ni-delivery-fast text-primary",
+    component: CreateMission,
     layout: "/partner"
   },
   {
@@ -445,13 +452,13 @@ var routes = [
     ]
 
   },
-  {
-    path: "/AddRequest",
-    name: " create a mission",
-    icon: "ni ni-building text-red",
-    component: CreateMission,
-    layout: "/partner"
-  },
+  // {
+  //   path: "/AddRequest",
+  //   name: " create a mission",
+  //   icon: "ni ni-building text-red",
+  //   component: CreateMission,
+  //   layout: "/partner"
+  // },
   // {
   //   path: "/DriverList",
   //   name: "conducteurs",

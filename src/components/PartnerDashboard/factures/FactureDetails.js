@@ -1,5 +1,5 @@
 
-import { Card, CardHeader, CardBody, Container, Row, Col, Button, Input, ButtonGroup, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal } from "reactstrap";
+import { Card, CardHeader, CardBody, Container, Row, Col, Button, Input, ButtonGroup, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, Table } from "reactstrap";
   import UserHeader from "../../../components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
@@ -31,7 +31,10 @@ import { createFacture } from "Redux/actions/Demandes.Actions.js";
 import { FindFactureById } from "Redux/actions/Demandes.Actions.js";
 import { PayeFactureByPartnerHorLigne } from "Redux/actions/userAction.js";
 import StripeContainer from "components/Payment/StripeContainer.js";
+import ReactToPrint from "react-to-print";
+import Logo from "components/Logo/logo.js";
   const FactureDetails = () => {
+    const componentRef = React.useRef();
     const navigate = useHistory();
     const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
     const error = useSelector(state=>state.error?.errors)
@@ -278,7 +281,8 @@ const onChangeHandler = (e) => {
     const exportPdf2 = (res) => {
       import('jspdf').then((jsPDF) => {
         import('jspdf-autotable').then(() => {
-          const doc = new jsPDF.default(0, 0);
+        // import { type } from './../../../../build/static/js/main.ca3a5b2a';
+  const doc = new jsPDF.default(0, 0);
           const cols = [
             // { field: '_id', header: 'ID' },
             { field: 'montant', header: 'Montant HT' },
@@ -1003,7 +1007,7 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
 
     <Row>
       <Col>
-      <button
+      {/* <button
       onClick={()=>{
         exportPdf2(singleFacture?.facture)
       }}
@@ -1017,10 +1021,38 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
         )}
 
                     <i className="fa-solid fa-floppy-disk"></i>
-                  </button></Col>
+                  </button> */}
+
+                  <ReactToPrint
+                  trigger={() => {
+                    return (
+                      <button
+                        type="button"
+                        text=" Télécharger le PDF"
+                        className="border bg-[#00c97b] rounded-lg hover:bg-opacity-80 text-black py-2 px-4"
+                      >
+                        <i className="fa-solid fa-floppy-disk"></i>
+                        Télécharger le PDF
+
+                      </button>
+                    );
+                  }}
+                  content={() => componentRef.current}
+                />
+                  </Col>
+
+<div className="hidden">
+            <PrintableCard
+              ref={componentRef}
+              // currentConsultant={currentConsultant}
+              selectedInfo={singleFacture?.facture}
+              missions={missions}
+              TVA={tvaRate}
+              // signatureUrl={signatureUrl}
+            />
+          </div>
     </Row>
 }
-
 
 
   </form>
@@ -1036,3 +1068,101 @@ icon="pi pi-external-link" onClick={() => setDialogVisible(true)} />
   };
 
   export default FactureDetails;
+  const PrintableCard = React.forwardRef(
+    ({ selectedInfo,missions,TVA }, ref) => {
+      // Get the current date
+      // singleFacture?.facture
+      console.log("selectedInfo",missions)
+      const calculateTVA = (montantHT, tvaRate) => {
+        const TVA = montantHT * (tvaRate / 100);
+        const montantTTC = montantHT + TVA;
+        return {
+          montantHT,
+          TVA,
+          montantTTC
+        };
+      };
+
+      return (
+        <Card className="bg-white rounded-lg shadow-lg px-8 py-10 max-w-xl mx-auto " innerRef={ref}>
+        <Row className="items-center justify-between mb-4 mt-4">
+          <Col className="flex items-center">
+          <Logo
+  width= '50px' maxHeight= '50px'  objectFit= 'contain'
+
+  />
+            <div className="text-gray-700 font-semibold text-lg">CarVoy</div>
+          </Col>
+          <Col className="text-gray-700 text-right">
+            <div className="font-bold text-xl mb-2">FACTURE</div>
+            <div className="text-sm">Date: {new Date().toLocaleString('fr-FR')}</div>
+            <div className="text-sm">facture #: {selectedInfo?.numFacture}</div>
+            {/* <div className="text-sm">De : {selectedInfo?.from} À ${selectedInfo?.to} </div> */}
+          </Col>
+        </Row>
+        <div className="border-b-2 border-gray-300 pb-6 ">
+          <h2 className="text-2xl font-bold mb-2">Facturer à:</h2>
+          <div className="text-gray-700 mb-2"> {selectedInfo?.partner?.contactName}</div>
+          <div className="text-gray-700 mb-2">{selectedInfo?.partner?.addressPartner}</div>
+          <div className="text-gray-700 mb-2">SIRET: {selectedInfo?.partner?.siret}</div>
+          <div className="text-gray-700">{selectedInfo?.partner?.email}</div>
+        </div>
+        {
+            selectedInfo?.payed ?
+            `Facture Payée :  ${ Number(selectedInfo?.totalAmmount).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})}`:
+            (
+
+            selectedInfo?.paymentMethod =="Paiement En cours – Hors Ligne" ?
+"Paiement En cours – Hors Ligne":
+"Facture non Payée")
+              }
+        <Table className="w-full text-left ">
+          <thead>
+            <tr>
+              <th className="text-gray-700 font-bold uppercase py-2">Montant HT</th>
+              <th className="text-gray-700 font-bold uppercase py-2">Créé le</th>
+              <th className="text-gray-700 font-bold uppercase py-2">TVA</th>
+              <th className="text-gray-700 font-bold uppercase py-2">Montant TTC</th>
+            </tr>
+          </thead>
+          <tbody>
+            {missions.map((mission) => (
+              <tr key={mission._id}>
+                <td className="py-4 text-gray-700">{
+
+                  Number(mission.montant).toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+                  }</td>
+                <td className="py-4 text-gray-700">{
+
+                  new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
+              ).format(new Date(mission.createdAt))
+                  }</td>
+                <td className="py-4 text-gray-700">{TVA}</td>
+                <td className="py-4 text-gray-700">{
+
+                  calculateTVA(Number(mission?.montant),
+                TVA).montantTTC.toLocaleString('fr-FR', {style:'currency', currency: 'EUR'})
+                  }</td>
+              </tr>
+            ))}
+            {/* <tr>
+              <td className="py-4 text-gray-700">Product 1</td>
+              <td className="py-4 text-gray-700">1</td>
+              <td className="py-4 text-gray-700">$100.00</td>
+              <td className="py-4 text-gray-700">$100.00</td>
+            </tr> */}
+
+          </tbody>
+        </Table>
+
+        <Row className="justify-end mb-8">
+          <div className="text-gray-700 mr-2">MONTANT TOTAL :</div>
+          <div className="text-gray-700 font-bold text-xl">{ new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+            selectedInfo?.totalAmmount,
+          )}</div>
+        </Row>
+
+      </Card>
+      );
+    }
+  );

@@ -66,6 +66,7 @@ import Summary from "./validation-devis/Summary/Summary.js";
 import ServiceOptions from "./validation-devis/ServicesOptions/ServiceOptions.js";
 import Documents from "./validation-devis/Documents/Documents.js";
 import { createDemandeNewVersion } from "Redux/actions/Demandes.Actions.js";
+import { set } from "react-hook-form";
 
   const CreateMission = () => {
     // const [destination, setDestination] = useState(null);
@@ -126,98 +127,165 @@ const [selectedMissionType, setSelectedMissionType] = useState(null);
 const [screen, setscreen] = useState("create") // professionel //create
 const [selectedServices, setSelectedServices] = useState({});
 const [transType, setTransType] = useState('convoyeur professionnel');
+const [Vehicule, setVehicule] = useState('');
 const [imaatChecked, setimaatChecked] = useState(false);
 const [data, setdata] = useState({});
 const [cost, setcost] = useState(0)
 const [costdriver, setcostdriver] = useState(0)
 const [price, setPrice] = useState(0);
+// function calculatePrice(distance, type) {
+//   // Base acceptance fee for a 'convoyeur'
+//   const baseFeeConvoyeur = 20;
+
+//   // Price per distance bracket for a 'convoyeur'
+//   const pricesConvoyeur = [
+//     { maxDist: 0.10, price: 1 },
+//     { maxDist: 0.20, price: 0.97 },
+//     { maxDist: 0.30, price: 0.95 },
+//     { maxDist: 0.40, price: 0.93 },
+//     { maxDist: 0.50, price: 0.90 },
+//     { maxDist: 1.00, price: 0.875 },
+//     { maxDist: 1.50, price: 0.85 },
+//     { maxDist: 2.00, price: 0.825 },
+//     { maxDist: 2.50, price: 0.80 },
+//     { maxDist: 3.00, price: 0.775 },
+//     { maxDist: 3.50, price: 0.75 },
+//     { maxDist: 4.00, price: 0.725 },
+//     { maxDist: 4.50, price: 0.70 },
+//     { maxDist: 5.00, price: 0.65 }
+//   ];
+
+//   let price = 0;
+
+//   // Find the price bracket based on the distance and calculate the price
+//   for (const bracket of pricesConvoyeur) {
+//     if (distance <= bracket.maxDist) {
+//       price = bracket.price;
+//       break;
+//     }
+//   }
+
+//   if (type === 'convoyeur professionnel') {
+//     // If no matching bracket was found, use the last bracket's price
+//     if (price === 0) {
+//       console.log(pricesConvoyeur[pricesConvoyeur.length - 1].price, "pricesConvoyeur[pricesConvoyeur.length - 1].price")
+//       price = pricesConvoyeur[pricesConvoyeur.length - 1].price;
+//     }
+
+//     console.log(
+//       (baseFeeConvoyeur + price) * 1.6,
+//       "baseFeeConvoyeur + price * 1.6"
+//     )
+
+//     // Add base fee and apply multiplier for a 'convoyeur'
+//     return (baseFeeConvoyeur + price) * 1.6;
+//   } else if (type === 'plateau porteur') {
+//     // Calculate price as a 'convoyeur' first, then apply the plateau multiplier
+//     const convoyeurPrice = calculatePrice(distance, 'convoyeur professionnel');
+//     return convoyeurPrice * 2.6;
+//   } else {
+//     throw new Error('Invalid driver type');
+//   }
+// }
 function calculatePrice(distance, type) {
-  // Base acceptance fee for a 'convoyeur'
-  const baseFeeConvoyeur = 20;
+  const fraisAcceptation = 20;
+  let prixKm = 0;
+  let tarif = 0;
 
-  // Price per distance bracket for a 'convoyeur'
-  const pricesConvoyeur = [
-    { maxDist: 0.10, price: 1 },
-    { maxDist: 0.20, price: 0.97 },
-    { maxDist: 0.30, price: 0.95 },
-    { maxDist: 0.40, price: 0.93 },
-    { maxDist: 0.50, price: 0.90 },
-    { maxDist: 1.00, price: 0.875 },
-    { maxDist: 1.50, price: 0.85 },
-    { maxDist: 2.00, price: 0.825 },
-    { maxDist: 2.50, price: 0.80 },
-    { maxDist: 3.00, price: 0.775 },
-    { maxDist: 3.50, price: 0.75 },
-    { maxDist: 4.00, price: 0.725 },
-    { maxDist: 4.50, price: 0.70 },
-    { maxDist: 5.00, price: 0.65 }
-  ];
-
-  let price = 0;
-
-  // Find the price bracket based on the distance and calculate the price
-  for (const bracket of pricesConvoyeur) {
-    if (distance <= bracket.maxDist) {
-      price = bracket.price;
-      break;
-    }
+  if (distance <= 10) {
+      prixKm = 1;
+  } else if (distance <= 20) {
+      prixKm = 0.97;
+  } else if (distance <= 30) {
+      prixKm = 0.95;
+  } else if (distance <= 40) {
+      prixKm = 0.93;
+  } else if (distance <= 50) {
+      prixKm = 0.90;
+  } else if (distance <= 100) {
+      prixKm = 0.875;
+  } else if (distance <= 150) {
+      prixKm = 0.85;
+  } else if (distance <= 200) {
+      prixKm = 0.825;
+  } else if (distance <= 250) {
+      prixKm = 0.8;
+  } else if (distance <= 300) {
+      prixKm = 0.775;
+  } else if (distance <= 350) {
+      prixKm = 0.75;
+  } else if (distance <= 400) {
+      prixKm = 0.725;
+  } else if (distance <= 450) {
+      prixKm = 0.7;
+  } else if (distance <= 500) {
+      prixKm = 0.65;
   }
 
-  if (type === 'convoyeur professionnel') {
-    // If no matching bracket was found, use the last bracket's price
-    if (price === 0) {
-      price = pricesConvoyeur[pricesConvoyeur.length - 1].price;
-    }
+  tarif = (distance * prixKm) + fraisAcceptation;
 
-    // Add base fee and apply multiplier for a 'convoyeur'
-    return (baseFeeConvoyeur + price) * 1.6;
-  } else if (type === 'plateau porteur') {
-    // Calculate price as a 'convoyeur' first, then apply the plateau multiplier
-    const convoyeurPrice = calculatePrice(distance, 'convoyeur professionnel');
-    return convoyeurPrice * 2.6;
-  } else {
-    throw new Error('Invalid driver type');
+  // Add additional charges for distances over 50km
+  if (distance > 50) {
+      const additionalCharge = Math.floor((distance - 50) / 50) + 1;
+      tarif += additionalCharge;
   }
+
+  // Adjust the tariff based on the user type
+  if (type === "convoyeur professionnel") {
+      tarif *= 1.6;
+  } else if (type === "plateau porteur") {
+      tarif *= 2.6;
+  }
+
+  return tarif;
 }
+
 function calculatePriceConvo(distance) {
   // Base acceptance fee for a 'convoyeur'
-  const baseFeeConvoyeur = 20;
+  const fraisAcceptation = 20;
+  let prixKm = 0;
+  let tarif = 0;
 
-  // Price per distance bracket for a 'convoyeur'
-  const pricesConvoyeur = [
-    { maxDist: 0.10, price: 1 },
-    { maxDist: 0.20, price: 0.97 },
-    { maxDist: 0.30, price: 0.95 },
-    { maxDist: 0.40, price: 0.93 },
-    { maxDist: 0.50, price: 0.90 },
-    { maxDist: 1.00, price: 0.875 },
-    { maxDist: 1.50, price: 0.85 },
-    { maxDist: 2.00, price: 0.825 },
-    { maxDist: 2.50, price: 0.80 },
-    { maxDist: 3.00, price: 0.775 },
-    { maxDist: 3.50, price: 0.75 },
-    { maxDist: 4.00, price: 0.725 },
-    { maxDist: 4.50, price: 0.70 },
-    { maxDist: 5.00, price: 0.65 }
-  ];
-
-  let price = 0;
-
-  // Find the price bracket based on the distance and calculate the price
-  for (const bracket of pricesConvoyeur) {
-    if (distance <= bracket.maxDist) {
-      price = bracket.price;
-      break;
-    }
+  if (distance <= 10) {
+      prixKm = 1;
+  } else if (distance <= 20) {
+      prixKm = 0.97;
+  } else if (distance <= 30) {
+      prixKm = 0.95;
+  } else if (distance <= 40) {
+      prixKm = 0.93;
+  } else if (distance <= 50) {
+      prixKm = 0.90;
+  } else if (distance <= 100) {
+      prixKm = 0.875;
+  } else if (distance <= 150) {
+      prixKm = 0.85;
+  } else if (distance <= 200) {
+      prixKm = 0.825;
+  } else if (distance <= 250) {
+      prixKm = 0.8;
+  } else if (distance <= 300) {
+      prixKm = 0.775;
+  } else if (distance <= 350) {
+      prixKm = 0.75;
+  } else if (distance <= 400) {
+      prixKm = 0.725;
+  } else if (distance <= 450) {
+      prixKm = 0.7;
+  } else if (distance <= 500) {
+      prixKm = 0.65;
   }
 
-  // If no matching bracket was found, use the last bracket's price
-  if (price === 0) {
-    price = pricesConvoyeur[pricesConvoyeur.length - 1].price;
+  tarif = (distance * prixKm) + fraisAcceptation;
+
+  // Add additional charges for distances over 50km
+  if (distance > 50) {
+      const additionalCharge = Math.floor((distance - 50) / 50) + 1;
+      tarif += additionalCharge;
   }
 
   // Return the sum of the base fee and the price determined by the distance
-  return baseFeeConvoyeur + price;
+  return tarif;
 }
 
   const [uploadedDocuments, setUploadedDocuments] = useState({
@@ -471,6 +539,8 @@ function calculatePriceConvo(distance) {
     status:"En attente",
     time: correctTime ? correctTime : Math.round(distance / 60),
     transport:transType,
+    // vehicule: vehicule
+    vehicule: Vehicule,
 
     phone:phone,
 
@@ -498,8 +568,8 @@ function calculatePriceConvo(distance) {
     console.log()
     setVehicleDetails({
       ...vehicleDetails, // Keep existing vehicleDetails properties
-      vehicle: 'LAND ROVER FREELAND', // Update with actual vehicle name if you have it in state
-      transport: data.transport=="convoyeur professionnel" ? "Convoyeur partenaires Daycar" : "Plateau porteur" , // Update with actual transport type if you have it in state
+      vehicle: data.vehicule , // Update with actual vehicle name if you have it in state
+      transport: data.transport=="convoyeur professionnel" ? "Convoyeur partenaires CarVoy" : "Plateau porteur" , // Update with actual transport type if you have it in state
       journey: `${data.postalAddress} > ${data.postalDestination}`,
       distance: data.distance, // Update with actual distance if you have it calculated
       address: startingPoint,
@@ -863,7 +933,7 @@ inputProps={{
 
 
 
-<Row>
+{/* <Row>
     <Col md="4">
     <button
     type="button"
@@ -893,7 +963,7 @@ inputProps={{
 </button>
 
     </Col>
-</Row>
+</Row> */}
 
 
 
@@ -1025,6 +1095,34 @@ inputProps={{
     </div>
   </Col>
 </Row>
+<Row>
+  <Col md="12">
+    <div className=" mb-3">
+      <label className="form-label">Véhicule :</label>
+      <div className="input-group">
+
+        <input
+          type="text"
+          // required
+          placeholder="BMW, Mercedes, etc."
+
+          name={"vehicle"}
+          className={classNames("form-control")}
+
+          onChange={(e) => {
+            onChangeHandler(e)
+            setVehicule(e.target.value)
+
+          }}
+          required
+        />
+
+      </div>
+
+    </div>
+  </Col>
+
+</Row>
 
 
   <Row>
@@ -1073,8 +1171,12 @@ inputProps={{
               style={{ height: "75vh" }}
                center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution={"Google Maps"}
+          url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" // regular
+          maxZoom={20}
+          subdomains={["mt0", "mt1", "mt2", "mt3"]}
         />
         {/* {
             (startingPoint &&destination) &&
@@ -1198,8 +1300,12 @@ style={{ overflowY: 'auto' }}
               style={{ height: "75vh" }}
                center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution={"Google Maps"}
+          url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" // regular
+          maxZoom={20}
+          subdomains={["mt0", "mt1", "mt2", "mt3"]}
         />
         {/* {
             (startingPoint &&destination) &&

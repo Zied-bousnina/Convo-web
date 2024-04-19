@@ -61,11 +61,11 @@ const Partnersidebar = (props) => {
       && prop.path !=='/quote-details/:id'
       && prop.path !=='/tech-assist-detail/:id'
       && prop.path !=='/contact-detail/:id'
-      && prop.path !=='/AddRequest'
+      // && prop.path !=='/AddRequest'
       && prop.path !=='/quote-details/:id'
       && prop.path !=='/tech-assist-detail/:id'
       && prop.path !=='/contact-detail/:id'
-      && prop.path !=='/AddRequest'
+      // && prop.path !=='/AddRequest'
       // && prop.path !=='/user-profile'
       && prop.path !=='/Mapcomponent'&&
       prop.path !=='/request-details/:id'&&

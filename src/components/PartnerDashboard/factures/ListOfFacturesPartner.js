@@ -39,6 +39,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
 import { FinddevisByPartner } from 'Redux/actions/Demandes.Actions';
 import { SET_SINGLE_FACTURE } from 'Redux/types';
+import UserHeader from 'components/Headers/UserHeader';
 
 function ListOfFacturesPartner() {
 const navigate = useHistory()
@@ -309,7 +310,8 @@ const actionBodyTemplate2 = (rowData) => {
 };
   return (
     <>
-    <Header />
+    {/* <Header /> */}
+    <UserHeader />
     {/* Page content */}
     <Container className="mt--7" fluid>
         {/* Table */}

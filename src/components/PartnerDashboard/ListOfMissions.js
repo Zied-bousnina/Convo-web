@@ -39,6 +39,7 @@ import { DeleteMission } from 'Redux/actions/Demandes.Actions';
 import { Tag } from 'primereact/tag';
 import { Dropdown } from 'primereact/dropdown';
 import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
+import UserHeader from 'components/Headers/UserHeader';
 
 function ListOfMissions() {
 const navigate = useHistory()
@@ -293,7 +294,8 @@ const actionBodyTemplate2 = (rowData) => {
 };
   return (
     <>
-    <Header />
+    {/* <Header /> */}
+    <UserHeader />
     {/* Page content */}
     <Container className="mt--7" fluid>
         {/* Table */}
@@ -306,7 +308,7 @@ const actionBodyTemplate2 = (rowData) => {
                   // lg="6"
                     md="10"
                   >
-                <h3 className="mb-0">List Of all Missions  </h3>
+                <h3 className="mb-0">Liste de toutes les missions</h3>
 
                   </Col>
                   <Col
@@ -323,7 +325,7 @@ const actionBodyTemplate2 = (rowData) => {
                             >
 
 
-                Create Request
+j’obtiens mon devis
                 <i className=" ml-2 fas fa-arrow-right" />
                             </Button>
                           </Link>
@@ -416,9 +418,9 @@ const actionBodyTemplate2 = (rowData) => {
                 <Column field="niv" header="Level" sortable style={{ width: '25%' }}>
                   hjh
                 </Column> */}
-                <Column field={"_id"}
+                {/* <Column field={"_id"}
                 body={(rowData) => `#${rowData._id.toString().slice(-5)}`}
-                header={"ID"} sortable style={{ width: '25%' }}></Column>
+                header={"ID"} sortable style={{ width: '25%' }}></Column> */}
 
                 {
                   cols.map(e=>{

@@ -12,7 +12,7 @@ const TermsComponent = () => {
           <h5>Conditions particulières</h5>
 
           <strong>Transport par camion :</strong>
-          <p>Daycar s'engage à vous mettre en relation avec un transporteur camion pour réaliser le transport de votre véhicule entre deux adresses de votre choix.</p>
+          <p>CarVoy s'engage à vous mettre en relation avec un transporteur camion pour réaliser le transport de votre véhicule entre deux adresses de votre choix.</p>
 
           <strong>Compris dans le prix :</strong>
           <p>Assurance tout risque (voir les détail de l'assurance), péages, carburant. Conditions d'annulation:</p>

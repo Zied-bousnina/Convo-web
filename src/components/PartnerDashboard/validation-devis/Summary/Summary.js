@@ -9,7 +9,7 @@ const Summary = ({ vehicle, transport, journey, distance, totalCost }) => {
         <p><strong>Véhicule :</strong> {vehicle}</p>
         <p><strong>Transport :</strong> {transport}</p>
         <p><strong>Trajet :</strong> {journey}</p>
-        <p><strong>Distance :</strong> {distance} km</p>
+        <p><strong>Distance :</strong> {distance.toFixed(2)} km</p>
       </div>
       <div className="summary-total">
         <p><strong>Total :</strong>
