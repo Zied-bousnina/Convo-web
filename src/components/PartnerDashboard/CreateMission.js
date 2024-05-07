@@ -784,7 +784,7 @@ setstartingPoint()
               </CardHeader>
               <CardBody
 
-style={{ overflowY: 'auto',   paddingBottom:40, }}
+style={{    paddingBottom:120, }}
 
 
 
