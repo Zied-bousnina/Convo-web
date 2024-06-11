@@ -1,0 +1,69 @@
+.half-circle-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 75%; /* Aspect ratio */
+}
+
+.half-circle-container .CircularProgressbar {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.half-circle-mask {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #F1F4FD; /* Same light blue as card background */
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: #565E6C;
+}
+
+
+
+
+
+/* Bar */
+.card-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bar-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 50px; /* Adjust as needed */
+  width: 100%; /* Adjust as needed */
+}
+
+.bar {
+  width: 15px; /* Adjust as needed */
+  margin: 0 5px;
+  border-radius: 3px;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+

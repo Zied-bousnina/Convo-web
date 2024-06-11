@@ -97,22 +97,13 @@ function ForgotPassword () {
       <>
       {/* <AppLoader/> */}
 
-        <main >
-        <section className="section section-shaped section-lg" style={{ height: '100vh' }}>
-            <div className="shape shape-style-1 bg-gradient-default">
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
-            <Container className="pt-lg-7">
-              <Row className="justify-content-center">
-                <Col lg="5">
-                  <Card className="bg-secondary shadow border-0">
+      <main>
+      <div className="top-section">
+        <div className="section section-shaped section-lg">
+          <Container fluid className="pt-lg-5">
+            <Row className="justify-content-center">
+              <Col lg="5">
+              <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white pb-5">
                       <div className="text-muted text-center mb-3">
                         <small>Mot de passe oublié</small>
@@ -195,6 +186,17 @@ function ForgotPassword () {
       <div className="text-center">
       <Button
       className="my-4"
+      style={{
+      width: 'auto',
+      padding: '10px 20px',
+      fontSize: '16px',
+      fontWeight: 'bold',
+      backgroundColor: '#C3C3C3',
+      border: 'none',
+      borderRadius: '25px',
+      color: '#ffff',
+      textAlign: 'left',
+    }}
       color="primary"
       type="submit"
       disabled={isLoad}
@@ -212,25 +214,25 @@ function ForgotPassword () {
     </Form>
   )}
 </Formik>
+ <div className="text-center">
+          <small><Link to="/login">Connexion</Link></small>
+        </div>
                     </CardBody>
                   </Card>
-                  <Row className="mt-3">
-                    <Col xs="6">
-                     <Link
-                        className="text-light"
-                        to="/login"
-                      >
-                        <small>Connexion</small>
-                      </Link>
-                    </Col>
-
-                  </Row>
-                </Col>
-              </Row>
-            </Container>
-          </section>
-
-        </main>
+                {/* <Row className="mt-3">
+                  <Col xs="6">
+                    <Link className="text-light" to="/forgotpassword-page">
+                      <small>Mot de passe oublié ??</small>
+                    </Link>
+                  </Col>
+                </Row> */}
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
+      <div className="bottom-section"></div>
+    </main>
         {/* <SimpleFooter /> */}
       </>
     );

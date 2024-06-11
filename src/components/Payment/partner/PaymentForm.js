@@ -78,6 +78,7 @@ export default function PaymentForm({ data}) {
             }
             console.log("data", data)
             const response = await axios.post(`https://convoyage.onrender.com/api/users/facture/PayerEnLignePartner`, data );
+            // const response = await axios.post(`http://localhost:3600/api/users/facture/PayerEnLignePartner`, data );
 
             if (response.data.success) {
               console.log("Successful payment");

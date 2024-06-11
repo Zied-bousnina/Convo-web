@@ -40,6 +40,8 @@ import SingleFactureReducer from './SingleFacture.reducer';
 import ListFacturesPartnerReducer from './ListFacturesPartner.reducer';
 import FactureDetailsReducer from './FactureDetails.reducer';
 import FacturesByDriverReducer from './FacturesByDriver.reducer';
+import StatistiquesPartnerReducer from './StatistiquesPartner.reducer';
+import AmmountStatsReducer from './AmmountStats.reducer';
 // import MissionByPartnerReducer from './MissionByPartner.reducer';
 export default combineReducers({
     currentUser:CurrentUserReducer,
@@ -82,5 +84,7 @@ export default combineReducers({
     facturesByPartner: ListFacturesPartnerReducer,
     factureDetailsAdmin: FactureDetailsReducer,
     factureDriver: FacturesByDriverReducer,
+    statistiquesPartnerMission: StatistiquesPartnerReducer,
+    Ammount: AmmountStatsReducer,
 
 })

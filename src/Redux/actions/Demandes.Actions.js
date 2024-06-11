@@ -20,7 +20,10 @@ import { SET_SINGLE_FACTURE } from "Redux/types";
 import { SET_FACTURES_BY_PARTNERS } from "Redux/types";
 import { SET_FACTURE_DETAIL_ADMIN } from "Redux/types";
 import { SET_FACTURES_BY_DRIVERS } from "Redux/types";
+import { SET_STATISTIQUE_BY_PARTNER } from "Redux/types";
+import { SET_STATISTIQUE_AMMOUNT_BY_PARTNER } from "Redux/types";
 const baseUrl = "https://convoyage.onrender.com"
+// const baseUrl = "http://localhost:3600"
 // const baseUrl = "http://localhost:3600"
 export const AddDemande =  (userData, navigate ) => (dispatch) => {
 
@@ -326,6 +329,68 @@ export const FindRequestDemande = ( )=> (dispatch) => {
 
       dispatch({
         type: SET_DEMANDES_BY_PARTNERS,
+        payload: res.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
+        }
+
+
+
+    )
+
+  }
+  export const findDemandsstatisticsByPartner = ( )=> (dispatch) => {
+    axios.get(`${baseUrl}/api/users/findDemandsstatisticsByPartner`)
+    .then(async(res) => {
+
+      dispatch({
+        type: SET_STATISTIQUE_BY_PARTNER,
+        payload: res.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
+        }
+
+
+
+    )
+
+  }
+  export const findAmmountStatis = ( )=> (dispatch) => {
+    axios.get(`${baseUrl}/api/users/getTotalAmountByPartner`)
+    .then(async(res) => {
+
+      dispatch({
+        type: SET_STATISTIQUE_AMMOUNT_BY_PARTNER,
         payload: res.data,
 
       })

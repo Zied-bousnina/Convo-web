@@ -12,6 +12,7 @@ import axios from "axios"
 
 
 const baseUrl = "https://convoyage.onrender.com"
+// const baseUrl = "http://localhost:3600"
 export const FetchAllDrivers = ()=>dispatch=>{
   dispatch({
     type:SET_IS_LOADING_DRIVER_TABLE,

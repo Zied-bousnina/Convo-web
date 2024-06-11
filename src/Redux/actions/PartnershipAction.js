@@ -9,6 +9,7 @@ import { SET_ERRORS } from "Redux/types"
 import { SET_STATISTIQUES } from "Redux/types"
 import axios from "axios"
 const baseUrl = "https://convoyage.onrender.com"
+// const baseUrl = "http://localhost:3600"
 export const CreatePartership = (data)=>dispatch=>{
   dispatch({
     type: SET_ERRORS,

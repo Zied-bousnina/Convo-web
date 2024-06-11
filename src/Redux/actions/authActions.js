@@ -8,6 +8,7 @@ import { GetProfile } from './profile.actions';
 import { GetCurrentUser } from './userAction';
 
 const baseUrl = "https://convoyage.onrender.com"
+// const baseUrl = "http://localhost:3600"
 export function setLoading(isLoading) {
     return {
       type: SET_LOADING,

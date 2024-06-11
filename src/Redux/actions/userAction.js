@@ -11,6 +11,7 @@ import { removeSeenMsg } from "./Notification.action"
 import { ADD_UNSEEN_MSG } from "Redux/types"
 import { SET_NEW_NOTI } from "Redux/types"
 const baseUrl = "https://convoyage.onrender.com"
+// const baseUrl = "http://localhost:3600"
 
 export const GetCurrentUser = (navigation) => async (dispatch) => {
   try {

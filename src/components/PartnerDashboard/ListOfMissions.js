@@ -40,6 +40,7 @@ import { Tag } from 'primereact/tag';
 import { Dropdown } from 'primereact/dropdown';
 import { FindRequestDemandeByPartnerV2 } from 'Redux/actions/Demandes.Actions';
 import UserHeader from 'components/Headers/UserHeader';
+import { findDemandsstatisticsByPartner } from 'Redux/actions/Demandes.Actions';
 
 function ListOfMissions() {
 const navigate = useHistory()
@@ -50,6 +51,7 @@ const navigate = useHistory()
   const isSuccess = useSelector(state=>state?.success?.success)
 
   const requests = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
+  const stats = useSelector(state=>state?.statistiquesPartnerMission?.statistiq?.statistics  )
   const requestsByPartner = useSelector(state=>state?.partnersMissions?.demandes?.demands)
 
   const requests1 = useSelector(state=>state?.DemandeDriver?.demandes?.demands)
@@ -68,10 +70,13 @@ const navigate = useHistory()
       payload: {},
     });
     dispatch(FindRequestDemande())
+    dispatch(findDemandsstatisticsByPartner())
     dispatch(FindRequestDemandeByPartner())
 
 
   }, [ requests?.length,requestsByPartner?.length])
+
+  console.log("---------------------------------: ",stats )
 
 
 

@@ -5,6 +5,7 @@ import { SET_DEMANDE_STATISTIQUES } from "Redux/types"
 import { SET_STATISTIQUES } from "Redux/types"
 import axios from "axios"
 const baseUrl = "https://convoyage.onrender.com"
+// const baseUrl = "http://localhost:3600"
 export const getUsersCounts = () => (dispatch) => {
     try {
       axios.get(`${baseUrl}/api/users/getUserCounts`)

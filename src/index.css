@@ -58,3 +58,47 @@
   text-decoration: none;
   margin-top: 10px;
 }
+
+.top-section {
+  background: url('./assets/images/TopCarvoy.png') no-repeat center center;
+  background-size: cover;
+  height: 17vh; /* Adjust the height as needed */
+}
+
+.bottom-section {
+  background: url('./assets/images/BCarvoy.webp') no-repeat center center;
+  background-size: cover;
+  height: 83vh; /* Adjust the height as needed */
+}
+
+
+
+
+.card-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.circular-progressbar {
+  width: 80%;
+  margin: auto;
+}
+
+.progress-text {
+  font-size: 12px;
+  margin-top: -5px;
+}
+
+.stats-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10%;
+  margin-top: 20px;
+}
+
+.stats-footer div {
+  text-align: center;
+}
