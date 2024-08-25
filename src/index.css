@@ -2,6 +2,84 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+.input-group {
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top: 2px solid black;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.btn-clear {
+  background: none;
+  border: none;
+  font-size: 20px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.suggestions-list {
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px;
+  max-width: 400px;
+  border: 1px solid #b6b;
+}
+
+.suggestion-item-current {
+  color: #b6b;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f5f5f5;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  color: #b6b;
+}
+
+.suggestion-text {
+  color: black;
+  text-decoration: underline;
+  font-size: 14px;
+}
 
 .leaflet-container {
   width: 100%;

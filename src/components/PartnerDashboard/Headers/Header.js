@@ -70,7 +70,7 @@ console.log("stats",Ammount)
             {/* Uncomment the following lines when needed */}
             {/* <StatisticCard key={1} to="/partner/DriverList" icon={"fas fa-users"} title="Nombre de vehicule transportes" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} /> */}
             <LeftStaticCurvCard key={1} to="/partner/DriverList"
-            icon={"fas fa-users"} title="Monthly Sales"
+            icon={"fas fa-users"} title="Ventes mensuelles"
             completed={stats?.completed} inProgress={stats?.inProgress}
             iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
             {/* <StatisticCard key={2} to="/partner/PartnerList" icon={"fas fa-handshake"} title="Partner Count" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} /> */}

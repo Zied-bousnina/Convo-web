@@ -17,6 +17,10 @@ import {
   } from "reactstrap";
   // core components
   import "./style.css"
+  import moment from "moment";
+import "moment/locale/fr";
+
+
   import UserHeader from "components/Headers/UserHeader.js";
   import { useDispatch, useSelector } from "react-redux";
   import { ToastContainer, toast } from 'react-toastify';
@@ -39,6 +43,7 @@ import {
 } from "../../variables/charts.js";
 import { GetAllUsers } from "Redux/actions/userAction.js";
 // --------------------------Map
+
 import {Link} from "react-router-dom"
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -69,6 +74,7 @@ import { createDemandeNewVersion } from "Redux/actions/Demandes.Actions.js";
 import { set } from "react-hook-form";
 
   const CreateMission = () => {
+    moment.locale("fr");
     // const [destination, setDestination] = useState(null);
     const [startingPointSuggestions, setStartingPointSuggestions] = useState([]);
 const [destinationSuggestions, setDestinationSuggestions] = useState([]);
@@ -809,121 +815,214 @@ style={
 >
 <Row>
   <Col md="4">
-    <div className=" mb-3">
-      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
+    <div className="mb-3">
+      <label className="form-label">Point de départ<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
-  <input
-    type="text"
-    placeholder="Choose starting point"
-    className="form-control"
-    value={startingPoint?.display_name || searchQuery}
-    onChange={(e) => {
-      setSearchQuery(e.target.value);
-      fetchSuggestions(e.target.value, true);
-    }}
-    onClick={() => {
-      isStartingPointRef.current = true;
-      setisStartingPoint(true);
-      setisDestination(false);
-    }}
-  />
-  {isLoading && (
-    <div className="loader">
-      <div className="spinner"></div>
-    </div>
-  )}
-  {startingPoint?.display_name && (
-    <button
-      type="button"
-      className="btn-clear"
-      onClick={() => setstartingPoint(null)}
-    >
-      &times;
-    </button>
-  )}
-  {startingPointSuggestions.length > 0 && (
-    <ul className="suggestions-list">
-      {startingPointSuggestions.map((suggestion, index) => (
-        <li
-          key={index}
-          onClick={() => {
-            setstartingPoint({
-              display_name: suggestion.display_name,
-              latitude: suggestion.lat,
-              longitude: suggestion.lon,
-            });
-            setStartingPointSuggestions([]);
+        <input
+          type="text"
+          placeholder="Choisissez le point de départ"
+          className="form-control"
+          value={startingPoint?.display_name || searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            fetchSuggestions(e.target.value, true);
           }}
-        >
-          {suggestion.display_name}
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
-
+          onClick={() => {
+            isStartingPointRef.current = true;
+            setisStartingPoint(true);
+            setisDestination(false);
+          }}
+        />
+        {isLoading && (
+          <div className="loader">
+            <div className="spinner"></div>
+          </div>
+        )}
+        {startingPoint?.display_name && (
+          <button
+            type="button"
+            className="btn-clear"
+            onClick={() => setstartingPoint(null)}
+          >
+            &times;
+          </button>
+        )}
+        {startingPointSuggestions.length > 0 && (
+          <ul className="suggestions-list">
+            <li
+              className="suggestion-item-current"
+              onClick={() => {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                  const { latitude, longitude } = position.coords;
+                  try {
+                    const response = await axios.get(
+                      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+                    const result = response.data;
+                    if (result) {
+                      setstartingPoint({
+                        display_name: result.display_name,
+                        latitude: latitude,
+                        longitude: longitude,
+                      });
+                      setStartingPointSuggestions([]);
+                    }
+                  } catch (error) {
+                    console.error("Error fetching current position:", error);
+                  }
+                });
+              }}
+            >
+              Position actuelle
+            </li>
+            {startingPointSuggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                onClick={() => {
+                  setstartingPoint({
+                    display_name: suggestion.display_name,
+                    latitude: suggestion.lat,
+                    longitude: suggestion.lon,
+                  });
+                  setStartingPointSuggestions([]);
+                }}
+                className="suggestion-item"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 2a6 6 0 00-6 6c0 3.72 6 10 6 10s6-6.28 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="suggestion-text">
+                  {suggestion.display_name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   </Col>
+
   <Col md="4">
-        <div className="mb-3">
-          <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
-          <div className="input-group">
-            <input
-              type="text"
-              required
-              placeholder="Choose destination, or click on the map"
-              value={destination ? destination.display_name : destinationSearchQuery}
-              className="form-control"
-              onClick={() => {
-                isStartingPointRef.current = false;
-                setdestination(null); // Clear current destination on input click
-              }}
-              onChange={(e) => {
-                setDestinationSearchQuery(e.target.value);
-                fetchSuggestions(e.target.value, false); // Fetch destination suggestions
-              }}
-            />
-            {/* Destination Suggestions */}
-            {destinationSuggestions.length > 0 && (
-              <ul className="suggestions-list">
-                {destinationSuggestions.map((suggestion, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setdestination({
-                        display_name: suggestion.display_name,
-                        latitude: suggestion.lat,
-                        longitude: suggestion.lon,
-                      });
-                      setDestinationSearchQuery(suggestion.display_name);
-                      setDestinationSuggestions([]);
-                    }}
-                  >
-                    {suggestion.display_name}
-                  </li>
-                ))}
-              </ul>
-            )}
+    <div className="mb-3">
+      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
+      <div className="input-group">
+        <input
+          type="text"
+          required
+          placeholder="Choisissez la destination ou cliquez sur la carte"
+          value={destination?.display_name || destinationSearchQuery}
+          className="form-control"
+          onClick={() => {
+            isStartingPointRef.current = false;
+            setdestination(null);
+          }}
+          onChange={(e) => {
+            setDestinationSearchQuery(e.target.value);
+            fetchSuggestions(e.target.value, false);
+          }}
+        />
+        {isLoading && (
+          <div className="loader">
+            <div className="spinner"></div>
           </div>
-        </div>
-      </Col>
+        )}
+        {destination?.display_name && (
+          <button
+            type="button"
+            className="btn-clear"
+            onClick={() => setdestination(null)}
+          >
+            &times;
+          </button>
+        )}
+        {destinationSuggestions.length > 0 && (
+          <ul className="suggestions-list">
+            <li
+              className="suggestion-item-current"
+              onClick={() => {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                  const { latitude, longitude } = position.coords;
+                  try {
+                    const response = await axios.get(
+                      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+                    const result = response.data;
+                    if (result) {
+                      setdestination({
+                        display_name: result.display_name,
+                        latitude: latitude,
+                        longitude: longitude,
+                      });
+                      setDestinationSuggestions([]);
+                    }
+                  } catch (error) {
+                    console.error("Error fetching current position:", error);
+                  }
+                });
+              }}
+            >
+              Position actuelle
+            </li>
+            {destinationSuggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                onClick={() => {
+                  setdestination({
+                    display_name: suggestion.display_name,
+                    latitude: suggestion.lat,
+                    longitude: suggestion.lon,
+                  });
+                  setDestinationSuggestions([]);
+                }}
+                className="suggestion-item"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 2a6 6 0 00-6 6c0 3.72 6 10 6 10s6-6.28 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="suggestion-text">
+                  {suggestion.display_name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </Col>
+
   <Col md="4">
-<label className="form-label">date Depart<span style={{color:"red"}}>*</span></label>
-<Datetime
-
-onChange={(e)=>setValue(e)}
-value={value}
-// timeFormat={false}
-inputProps={{
-  placeholder: "Date Picker Here",
-  name: "dateDepart"
-}}
-
-
-
- />
-</Col>
+    <label className="form-label">Date de départ<span style={{color:"red"}}>*</span></label>
+    <Datetime
+      onChange={(e) => setValue(e)}
+      value={value}
+      inputProps={{
+        placeholder: "Sélecteur de date ici",
+        name: "dateDepart"
+      }}
+      locale="fr"
+    />
+  </Col>
 </Row>
+
+
 
 
 
@@ -972,7 +1071,7 @@ inputProps={{
 <FormGroup tag="fieldset">
       <Row>
         <Col md="4">
-          <legend>Type de Transports</legend>
+          <legend>Type de transport</legend>
         </Col>
         <Col md="4">
           <FormGroup check>
@@ -1051,7 +1150,7 @@ inputProps={{
   </Col>
   <Col md="4">
     <div className=" mb-3">
-      <label className="form-label"> Numero du contact: </label>
+      <label className="form-label"> Numéro de contact: </label>
 
 
         <PhoneInput
@@ -1075,12 +1174,12 @@ inputProps={{
   </Col>
   <Col md="4">
     <div className=" mb-3">
-      <label className="form-label">Mail du contact:</label>
+      <label className="form-label">Email du contact:</label>
       <div className="input-group">
         <input
           type="text"
           // required
-          placeholder="Mail du contact"
+          placeholder="Email du contact"
 
           name={"mail"}
           className={classNames("form-control")}

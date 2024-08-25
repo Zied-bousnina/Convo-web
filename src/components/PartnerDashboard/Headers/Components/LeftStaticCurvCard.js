@@ -63,7 +63,7 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                       })}
                     />
                     <div className="half-circle-mask"></div>
-                    <div className="progress-text">Progress</div>
+                    <div className="progress-text">Progrès</div>
                   </div>
                   <Row className=" justify-content-center">
                     <div className="text-center" style={{ width: "45%" }}>
@@ -75,7 +75,7 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                           lineHeight: "19px",
                           textAlign: "center",
                         }}
-                      >Completed</strong>
+                      >Terminé</strong>
                       <div
                         style={{
                           color: "#000000",
@@ -95,7 +95,7 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                           lineHeight: "19px",
                           textAlign: "center",
                         }}
-                      >In-Progress</strong>
+                      >En cours</strong>
                       <div
                         style={{
                           color: "#000000",

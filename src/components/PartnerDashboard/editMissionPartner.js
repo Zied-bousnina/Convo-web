@@ -467,7 +467,7 @@ dispatch(UpdateMission(id,data))
 
            >
             <Card className="shadow "
-            style={{ height: "120vh", marginBottom:10 }}
+            style={{ height: "150vh", marginBottom:10 }}
             >
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
@@ -508,7 +508,7 @@ style={
       {
         SingleDemande ?
     <div className=" mb-3">
-      <label className="form-label">Starting point<span style={{color:"red"}}>*</span></label>
+      <label className="form-label">Point de départ<span style={{color:"red"}}>*</span></label>
       <div className="input-group">
 
         <input
@@ -605,7 +605,7 @@ style={
   }}
   className={classnames("btn m-1 ", { "btn-primary": isStartingPoint },{"btn-outline-primary": !isStartingPoint})}
 >
-  Set Starting Point
+  Définir le point de départ
 </button>
 :(
   <Skeleton
@@ -628,7 +628,7 @@ style={
   }}
   className={classnames("btn m-1  ", { "btn-primary": isDestination  }, {"btn-outline-primary": !isDestination})}
 >
-  Set Destination
+  Définir la destination
 </button>
 :(
   <Skeleton
@@ -652,7 +652,7 @@ className="mb-3"
         {/* Switch button for automatic or manual choice */}
 
 
-<label className="form-label">Driver<span style={{color:"red"}}>*</span></label>
+<label className="form-label">Conducteur<span style={{color:"red"}}>*</span></label>
 <Select required
 
    className="react-select primary"
@@ -676,7 +676,7 @@ className="mb-3"
   SingleDemande?.dateDepart ? */}
   <div className=" mb-3">
 
-<label className="form-label">date Depart</label>
+<label className="form-label">Date de départ</label>
 {/* <Calendar id="calendar-24h" value={value} onChange={(e) => setValue(e.value)} showTime hourFormat="24" /> */}
 <Datetime
 
@@ -726,12 +726,111 @@ inputProps={{
 
 
     <div className=" mb-3">
-      <label className="form-label">Comment</label>
+      <label className="form-label">Plaque d'imatriculation</label>
       <div className="input-group">
         <input
           type="text"
           // required
-          placeholder="Comment"
+          placeholder="Plaque d'imatriculation"
+
+          // name={"comment"}
+          className={classNames("form-control")}
+
+          // onChange={(e) => {
+          //   onChangeHandler(e)
+
+          // }}
+          // defaultValue={SingleDemande?.comment}
+        />
+      </div>
+    </div>
+    :(
+  <Skeleton
+  style={{marginTop:"2rem"}}
+   width={300} height={30} />
+)
+    }
+  </Col>
+</Row>
+<Row>
+  <Col md="12">
+  {
+    SingleDemande ?
+
+
+    <div className=" mb-3">
+      <label className="form-label">Numéro de contact</label>
+      <div className="input-group">
+        <input
+          type="text"
+          // required
+          placeholder="Numéro de contact"
+
+          // name={"comment"}
+          className={classNames("form-control")}
+
+          // onChange={(e) => {
+          //   onChangeHandler(e)
+
+          // }}
+          // defaultValue={SingleDemande?.comment}
+        />
+      </div>
+    </div>
+    :(
+  <Skeleton
+  style={{marginTop:"2rem"}}
+   width={300} height={30} />
+)
+    }
+  </Col>
+</Row>
+<Row>
+  <Col md="12">
+  {
+    SingleDemande ?
+
+
+    <div className=" mb-3">
+      <label className="form-label">Adresse mail du contact</label>
+      <div className="input-group">
+        <input
+          type="email"
+          // required
+          placeholder="Adresse mail du contact"
+
+          // name={"comment"}
+          className={classNames("form-control")}
+
+          // onChange={(e) => {
+          //   onChangeHandler(e)
+
+          // }}
+          // defaultValue={SingleDemande?.comment}
+        />
+      </div>
+    </div>
+    :(
+  <Skeleton
+  style={{marginTop:"2rem"}}
+   width={300} height={30} />
+)
+    }
+  </Col>
+</Row>
+<Row>
+  <Col md="12">
+  {
+    SingleDemande ?
+
+
+    <div className=" mb-3">
+      <label className="form-label">Commentaire</label>
+      <div className="input-group">
+        <input
+          type="text"
+          // required
+          placeholder="Commentaire"
 
           name={"comment"}
           className={classNames("form-control")}

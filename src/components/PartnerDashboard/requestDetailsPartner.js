@@ -23,27 +23,7 @@ import {
   import axios from "axios";
   import classNames from "classnames";
   import { SET_IS_SECCESS } from "Redux/types";
-  // import OppositeContentTimeline from './TimeLine.js'
 
-  /*!
-
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-// import { useState } from "react";
-// node.js library that concatenates classes (strings)
 import classnames from "classnames";
 // javascipt plugin for creating charts
 import Chart from "chart.js";
@@ -450,11 +430,11 @@ style={
 <Row>
   <Col md="12">
     <div className=" mb-3">
-      <label className="form-label">Starting point</label>
+      <label className="form-label">point de départ</label>
       <div className="input-group">
         <input
           type="text"
-          placeholder="Choose starting point, or click on the map"
+          placeholder="Choisissez un point de départ, ou cliquez sur la carte"
           value={SingleDemande?.address?.display_name}
           name={"start"}
           className={classNames("form-control")}
@@ -490,7 +470,7 @@ height={30}
       <div className="input-group">
         <input
           type="text"
-          placeholder="Choose destination, or click on the map"
+          placeholder="Choisissez une destination, ou cliquez sur la carte"
           value={SingleDemande?.destination?.display_name}
           name={"destination"}
           className={classNames("form-control")}
@@ -545,7 +525,7 @@ className="mb-3"
   <>
 
 
-  <label className="form-label">Mission Status :
+  <label className="form-label">Statut de la mission:
   <span style={{
     color: SingleDemande?.status === "pending" ? "orange" :
       SingleDemande?.status === "accepted" ? "green" :
@@ -601,7 +581,7 @@ height={30}
 <Row>
   <Col md="12">
     <div className=" mb-3">
-      <label className="form-label">mission Type
+      <label className="form-label">Type de mission
 </label>
       <div className="input-group">
         <input
@@ -639,7 +619,7 @@ height={30}
   <Col md="12">
     <div className=" mb-3">
       <label className="form-label">
-vehicle Type
+      Type de véhicule
 
 </label>
       <div className="input-group">
@@ -678,11 +658,11 @@ height={30}
 <Row>
 
 <Col>
-<label className="form-label">date Depart </label>
+<label className="form-label">Date de départ</label>
 <div className="input-group">
   <input
     type="text"
-    placeholder="Choose date of departure"
+    placeholder="Choisissez la date de départ"
     value={SingleDemande?.dateDepart&& new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }
                 ).format(new Date(SingleDemande?.dateDepart))}
     name={"dateDepart"}
@@ -720,7 +700,7 @@ height={30}
   }}
   />
 
-  <label className="form-label">Driver details
+  <label className="form-label">Détails du conducteur
   {/* <Link
   to={`/admin/driver-details/${SingleDemande?.driver?._id}`}
   // target="_blank"
@@ -734,11 +714,11 @@ height={30}
 <Row>
 
 <Col>
-<label className="form-label">Driver Name </label>
+<label className="form-label">Nom du conducteur </label>
 <div className="input-group">
   <input
     type="text"
-    placeholder="Choose date of arrival"
+    placeholder="Choisissez la date d'arrivée"
     value={ SingleDemande?.driver?.name}
     name={"dateArrive"}
     className={classNames("form-control")}
@@ -779,7 +759,7 @@ height={30}
 <div className="input-group">
   <input
     type="text"
-    placeholder="Choose distance of mission"
+    placeholder="Choisissez la distance de la mission"
     value={ `~${Math.floor(SingleDemande?.distance)} km`}
     name={"distance"}
     className={classNames("form-control")}
@@ -819,7 +799,7 @@ height={30}
 <Row>
   <Col md="12">
     <div className=" mb-3">
-      <label className="form-label">Comment</label>
+      <label className="form-label">Commentaire</label>
       <div className="input-group">
         <input
           type="text"
@@ -887,7 +867,7 @@ height={30}
     <span className="btn-inner--icon">
     <i className="ni ni-bold-right"></i>
     </span>
-    <span className="btn-inner--text">Edit Mission </span>
+    <span className="btn-inner--text">Modifier la mission</span>
     </Button>
     </Link>
     <Link
@@ -914,19 +894,7 @@ height={30}
 
   </Row>
   :
-  <Skeleton
-  style={
-    {
-      marginLeft:"auto",
-        marginRight:"auto",
-        marginTop:"20px",
-        marginBottom:"20px"
-    }
-  }
-width={150}
-height={50}
-
-/>
+ null
 }
 
 </form>
