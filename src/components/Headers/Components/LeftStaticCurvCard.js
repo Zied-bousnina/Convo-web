@@ -13,12 +13,21 @@ import 'react-circular-progressbar/dist/styles.css';
 import { CircularProgressbarWithChildren, } from 'react-circular-progressbar';
 import './HalfCircleProgress.css'; // Make sure to create this CSS file
 
-const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
+const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to,value }) => {
     const total = completed + inProgress;
-    const completedPercentage = (completed / total) * 100;
+  //  const total = completed + inProgress;
+  var completedPercentage =0
+if (total === 0) {
+  console.log("No tasks to calculate percentage");
+  completedPercentage = 0; // or handle it however you'd like
+} else {
+   completedPercentage = (completed / total) * 100;
+  // console.log("completedPercentage", total);
+}
 
     // const total = completed + inProgress;
     // const completedPercentage = (completed / total) * 100;
+    console.log("completedPercentage", total  )
 
     return (
       <>
@@ -53,7 +62,7 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                     </Col>
                   </Row>
                   <div className="half-circle-container" style={{ width: "100%", margin: "2px auto" }}>
-                    <CircularProgressbar
+                    {/* <CircularProgressbar
                       value={completedPercentage}
                       styles={buildStyles({
                         rotation: 0.75,
@@ -61,9 +70,20 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                         pathColor: "#6A86EA",
                         strokeLinecap: "butt"
                       })}
-                    />
+                    /> */}
                     <div className="half-circle-mask"></div>
-                    <div className="progress-text">Progress</div>
+                    <div
+                      style={{
+                          color: "#000000",
+                          fontSize: "50px",
+                          fontWeight: "bold",
+                          lineHeight: "19px",
+                          textAlign: "center",
+                        }}
+                    className="progress-text">{
+                      value ? value : 0
+                    }
+                      </div>
                   </div>
                   <Row className=" justify-content-center">
                     <div className="text-center" style={{ width: "45%" }}>
@@ -75,7 +95,7 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                           lineHeight: "19px",
                           textAlign: "center",
                         }}
-                      >Completed</strong>
+                      >Terminé</strong>
                       <div
                         style={{
                           color: "#000000",
@@ -84,7 +104,11 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                           lineHeight: "19px",
                           textAlign: "center",
                         }}
-                      >{completedPercentage.toFixed(0)}%</div>
+                      >{
+                        completedPercentage
+
+
+                      }%</div>
                     </div>
                     <div className="text-center" style={{ width: "45%" }}>
                       <strong
@@ -95,7 +119,7 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                           lineHeight: "19px",
                           textAlign: "center",
                         }}
-                      >In-Progress</strong>
+                      >En cours</strong>
                       <div
                         style={{
                           color: "#000000",
@@ -104,7 +128,9 @@ const LeftStaticCurvCard = ({ title, completed=20, inProgress=50, to }) => {
                           lineHeight: "19px",
                           textAlign: "center",
                         }}
-                      >{(100 - completedPercentage).toFixed(0)}%</div>
+                      >{(100 - completedPercentage ?
+                        100 - completedPercentage : 0
+                      ).toFixed(0)}%</div>
                     </div>
                   </Row>
                 </CardBody>

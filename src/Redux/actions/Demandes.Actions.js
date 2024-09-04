@@ -385,6 +385,37 @@ export const FindRequestDemande = ( )=> (dispatch) => {
     )
 
   }
+  export const findDemandsstatisticsadmin = ( )=> (dispatch) => {
+    axios.get(`${baseUrl}/api/users/findDemandsstatisticsAdmin`)
+    .then(async(res) => {
+
+      dispatch({
+        type: SET_STATISTIQUE_BY_PARTNER,
+        payload: res.data,
+
+      })
+
+    })
+
+
+    .catch( (err) =>{
+
+           dispatch({
+              type: SET_ERRORS,
+              payload: err?.response?.data
+            })
+            // dispatch({
+            //   type: SET_DEMANDES,
+            //   payload: [],
+
+            // })
+        }
+
+
+
+    )
+
+  }
   export const findAmmountStatis = ( )=> (dispatch) => {
     axios.get(`${baseUrl}/api/users/getTotalAmountByPartner`)
     .then(async(res) => {

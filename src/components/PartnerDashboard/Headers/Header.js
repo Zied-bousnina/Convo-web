@@ -52,7 +52,7 @@ const Header = () => {
 
 
 
-console.log("stats",Ammount)
+console.log("stats",stats)
 
   const allUser = userStatistiques?.total;
 
@@ -70,9 +70,9 @@ console.log("stats",Ammount)
             {/* Uncomment the following lines when needed */}
             {/* <StatisticCard key={1} to="/partner/DriverList" icon={"fas fa-users"} title="Nombre de vehicule transportes" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} /> */}
             <LeftStaticCurvCard key={1} to="/partner/DriverList"
-            icon={"fas fa-users"} title="Ventes mensuelles"
+            icon={"fas fa-users"} title="Nombre de missions"
             completed={stats?.completed} inProgress={stats?.inProgress}
-            iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
+            iconClass="bg-warning" value={stats?.total} percentageIncrease={allUser?.percentageIncrease} />
             {/* <StatisticCard key={2} to="/partner/PartnerList" icon={"fas fa-handshake"} title="Partner Count" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} /> */}
             {/* <StatisticCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Missions Déposés" iconClass="bg-info" value={requestsByPartner} percentageIncrease={DemandesStatistiques?.percentageIncrease} /> */}
             <RightStaticCurvCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Mission Payments Overview" iconClass="bg-info" value={Ammount?.totalAmount} />

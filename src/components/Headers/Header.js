@@ -104,6 +104,7 @@ import { findDemandsstatisticsByPartner } from "Redux/actions/Demandes.Actions";
 import { findAmmountStatis } from "Redux/actions/Demandes.Actions";
 import LeftStaticCurvCard from "./Components/LeftStaticCurvCard";
 import RightStaticCurvCard from "./Components/RightStaticCurvCard";
+import { findDemandsstatisticsadmin } from "Redux/actions/Demandes.Actions";
 
 
 const Header = () => {
@@ -118,16 +119,16 @@ const Header = () => {
     dispatch(getUsersCounts());
     dispatch(getDemandesCount());
     dispatch(getMissionByPartnerCounts())
-    dispatch(findDemandsstatisticsByPartner())
+    dispatch(findDemandsstatisticsadmin())
     dispatch(getPartnerCounts());
     dispatch(findAmmountStatis());
-  }, [userStatistiques?.totalCount, DemandesStatistiques?.totalCount,PartnerStatistiques?.totalCount,requestsByPartner?.length, dispatch]);
+  }, []);
 
 
 
-console.log("stats",Ammount)
 
   const allUser = userStatistiques?.total;
+  console.log("stats",stats)
 
   return (
     <div className="header bg-gradient-reverse-primary pb-8 pt-2 pt-md-7 "
@@ -142,13 +143,16 @@ console.log("stats",Ammount)
           <Row>
             {/* Uncomment the following lines when needed */}
             {/* <StatisticCard key={1} to="/partner/DriverList" icon={"fas fa-users"} title="Nombre de vehicule transportes" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} /> */}
-            <LeftStaticCurvCard key={1} to="/partner/DriverList"
-            icon={"fas fa-users"} title="Monthly Sales"
-            completed={stats?.completed} inProgress={stats?.inProgress}
-            iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} />
+            <LeftStaticCurvCard key={1} to="/admin/DriverList"
+            icon={"fas fa-users"} title="Nombre de missions"
+            completed={stats?.completed
+            } inProgress={stats?.inProgress
+              ? stats?.inProgress : 0
+            }
+            iconClass="bg-warning" value={stats?.total} percentageIncrease={allUser?.percentageIncrease} />
             {/* <StatisticCard key={2} to="/partner/PartnerList" icon={"fas fa-handshake"} title="Partner Count" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} /> */}
             {/* <StatisticCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Missions Déposés" iconClass="bg-info" value={requestsByPartner} percentageIncrease={DemandesStatistiques?.percentageIncrease} /> */}
-            <RightStaticCurvCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Mission Payments Overview" iconClass="bg-info" value={Ammount?.totalAmount} />
+            <RightStaticCurvCard key={2} to="/admin/List-demandes" icon={"fas fa-truck"} title="Vue d'ensemble des Paiements de Mission" iconClass="bg-info" value={Ammount?.totalAmount} />
           </Row>
         </div>
       </Container>

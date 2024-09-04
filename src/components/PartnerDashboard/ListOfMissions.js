@@ -64,7 +64,7 @@ function ListOfMissions() {
         });
     };
 
-    console.log("requests", requests);
+
     const deleteMission = (id) => {
         dispatch(DeleteMission(id))
             .then(() => {
@@ -194,7 +194,9 @@ function ListOfMissions() {
     const [statuses] = useState(['in progress', 'Accepted', 'Completed', 'rejected']);
 
     const statusBodyTemplate = (rowData) => {
-      return <Tag value={rowData?.status} severity={getSeverity(rowData?.status)} />;
+      return <Tag value={rowData?.status == "in progress"?
+        "En cours de validation" : rowData?.status == "Accepted" ? "Acceptée" : rowData?.status == "Completed" ? "Terminée" : rowData?.status
+      } severity={getSeverity(rowData?.status)} />;
     };
 
     const statusRowFilterTemplate = (options) => {
@@ -231,7 +233,7 @@ function ListOfMissions() {
       // Check if the current time is within the allowed edit window
       const canEdit = now.isBetween(showEditButtonStart, showEditButtonEnd);
 
-console.log("canEdit",  rowData.status);
+
         return (
             <React.Fragment>
                 {canEdit  && (

@@ -35,14 +35,14 @@ const RightStaticCurvCard = ({ title, value, percentageIncrease=0, to }) => {
                         <i className={`fa ${percentageIncrease >= 0 ? "fa-arrow-up" : "fa-arrow-down"}`} /> {percentageIncrease}%
                       </p>
                     </Col> */}
-                    <Col xs="5">
+                    {/* <Col xs="5">
                       <div className="bar-chart">
                         <div className="bar" style={{ height: "75%", backgroundColor: "#3e98c7" }}></div>
                         <div className="bar" style={{ height: "90%", backgroundColor: "#f4d35e" }}></div>
                         <div className="bar" style={{ height: "60%", backgroundColor: "#3e98c7" }}></div>
                         <div className="bar" style={{ height: "30%", backgroundColor: "#f4d35e" }}></div>
                       </div>
-                    </Col>
+                    </Col> */}
                   </Row>
                 </CardBody>
               </Card>
