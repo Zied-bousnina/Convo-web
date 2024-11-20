@@ -44,6 +44,7 @@ import FactureDEtails from "components/Factures/FactureDEtails";
 import ListFacturesDriver from "components/Factures/ListFacturesDriver";
 import FactureDriverDEtails from "components/Factures/FactureDriverDetails";
 import Devis from "components/PartnerDashboard/devis";
+import NotificationPage from "components/Notification/NotificationPage";
 // import { UpdateCategorie } from "Redux/actions/Demandes.Actions";
 
 
@@ -51,9 +52,16 @@ import Devis from "components/PartnerDashboard/devis";
 var routes = [
   {
     path: "/index",
-    name: "Tableau de bord",
+    name: "Accueil",
     icon: "ni ni-tv-2 text-primary",
     component: MapsComponent,
+    layout: "/admin"
+  },
+  {
+    path: "/notifications",
+    name: "notifications",
+    icon: "ni ni-tv-2 text-primary",
+    component: NotificationPage,
     layout: "/admin"
   },
   {
@@ -97,6 +105,13 @@ var routes = [
     name: "Create request",
     icon: "ni ni-building text-red",
     component: editMissionPartner,
+    layout: "/partner"
+  },
+  {
+    path: "/notifications",
+    name: "notifications",
+    icon: "ni ni-tv-2 text-primary",
+    component: NotificationPage,
     layout: "/partner"
   },
   {
@@ -346,7 +361,7 @@ var routes = [
   },
   {
     path: "/index",
-    name: "Home",
+    name: "Accueil",
     icon: "ni ni-tv-2 text-primary",
     component: MapsComponentPartner,
     layout: "/partner"

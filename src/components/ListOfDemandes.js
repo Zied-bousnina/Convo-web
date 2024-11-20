@@ -767,7 +767,7 @@ Créer une mission
                   <i className="ni ni-bell-55 ni-3x" />
                   <h4 className="heading mt-4">Vous devriez lire ceci!</h4>
                   <p>
-                  Lorsque vous cliquez sur 'Ok, compris', la demande sera supprimée{selectedItem}
+                  Lorsque vous cliquez sur 'Ok, compris', la demande sera supprimée
                   </p>
                 </div>
               </div>

@@ -22,4 +22,9 @@
     font-size: 1rem;
   }
 
+  .custom-title {
+    font-weight: bold;
+    font-size: 1.5rem; /* Adjust the size as needed */
+  }
+
   /* You may adjust the margin and padding as needed to match the design exactly */

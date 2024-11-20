@@ -57,29 +57,18 @@ console.log("stats",stats)
   const allUser = userStatistiques?.total;
 
   return (
-    <div className="header bg-gradient-reverse-primary pb-8 pt-2 pt-md-7 "
-        style={{
-    minHeight: "300px",
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center top"
-  }}>
-      <Container fluid>
-        <div className="header-body">
-          <Row>
-            {/* Uncomment the following lines when needed */}
-            {/* <StatisticCard key={1} to="/partner/DriverList" icon={"fas fa-users"} title="Nombre de vehicule transportes" iconClass="bg-warning" value={allUser?.totalCount} percentageIncrease={allUser?.percentageIncrease} /> */}
-            <LeftStaticCurvCard key={1} to="/partner/DriverList"
-            icon={"fas fa-users"} title="Nombre de missions"
-            completed={stats?.completed} inProgress={stats?.inProgress}
-            iconClass="bg-warning" value={stats?.total} percentageIncrease={allUser?.percentageIncrease} />
-            {/* <StatisticCard key={2} to="/partner/PartnerList" icon={"fas fa-handshake"} title="Partner Count" iconClass="bg-yellow" value={PartnerStatistiques?.totalCount} percentageIncrease={PartnerStatistiques?.percentageIncrease} /> */}
-            {/* <StatisticCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Missions Déposés" iconClass="bg-info" value={requestsByPartner} percentageIncrease={DemandesStatistiques?.percentageIncrease} /> */}
-            <RightStaticCurvCard key={2} to="/partner/List-demandes" icon={"fas fa-truck"} title="Mission Payments Overview" iconClass="bg-info" value={Ammount?.totalAmount} />
-          </Row>
-        </div>
-      </Container>
-    </div>
+    <div className="header bg-gradient-reverse-primary pb-8 pt-2 pt-md-7" style={{ minHeight: "300px", backgroundColor: "white", backgroundSize: "cover", backgroundPosition: "center top" }}>
+    <Container fluid>
+      <div className="header-body">
+        <Row>
+          <LeftStaticCurvCard key={1} percent={true} to="/partner/DriverList" title="Total Missions" completed={stats?.completed} inProgress={stats?.inProgress} value={stats?.total} />
+          <LeftStaticCurvCard key={2} to="/partner/List-demandes" title="Missions en Cours" completed={stats?.inProgress} inProgress={0} value={stats?.inProgress} />
+          <LeftStaticCurvCard key={3} to="/partner/List-demandes" title="Missions en Attente" completed={0} inProgress={stats?.pending} value={stats?.pending} />
+          <RightStaticCurvCard key={4} to="/partner/List-demandes" title="Total Paiements effectués" value={Ammount?.totalAmount} />
+        </Row>
+      </div>
+    </Container>
+  </div>
   );
 };
 

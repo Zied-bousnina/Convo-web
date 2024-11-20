@@ -287,7 +287,7 @@ Créer un partenaire
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
-                  Your attention is required
+                Votre attention est requise
                 </h6>
                 <button
                   aria-label="Close"
@@ -302,9 +302,9 @@ Créer un partenaire
               <div className="modal-body">
                 <div className="py-3 text-center">
                   <i className="ni ni-bell-55 ni-3x" />
-                  <h4 className="heading mt-4">You should read this!</h4>
+                  <h4 className="heading mt-4">Vous devriez lire ceci !</h4>
                   <p>
-                    When you click on "Ok , Got it" the request will be deleted {selectedItem}
+                  Lorsque vous cliquez sur « Ok, compris », la demande sera supprimée.
                   </p>
                 </div>
               </div>
@@ -318,7 +318,7 @@ Créer un partenaire
     </div>
   )
                   :
-                  "Ok, Got it"
+                  "Ok, compris"
                   }
 
                 </Button>
@@ -329,7 +329,7 @@ Créer un partenaire
                   type="button"
                   onClick={() => setnotificationModal(false)}
                 >
-                  Close
+                  Fermer
                 </Button>
               </div>
             </Modal>

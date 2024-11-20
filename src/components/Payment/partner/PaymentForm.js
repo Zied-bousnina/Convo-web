@@ -105,9 +105,15 @@ export default function PaymentForm({ data}) {
         <form onSubmit={handleSubmit}>
           {/* Other Form Fields */}
           <FormGroup>
-            <Label for="referenceNumber">Référence (pour votre comptabilité)</Label>
-            <Input type="text" name="referenceNumber" id="referenceNumber" placeholder="Champs libre" />
-          </FormGroup>
+      <Label for="referenceNumber">Référence (pour votre comptabilité)</Label>
+      <Input
+        type="text"
+        name="referenceNumber"
+        id="referenceNumber"
+        placeholder="Saisir un numéro de facture selon votre plan de comptabilité"
+        required
+      />
+    </FormGroup>
 
           {/* Free-form Comment Field */}
           <FormGroup>
@@ -143,8 +149,12 @@ export default function PaymentForm({ data}) {
   </div>
 ) : (
   <div className="payment-summary">
-    <p className="subtotal">Total: {Number(totalTTC)?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</p>
-    <p className="total-ttc">Total TTC (TVA France 20%): {subtotal?.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</p>
+  <p className="subtotal">
+  Total: {Number(Number(totalTTC).toFixed(3)).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+</p>
+<p className="total-ttc">
+  Total TTC (TVA France 20%): {Number(Number(subtotal).toFixed(3)).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+</p>
   </div>
 )}
 

@@ -54,7 +54,8 @@ function Login() {
           <Container fluid className="pt-lg-5">
             <Row className="justify-content-center">
               <Col lg="5">
-                <Card className="bg-white shadow border-0" style={{ maxWidth: '400px', margin: 'auto' }}>
+                <Card  className="shadow border-1"
+  style={{ maxWidth: '400px', margin: 'auto', backgroundColor: '#FBFCFFFF' }}>
       <CardBody className="px-lg-4 py-lg-4">
       <div className="text-muted mb-4" style={{ textAlign: 'left', fontSize: '16px', fontWeight: 'bold', color: '#333333' }}>
   <big>Se connecter</big>

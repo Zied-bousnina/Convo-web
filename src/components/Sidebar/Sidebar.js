@@ -54,6 +54,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { LogOut } from "Redux/actions/authActions";
 import Logo from "components/Logo/logo";
+import { Notifications } from "components/Navbars/Notifications";
 
 var ps;
 
@@ -84,6 +85,7 @@ const Sidebar = (props) => {
       && prop.path !=='/municipal-details/:id'&& prop.path !=='/Add-Point-Bin/:idQuote'&& prop.path !=='/Mapcomponent'&&
       prop.path !=='/request-details/:id'&&
       prop.path !=='/AddDriver' &&
+      prop.path !=='/notifications' &&
       prop.path !=='/edit-Driver/:id'&&
       prop.path !=='/edit-mission/:id'&&
       prop.path !=='/driver-details/:id'&&
@@ -148,9 +150,10 @@ const Sidebar = (props) => {
 
   return (
     <Navbar
-      className="navbar-vertical fixed-left navbar-light bg-white"
+      className="navbar-vertical fixed-left navbar-light"
       expand="lg"
       id="sidenav-main"
+      style={{ backgroundColor: '#F1F4FD' }}
     >
       <Container fluid>
         {/* Toggler */}
@@ -173,7 +176,7 @@ const Sidebar = (props) => {
         {/* User */}
 
         <Nav className="align-items-center d-md-none">
-
+        <Notifications/>
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
               <Media className="align-items-center">

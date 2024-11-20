@@ -62,9 +62,9 @@ const BillingForm = ({ id }) => {
 
   return (
     <Col xl="12" className="mb-4">
-      <CardHeader className="bg-transparent py-3">
-        <h5 className="mb-0">Facturation et commentaire</h5>
-      </CardHeader>
+        <CardHeader className="bg-transparent py-3">
+     <h5 className="mb-0 custom-title">Facturation et commentaire</h5>
+   </CardHeader>
       <CardBody>
         {!editing ? (
           isloadBillingInformation ? (

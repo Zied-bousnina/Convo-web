@@ -157,7 +157,7 @@ const UserDetails = () => {
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-notification">
-                  Your attention is required
+                Votre attention est requise.
                 </h6>
                 <button
                   aria-label="Close"
@@ -172,9 +172,9 @@ const UserDetails = () => {
               <div className="modal-body">
                 <div className="py-3 text-center">
                   <i className="ni ni-bell-55 ni-3x" />
-                  <h4 className="heading mt-4">You should read this!</h4>
+                  <h4 className="heading mt-4">Vous devriez lire ceci !</h4>
                   <p>
-                    When you click on "Ok , Got it" <big className="text-title">{userDetails?.users?.name}</big> will be deleted
+                  Lorsque vous cliquez sur « Ok, compris », <big className="text-title">{userDetails?.users?.name}</big>sera supprimé.
                   </p>
                 </div>
               </div>
@@ -182,7 +182,7 @@ const UserDetails = () => {
                 <Button className="btn-white" color="default" type="button"
                 // onClick={()=>PutRequest("denied", request?._id)}
                 >
-                  Ok, Got it
+                   Ok, compris
                 </Button>
                 <Button
                   className="text-white ml-auto"
@@ -191,7 +191,7 @@ const UserDetails = () => {
                   type="button"
                   onClick={() => setnotificationModal(false)}
                 >
-                  Close
+                  Fermer
                 </Button>
               </div>
             </Modal>

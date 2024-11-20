@@ -8,12 +8,7 @@ import {
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Form,
-  FormGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  InputGroup,
+
   Navbar,
   Nav,
   Container,
@@ -26,7 +21,7 @@ import {
   Col,
   Badge
 } from "reactstrap";
-import { MyChat } from "./MyChat";
+import { Notifications } from "./Notifications";
 import classNames from "classnames";
 
 const AdminNavbar = (props) => {
@@ -60,9 +55,11 @@ const AdminNavbar = (props) => {
               </InputGroup>
             </FormGroup>
           </Form> */}
-          <MyChat/>
+          {/* NOtifications */}
+          {/* <Notifications/> */}
 
           <Nav className="align-items-center d-none d-md-flex indent-100" navbar>
+          <Notifications/>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">

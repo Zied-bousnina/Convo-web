@@ -537,7 +537,7 @@ className="mb-3"
     {SingleDemande?.status === "pending" ? "Pending" :
       SingleDemande?.status === "accepted" ? "Accepted" :
         SingleDemande?.status === "refused" ? "Refused" :
-          SingleDemande?.status === "in progress" ? "In Progress" :
+          SingleDemande?.status === "in progress" ? "En cours" :
             SingleDemande?.status === "done" ? "Done" :
               SingleDemande?.status === "canceled" ? "Canceled" : ""}
   </span>
@@ -755,12 +755,12 @@ height={30}
 
 <Row>
 <Col>
-<label className="form-label">Distance (Km) ~</label>
+<label className="form-label">Distance (Km) </label>
 <div className="input-group">
   <input
     type="text"
     placeholder="Choisissez la distance de la mission"
-    value={ `~${Math.floor(SingleDemande?.distance)} km`}
+    value={ `${Math.floor(SingleDemande?.distance)} km`}
     name={"distance"}
     className={classNames("form-control")}
     disabled

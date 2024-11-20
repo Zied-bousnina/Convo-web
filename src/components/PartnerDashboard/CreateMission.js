@@ -74,6 +74,39 @@ import { createDemandeNewVersion } from "Redux/actions/Demandes.Actions.js";
 import { set } from "react-hook-form";
 
   const CreateMission = () => {
+    const mapRef = useRef(null);
+    const routingControlRef = useRef(null);
+
+  useEffect(() => {
+    if (mapRef.current && routingControlRef.current) {
+      mapRef.current.removeControl(routingControlRef.current);
+      routingControlRef.current = null;
+    }
+
+    if (startingPoint && destination) {
+      routingControlRef.current = L.Routing.control({
+        waypoints: [
+          L.latLng(startingPoint.latitude, startingPoint.longitude),
+          L.latLng(destination.latitude, destination.longitude),
+        ],
+      }).addTo(mapRef.current);
+
+      routingControlRef.current.on("routesfound", function (e) {
+        var routes = e.routes;
+        var summary = routes[0].summary;
+        setcorrectDistance(summary.totalDistance / 1000);
+        setcorrectTime(Math.round(summary.totalTime % 3600 / 60));
+      });
+    }
+  }, [startingPoint, destination]);
+    const handleMapClick = (e) => {
+      const { lat, lng } = e.latlng;
+      if (isStartingPointRef.current) {
+        setstartingPoint({ latitude: lat, longitude: lng });
+      } else {
+        setdestination({ latitude: lat, longitude: lng });
+      }
+    };
     moment.locale("fr");
     // const [destination, setDestination] = useState(null);
     const [startingPointSuggestions, setStartingPointSuggestions] = useState([]);
@@ -121,7 +154,7 @@ const fetchSuggestions = async (query, isStartingPoint) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [destinationSearchQuery, setDestinationSearchQuery] = useState("");
     const [checked, setChecked] = useState(false);
-    const [value, setValue]= useState(new Date().toISOString())
+    const [value, setValue] = useState(moment().format('DD-MM-YYYY HH:mm'));
     const [fmtValue, setFmtValue]= useState(undefined)
     const driverList = useSelector(state=>state?.drivers?.driver_list?.driver)
     const [selectedValues, setSelectedValues] = useState([]);
@@ -139,6 +172,47 @@ const [data, setdata] = useState({});
 const [cost, setcost] = useState(0)
 const [costdriver, setcostdriver] = useState(0)
 const [price, setPrice] = useState(0);
+const formatAddress = (displayName) => {
+  const parts = displayName.split(',').map(part => part.trim());
+  let streetNumber = '';
+  let streetName = '';
+  let postalCode = '';
+  let city = '';
+
+  // Assuming the typical order of components in the display_name
+  parts.forEach(part => {
+    if (/^\d{5}$/.test(part)) {
+      postalCode = part;
+    } else if (/^\d+\s/.test(part)) {
+      streetNumber = part.split(' ')[0];
+      streetName = part.split(' ').slice(1).join(' ');
+    } else if (!streetName && !postalCode && !city) {
+      streetName = part;
+    } else if (!city) {
+      city = part;
+    }
+  });
+
+  return `${streetNumber} ${streetName}, ${postalCode}, ${city}`;
+};
+const handleSuggestionClick = (suggestion) => {
+  const formattedAddress = formatAddress(suggestion.display_name);
+  setstartingPoint({
+    display_name: formattedAddress,
+    latitude: suggestion.lat,
+    longitude: suggestion.lon,
+  });
+  setStartingPointSuggestions([]);
+};
+const handleSuggestionDestinationClick = (suggestion) => {
+  const formattedAddress = formatAddress(suggestion.display_name);
+  setdestination({
+    display_name: formattedAddress,
+    latitude: suggestion.lat,
+    longitude: suggestion.lon,
+  });
+  setDestinationSuggestions([]);
+};
 // function calculatePrice(distance, type) {
 //   // Base acceptance fee for a 'convoyeur'
 //   const baseFeeConvoyeur = 20;
@@ -726,7 +800,7 @@ setstartingPoint()
     };
     const MapEvents = () => {
         const map = useMapEvents({
-          click: onMapClick,
+          click: handleMapClick,
         });
 
         useEffect(() => {
@@ -814,211 +888,205 @@ style={
 }
 >
 <Row>
-  <Col md="4">
-    <div className="mb-3">
-      <label className="form-label">Point de départ<span style={{color:"red"}}>*</span></label>
-      <div className="input-group">
-        <input
-          type="text"
-          placeholder="Choisissez le point de départ"
-          className="form-control"
-          value={startingPoint?.display_name || searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            fetchSuggestions(e.target.value, true);
-          }}
+<Col md="4">
+  <div className="mb-3">
+    <label className="form-label">Point de départ<span style={{color:"red"}}>*</span></label>
+    <div className="input-group">
+      <input
+        type="text"
+        placeholder="Choisissez le point de départ"
+        className="form-control"
+        value={startingPoint?.display_name || searchQuery}
+        onChange={(e) => {
+          setSearchQuery(e.target.value);
+          fetchSuggestions(e.target.value, true);
+        }}
+        onClick={() => {
+          isStartingPointRef.current = true;
+          setisStartingPoint(true);
+          setisDestination(false);
+        }}
+      />
+      {isLoading && (
+        <div className="loader">
+          <div className="spinner"></div>
+        </div>
+      )}
+      {startingPoint?.display_name && (
+        <button
+          type="button"
+          className="btn-clear"
           onClick={() => {
-            isStartingPointRef.current = true;
-            setisStartingPoint(true);
-            setisDestination(false);
+            setstartingPoint(null);
+            setSearchQuery('');
           }}
-        />
-        {isLoading && (
-          <div className="loader">
-            <div className="spinner"></div>
-          </div>
-        )}
-        {startingPoint?.display_name && (
-          <button
-            type="button"
-            className="btn-clear"
-            onClick={() => setstartingPoint(null)}
-          >
-            &times;
-          </button>
-        )}
-        {startingPointSuggestions.length > 0 && (
-          <ul className="suggestions-list">
-            <li
-              className="suggestion-item-current"
-              onClick={() => {
-                navigator.geolocation.getCurrentPosition(async (position) => {
-                  const { latitude, longitude } = position.coords;
-                  try {
-                    const response = await axios.get(
-                      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-                    );
-                    const result = response.data;
-                    if (result) {
-                      setstartingPoint({
-                        display_name: result.display_name,
-                        latitude: latitude,
-                        longitude: longitude,
-                      });
-                      setStartingPointSuggestions([]);
-                    }
-                  } catch (error) {
-                    console.error("Error fetching current position:", error);
+        >
+          &times;
+        </button>
+      )}
+      {startingPointSuggestions.length > 0 && (
+        <ul className="suggestions-list">
+          <li
+            className="suggestion-item-current"
+            onClick={() => {
+              navigator.geolocation.getCurrentPosition(async (position) => {
+                const { latitude, longitude } = position.coords;
+                try {
+                  const response = await axios.get(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                  );
+                  const result = response.data;
+                  if (result) {
+                    setstartingPoint({
+                      display_name: result.display_name,
+                      latitude: latitude,
+                      longitude: longitude,
+                    });
+                    setStartingPointSuggestions([]);
                   }
-                });
-              }}
-            >
-              Position actuelle
-            </li>
-            {startingPointSuggestions.map((suggestion, index) => (
-              <li
-                key={index}
-                onClick={() => {
-                  setstartingPoint({
-                    display_name: suggestion.display_name,
-                    latitude: suggestion.lat,
-                    longitude: suggestion.lon,
-                  });
-                  setStartingPointSuggestions([]);
-                }}
-                className="suggestion-item"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 2a6 6 0 00-6 6c0 3.72 6 10 6 10s6-6.28 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="suggestion-text">
-                  {suggestion.display_name}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+                } catch (error) {
+                  console.error("Error fetching current position:", error);
+                }
+              });
+            }}
+          >
+            Position actuelle
+          </li>
+          {startingPointSuggestions.map((suggestion, index) => (
+  <li
+    key={index}
+    onClick={() => handleSuggestionClick(suggestion)}
+    className="suggestion-item"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+    >
+      <path
+        fillRule="evenodd"
+        d="M10 2a6 6 0 00-6 6c0 3.72 6 10 6 10s6-6.28 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
+        clipRule="evenodd"
+      />
+    </svg>
+    <span className="suggestion-text">
+      {formatAddress(suggestion.display_name)}
+    </span>
+  </li>
+))}
+        </ul>
+      )}
     </div>
-  </Col>
+  </div>
+</Col>
 
-  <Col md="4">
-    <div className="mb-3">
-      <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
-      <div className="input-group">
-        <input
-          type="text"
-          required
-          placeholder="Choisissez la destination ou cliquez sur la carte"
-          value={destination?.display_name || destinationSearchQuery}
-          className="form-control"
+<Col md="4">
+  <div className="mb-3">
+    <label className="form-label">Destination<span style={{color:"red"}}>*</span></label>
+    <div className="input-group">
+      <input
+        type="text"
+        required
+        placeholder="Choisissez la destination ou cliquez sur la carte"
+        value={destination?.display_name || destinationSearchQuery}
+        className="form-control"
+        onClick={() => {
+          isStartingPointRef.current = false;
+          setdestination(null);
+        }}
+        onChange={(e) => {
+          setDestinationSearchQuery(e.target.value);
+          fetchSuggestions(e.target.value, false);
+        }}
+      />
+      {isLoading && (
+        <div className="loader">
+          <div className="spinner"></div>
+        </div>
+      )}
+      {destination?.display_name && (
+        <button
+          type="button"
+          className="btn-clear"
           onClick={() => {
-            isStartingPointRef.current = false;
             setdestination(null);
+            setDestinationSearchQuery('');
           }}
-          onChange={(e) => {
-            setDestinationSearchQuery(e.target.value);
-            fetchSuggestions(e.target.value, false);
-          }}
-        />
-        {isLoading && (
-          <div className="loader">
-            <div className="spinner"></div>
-          </div>
-        )}
-        {destination?.display_name && (
-          <button
-            type="button"
-            className="btn-clear"
-            onClick={() => setdestination(null)}
-          >
-            &times;
-          </button>
-        )}
-        {destinationSuggestions.length > 0 && (
-          <ul className="suggestions-list">
-            <li
-              className="suggestion-item-current"
-              onClick={() => {
-                navigator.geolocation.getCurrentPosition(async (position) => {
-                  const { latitude, longitude } = position.coords;
-                  try {
-                    const response = await axios.get(
-                      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-                    );
-                    const result = response.data;
-                    if (result) {
-                      setdestination({
-                        display_name: result.display_name,
-                        latitude: latitude,
-                        longitude: longitude,
-                      });
-                      setDestinationSuggestions([]);
-                    }
-                  } catch (error) {
-                    console.error("Error fetching current position:", error);
+        >
+          &times;
+        </button>
+      )}
+      {destinationSuggestions.length > 0 && (
+        <ul className="suggestions-list">
+          <li
+            className="suggestion-item-current"
+            onClick={() => {
+              navigator.geolocation.getCurrentPosition(async (position) => {
+                const { latitude, longitude } = position.coords;
+                try {
+                  const response = await axios.get(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                  );
+                  const result = response.data;
+                  if (result) {
+                    setdestination({
+                      display_name: result.display_name,
+                      latitude: latitude,
+                      longitude: longitude,
+                    });
+                    setDestinationSuggestions([]);
                   }
-                });
-              }}
-            >
-              Position actuelle
-            </li>
-            {destinationSuggestions.map((suggestion, index) => (
-              <li
-                key={index}
-                onClick={() => {
-                  setdestination({
-                    display_name: suggestion.display_name,
-                    latitude: suggestion.lat,
-                    longitude: suggestion.lon,
-                  });
-                  setDestinationSuggestions([]);
-                }}
-                className="suggestion-item"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 2a6 6 0 00-6 6c0 3.72 6 10 6 10s6-6.28 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="suggestion-text">
-                  {suggestion.display_name}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+                } catch (error) {
+                  console.error("Error fetching current position:", error);
+                }
+              });
+            }}
+          >
+            Position actuelle
+          </li>
+          {destinationSuggestions.map((suggestion, index) => (
+  <li
+    key={index}
+    onClick={() => handleSuggestionDestinationClick(suggestion)}
+    className="suggestion-item"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+    >
+      <path
+        fillRule="evenodd"
+        d="M10 2a6 6 0 00-6 6c0 3.72 6 10 6 10s6-6.28 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
+        clipRule="evenodd"
+      />
+    </svg>
+    <span className="suggestion-text">
+      {formatAddress(suggestion.display_name)}
+    </span>
+  </li>
+))}
+        </ul>
+      )}
     </div>
-  </Col>
+  </div>
+</Col>
 
   <Col md="4">
     <label className="form-label">Date de départ<span style={{color:"red"}}>*</span></label>
     <Datetime
-      onChange={(e) => setValue(e)}
-      value={value}
-      inputProps={{
-        placeholder: "Sélecteur de date ici",
-        name: "dateDepart"
-      }}
-      locale="fr"
-    />
+        onChange={(e) => setValue(e)}
+        value={value}
+        dateFormat="DD-MM-YYYY" // Set the date format
+        timeFormat="HH:mm" // Set the time format to 24-hour
+        inputProps={{
+          placeholder: "JJ-MM-AAAA HH:mm", // Placeholder indicating the expected format
+          name: "dateDepart"
+        }}
+        locale="fr"
+      />
   </Col>
 </Row>
 
@@ -1143,7 +1211,7 @@ style={
             />
             {' '}
             <Label check>
-              je despose pas de plaque d'immat
+            Je ne dispose pas du numéro de la plaque
             </Label>
           </FormGroup>
     </div>
@@ -1266,56 +1334,39 @@ style={
                 {/* Chart */}
                 {/* <div className="chart"> */}
                 <Tooltip target=".export-buttons>button" position="bottom" />
-              <MapContainer
-              style={{ height: "75vh" }}
-               center={currentLocation || position} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-          // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution={"Google Maps"}
-          url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}" // regular
-          maxZoom={20}
-          subdomains={["mt0", "mt1", "mt2", "mt3"]}
-        />
-        {/* {
-            (startingPoint &&destination) &&
-<LeafletRoutingMachine
-            startingPoint={startingPoint}
-            destination={destination}
+                <MapContainer
+      style={{ height: "75vh" }}
+      center={currentLocation || [51.505, -0.09]}
+      zoom={13}
+      scrollWheelZoom={false}
+      whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
+    >
+      <TileLayer
+        attribution={"Google Maps"}
+        url="http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+        maxZoom={20}
+        subdomains={["mt0", "mt1", "mt2", "mt3"]}
+      />
+      <MapEvents />
 
-/>
-        } */}
-        <MapEvents />
+      {startingPoint && (
+        <Marker
+          position={[startingPoint.latitude, startingPoint.longitude]}
+          icon={myIcon}
+        >
+          <Popup>{startingPoint.display_name}</Popup>
+        </Marker>
+      )}
 
-            <Marker
-            position={destination?.latitude && destination?.longitude ? [destination.latitude, destination.longitude] : [0, 0]} // Update property names
-                icon={myIcon}
-            //     eventHandlers={{
-            //   click: () => alert('A marker has been clicked!')
-            // }}
-            >
-<Popup>{destination?.display_name}</Popup>
-            </Marker>
-
-        {startingPoint && (
-          <Marker
-           position={startingPoint?.latitude && startingPoint?.longitude ? [startingPoint.latitude, startingPoint.longitude] : [36.8019592, 10.9403163]}
-        //   position={
-        //     [startingPoint.latitude, startingPoint.longitude]
-
-        //   }
-            // icon={}
-            // icon={}
-            // eventHandlers={{
-            //   click: () => alert('A marker has been clicked!')
-            // }}
-
-          >
-            <Popup>{startingPoint?.display_name}</Popup>
-          </Marker>
-        )}
-        <MapsMarker />
-      </MapContainer>
+      {destination && (
+        <Marker
+          position={[destination.latitude, destination.longitude]}
+          icon={myIcon}
+        >
+          <Popup>{destination.display_name}</Popup>
+        </Marker>
+      )}
+    </MapContainer>
                 {/* </div> */}
               </CardBody>
             </Card>

@@ -8,7 +8,8 @@ const UserHeader = () => {
        <div className="header bg-gradient-reverse-primary pb-8 pt-2 pt-md-7 "
         style={{
     minHeight: "300px",
-    backgroundImage: `url(${backgroundImage})`,
+    // backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `white`,
     backgroundSize: "cover",
     backgroundPosition: "center top"
   }}>
